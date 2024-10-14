@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Vakna</string>
+    <string-array name="typeTacheExemple">
+        <item>Sport</item>
+        <item>Informatique</item>
+        <item>Projet</item>
+        <item>Divers</item>
+    </string-array>
 </resources>

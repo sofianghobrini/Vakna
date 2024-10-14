@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp"
     android:paddingTop="32dp"
+    android:paddingEnd="16dp"
     android:paddingBottom="0dp">
 
     <TextView
@@ -23,12 +23,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titreCreerTache" />
+
     <TextView
         android:id="@+id/labelNomTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:text="Nom de la tâche:"
+        android:textColor="@color/texteCouleurPrincipale"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titreCreerTache" />
@@ -37,8 +47,10 @@
         android:id="@+id/inputNomTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/input_border"
         android:hint="ex: Faire la vaisselle"
         android:inputType="text"
+        android:padding="5dp"
         android:textColorHint="@color/gray"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Type de la tâche:"
+        android:textColor="@color/texteCouleurPrincipale"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
@@ -58,7 +71,8 @@
         android:id="@+id/selectTypeTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:dropDownWidth="wrap_content"
+        android:entries="@array/typeTacheExemple"
+        android:overlapAnchor="false"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
@@ -69,28 +83,57 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Fréquence de la tâche:"
+        android:textColor="@color/texteCouleurPrincipale"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
 
     <RadioGroup
+        android:id="@+id/radioFrequenceTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="vertical">
-        <RadioButton android:id="@+id/radioQuotidien"
+        app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache">
+
+        <RadioButton
+            android:id="@+id/radioQuotidien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quotidienne"/>
-        <RadioButton android:id="@+id/radioHebdomadaire"
+            android:text="Quotidienne" />
+
+        <RadioButton
+            android:id="@+id/radioHebdomadaire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hebdomadaire"/>
-        <RadioButton android:id="@+id/radioMensuel"
+            android:text="Hebdomadaire" />
+
+        <RadioButton
+            android:id="@+id/radioMensuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mensuel"/>
+            android:text="Mensuel" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/boutonCreerTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/green"
+        android:text="Confirmer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
+
+    <Button
+        android:id="@+id/boutonAnnulerCreation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/red"
+        android:text="Annuler"
+        app:layout_constraintStart_toEndOf="@id/boutonCreerTache"
+        app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
