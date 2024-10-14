@@ -25,5 +25,5 @@ replay_pid*
 
 .gradle/
 .idea/
-
+gradle/
 local.properties

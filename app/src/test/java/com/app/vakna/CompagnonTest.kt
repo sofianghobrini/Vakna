@@ -13,7 +13,7 @@ class CompagnonTest {
         val exception = assertThrows<AssertionError> {
             compagnon.modifierFaim(101)
         }
-        assertEquals("Le niveau de faim doit être compris entre -100 et 100.", exception.message)
+        assertEquals(exception.message, "Le niveau de faim doit être compris entre -100 et 100.")
     }
 
     @Test
@@ -21,7 +21,7 @@ class CompagnonTest {
         val exception = assertThrows<AssertionError> {
             compagnon.modifierFaim(-101)
         }
-        assertEquals("Le niveau de faim doit être compris entre -100 et 100.", exception.message)
+        assertEquals(exception.message, "Le niveau de faim doit être compris entre -100 et 100.")
     }
 
     @Test
@@ -37,11 +37,24 @@ class CompagnonTest {
     }
 
     @Test
+    fun testModifierFaim() {
+        compagnon.modifierFaim(-5)
+        assertEquals(compagnon.getFaim(), 45)
+    }
+
+    @Test
+    fun testModifierHumeur() {
+        compagnon.modifierHumeur(-5)
+        println(compagnon.getHumeur())
+        assertEquals(compagnon.getHumeur(), 45)
+    }
+
+    @Test
     fun testModifierHumeurNiveauSuperieurA100() {
         val exception = assertThrows<AssertionError> {
             compagnon.modifierHumeur(101)
         }
-        assertEquals("Le niveau d'humeur doit être compris entre -100 et 100.", exception.message)
+        assertEquals(exception.message, "Le niveau d'humeur doit être compris entre -100 et 100.")
     }
 
     @Test
@@ -49,7 +62,7 @@ class CompagnonTest {
         val exception = assertThrows<AssertionError> {
             compagnon.modifierHumeur(-101)
         }
-        assertEquals("Le niveau d'humeur doit être compris entre -100 et 100.", exception.message)
+        assertEquals(exception.message, "Le niveau d'humeur doit être compris entre -100 et 100.")
     }
 
     @Test
@@ -62,5 +75,24 @@ class CompagnonTest {
     fun testModifierHumeurResultatInferieurA0() {
         compagnon.modifierHumeur(-75)
         assertEquals(compagnon.getHumeur(), 0)
+    }
+
+    @Test
+    fun testGagnerXp() {
+        compagnon.gagnerXp(12)
+        assertEquals(compagnon.getXp(), 12)
+    }
+
+    @Test
+    fun testGagnerXpNegatif() {
+        val exception = assertThrows<AssertionError> {
+            compagnon.gagnerXp(-5)
+        }
+        assertEquals(exception.message, "L'xp gagné doit être positif")
+    }
+
+    @Test
+    fun testNiveau() {
+        assertEquals(compagnon.niveau(), 0)
     }
 }

@@ -15,6 +15,10 @@ class Compagnon(
         return humeur
     }
 
+    fun getXp(): Int {
+        return xp
+    }
+
     fun modifierFaim(niveau:Int){
         assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
 
