@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_taches">
+
+    <fragment
+        android:id="@+id/navigation_taches"
+        android:name="com.app.vakna.ui.Taches.TachesFragment"
+        android:label="@string/title_taches"
+        tools:layout="@layout/fragment_taches" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.app.vakna.ui.ajouter.AjouterFragment"
+        android:label="@string/title_ajouter"
+        tools:layout="@layout/fragment_ajouter" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.app.vakna.ui.magasin.MagasinFragment"
+        android:label="@string/title_magasin"
+        tools:layout="@layout/fragment_magasin" />
+</navigation>
