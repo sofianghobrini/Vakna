@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="0dp">
+
+    <TextView
+        android:id="@+id/titreCreerTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/averia_serif_libre_light"
+        android:text="Créer une tâche"
+        android:textColor="@color/texteCouleurPrincipale"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelNomTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Nom de la tâche:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titreCreerTache" />
+
+    <EditText
+        android:id="@+id/inputNomTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="ex: Faire la vaisselle"
+        android:inputType="text"
+        android:textColorHint="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelNomTache" />
+
+    <TextView
+        android:id="@+id/labelTypeTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Type de la tâche:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
+
+    <Spinner
+        android:id="@+id/selectTypeTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dropDownWidth="wrap_content"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
+
+    <TextView
+        android:id="@+id/labelFrequenceTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Fréquence de la tâche:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical">
+        <RadioButton android:id="@+id/radioQuotidien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quotidienne"/>
+        <RadioButton android:id="@+id/radioHebdomadaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hebdomadaire"/>
+        <RadioButton android:id="@+id/radioMensuel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mensuel"/>
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
