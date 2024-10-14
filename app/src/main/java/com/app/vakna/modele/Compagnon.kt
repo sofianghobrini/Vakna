@@ -7,6 +7,14 @@ class Compagnon(
     private var xp:Int = 0,
     private val espece:String
 ){
+    fun getFaim(): Int {
+        return faim
+    }
+
+    fun getHumeur(): Int {
+        return humeur
+    }
+
     fun modifierFaim(niveau:Int){
         assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
 

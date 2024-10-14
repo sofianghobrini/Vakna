@@ -1,3 +1,8 @@
+import com.app.vakna.modele.Frequence
+import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.Importance
+import com.app.vakna.modele.Tache
+import com.app.vakna.modele.TypeTache
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail

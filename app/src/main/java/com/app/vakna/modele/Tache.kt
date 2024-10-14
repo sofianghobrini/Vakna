@@ -2,6 +2,11 @@ package com.app.vakna.modele
 
 import java.time.LocalDate
 
+// Enums pour la tâche
+enum class Frequence { QUOTIDIENNE, HEBDOMADAIRE, MENSUELLE, ANNUELLE }
+enum class Importance { FAIBLE, MOYENNE, ELEVEE }
+enum class TypeTache { PERSONNELLE, PROFESSIONNELLE, AUTRE }
+
 class Tache(
     nom: String,
     frequence: Frequence,
@@ -76,8 +81,3 @@ class GestionnaireDeTaches {
         return listeDeTaches
     }
 }
-
-// Enums pour la tâche
-enum class Frequence { QUOTIDIENNE, HEBDOMADAIRE, MENSUELLE, ANNUELLE }
-enum class Importance { FAIBLE, MOYENNE, ELEVEE }
-enum class TypeTache { PERSONNELLE, PROFESSIONNELLE, AUTRE }
