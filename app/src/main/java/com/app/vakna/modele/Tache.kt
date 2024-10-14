@@ -1,3 +1,5 @@
+package com.app.vakna.modele
+
 import java.time.LocalDate
 
 class Tache(
