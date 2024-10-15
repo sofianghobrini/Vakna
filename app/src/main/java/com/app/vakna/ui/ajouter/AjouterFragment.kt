@@ -27,6 +27,7 @@ class AjouterFragment : Fragment() {
         val tacheNomInput = binding.inputNomTache
         val tacheTypeSpinner = binding.selectTypeTache
         val tacheRadioFrequence = binding.radioFrequenceTache
+        val tacheCheckboxImportance = binding.checkboxImportance
         val confirmButton = binding.boutonCreerTache
         val annulerButton = binding.boutonAnnulerCreation
 
@@ -36,8 +37,8 @@ class AjouterFragment : Fragment() {
             val tacheType = tacheTypeSpinner.selectedItem.toString()
             val selectedRadioButton = binding.root.findViewById<RadioButton>(tacheRadioFrequence.checkedRadioButtonId)
             val tacheFrequence =  selectedRadioButton.text.toString()
-
-            Toast.makeText(requireContext(), "Tâche ajoutée: $tacheNom, Type: $tacheType, Frequence: $tacheFrequence", Toast.LENGTH_SHORT).show()
+            val tacheImportance = if(tacheCheckboxImportance.isChecked) "Importante" else "Pas Importante"
+            Toast.makeText(requireContext(), "Tâche ajoutée: $tacheNom, Type: $tacheType, Frequence: $tacheFrequence, Importance: $tacheImportance", Toast.LENGTH_SHORT).show()
         }
 
         return root

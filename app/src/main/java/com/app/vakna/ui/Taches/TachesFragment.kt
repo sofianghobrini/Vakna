@@ -42,8 +42,8 @@ class TachesFragment : Fragment() {
         val hebdomadaireAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, hebdomadaireTasks)
 
         // Bind adapters to ListViews
-        binding.listViewTachesJ.adapter = journalierAdapter
-        binding.listViewTachesH.adapter = hebdomadaireAdapter
+        binding.listeTachesJournalier.adapter = journalierAdapter
+        binding.listeTachesHebdomadaire.adapter = hebdomadaireAdapter
 
         homeViewModel.text.observe(viewLifecycleOwner) {
             // Use ViewModel if needed
