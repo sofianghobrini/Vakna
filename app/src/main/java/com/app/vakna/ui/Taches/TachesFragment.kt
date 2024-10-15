@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.vakna.R
@@ -59,6 +58,9 @@ class TachesFragment : Fragment() {
             R.drawable.icon,
             R.drawable.icon,
             R.drawable.icon
+            R.drawable.type_icon_exemple,
+            R.drawable.type_icon_exemple,
+            R.drawable.type_icon_exemple
         )
         val nameListH = arrayOf(
             "Nettoyer la maison",

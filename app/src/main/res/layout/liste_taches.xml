@@ -35,7 +35,7 @@
                 android:id="@+id/listTypeImage"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/icon"
+                android:src="@drawable/type_icon_exemple"
                 android:contentDescription="typeImageDesc"
                 android:layout_toEndOf="@id/listType"
                 android:layout_below="@id/listName"/>
