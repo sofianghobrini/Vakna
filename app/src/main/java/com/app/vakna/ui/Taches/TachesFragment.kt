@@ -32,9 +32,9 @@ class TachesFragment : Fragment() {
 
 
         val iconListJ = intArrayOf(
-            R.drawable.icon,
-            R.drawable.icon,
-            R.drawable.icon
+            R.drawable.type_icon_exemple,
+            R.drawable.type_icon_exemple,
+            R.drawable.type_icon_exemple
         )
         val nameListJ = arrayOf(
             "50 minutes de travail sur projet X",
@@ -55,9 +55,6 @@ class TachesFragment : Fragment() {
         // Separation diff Frequences
 
         val iconListH = intArrayOf(
-            R.drawable.icon,
-            R.drawable.icon,
-            R.drawable.icon
             R.drawable.type_icon_exemple,
             R.drawable.type_icon_exemple,
             R.drawable.type_icon_exemple
