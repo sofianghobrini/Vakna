@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     implementation("androidx.databinding:databinding-runtime:7.0.0")
     androidTestImplementation(libs.androidx.junit)

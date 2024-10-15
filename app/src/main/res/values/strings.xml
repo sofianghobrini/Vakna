@@ -3,4 +3,10 @@
     <string name="title_taches">Taches</string>
     <string name="title_ajouter">Ajouter</string>
     <string name="title_magasin">Magasin</string>
+    <string-array name="typeTacheExemple">
+        <item>Sport</item>
+        <item>Informatique</item>
+        <item>Projet</item>
+        <item>Divers</item>
+    </string-array>
 </resources>
