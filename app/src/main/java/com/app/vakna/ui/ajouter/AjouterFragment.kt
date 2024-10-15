@@ -30,11 +30,6 @@ class AjouterFragment : Fragment() {
         val confirmButton = binding.boutonCreerTache
         val annulerButton = binding.boutonAnnulerCreation
 
-        // Populate spinner with task types
-        val taskTypes = arrayOf("Selection", "Travail", "Personnel", "Urgent")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, taskTypes)
-        tacheTypeSpinner.adapter = adapter
-
         // Confirmation button click listener
         confirmButton.setOnClickListener {
             val tacheNom = tacheNomInput.text.toString()
