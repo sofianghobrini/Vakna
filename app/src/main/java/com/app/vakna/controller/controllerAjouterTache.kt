@@ -1,3 +1,4 @@
+/*
 package com.app.vakna.controller
 import android.widget.EditText
 import android.view.View
@@ -44,3 +45,4 @@ class controllerCreationTache(private val view: View){
 }
 
 annotation class Controller
+*/
