@@ -3,108 +3,145 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingTop="32dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="0dp"
     tools:context=".ui.ajouter.AjouterFragment">
 
-    <!-- Title -->
     <TextView
-        android:id="@+id/title_add_task"
+        android:id="@+id/titreCreerTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter une tâche"
-        android:textColor="@color/purple_200"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/averia_serif_libre_light"
+        android:text="Créer une tâche"
+        android:textColor="@color/texteCouleurPrincipale"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Task Name Label -->
-    <TextView
-        android:id="@+id/task_name_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nom de la Tâche :"
-        android:textColor="@color/purple_200"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/title_add_task"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"/>
-
-    <!-- Task Name Input -->
-    <EditText
-        android:id="@+id/task_name_input"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="ex : Faire la vaisselle"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/task_name_label"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/titreCreerTache" />
 
-    <!-- Task Type Label -->
     <TextView
-        android:id="@+id/task_type_label"
+        android:id="@+id/labelNomTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type de la tâche :"
-        android:textColor="@color/purple_200"
+        android:layout_marginTop="32dp"
+        android:text="Nom de la tâche:"
+        android:textColor="@color/texteCouleurPrincipale"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/task_name_input"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"/>
+        app:layout_constraintTop_toBottomOf="@id/titreCreerTache" />
 
-    <!-- Task Type Spinner -->
+    <EditText
+        android:id="@+id/inputNomTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/input_border"
+        android:hint="ex: Faire la vaisselle"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textColorHint="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelNomTache" />
+
+    <TextView
+        android:id="@+id/labelTypeTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Type de la tâche:"
+        android:textColor="@color/texteCouleurPrincipale"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
+
     <Spinner
-        android:id="@+id/task_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/task_type_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- RadioButton for "Other" type of task -->
-    <RadioButton
-        android:id="@+id/radio_other"
+        android:id="@+id/selectTypeTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Autre"
-        app:layout_constraintTop_toBottomOf="@+id/task_type_spinner"
+        android:entries="@array/typeTacheExemple"
+        android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
 
-    <!-- EditText for entering "Other" task type -->
-    <EditText
-        android:id="@+id/task_other_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Placeholder"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/radio_other"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Confirmation Button -->
-    <Button
-        android:id="@+id/confirmation_button"
+    <TextView
+        android:id="@+id/labelFrequenceTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirmation"
-        app:layout_constraintTop_toBottomOf="@+id/task_other_input"
+        android:layout_marginTop="30dp"
+        android:text="Fréquence de la tâche:"
+        android:textColor="@color/texteCouleurPrincipale"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
+
+    <RadioGroup
+        android:id="@+id/radioFrequenceTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache">
+
+        <RadioButton
+            android:id="@+id/radioQuotidien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quotidienne" />
+
+        <RadioButton
+            android:id="@+id/radioHebdomadaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hebdomadaire" />
+
+        <RadioButton
+            android:id="@+id/radioMensuel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mensuel" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache">
+
+        <Button
+            android:id="@+id/boutonCreerTache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/green"
+            android:text="Confirmer" />
+
+        <Button
+            android:id="@+id/boutonAnnulerCreation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/red"
+            android:text="Annuler" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

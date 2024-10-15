@@ -24,27 +24,25 @@ class AjouterFragment : Fragment() {
         val root: View = binding.root
 
         // Handle task form inputs
-        val taskNameInput = binding.taskNameInput
-        val taskTypeSpinner = binding.taskTypeSpinner
-        val otherRadioButton = binding.radioOther
-        val otherInput = binding.taskOtherInput
-        val confirmButton = binding.confirmationButton
+        val tacheNomInput = binding.inputNomTache
+        val tacheTypeSpinner = binding.selectTypeTache
+        val tacheRadioFrequence = binding.radioFrequenceTache
+        val confirmButton = binding.boutonCreerTache
+        val annulerButton = binding.boutonAnnulerCreation
 
         // Populate spinner with task types
         val taskTypes = arrayOf("Selection", "Travail", "Personnel", "Urgent")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, taskTypes)
-        taskTypeSpinner.adapter = adapter
+        tacheTypeSpinner.adapter = adapter
 
         // Confirmation button click listener
         confirmButton.setOnClickListener {
-            val taskName = taskNameInput.text.toString()
-            val taskType = if (otherRadioButton.isChecked) {
-                otherInput.text.toString()
-            } else {
-                taskTypeSpinner.selectedItem.toString()
-            }
+            val tacheNom = tacheNomInput.text.toString()
+            val tacheType = tacheTypeSpinner.selectedItem.toString()
+            val selectedRadioButton = binding.root.findViewById<RadioButton>(tacheRadioFrequence.checkedRadioButtonId)
+            val tacheFrequence =  selectedRadioButton.text.toString()
 
-            Toast.makeText(requireContext(), "Tâche ajoutée: $taskName, Type: $taskType", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Tâche ajoutée: $tacheNom, Type: $tacheType, Frequence: $tacheFrequence", Toast.LENGTH_SHORT).show()
         }
 
         return root
