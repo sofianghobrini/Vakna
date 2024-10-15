@@ -1,37 +1,45 @@
 package com.app.vakna.ui.Taches
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.R
 
-class ListAdapter(context: TachesFragment, dataArrayList: ArrayList<ListData?>?) :
-    ArrayAdapter<ListData?>(context.requireContext(), R.layout.liste_taches, dataArrayList!!) {
+// Define your adapter class that extends RecyclerView.Adapter
+class ListAdapter(
+    private val dataArrayList: ArrayList<ListData>
+) : RecyclerView.Adapter<ListAdapter.TachesViewHolder>() {
 
-    override fun getView(position: Int, view: View?, parent: ViewGroup): View {
+    // Define the ViewHolder class that holds the views for each item
+    class TachesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val listTypeIcon: ImageView = itemView.findViewById(R.id.listTypeImage)
+        val listName: TextView = itemView.findViewById(R.id.listName)
+        val listType: TextView = itemView.findViewById(R.id.listType)
+        val listImportance: TextView = itemView.findViewById(R.id.listImportance)
+    }
 
-        var view = view
-        val listData = getItem(position)
+    // This method inflates the layout for each item in the RecyclerView
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TachesViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.liste_taches, parent, false)
+        return TachesViewHolder(view)
+    }
 
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.liste_taches, parent, false)
-        }
+    // This method binds the data to each view in the ViewHolder
+    override fun onBindViewHolder(holder: TachesViewHolder, position: Int) {
+        val listData = dataArrayList[position]
 
-        val listTypeIcon = view!!.findViewById<ImageView>(R.id.listTypeImage)
-        val listName = view.findViewById<TextView>(R.id.listName)
-        val listType = view.findViewById<TextView>(R.id.listType)
-        val listImportance = view.findViewById<TextView>(R.id.listImportance)
+        // Set the views based on the data
+        holder.listTypeIcon.setImageResource(listData.icon)
+        holder.listName.text = listData.name
+        holder.listType.text = listData.type
+        holder.listImportance.text = if (listData.importance) "Importante" else "Facultative"
+    }
 
-
-        listTypeIcon.setImageResource(listData!!.icon)
-        listName.text = listData.name
-        listType.text = listData.type
-        listImportance.text = if(listData.importance) "Importante" else "Facultative"
-
-        return view
+    // This method returns the total number of items in the data set
+    override fun getItemCount(): Int {
+        return dataArrayList.size
     }
 }

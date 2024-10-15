@@ -13,6 +13,7 @@ import com.app.vakna.databinding.FragmentTachesBinding
 import com.app.vakna.ui.ajouter.AjouterFragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class TachesFragment : Fragment() {
 
@@ -20,10 +21,8 @@ class TachesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var listAdapterJ: ListAdapter
     private lateinit var listAdapterH: ListAdapter
-    private lateinit var listDataJ: ListData
-    private lateinit var listDataH: ListData
-    var dataArrayListJ = ArrayList<ListData?>()
-    var dataArrayListH = ArrayList<ListData?>()
+    var dataArrayListJ = ArrayList<ListData>()
+    var dataArrayListH = ArrayList<ListData>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,13 +47,15 @@ class TachesFragment : Fragment() {
         val typeListJ = arrayOf("Projet", "Sport", "Literature")
         val importanceListJ = arrayOf(true, false, false)
         for (i in iconListJ.indices) {
-            listDataJ = ListData(
+            val listDataJ = ListData(
                 nameListJ[i],
                 typeListJ[i], importanceListJ[i], iconListJ[i]
             )
             dataArrayListJ.add(listDataJ)
         }
-        listAdapterJ = ListAdapter(this, dataArrayListJ)
+
+        listAdapterJ = ListAdapter(dataArrayListJ)
+        binding.listeTachesJournalier.layoutManager = LinearLayoutManager(context)
         binding.listeTachesJournalier.adapter = listAdapterJ
 
         // Separation diff Frequences
@@ -71,13 +72,15 @@ class TachesFragment : Fragment() {
         val typeListH = arrayOf("Ménager", "Divers", "Sport")
         val importanceListH = arrayOf(true, false, false)
         for (i in iconListH.indices) {
-            listDataH = ListData(
+            val listDataH = ListData(
                 nameListH[i],
                 typeListH[i], importanceListH[i], iconListH[i]
             )
             dataArrayListH.add(listDataH)
         }
-        listAdapterH = ListAdapter(this, dataArrayListH)
+
+        listAdapterH = ListAdapter(dataArrayListH)
+        binding.listeTachesHebdomadaire.layoutManager = LinearLayoutManager(context)
         binding.listeTachesHebdomadaire.adapter = listAdapterH
 
         val imageButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)

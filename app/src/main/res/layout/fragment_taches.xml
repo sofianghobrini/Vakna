@@ -66,7 +66,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/texteTitreTaches" />
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesJournalier"
                 android:layout_width="match_parent"
                 android:layout_height="231dp"
@@ -92,7 +92,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listeTachesJournalier" />
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesHebdomadaire"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
@@ -118,8 +118,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listeTachesHebdomadaire" />
 
-            <ListView
-                android:id="@+id/listeTachesHMensuel"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listeTachesMensuel"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
