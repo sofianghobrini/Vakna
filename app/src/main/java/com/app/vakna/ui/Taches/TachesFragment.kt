@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.vakna.R
 import com.app.vakna.databinding.FragmentTachesBinding
-import com.app.vakna.ui.ajouter.AjouterFragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+
 
 class TachesFragment : Fragment() {
 
@@ -33,7 +32,6 @@ class TachesFragment : Fragment() {
 
         _binding = FragmentTachesBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
 
         val iconListJ = intArrayOf(
             R.drawable.type_icon_exemple,
@@ -55,7 +53,16 @@ class TachesFragment : Fragment() {
         }
 
         listAdapterJ = ListAdapter(dataArrayListJ)
-        binding.listeTachesJournalier.layoutManager = LinearLayoutManager(context)
+        val layoutManagerJ = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        // Mise en place d'un divider pour les items de la liste
+        binding.listeTachesJournalier.layoutManager = layoutManagerJ
+
+        binding.listeTachesJournalier.addItemDecoration(
+            DividerItemDecoration(requireContext(), layoutManagerJ.orientation).apply {
+                setDrawable(requireContext().getDrawable(R.drawable.divider_item)!!) // Set your custom divider
+            }
+        )
         binding.listeTachesJournalier.adapter = listAdapterJ
 
         // Separation diff Frequences
@@ -80,8 +87,28 @@ class TachesFragment : Fragment() {
         }
 
         listAdapterH = ListAdapter(dataArrayListH)
-        binding.listeTachesHebdomadaire.layoutManager = LinearLayoutManager(context)
+        val layoutManagerH = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        // Mise en place d'un divider pour les items de la liste
+        binding.listeTachesHebdomadaire.layoutManager = layoutManagerH
+
+        binding.listeTachesHebdomadaire.addItemDecoration(
+            DividerItemDecoration(requireContext(), layoutManagerH.orientation).apply {
+                setDrawable(requireContext().getDrawable(R.drawable.divider_item)!!) // Set your custom divider
+            }
+        )
         binding.listeTachesHebdomadaire.adapter = listAdapterH
+
+        val layoutManagerM = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        // Mise en place d'un divider pour les items de la liste
+        binding.listeTachesMensuel.layoutManager = layoutManagerM
+
+        binding.listeTachesMensuel.addItemDecoration(
+            DividerItemDecoration(requireContext(), layoutManagerH.orientation).apply {
+                setDrawable(requireContext().getDrawable(R.drawable.divider_item)!!) // Set your custom divider
+            }
+        )
 
         val imageButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
         imageButton.setOnClickListener {

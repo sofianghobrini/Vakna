@@ -71,12 +71,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="231dp"
                 android:layout_marginTop="8dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="10dp"
+                android:padding="2dp"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@+id/texteTachesJournalier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp"
                 tools:listitem="@layout/liste_taches" />
 
             <TextView
@@ -97,12 +96,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="10dp"
+                android:padding="2dp"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@+id/texteTachesHebdomadaire"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp"
                 tools:listitem="@layout/liste_taches" />
 
             <TextView
@@ -123,12 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="10dp"
+                android:padding="2dp"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@+id/texteTachesMensuel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp"
                 tools:listitem="@layout/liste_taches" />
 
         </LinearLayout>
