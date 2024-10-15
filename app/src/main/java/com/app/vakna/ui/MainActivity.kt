@@ -10,6 +10,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
 import com.app.vakna.R
+import com.app.vakna.ui.Taches.ListAdapter
+import com.app.vakna.ui.Taches.ListData
 
 class MainActivity : AppCompatActivity() {
 
