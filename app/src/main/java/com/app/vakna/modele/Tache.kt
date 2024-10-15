@@ -8,33 +8,15 @@ enum class Importance { FAIBLE, MOYENNE, ELEVEE }
 enum class TypeTache { PERSONNELLE, PROFESSIONNELLE, AUTRE }
 
 class Tache(
-    nom: String,
-    frequence: Frequence,
-    importance: Importance,
-    type: TypeTache,
-    date: LocalDate,
-    estTerminee: Boolean = false,
+    var nom: String,
+    var frequence: Frequence,
+    var importance: Importance,
+    var type: TypeTache,
+    var date: LocalDate,
+    var estTerminee: Boolean = false,
+    val compagnon: Compagnon,
     private val gestionnaire: GestionnaireDeTaches
-) {
-    private var _nom: String = nom
-    var nom: String
-        get() = _nom
-        set(value) {
-            if (value.isBlank()) {
-                throw IllegalArgumentException("Le nom ne peut pas être vide")
-            }
-            if (gestionnaire.obtenirTaches().any { it.nom == value }) {
-                throw IllegalArgumentException("Le nom '$value' est déjà utilisé pour une autre tâche")
-            }
-            _nom = value
-        }
-
-    var frequence: Frequence = frequence
-    var importance: Importance = importance
-    var type: TypeTache = type
-    var date: LocalDate = date
-    var estTerminee: Boolean = estTerminee
-}
+)
 
 class GestionnaireDeTaches {
     private val listeDeTaches = mutableListOf<Tache>()
@@ -60,6 +42,11 @@ class GestionnaireDeTaches {
     fun supprimerTache(nom: String) {
         val tache = listeDeTaches.find { it.nom == nom }
         if (tache != null) {
+            if (!tache.estTerminee) {
+                tache.estTerminee = true
+                tache.compagnon.modifierHumeur(5 * tache.importance.ordinal)
+                tache.compagnon.gagnerXp(5 * tache.importance.ordinal)
+            }
             listeDeTaches.remove(tache)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
@@ -70,14 +57,18 @@ class GestionnaireDeTaches {
         val tache = listeDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
+            tache.compagnon.modifierHumeur(10 * tache.importance.ordinal)
+            tache.compagnon.gagnerXp(5 * tache.importance.ordinal)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
     }
 
-
-    // Obtenir la liste des tâches
     fun obtenirTaches(): List<Tache> {
         return listeDeTaches
+    }
+
+    fun obtenirTachesParType(type: TypeTache): List<Tache> {
+        return listeDeTaches.filter { it.type == type }
     }
 }

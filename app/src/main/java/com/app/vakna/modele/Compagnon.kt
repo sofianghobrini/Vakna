@@ -38,11 +38,19 @@ class Compagnon(
             humeur = 0
     }
     fun gagnerXp(montant:Int){
-        assert(montant >= 0) {"L'xp gagné doit être positif"}
+        val ancienNiveau = niveau()
         xp += montant
+        if (ancienNiveau > niveau())
+            xp -= montant
     }
 
     fun niveau(): Int {
-        return xp / 10
+        if (xp < 100)
+            return 0
+        if (xp < 250)
+            return 1
+        if (xp < 1000)
+            return 2
+        return 3
     }
 }
