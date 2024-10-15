@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.app.vakna.R
 import com.app.vakna.databinding.FragmentTachesBinding
+import com.app.vakna.ui.ajouter.AjouterFragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 
 class TachesFragment : Fragment() {
 
@@ -75,28 +80,11 @@ class TachesFragment : Fragment() {
         listAdapterH = ListAdapter(this, dataArrayListH)
         binding.listeTachesHebdomadaire.adapter = listAdapterH
 
-        /** Example of tasks for Journalier and Hebdomadaire
-        val journalierTasks = listOf(
-            "50 minutes de travail sur projet X",
-            "Faire 100 pompes",
-            "Lire 20 pages d'un livre"
-        )
-
-        val hebdomadaireTasks = listOf(
-            "Nettoyer la maison",
-            "Aller au supermarché",
-            "Faire du jogging 3 fois"
-        )
-
-        // Set up adapters for ListViews
-        val journalierAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, journalierTasks)
-        val hebdomadaireAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, hebdomadaireTasks)
-
-        // Bind adapters to ListViews
-        binding.listeTachesJournalier.adapter = journalierAdapter
-        binding.listeTachesHebdomadaire.adapter = hebdomadaireAdapter
-
-        */
+        val imageButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
+        imageButton.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.navigation_ajouter)
+        }
 
         homeViewModel.text.observe(viewLifecycleOwner) {
             // Use ViewModel if needed

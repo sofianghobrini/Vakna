@@ -44,6 +44,7 @@
                 android:layout_weight="1" />
 
                 <ImageButton
+                    android:id="@+id/boutonAjouterTache"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ajout_icon"
@@ -72,11 +73,11 @@
                 android:layout_marginTop="8dp"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="10dp"
-                tools:listitem="@layout/liste_taches"
                 app:layout_constraintTop_toBottomOf="@+id/texteTachesJournalier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:listitem="@layout/liste_taches" />
 
             <TextView
                 android:id="@+id/texteTachesHebdomadaire"
@@ -101,7 +102,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/texteTachesHebdomadaire"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:listitem="@layout/liste_taches" />
 
             <TextView
                 android:id="@+id/texteTachesMensuel"
@@ -126,7 +128,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/texteTachesMensuel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
+                tools:layout_editor_absoluteX="16dp"
+                tools:listitem="@layout/liste_taches" />
 
         </LinearLayout>
 
