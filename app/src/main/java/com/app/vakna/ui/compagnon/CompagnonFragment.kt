@@ -1,4 +1,4 @@
-package com.app.vakna.ui.magasin
+package com.app.vakna.ui.compagnon
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,24 +7,40 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.GridView
 import androidx.fragment.app.Fragment
-import com.app.vakna.databinding.FragmentMagasinBinding
+import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.bumptech.glide.Glide
+import com.app.vakna.R
 import com.google.android.material.tabs.TabLayout
 
-class MagasinFragment : Fragment() {
+class CompagnonFragment : Fragment() {
 
-    private var _binding: FragmentMagasinBinding? = null
+    private var _binding: FragmentCompagnonBinding? = null
     private val binding get() = _binding!!
 
-    private val jouetsItems = listOf("Jouet 1", "Jouet 2", "Jouet 3", "Jouet 4", "Jouet 5", "Jouet 6")
-    private val nourritureItems = listOf("Kebab", "Pizza", "Burger", "Sandwich", "Salade", "Kebab", "Kebab")
+    private val jouetsItems = listOf(
+        "Jouet 1", "Jouet 2", "Jouet 3", "Jouet 4",
+        "Jouet 5", "Jouet 6", "Jouet 7", "Jouet 8",
+        "Jouet 9", "Jouet 10"
+    )
+
+    private val nourritureItems = listOf(
+        "Kebab", "Pizza", "Burger", "Sandwich",
+        "Salade", "Kebab", "Kebab", "Pasta",
+        "Sushi", "Steak"
+    )
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMagasinBinding.inflate(inflater, container, false)
+        _binding = FragmentCompagnonBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        // Load GIF using Glide
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.dragon)
+            .into(binding.dragonGif)
 
         // Reference the GridView
         val gridView: GridView = binding.gridViewItems
