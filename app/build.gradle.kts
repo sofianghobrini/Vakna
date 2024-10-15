@@ -68,4 +68,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(kotlin("test"))
+    implementation("com.google.code.gson:gson:2.8.9")
 }
