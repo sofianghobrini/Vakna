@@ -1,5 +1,6 @@
 package com.app.vakna.modele
 
+import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
 // Enums pour la tâche
@@ -32,21 +33,37 @@ class Tache(
 class GestionnaireDeTaches() {
     private val setDeTaches = mutableSetOf<Tache>()
     private lateinit var compagnon: Compagnon
+    private val dao = TacheDAO()
 
     fun setCompagnon(compagnon: Compagnon) {
         this.compagnon = compagnon
     }
 
-    fun ajouterTache(tache: Tache) {
+    fun ajouterTache(tache: Tache): Boolean {
         if (tache.nom.isBlank()) {
             throw IllegalArgumentException("Le nom de la tâche ne peut pas être vide")
         }
         if (!setDeTaches.add(tache)) {
             throw IllegalArgumentException("Une tâche avec le nom '${tache.nom}' existe déjà")
         }
+        return dao.inserer(tache)
     }
 
-    fun modifierTache(nom: String, nouvelleTache: Tache) {
+    fun ajouterTache(taches: List<Tache>): Boolean {
+        var toutesInsertionsOK = true
+        if (taches.isEmpty()) {
+            throw IllegalArgumentException("La liste de tâches à ajouter ne peut pas être vide")
+        }
+        for (t in taches) {
+            ajouterTache(t)
+            if (!dao.inserer(t)) {
+                toutesInsertionsOK = false
+            }
+        }
+        return toutesInsertionsOK
+    }
+
+    fun modifierTache(nom: String, nouvelleTache: Tache): Boolean {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.nom = nouvelleTache.nom
@@ -55,12 +72,14 @@ class GestionnaireDeTaches() {
             tache.type = nouvelleTache.type
             tache.derniereValidation = nouvelleTache.derniereValidation
             tache.estTerminee = nouvelleTache.estTerminee
+
+            return dao.modifier(nom, nouvelleTache)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
     }
 
-    fun supprimerTache(nom: String) {
+    fun supprimerTache(nom: String): Boolean {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             if (!tache.estTerminee) {
@@ -69,6 +88,8 @@ class GestionnaireDeTaches() {
                 compagnon.gagnerXp(-5 * (tache.importance.ordinal + 1))
             }
             setDeTaches.remove(tache)
+
+            return dao.supprimer(tache.nom)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
@@ -89,11 +110,12 @@ class GestionnaireDeTaches() {
         return setDeTaches
     }
 
-    fun obtenirTachesParType(type: TypeTache): Set<Tache> {
+
+    fun obtenirTache(type: TypeTache): Set<Tache> {
         return setDeTaches.filter { it.type == type }.toSet()
     }
 
-    fun obtenirTachesParNom(nom: String): Set<Tache> {
+    fun obtenirTache(nom: String): Set<Tache> {
         return setDeTaches.filter { it.nom == nom }.toSet()
     }
 }

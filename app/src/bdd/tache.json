@@ -1,20 +1,20 @@
 {
-  "taches" : [
+  "taches": [
     {
-      "nom" : "Faire du sport",
-      "frequence" : "HEBDOMADAIRE",
-      "importance" : "MOYENNE",
-      "type" : "PERSONNELLE",
-      "derniereValidation" : "2024-10-15",
-      "estTerminee" : false
+      "nom": "Faire du sport",
+      "frequence": "HEBDOMADAIRE",
+      "importance": "MOYENNE",
+      "type": "PERSONNELLE",
+      "estTerminee": false,
+      "derniereValidation": "2024-10-15"
     },
     {
-      "nom" : "Travailler sur la comm",
-      "frequence" : "QUOTIDIENNE",
-      "importance" : "FAIBLE",
-      "type" : "PROFESSIONNELLE",
-      "derniereValidation" : "2024-10-13",
-      "estTerminee" : false
+      "nom": "Travailler sur la comm",
+      "frequence": "QUOTIDIENNE",
+      "importance": "FAIBLE",
+      "type": "PROFESSIONNELLE",
+      "estTerminee": false,
+      "derniereValidation": "2024-10-13"
     }
   ]
 }

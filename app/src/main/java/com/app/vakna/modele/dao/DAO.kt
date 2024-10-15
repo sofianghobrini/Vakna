@@ -16,7 +16,7 @@ interface DAO<T,P> {
     fun inserer(entite : T): Boolean
 
     /** Remplace l'entite avec l'id P par l'entite T */
-    fun modifier(entite: T, id: P): Boolean
+    fun modifier(id: P, entite : T): Boolean
 
     /** Supprime l'entité avec l'id P associé */
     fun supprimer(id : P): Boolean

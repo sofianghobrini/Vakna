@@ -8,7 +8,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class GestionnaireDeTachesTest {
-
     private val gestionnaire = GestionnaireDeTaches()
     private val compagnon = Compagnon("Veolia la dragonne", espece = "Dragon")
 
@@ -134,11 +133,11 @@ class GestionnaireDeTachesTest {
         gestionnaire.ajouterTache(tachePersonnelle)
         gestionnaire.ajouterTache(tacheProfessionnelle)
 
-        val tachesPersonnelles = gestionnaire.obtenirTachesParType(TypeTache.PERSONNELLE)
+        val tachesPersonnelles = gestionnaire.obtenirTache(TypeTache.PERSONNELLE)
         assertEquals(1, tachesPersonnelles.size)
         assertTrue(tachesPersonnelles.contains(tachePersonnelle))
 
-        val tachesProfessionnelles = gestionnaire.obtenirTachesParType(TypeTache.PROFESSIONNELLE)
+        val tachesProfessionnelles = gestionnaire.obtenirTache(TypeTache.PROFESSIONNELLE)
         assertEquals(1, tachesProfessionnelles.size)
         assertTrue(tachesProfessionnelles.contains(tacheProfessionnelle))
     }
@@ -151,15 +150,15 @@ class GestionnaireDeTachesTest {
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
 
-        val tachesNom1 = gestionnaire.obtenirTachesParNom("Tâche 1")
+        val tachesNom1 = gestionnaire.obtenirTache("Tâche 1")
         assertEquals(1, tachesNom1.size)
         assertTrue(tachesNom1.contains(tache1))
 
-        val tachesNom2 = gestionnaire.obtenirTachesParNom("Tâche 2")
+        val tachesNom2 = gestionnaire.obtenirTache("Tâche 2")
         assertEquals(1, tachesNom2.size)
         assertTrue(tachesNom2.contains(tache2))
 
-        val tachesNomInexistant = gestionnaire.obtenirTachesParNom("Tâche Inexistante")
+        val tachesNomInexistant = gestionnaire.obtenirTache("Tâche Inexistante")
         assertEquals(0, tachesNomInexistant.size)
     }
 
