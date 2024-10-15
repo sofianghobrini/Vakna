@@ -12,13 +12,17 @@ class Tache(
     var frequence: Frequence,
     var importance: Importance,
     var type: TypeTache,
-    var date: LocalDate,
+    var derniereValidation: LocalDate,
     var estTerminee: Boolean = false,
-    val compagnon: Compagnon,
-    private val gestionnaire: GestionnaireDeTaches
-)
+) {
+    override fun toString(): String {
+        return "$nom : $frequence $importance $type $derniereValidation " + if(estTerminee)"Finie" else "Pas Finie"
+    }
+}
 
-class GestionnaireDeTaches {
+class GestionnaireDeTaches (
+    private var compagnon: Compagnon
+){
     private val listeDeTaches = mutableListOf<Tache>()
 
     fun ajouterTache(tache: Tache) {
@@ -32,7 +36,7 @@ class GestionnaireDeTaches {
             tache.frequence = nouvelleTache.frequence
             tache.importance = nouvelleTache.importance
             tache.type = nouvelleTache.type
-            tache.date = nouvelleTache.date
+            tache.derniereValidation = nouvelleTache.derniereValidation
             tache.estTerminee = nouvelleTache.estTerminee
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
@@ -44,8 +48,8 @@ class GestionnaireDeTaches {
         if (tache != null) {
             if (!tache.estTerminee) {
                 tache.estTerminee = true
-                tache.compagnon.modifierHumeur(5 * tache.importance.ordinal)
-                tache.compagnon.gagnerXp(5 * tache.importance.ordinal)
+                compagnon.modifierHumeur(5 * tache.importance.ordinal)
+                compagnon.gagnerXp(5 * tache.importance.ordinal)
             }
             listeDeTaches.remove(tache)
         } else {
@@ -57,8 +61,8 @@ class GestionnaireDeTaches {
         val tache = listeDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
-            tache.compagnon.modifierHumeur(10 * tache.importance.ordinal)
-            tache.compagnon.gagnerXp(5 * tache.importance.ordinal)
+            compagnon.modifierHumeur(10 * tache.importance.ordinal)
+            compagnon.gagnerXp(5 * tache.importance.ordinal)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
