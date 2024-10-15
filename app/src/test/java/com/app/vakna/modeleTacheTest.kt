@@ -1,142 +1,109 @@
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.Tache
-import com.app.vakna.modele.TypeTache
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
-import org.junit.Test
-import java.time.LocalDate
+package com.app.vakna
 
-class ModeleTacheTest {
+import com.app.vakna.modele.*
+import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import java.time.LocalDate
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+class GestionnaireDeTachesTest {
 
     private val gestionnaire = GestionnaireDeTaches()
+    private val compagnon = Compagnon("Veolia la dragonne", espece = "Dragon")
 
     @Test
     fun testAjouterTache() {
-        val tache = Tache(
-            nom = "Faire les courses",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
         gestionnaire.ajouterTache(tache)
-
-        val taches = gestionnaire.obtenirTaches()
-        assertEquals(1, taches.size)
-        assertEquals("Faire les courses", taches[0].nom)
+        assertEquals(1, gestionnaire.obtenirTaches().size)
+        assertEquals(tache, gestionnaire.obtenirTaches()[0])
     }
+
     @Test
     fun testModifierTache() {
-        val tache = Tache(
-            nom = "Faire les courses",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
-        gestionnaire.ajouterTache(tache)
+        val tacheInitiale = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
+        gestionnaire.ajouterTache(tacheInitiale)
 
-        val nouvelleTache = Tache(
-            nom = "Faire la lessive",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
-        gestionnaire.modifierTache("Faire les courses", nouvelleTache)
+        val tacheModifiee = Tache("Tâche 1 Modifiée", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
+        gestionnaire.modifierTache("Tâche 1", tacheModifiee)
 
         val taches = gestionnaire.obtenirTaches()
         assertEquals(1, taches.size)
-        assertEquals("Faire la lessive", taches[0].nom)
+        assertEquals("Tâche 1 Modifiée", taches[0].nom)
+        assertEquals(Frequence.HEBDOMADAIRE, taches[0].frequence)
+        assertEquals(Importance.MOYENNE, taches[0].importance)
+        assertEquals(TypeTache.PROFESSIONNELLE, taches[0].type)
     }
 
     @Test
     fun testSupprimerTache() {
-        val tache = Tache(
-            nom = "Faire les courses",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
         gestionnaire.ajouterTache(tache)
-        assertEquals(1, gestionnaire.obtenirTaches().size)
 
-        gestionnaire.supprimerTache("Faire les courses")
+        gestionnaire.supprimerTache("Tâche 1")
         assertEquals(0, gestionnaire.obtenirTaches().size)
     }
 
     @Test
+    fun testSupprimerTacheAffecteHumeur() {
+        compagnon.modifierHumeur(- compagnon.getHumeur())
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
+        gestionnaire.ajouterTache(tache)
+        val humeurInitiale = compagnon.getHumeur()
+        gestionnaire.supprimerTache("Tâche 1")
+        assertEquals(humeurInitiale - (5 * tache.importance.ordinal), compagnon.getHumeur())
+    }
+
+    @Test
     fun testFinirTache() {
-        val tache = Tache(
-            nom = "Faire les courses",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
+        compagnon.modifierHumeur(-compagnon.getHumeur()) // Reset du niveau de l'humeur
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.ELEVEE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
         gestionnaire.ajouterTache(tache)
 
-        gestionnaire.finirTache("Faire les courses")
-        val tacheModifiee = gestionnaire.obtenirTaches().first()
+        gestionnaire.finirTache("Tâche 1")
+        assertTrue(tache.estTerminee)
+        assertEquals(30, compagnon.getHumeur())
+        assertEquals(15, compagnon.getXp())
+    }
 
-        assertTrue(tacheModifiee.estTerminee)
+    @Test
+    fun testObtenirTachesParType() {
+        val tachePersonnelle = Tache("Tâche Personnelle", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
+        val tacheProfessionnelle = Tache("Tâche Professionnelle", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false, compagnon, gestionnaire)
+        gestionnaire.ajouterTache(tachePersonnelle)
+        gestionnaire.ajouterTache(tacheProfessionnelle)
+
+        val tachesPersonnelles = gestionnaire.obtenirTachesParType(TypeTache.PERSONNELLE)
+        assertEquals(1, tachesPersonnelles.size)
+        assertEquals(tachePersonnelle, tachesPersonnelles[0])
+
+        val tachesProfessionnelles = gestionnaire.obtenirTachesParType(TypeTache.PROFESSIONNELLE)
+        assertEquals(1, tachesProfessionnelles.size)
+        assertEquals(tacheProfessionnelle, tachesProfessionnelles[0])
     }
 
     @Test
     fun testModifierTacheIntrouvable() {
-        val tache = Tache(
-            nom = "Une tâche",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
-        gestionnaire.ajouterTache(tache)
-
-        val nouvelleTache = Tache(
-            nom = "Nouvelle tâche",
-            frequence = Frequence.HEBDOMADAIRE,
-            importance = Importance.MOYENNE,
-            type = TypeTache.PERSONNELLE,
-            date = LocalDate.now(),
-            gestionnaire = gestionnaire
-        )
-
-        try {
-            gestionnaire.modifierTache("Tâche inexistante", nouvelleTache)
-            fail("Une exception aurait dû être levée pour une tâche introuvable.")
-        } catch (e: IllegalArgumentException) {
-            assertEquals("Tâche avec le nom Tâche inexistante introuvable", e.message)
+        val exception = assertThrows<IllegalArgumentException> {
+            gestionnaire.modifierTache("Tâche Inexistante", Tache("Tâche Inexistante", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false, compagnon, gestionnaire))
         }
+        assertEquals("Tâche avec le nom Tâche Inexistante introuvable", exception.message)
     }
 
     @Test
     fun testSupprimerTacheIntrouvable() {
-        try {
-            gestionnaire.supprimerTache("Tâche inexistante")
-            fail("Une exception aurait dû être levée pour une tâche introuvable.")
-        } catch (e: IllegalArgumentException) {
-            assertEquals("Tâche avec le nom Tâche inexistante introuvable", e.message)
+        val exception = assertThrows<IllegalArgumentException> {
+            gestionnaire.supprimerTache("Tâche Inexistante")
         }
+        assertEquals("Tâche avec le nom Tâche Inexistante introuvable", exception.message)
     }
 
     @Test
     fun testFinirTacheIntrouvable() {
-        try {
-            gestionnaire.finirTache("Tâche inexistante")
-            fail("Une exception aurait dû être levée pour une tâche introuvable.")
-        } catch (e: IllegalArgumentException) {
-            assertEquals("Tâche avec le nom Tâche inexistante introuvable", e.message)
+        val exception = assertThrows<IllegalArgumentException> {
+            gestionnaire.finirTache("Tâche Inexistante")
         }
+        assertEquals("Tâche avec le nom Tâche Inexistante introuvable", exception.message)
     }
 }
