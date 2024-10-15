@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.app.vakna.ui.ajouter.AjouterFragment"
-        android:label="@string/title_ajouter"
-        tools:layout="@layout/fragment_ajouter" />
+        android:name="com.app.vakna.ui.compagnon.CompagnonFragment"
+        android:label="@string/title_compagnon"
+        tools:layout="@layout/fragment_compagnon" />
 
     <fragment
         android:id="@+id/navigation_notifications"
