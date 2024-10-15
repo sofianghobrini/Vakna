@@ -15,19 +15,20 @@ class controllerCreationTache(private val view: View){
     fun recupererTypeTache(){
         val type = view.findViewById<Spinner>(R.id.spinnerCategory)
         val typeDeLaTache = spinnerCategory.selectedItem.toString()
+        when(typeDeLaTache){
+
+        }
     }
     fun recupererFrequenceTache(){
-        val radioGroupPriority = view.findViewById<RadioGroup>(R.id.radioGroupPriority)
+        val radioGroupPriority = view.findViewById<RadioGroup>(R.id.radioFrequenceTache)
         val selectedRadioButtonId = radioGroupPriority.checkedRadioButtonId
 
         when(selectedRadioButtonId){
-
+            R.id.radioQuotidien -> {}
+            R.id.radioHebdomadaire -> {}
+            R.id.radioMensuel -> {}
+            else->{}
         }
-
-        /*if (selectedRadioButtonId != -1) {
-            val selectedRadioButton = view.findViewById<RadioButton>(selectedRadioButtonId)
-            val selectedPriority = selectedRadioButton.text.toString()
-        }*/
     }
 }
 
