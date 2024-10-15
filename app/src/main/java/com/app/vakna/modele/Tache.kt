@@ -13,7 +13,7 @@ class Tache(
     var importance: Importance,
     var type: TypeTache,
     var date: LocalDate,
-    var estTerminee: Boolean = false,
+    var estTerminee: Boolean,
     val compagnon: Compagnon,
     private val gestionnaire: GestionnaireDeTaches
 )
@@ -44,8 +44,8 @@ class GestionnaireDeTaches {
         if (tache != null) {
             if (!tache.estTerminee) {
                 tache.estTerminee = true
-                tache.compagnon.modifierHumeur(5 * tache.importance.ordinal)
-                tache.compagnon.gagnerXp(5 * tache.importance.ordinal)
+                tache.compagnon.modifierHumeur(- 5 * (tache.importance.ordinal + 1))
+                tache.compagnon.gagnerXp(- 5 * (tache.importance.ordinal + 1))
             }
             listeDeTaches.remove(tache)
         } else {
@@ -57,8 +57,8 @@ class GestionnaireDeTaches {
         val tache = listeDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
-            tache.compagnon.modifierHumeur(10 * tache.importance.ordinal)
-            tache.compagnon.gagnerXp(5 * tache.importance.ordinal)
+            tache.compagnon.modifierHumeur(10 * (tache.importance.ordinal + 1))
+            tache.compagnon.gagnerXp(5 * (tache.importance.ordinal + 1))
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
