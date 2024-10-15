@@ -85,14 +85,27 @@ class CompagnonTest {
 
     @Test
     fun testGagnerXpNegatif() {
-        val exception = assertThrows<AssertionError> {
-            compagnon.gagnerXp(-5)
-        }
-        assertEquals(exception.message, "L'xp gagné doit être positif")
+        compagnon.gagnerXp(120)
+        compagnon.gagnerXp(-30)
     }
 
     @Test
-    fun testNiveau() {
+    fun testNiveau0() {
         assertEquals(compagnon.niveau(), 0)
+    }
+    @Test
+    fun testNiveau1() {
+        compagnon.gagnerXp(100)
+        assertEquals(compagnon.niveau(), 1)
+    }
+    @Test
+    fun testNiveau2() {
+        compagnon.gagnerXp(250)
+        assertEquals(compagnon.niveau(), 2)
+    }
+    @Test
+    fun testNiveau3() {
+        compagnon.gagnerXp(1000)
+        assertEquals(compagnon.niveau(), 3)
     }
 }

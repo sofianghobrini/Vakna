@@ -51,7 +51,6 @@ class Compagnon(
             return 1
         if (xp < 1000)
             return 2
-        if (xp < 2000)
-            return 3
+        return 3
     }
 }
