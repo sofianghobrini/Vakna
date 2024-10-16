@@ -1,4 +1,4 @@
-package com.app.vakna.ui
+package com.app.vakna
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -9,7 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
-import com.app.vakna.R
 
 class MainActivity : AppCompatActivity() {
 
