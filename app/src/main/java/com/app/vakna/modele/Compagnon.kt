@@ -1,5 +1,7 @@
 package com.app.vakna.modele
 
+import com.app.vakna.modele.dao.CompagnonDAO
+
 class Compagnon(
     var nom:String,
     var faim:Int = 50,
@@ -7,6 +9,8 @@ class Compagnon(
     var xp:Int = 0,
     val espece:String
 ){
+    private val dao = CompagnonDAO()
+
     fun modifierFaim(niveau:Int){
         assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
 
@@ -15,6 +19,7 @@ class Compagnon(
             faim = 100
         else if(faim <0)
             faim = 0
+        dao.modifier(nom, this)
     }
     fun modifierHumeur(niveau: Int){
         assert(niveau in -100..100) { "Le niveau d'humeur doit être compris entre -100 et 100." }
@@ -24,12 +29,14 @@ class Compagnon(
             humeur = 100
         else if(humeur <0)
             humeur = 0
+        dao.modifier(nom, this)
     }
     fun gagnerXp(montant:Int){
         val ancienNiveau = niveau()
         xp += montant
         if (ancienNiveau > niveau())
             xp -= montant
+        dao.modifier(nom, this)
     }
 
     fun niveau(): Int {
