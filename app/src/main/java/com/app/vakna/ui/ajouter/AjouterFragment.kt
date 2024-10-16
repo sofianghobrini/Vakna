@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.app.vakna.R
 import com.app.vakna.databinding.FragmentAjouterBinding
 class AjouterFragment : Fragment() {
 
@@ -35,10 +37,19 @@ class AjouterFragment : Fragment() {
         confirmButton.setOnClickListener {
             val tacheNom = tacheNomInput.text.toString()
             val tacheType = tacheTypeSpinner.selectedItem.toString()
-            val selectedRadioButton = binding.root.findViewById<RadioButton>(tacheRadioFrequence.checkedRadioButtonId)
-            val tacheFrequence =  selectedRadioButton.text.toString()
-            val tacheImportance = if(tacheCheckboxImportance.isChecked) "Importante" else "Pas Importante"
-            Toast.makeText(requireContext(), "Tâche ajoutée: $tacheNom, Type: $tacheType, Frequence: $tacheFrequence, Importance: $tacheImportance", Toast.LENGTH_SHORT).show()
+            val selectedRadioButton =
+                binding.root.findViewById<RadioButton>(tacheRadioFrequence.checkedRadioButtonId)
+            if (selectedRadioButton == null) {
+                Toast.makeText(requireContext(), "La fréquence n'est pas choisi!", Toast.LENGTH_SHORT).show()
+            } else {
+                val tacheFrequence = selectedRadioButton.text.toString()
+                val tacheImportance = if (tacheCheckboxImportance.isChecked) "Importante" else "Pas Importante"
+                Toast.makeText(requireContext(), "Tâche ajoutée: $tacheNom, Type: $tacheType, Frequence: $tacheFrequence, Importance: $tacheImportance", Toast.LENGTH_SHORT).show()
+            }
+        }
+        annulerButton.setOnClickListener {
+            val navController = findNavController()
+            navController.popBackStack()
         }
 
         return root
