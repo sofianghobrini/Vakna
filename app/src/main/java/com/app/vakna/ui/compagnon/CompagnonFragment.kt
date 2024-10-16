@@ -84,8 +84,11 @@ class CompagnonFragment : Fragment() {
     }
 
     private fun showEditNameDialog() {
-        val editText = android.widget.EditText(requireContext())
-        editText.hint = "Nouveau nom"
+        val editText = android.widget.EditText(requireContext()).apply {
+            hint = "Nouveau nom"
+            inputType = android.text.InputType.TYPE_CLASS_TEXT
+            filters = arrayOf(android.text.InputFilter.LengthFilter(50))
+        }
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Modifier le nom de ton Companion")
