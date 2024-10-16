@@ -1,11 +1,6 @@
 package com.app.vakna.modele.dao
 
 import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.Tache
-import com.app.vakna.modele.TypeTache
-import java.time.LocalDate
 
 fun main() {
     val truc = CompagnonDAO()

@@ -1,7 +1,6 @@
 package com.app.vakna.modele.dao
 
 import com.app.vakna.modele.Compagnon
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
