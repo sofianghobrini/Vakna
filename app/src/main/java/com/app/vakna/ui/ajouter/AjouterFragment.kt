@@ -39,14 +39,15 @@ class AjouterFragment : Fragment() {
             val tacheType = tacheTypeSpinner.selectedItem.toString()
             val selectedRadioButton =
                 binding.root.findViewById<RadioButton>(tacheRadioFrequence.checkedRadioButtonId)
-            if (selectedRadioButton == null) {
-                Toast.makeText(requireContext(), "La fréquence n'est pas choisi!", Toast.LENGTH_SHORT).show()
+            if (selectedRadioButton == null || tacheNom.isEmpty()) {
+                Toast.makeText(requireContext(), "La fréquence ou le nom se sont pas choisi!", Toast.LENGTH_SHORT).show()
             } else {
                 val tacheFrequence = selectedRadioButton.text.toString()
                 val tacheImportance = if (tacheCheckboxImportance.isChecked) "Importante" else "Pas Importante"
                 Toast.makeText(requireContext(), "Tâche ajoutée: $tacheNom, Type: $tacheType, Frequence: $tacheFrequence, Importance: $tacheImportance", Toast.LENGTH_SHORT).show()
             }
         }
+
         annulerButton.setOnClickListener {
             val navController = findNavController()
             navController.popBackStack()
