@@ -1,46 +1,65 @@
-package com.app.vakna.controller
-import android.widget.EditText
 import android.view.View
-import android.widget.RadioButton
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Spinner
 import com.app.vakna.R
 
 @Controller
-class controllerCreationTache(private val view: View){
-    fun recupererNomTache(){
-        val nomTacheEditText = view.findViewById<EditText>(R.id.editTextNomTache)
-        val nomTache = nomTacheEditText.text.toString()
+class controllerAjouterTache(private val view: View) {
+
+    // Méthode privée pour récupérer le nom de la tâche
+    private fun recupererNomTache(): String {
+        val nomTacheEditText = view.findViewById<EditText>(R.id.inputNomTache)
+        return nomTacheEditText.text.toString()
     }
-    fun recupererTypeTache(){
-        val type = view.findViewById<Spinner>(R.id.spinnerCategory)
-        val typeDeLaTache = spinnerCategory.selectedItem.toString()
-        when(typeDeLaTache){
-            "Urgent"->{}
-            "Sport"->{}
-            "Travail"->{}
 
-
+    // Méthode privée pour récupérer le type de la tâche
+    private fun recupererTypeTache(): String {
+        val type = view.findViewById<Spinner>(R.id.selectTypeTache)
+        val typeDeLaTache = type.selectedItem.toString()
+        return when (typeDeLaTache) {
+            "Urgent" -> "Urgent"
+            "Sport" -> "Sport"
+            "Travail" -> "Travail"
+            else -> "Non défini"
         }
     }
-    fun recupererFrequenceTache(){
-        val radioGroupPriority = view.findViewById<RadioGroup>(R.id.radioFrequenceTache)
-        val selectedRadioButtonId = radioGroupPriority.checkedRadioButtonId
 
-        when(selectedRadioButtonId){
-            R.id.radioQuotidien -> {
-                val frequenceView = view.findViewById<RadioGroup>(R.id.radioQuotidien)
-                val frequence = frequenceView.selectedItem
-            }
-            R.id.radioHebdomadaire -> {
+    // Méthode privée pour récupérer la fréquence de la tâche
+    private fun recupererFrequenceTache(): String? {
+        val radioGroupFrequence = view.findViewById<RadioGroup>(R.id.radioFrequenceTache)
+        val selectedRadioButtonId = radioGroupFrequence.checkedRadioButtonId
 
-            }
-            R.id.radioMensuel -> {
-
-            }
-            else->{}
+        return when (selectedRadioButtonId) {
+            R.id.radioQuotidien -> "Quotidien"
+            R.id.radioHebdomadaire -> "Hebdomadaire"
+            R.id.radioMensuel -> "Mensuel"
+            else -> null // Aucun bouton sélectionné
         }
+    }
+
+    // Méthode privée pour récupérer l'importance de la tâche
+    private fun recupererImportanceTache(): String {
+        val IdImportance = view.findViewById<CheckBox>(R.id.checkboxImportance)
+        return if (IdImportance.isChecked) {
+            "Important"
+        } else {
+            "Pas important"
+        }
+    }
+
+    // Méthode publique pour envoyer les informations de la tâche
+    fun envoyerInformationTache(): List<String?> {
+        val nomTache = recupererNomTache()
+        val typeTache = recupererTypeTache()
+        val importanceTache = recupererImportanceTache()
+        val frequenceTache = recupererFrequenceTache()
+
+        // Créer une liste avec les données récupérées
+        return listOf(nomTache, typeTache, frequenceTache, importanceTache)
     }
 }
 
+// Définition de l'annotation Controller
 annotation class Controller
