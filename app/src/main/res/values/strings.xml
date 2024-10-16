@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Vakna</string>
+    <string name="title_taches">Taches</string>
+    <string name="title_ajouter">Ajouter</string>
+    <string name="title_magasin">Magasin</string>
+    <string name="title_compagnon">Compagnon</string>
+    <string name="edit_name">Edit Name</string>
+    <string-array name="typeTacheExemple">
+        <item>Sport</item>
+        <item>Informatique</item>
+        <item>Projet</item>
+        <item>Divers</item>
+    </string-array>
 </resources>
