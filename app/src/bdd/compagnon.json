@@ -1,0 +1,18 @@
+{
+  "compagnons": [
+    {
+      "nom": "Vakno",
+      "faim": 50,
+      "humeur": 50,
+      "xp": 0,
+      "espece": "Dragon"
+    },
+    {
+      "nom": "Machin",
+      "faim": 10,
+      "humeur": 5,
+      "xp": 100,
+      "espece": "Chien"
+    }
+  ]
+}

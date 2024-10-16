@@ -62,6 +62,7 @@ class TacheDAO : DAO<Tache, String> {
         .create()
 
     private val cheminFichier = System.getProperty("user.dir")?.plus("/app/src/bdd/tache.json") ?: ""
+    val typeTacheList = object : TypeToken<MutableList<Tache>>() {}.type
 
     override fun obtenirTous(): List<Tache> {
         val jsonString = File(cheminFichier).readText()
@@ -69,22 +70,12 @@ class TacheDAO : DAO<Tache, String> {
         val tachesJsonArray = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
             .getAsJsonArray("taches")
 
-        val tacheListType = object : TypeToken<List<Tache>>() {}.type
-
-        return gson.fromJson(tachesJsonArray, tacheListType)
+        return gson.fromJson(tachesJsonArray, typeTacheList)
     }
 
     /** Récupère l'entité avec l'id P associé si elle existe (null sinon) */
     override fun obtenirParId(id: String): Tache? {
-        val taches = obtenirTous()
-
-        for (t in taches) {
-            if (t.nom == id) {
-                return t
-            }
-        }
-
-        return null
+        return obtenirTous().find { it.nom == id }
     }
 
     /** Insère l'entité T dans la BDD */
@@ -95,7 +86,7 @@ class TacheDAO : DAO<Tache, String> {
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val tachesJsonArray = objetJson.getAsJsonArray("taches")
 
-        val typeTacheList = object : TypeToken<MutableList<Tache>>() {}.type
+
         val listeTaches: MutableList<Tache> = gson.fromJson(tachesJsonArray, typeTacheList)?: mutableListOf()
 
 
@@ -120,7 +111,6 @@ class TacheDAO : DAO<Tache, String> {
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val tachesJsonArray = objetJson.getAsJsonArray("taches")
 
-        val typeTacheList = object : TypeToken<MutableList<Tache>>() {}.type
         val listeTaches: MutableList<Tache> = gson.fromJson(tachesJsonArray, typeTacheList)?: mutableListOf()
 
 
@@ -147,12 +137,11 @@ class TacheDAO : DAO<Tache, String> {
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val tachesJsonArray = objetJson.getAsJsonArray("taches")
 
-        val typeTacheList = object : TypeToken<MutableList<Tache>>() {}.type
         val listeTaches: MutableList<Tache> = gson.fromJson(tachesJsonArray, typeTacheList)?: mutableListOf()
 
 
-        val tacheToRemove = listeTaches.find { it.nom == id } ?: return false
-        listeTaches.remove(tacheToRemove)
+        val tacheASupprimer = listeTaches.find { it.nom == id } ?: return false
+        listeTaches.remove(tacheASupprimer)
 
         objetJson.add("taches", gson.toJsonTree(listeTaches))
 

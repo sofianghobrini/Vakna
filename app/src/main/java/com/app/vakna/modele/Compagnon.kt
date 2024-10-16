@@ -1,24 +1,12 @@
 package com.app.vakna.modele
 
 class Compagnon(
-    nom:String,
-    private var faim:Int = 50,
-    private var humeur:Int = 50,
-    private var xp:Int = 0,
-    private val espece:String
+    var nom:String,
+    var faim:Int = 50,
+    var humeur:Int = 50,
+    var xp:Int = 0,
+    val espece:String
 ){
-    fun getFaim(): Int {
-        return faim
-    }
-
-    fun getHumeur(): Int {
-        return humeur
-    }
-
-    fun getXp(): Int {
-        return xp
-    }
-
     fun modifierFaim(niveau:Int){
         assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
 
@@ -52,5 +40,9 @@ class Compagnon(
         if (xp < 1000)
             return 2
         return 3
+    }
+
+    override fun toString(): String {
+        return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()})"
     }
 }
