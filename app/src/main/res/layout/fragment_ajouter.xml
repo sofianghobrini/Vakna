@@ -94,7 +94,7 @@
         android:id="@+id/radioFrequenceTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache">
 
@@ -129,13 +129,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
 
-    <CheckBox
-        android:id="@+id/checkboxImportance"
+    <RadioGroup
+        android:id="@+id/radioImportanceTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Important"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/labelImportanceTache" />
+        app:layout_constraintTop_toBottomOf="@id/labelImportanceTache">
+
+        <RadioButton
+            android:id="@+id/radioFaible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Faible"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="10dp" />
+
+        <RadioButton
+            android:id="@+id/radioMoyen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moyen"
+            android:layout_marginEnd="30dp" />
+
+        <RadioButton
+            android:id="@+id/radioElevee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Élevée" />
+
+    </RadioGroup>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -143,7 +166,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxImportance">
+        app:layout_constraintTop_toBottomOf="@id/radioImportanceTache">
 
         <Button
             android:id="@+id/boutonCreerTache"
