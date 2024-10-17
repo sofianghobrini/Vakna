@@ -1,18 +1,57 @@
 package com.app.vakna
 
 import com.app.vakna.modele.*
+import org.junit.Before
+import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class GestionnaireDeTachesTest {
+class modeleTacheTest {
+
+    // Gestionnaire de tâches et compagnon utilisés pour les tests
     private val gestionnaire = GestionnaireDeTaches()
-    private val compagnon = Compagnon("Veolia la dragonne", espece = "Dragon")
+    private val compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
+
+    // Chemin du fichier JSON et sauvegarde
+    private val cheminFichier = System.getProperty("user.dir")?.plus("/src/bdd/tache.json") ?: ""
+    private lateinit var backupFilePath: Path
+    private lateinit var originalFilePath: Path
 
     init {
+        // Associer le compagnon au gestionnaire
         gestionnaire.setCompagnon(compagnon)
+    }
+
+    @Before
+    fun setUp() {
+        // Chemin vers le fichier original
+        originalFilePath = Paths.get(cheminFichier)
+
+        // Chemin vers le fichier de sauvegarde
+        backupFilePath = Paths.get(cheminFichier + ".bak")
+
+        // Crée une sauvegarde du fichier original avant chaque test
+        if (Files.exists(originalFilePath)) {
+            Files.copy(originalFilePath, backupFilePath, StandardCopyOption.REPLACE_EXISTING)
+        } else {
+            throw IllegalStateException("Le fichier tache.json est introuvable.")
+        }
+    }
+
+    @After
+    fun tearDown() {
+        // Restaure le fichier original après chaque test
+        if (Files.exists(backupFilePath)) {
+            Files.copy(backupFilePath, originalFilePath, StandardCopyOption.REPLACE_EXISTING)
+            Files.delete(backupFilePath)
+        }
     }
 
     @Test
@@ -77,13 +116,13 @@ class GestionnaireDeTachesTest {
 
     @Test
     fun testSupprimerTacheAffecteHumeur() {
-        compagnon.modifierHumeur(-compagnon.getHumeur())
+        compagnon.modifierHumeur(-compagnon.humeur)
         val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache)
-        val humeurInitiale = compagnon.getHumeur()
+        val humeurInitiale = compagnon.humeur
 
         gestionnaire.supprimerTache("Tâche 1")
-        assertEquals(humeurInitiale - (5 * tache.importance.ordinal), compagnon.getHumeur())
+        assertEquals(humeurInitiale - (5 * tache.importance.ordinal), compagnon.humeur)
     }
 
     @Test
@@ -96,14 +135,14 @@ class GestionnaireDeTachesTest {
 
     @Test
     fun testFinirTache() {
-        compagnon.modifierHumeur(-compagnon.getHumeur()) // Reset du niveau de l'humeur
+        compagnon.modifierHumeur(-compagnon.humeur) // Reset du niveau de l'humeur
         val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.ELEVEE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache)
 
         gestionnaire.finirTache("Tâche 1")
         assertTrue(tache.estTerminee)
-        assertEquals(30, compagnon.getHumeur())
-        assertEquals(15, compagnon.getXp())
+        assertEquals(30, compagnon.humeur)
+        assertEquals(15, compagnon.xp)
     }
 
     @Test
@@ -144,23 +183,30 @@ class GestionnaireDeTachesTest {
     }
 
     @Test
-    fun testObtenirTachesParNom() {
-        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
-
+    fun testRechercherTache(){
+        val tache1 = Tache("Faire les courses", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache2 = Tache("Faire du sport", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
-
-        val tachesNom1 = gestionnaire.obtenirTache("Tâche 1")
-        assertEquals(1, tachesNom1.size)
-        assertTrue(tachesNom1.contains(tache1))
-
-        val tachesNom2 = gestionnaire.obtenirTache("Tâche 2")
-        assertEquals(1, tachesNom2.size)
-        assertTrue(tachesNom2.contains(tache2))
-
-        val tachesNomInexistant = gestionnaire.obtenirTache("Tâche Inexistante")
-        assertEquals(0, tachesNomInexistant.size)
+        val resultat = gestionnaire.rechercherTache("Faire")
+        assertEquals(2, resultat.size)
+        val resultat2 = gestionnaire.rechercherTache("Travailler")
+        assertEquals(0, resultat2.size)
     }
 
+    @Test
+    fun testChangementDateValidationFinir(){
+        val tache1 = Tache("Se scrum le master", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now().minusDays(1), false)
+        gestionnaire.ajouterTache(tache1)
+        gestionnaire.finirTache("Se scrum le master")
+        assertEquals(LocalDate.now(), tache1.derniereValidation)
+    }
+
+    @Test
+    fun testChangementDateValidationSupprimer(){
+        val tache1 = Tache("Se scrum le master", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now().minusDays(1), false)
+        gestionnaire.ajouterTache(tache1)
+        gestionnaire.supprimerTache("Se scrum le master")
+        assertEquals(LocalDate.now(), tache1.derniereValidation)
+    }
 }

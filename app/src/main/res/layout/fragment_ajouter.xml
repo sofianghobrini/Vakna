@@ -161,29 +161,31 @@
     </RadioGroup>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="314dp"
+        android:layout_height="92dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioImportanceTache">
 
         <Button
+            android:id="@+id/boutonAnnulerCreation"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/red"
+            android:text="Annuler" />
+
+        <Button
             android:id="@+id/boutonCreerTache"
-            android:layout_width="wrap_content"
+            android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/green"
             android:text="Confirmer" />
 
-        <Button
-            android:id="@+id/boutonAnnulerCreation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/red"
-            android:text="Annuler" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
