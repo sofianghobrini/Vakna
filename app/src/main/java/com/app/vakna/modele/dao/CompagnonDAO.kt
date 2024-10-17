@@ -54,8 +54,12 @@ class CompagnonDAO : DAO<Compagnon, Int> {
         val objetJson = gson.fromJson(fichier.readText(), JsonElement::class.java).asJsonObject
         val compagnonsJsonArray = objetJson.getAsJsonArray("compagnons")
 
-        val listeCompagnons: MutableList<Compagnon> = gson.fromJson(compagnonsJsonArray, typeCompagnonList)
-            ?: mutableListOf()
+
+        val listeCompagnons: MutableList<Compagnon> = try {
+            gson.fromJson(compagnonsJsonArray, typeCompagnonList) ?: mutableListOf()
+        } catch (e: Exception) {
+            mutableListOf()
+        }
 
         val indexCompaAModifier = listeCompagnons.indexOfFirst { it.id == id }
 

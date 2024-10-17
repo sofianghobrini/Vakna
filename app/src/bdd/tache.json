@@ -41,15 +41,15 @@
       "derniereValidation": "2024-10-16"
     },
     {
-      "nom": "Tâche 1",
-      "frequence": "HEBDOMADAIRE",
-      "importance": "MOYENNE",
-      "type": "PROFESSIONNELLE",
+      "nom": "Faire les courses",
+      "frequence": "QUOTIDIENNE",
+      "importance": "FAIBLE",
+      "type": "PERSONNELLE",
       "estTerminee": false,
       "derniereValidation": "2024-10-17"
     },
     {
-      "nom": "Faire les courses",
+      "nom": "Tâche 1",
       "frequence": "QUOTIDIENNE",
       "importance": "FAIBLE",
       "type": "PERSONNELLE",
