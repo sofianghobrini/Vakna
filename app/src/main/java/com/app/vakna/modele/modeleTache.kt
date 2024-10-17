@@ -6,7 +6,7 @@ import java.time.LocalDate
 // Enums pour la tâche
 enum class Frequence { QUOTIDIENNE, HEBDOMADAIRE, MENSUELLE, ANNUELLE }
 enum class Importance { FAIBLE, MOYENNE, ELEVEE }
-enum class TypeTache { PERSONNELLE, PROFESSIONNELLE, AUTRE }
+enum class TypeTache { PERSONNELLE, PROFESSIONNELLE, PROJET, ETUDES, SPORT, VIEQUO, AUTRE }
 
 class Tache(
     var nom: String,
@@ -115,7 +115,7 @@ class GestionnaireDeTaches() {
         return setDeTaches.filter { it.type == type }.toSet()
     }
 
-    fun obtenirTache(nom: String): Set<Tache> {
-        return setDeTaches.filter { it.nom == nom }.toSet()
+    fun rechercherTache(input: String): Set<Tache> {
+        return setDeTaches.filter { it.nom.contains(input) }.toSet()
     }
 }

@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 
 class GestionnaireDeTachesTest {
     private val gestionnaire = GestionnaireDeTaches()
-    private val compagnon = Compagnon("Veolia la dragonne", espece = "Dragon")
+    private val compagnon = Compagnon(1, "Veolia la dragonne", espece = "Dragon")
 
     init {
         gestionnaire.setCompagnon(compagnon)
@@ -77,13 +77,13 @@ class GestionnaireDeTachesTest {
 
     @Test
     fun testSupprimerTacheAffecteHumeur() {
-        compagnon.modifierHumeur(-compagnon.getHumeur())
+        compagnon.modifierHumeur(-compagnon.humeur)
         val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache)
-        val humeurInitiale = compagnon.getHumeur()
+        val humeurInitiale = compagnon.humeur
 
         gestionnaire.supprimerTache("Tâche 1")
-        assertEquals(humeurInitiale - (5 * tache.importance.ordinal), compagnon.getHumeur())
+        assertEquals(humeurInitiale - (5 * tache.importance.ordinal), compagnon.humeur)
     }
 
     @Test
@@ -96,14 +96,14 @@ class GestionnaireDeTachesTest {
 
     @Test
     fun testFinirTache() {
-        compagnon.modifierHumeur(-compagnon.getHumeur()) // Reset du niveau de l'humeur
+        compagnon.modifierHumeur(-compagnon.humeur) // Reset du niveau de l'humeur
         val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.ELEVEE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache)
 
         gestionnaire.finirTache("Tâche 1")
         assertTrue(tache.estTerminee)
-        assertEquals(30, compagnon.getHumeur())
-        assertEquals(15, compagnon.getXp())
+        assertEquals(30, compagnon.humeur)
+        assertEquals(15, compagnon.xp)
     }
 
     @Test
@@ -144,23 +144,15 @@ class GestionnaireDeTachesTest {
     }
 
     @Test
-    fun testObtenirTachesParNom() {
-        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
-
+    fun testRechercherTache(){
+        val tache1 = Tache("Faire les courses", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache2 = Tache("Faire du sport", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
-
-        val tachesNom1 = gestionnaire.obtenirTache("Tâche 1")
-        assertEquals(1, tachesNom1.size)
-        assertTrue(tachesNom1.contains(tache1))
-
-        val tachesNom2 = gestionnaire.obtenirTache("Tâche 2")
-        assertEquals(1, tachesNom2.size)
-        assertTrue(tachesNom2.contains(tache2))
-
-        val tachesNomInexistant = gestionnaire.obtenirTache("Tâche Inexistante")
-        assertEquals(0, tachesNomInexistant.size)
+        val resultat = gestionnaire.rechercherTache("Faire")
+        assertEquals(2, resultat.size)
+        val resultat2 = gestionnaire.rechercherTache("Travailler")
+        assertEquals(0, resultat2.size)
     }
 
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 class CompagnonTest {
-    private val compagnon = Compagnon("Veolia la dragonne", espece = "Dragon")
+    private val compagnon = Compagnon(1, "Veolia la dragonne", espece = "Dragon")
 
     @Test
     fun testModifierFaimNiveauSuperieurA100() {
@@ -27,26 +27,26 @@ class CompagnonTest {
     @Test
     fun testModifierFaimResultatSuperieurA100() {
         compagnon.modifierFaim(75)
-        assertEquals(compagnon.getFaim(), 100)
+        assertEquals(compagnon.faim, 100)
     }
 
     @Test
     fun testModifierFaimResultatInferieurA0() {
         compagnon.modifierFaim(-75)
-        assertEquals(compagnon.getFaim(), 0)
+        assertEquals(compagnon.faim, 0)
     }
 
     @Test
     fun testModifierFaim() {
         compagnon.modifierFaim(-5)
-        assertEquals(compagnon.getFaim(), 45)
+        assertEquals(compagnon.faim, 45)
     }
 
     @Test
     fun testModifierHumeur() {
         compagnon.modifierHumeur(-5)
-        println(compagnon.getHumeur())
-        assertEquals(compagnon.getHumeur(), 45)
+        println(compagnon.humeur)
+        assertEquals(compagnon.humeur, 45)
     }
 
     @Test
@@ -68,19 +68,19 @@ class CompagnonTest {
     @Test
     fun testModifierHumeurResultatSuperieurA100() {
         compagnon.modifierHumeur(75)
-        assertEquals(compagnon.getHumeur(), 100)
+        assertEquals(compagnon.humeur, 100)
     }
 
     @Test
     fun testModifierHumeurResultatInferieurA0() {
         compagnon.modifierHumeur(-75)
-        assertEquals(compagnon.getHumeur(), 0)
+        assertEquals(compagnon.humeur, 0)
     }
 
     @Test
     fun testGagnerXp() {
         compagnon.gagnerXp(12)
-        assertEquals(compagnon.getXp(), 12)
+        assertEquals(compagnon.xp, 12)
     }
 
     @Test

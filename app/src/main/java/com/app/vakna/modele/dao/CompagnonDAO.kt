@@ -8,7 +8,7 @@ import java.io.File
 
 class CompagnonDAO : DAO<Compagnon, Int> {
     private val gson = GsonBuilder().setPrettyPrinting().create()
-    private val cheminFichier = System.getProperty("user.dir")?.plus("/app/src/bdd/compagnon.json") ?: ""
+    private val cheminFichier = System.getProperty("user.dir")?.plus("/src/bdd/compagnon.json") ?: ""
     private val typeCompagnonList = object : TypeToken<MutableList<Compagnon>>() {}.type
 
     override fun obtenirTous(): List<Compagnon> {
