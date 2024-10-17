@@ -1,5 +1,6 @@
-package com.app.vakna.modele.dao
+package com.app.vakna
 
+import com.app.vakna.modele.dao.TacheDAO
 import com.app.vakna.modele.*
 import org.junit.After
 import org.junit.Assert.*

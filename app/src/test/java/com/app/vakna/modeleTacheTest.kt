@@ -13,7 +13,7 @@ import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class GestionnaireDeTachesTest {
+class modeleTacheTest {
 
     // Gestionnaire de tâches et compagnon utilisés pour les tests
     private val gestionnaire = GestionnaireDeTaches()

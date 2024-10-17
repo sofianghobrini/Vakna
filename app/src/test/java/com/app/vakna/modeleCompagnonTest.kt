@@ -11,7 +11,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import kotlin.test.assertEquals
 
-class CompagnonTest {
+class modeleCompagnonTest {
 
     // Chemin vers le fichier compagnon.json
     private val cheminFichier = System.getProperty("user.dir")?.plus("/src/bdd/compagnon.json") ?: ""
