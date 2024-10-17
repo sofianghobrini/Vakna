@@ -78,17 +78,6 @@
                 app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier"
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
 
-            <ProgressBar
-                android:id="@+id/progressTachesJournalier"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="10dp"
-                android:max="100"
-                android:progress="0"
-                app:layout_constraintTop_toBottomOf="@id/texteTitreTaches" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesJournalier"
                 android:layout_width="match_parent"
@@ -123,17 +112,6 @@
                 android:progress="0"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesHebdomadaire"
-                style="@android:style/Widget.ProgressBar.Horizontal"/>
-
-            <ProgressBar
-                android:id="@+id/progressTachesHebdomadaire"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:max="100"
-                android:progress="0"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintTop_toBottomOf="@id/listeTachesJournalier"
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -171,17 +149,6 @@
                 android:layout_marginBottom="10dp"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesMensuel"
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
-
-            <ProgressBar
-                android:id="@+id/progressTachesMensuel"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:max="100"
-                android:progress="0"
-                app:layout_constraintTop_toBottomOf="@id/listeTachesHebdomadaire" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesMensuel"
