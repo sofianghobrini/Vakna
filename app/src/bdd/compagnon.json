@@ -1,6 +1,7 @@
 {
   "compagnons": [
     {
+      "id": 1,
       "nom": "Vakno",
       "faim": 50,
       "humeur": 50,
@@ -8,6 +9,7 @@
       "espece": "Dragon"
     },
     {
+      "id": 2,
       "nom": "Machin",
       "faim": 10,
       "humeur": 5,
@@ -15,6 +17,7 @@
       "espece": "Chien"
     },
     {
+      "id": 3,
       "nom": "Prout",
       "faim": 50,
       "humeur": 50,
