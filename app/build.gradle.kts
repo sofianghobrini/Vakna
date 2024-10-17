@@ -73,6 +73,7 @@ dependencies {
     implementation("androidx.databinding:databinding-runtime:7.0.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
+    implementation("com.google.code.gson:gson:2.8.8")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
