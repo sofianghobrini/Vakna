@@ -84,6 +84,7 @@ class GestionnaireDeTaches() {
         if (tache != null) {
             if (!tache.estTerminee) {
                 tache.estTerminee = true
+                tache.derniereValidation = LocalDate.now()
                 compagnon.modifierHumeur(-5 * (tache.importance.ordinal + 1))
                 compagnon.gagnerXp(-5 * (tache.importance.ordinal + 1))
             }
@@ -99,6 +100,7 @@ class GestionnaireDeTaches() {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
+            tache.derniereValidation = LocalDate.now()
             compagnon.modifierHumeur(10 * (tache.importance.ordinal + 1))
             compagnon.gagnerXp(5 * (tache.importance.ordinal + 1))
         } else {

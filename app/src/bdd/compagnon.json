@@ -2,10 +2,10 @@
   "compagnons": [
     {
       "id": 1,
-      "nom": "Vakno",
+      "nom": "Veolia la dragonne",
       "faim": 50,
-      "humeur": 50,
-      "xp": 0,
+      "humeur": 45,
+      "xp": -5,
       "espece": "Dragon"
     },
     {

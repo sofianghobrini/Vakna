@@ -193,4 +193,20 @@ class modeleTacheTest {
         val resultat2 = gestionnaire.rechercherTache("Travailler")
         assertEquals(0, resultat2.size)
     }
+
+    @Test
+    fun testChangementDateValidationFinir(){
+        val tache1 = Tache("Se scrum le master", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now().minusDays(1), false)
+        gestionnaire.ajouterTache(tache1)
+        gestionnaire.finirTache("Se scrum le master")
+        assertEquals(LocalDate.now(), tache1.derniereValidation)
+    }
+
+    @Test
+    fun testChangementDateValidationSupprimer(){
+        val tache1 = Tache("Se scrum le master", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now().minusDays(1), false)
+        gestionnaire.ajouterTache(tache1)
+        gestionnaire.supprimerTache("Se scrum le master")
+        assertEquals(LocalDate.now(), tache1.derniereValidation)
+    }
 }
