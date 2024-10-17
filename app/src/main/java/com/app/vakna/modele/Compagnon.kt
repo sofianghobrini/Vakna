@@ -8,7 +8,7 @@ class Compagnon(
     var faim: Int = 50,
     var humeur: Int = 50,
     var xp: Int = 0,
-    val espece: String
+    var espece: String
 ) {
     private val dao = CompagnonDAO()
 

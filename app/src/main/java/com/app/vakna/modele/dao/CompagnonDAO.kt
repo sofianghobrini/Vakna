@@ -7,14 +7,22 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 
 class CompagnonDAO : DAO<Compagnon, Int> {
-    private val gson = GsonBuilder().setPrettyPrinting().create()
+    private val gson = GsonBuilder()
+        .setPrettyPrinting()
+        .registerTypeAdapter(Compagnon::class.java, CompagnonAdapter())
+        .create()
     private val cheminFichier = System.getProperty("user.dir")?.plus("/src/bdd/compagnon.json") ?: ""
     private val typeCompagnonList = object : TypeToken<MutableList<Compagnon>>() {}.type
 
     override fun obtenirTous(): List<Compagnon> {
-        val fichier = File(cheminFichier).readText()
+        val fichier = File(cheminFichier)
 
-        val compagnonsJsonArray = gson.fromJson(fichier, JsonElement::class.java)
+        // Vérifier si le fichier existe et s'il est vide
+        if (!fichier.exists() || fichier.length() == 0L) {
+            return mutableListOf() // Returner une liste vide
+        }
+
+        val compagnonsJsonArray = gson.fromJson(fichier.readText(), JsonElement::class.java)
             .asJsonObject.getAsJsonArray("compagnons")
         return gson.fromJson(compagnonsJsonArray, typeCompagnonList)
     }
@@ -25,6 +33,11 @@ class CompagnonDAO : DAO<Compagnon, Int> {
 
     override fun inserer(entite: Compagnon): Boolean {
         val fichier = File(cheminFichier)
+
+        // Vérifier si le fichier existe, sinon le créer
+        if (!fichier.exists()) {
+            fichier.writeText("{ \"compagnons\": [] }")
+        }
 
         val objetJson = gson.fromJson(fichier.readText(), JsonElement::class.java).asJsonObject
         val compagnonsJsonArray = objetJson.getAsJsonArray("compagnons")
@@ -51,15 +64,14 @@ class CompagnonDAO : DAO<Compagnon, Int> {
     override fun modifier(id: Int, entite: Compagnon): Boolean {
         val fichier = File(cheminFichier)
 
+        if (!fichier.exists()) {
+            return false // Fichier inexistant
+        }
+
         val objetJson = gson.fromJson(fichier.readText(), JsonElement::class.java).asJsonObject
         val compagnonsJsonArray = objetJson.getAsJsonArray("compagnons")
 
-
-        val listeCompagnons: MutableList<Compagnon> = try {
-            gson.fromJson(compagnonsJsonArray, typeCompagnonList) ?: mutableListOf()
-        } catch (e: Exception) {
-            mutableListOf()
-        }
+        val listeCompagnons: MutableList<Compagnon> = gson.fromJson(compagnonsJsonArray, typeCompagnonList) ?: mutableListOf()
 
         val indexCompaAModifier = listeCompagnons.indexOfFirst { it.id == id }
 
@@ -76,6 +88,10 @@ class CompagnonDAO : DAO<Compagnon, Int> {
 
     override fun supprimer(id: Int): Boolean {
         val fichier = File(cheminFichier)
+
+        if (!fichier.exists()) {
+            return false // Fichier inexistant
+        }
 
         val objetJson = gson.fromJson(fichier.readText(), JsonElement::class.java).asJsonObject
         val compagnonsJsonArray = objetJson.getAsJsonArray("compagnons")
