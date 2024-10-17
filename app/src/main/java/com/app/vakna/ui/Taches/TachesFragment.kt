@@ -33,8 +33,6 @@ class TachesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel = ViewModelProvider(this).get(TachesViewModel::class.java)
-
         _binding = FragmentTachesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -44,10 +42,6 @@ class TachesFragment : Fragment() {
         imageButton.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.navigation_ajouter)
-        }
-
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            // Use ViewModel if needed
         }
 
         return root

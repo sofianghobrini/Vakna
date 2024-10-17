@@ -19,8 +19,6 @@ class AjouterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel = ViewModelProvider(this).get(AjouterViewModel::class.java)
-
         _binding = FragmentAjouterBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
