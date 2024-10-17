@@ -1,18 +1,57 @@
 package com.app.vakna
 
 import com.app.vakna.modele.*
+import org.junit.Before
+import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class GestionnaireDeTachesTest {
+
+    // Gestionnaire de tâches et compagnon utilisés pour les tests
     private val gestionnaire = GestionnaireDeTaches()
-    private val compagnon = Compagnon(1, "Veolia la dragonne", espece = "Dragon")
+    private val compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
+
+    // Chemin du fichier JSON et sauvegarde
+    private val cheminFichier = System.getProperty("user.dir")?.plus("/src/bdd/tache.json") ?: ""
+    private lateinit var backupFilePath: Path
+    private lateinit var originalFilePath: Path
 
     init {
+        // Associer le compagnon au gestionnaire
         gestionnaire.setCompagnon(compagnon)
+    }
+
+    @Before
+    fun setUp() {
+        // Chemin vers le fichier original
+        originalFilePath = Paths.get(cheminFichier)
+
+        // Chemin vers le fichier de sauvegarde
+        backupFilePath = Paths.get(cheminFichier + ".bak")
+
+        // Crée une sauvegarde du fichier original avant chaque test
+        if (Files.exists(originalFilePath)) {
+            Files.copy(originalFilePath, backupFilePath, StandardCopyOption.REPLACE_EXISTING)
+        } else {
+            throw IllegalStateException("Le fichier tache.json est introuvable.")
+        }
+    }
+
+    @After
+    fun tearDown() {
+        // Restaure le fichier original après chaque test
+        if (Files.exists(backupFilePath)) {
+            Files.copy(backupFilePath, originalFilePath, StandardCopyOption.REPLACE_EXISTING)
+            Files.delete(backupFilePath)
+        }
     }
 
     @Test
@@ -154,5 +193,4 @@ class GestionnaireDeTachesTest {
         val resultat2 = gestionnaire.rechercherTache("Travailler")
         assertEquals(0, resultat2.size)
     }
-
 }
