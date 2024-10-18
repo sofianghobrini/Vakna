@@ -1,16 +1,10 @@
 package com.app.vakna.controller
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Spinner
+import android.widget.*
 import com.app.vakna.R
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.Tache
-import com.app.vakna.modele.TypeTache
-import com.app.vakna.modele.dao.TacheDAO
+import com.app.vakna.modele.*
+import com.app.vakna.modele.dao.*
 import java.time.LocalDate
 
 
@@ -72,8 +66,6 @@ class ControllerAjouterTache(private val view: View, private val dao: TacheDAO) 
         val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation,false)
         val gestionnaireDeTaches = GestionnaireDeTaches(dao)
         gestionnaireDeTaches.ajouterTache(tache)
-        val afficher = gestionnaireDeTaches.rechercherTache("Fromage")
-        afficher.toString()
     }
 
 }
