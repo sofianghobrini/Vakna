@@ -29,9 +29,6 @@ class TachesFragment : Fragment() {
     private lateinit var listAdapterH: ListAdapter
     private lateinit var listAdapterM: ListAdapter
     private lateinit var gestionnaire: GestionnaireDeTaches
-    private var completedJournalier = 0
-    private var completedHebdomadaire = 0
-    private var completedMensuel = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,23 +83,15 @@ class TachesFragment : Fragment() {
         AjoutDividers(binding.listeTachesMensuel)
 
         binding.listeTachesMensuel.adapter = listAdapterM
-
-//        completedJournalier = dataJournalier.count { it.estTermine ?: false }
-//        binding.progressTachesJournalier.progress = ((completedJournalier.toDouble() / dataJournalier.count()) * 100).toInt()
-//        completedHebdomadaire = dataHebdo.count { it.estTermine ?: false }
-//        binding.progressTachesHebdomadaire.progress = ((completedHebdomadaire.toDouble() / dataHebdo.count()) * 100).toInt()
-//        completedMensuel = dataMensuel.count { it.estTermine ?: false }
-//        binding.progressTachesMensuel.progress = ((completedMensuel.toDouble() / dataMensuel.count()) * 100).toInt()
     }
 
     private fun AjoutDividers(listeBinding: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        // Mise en place d'un divider pour les items de la liste
         listeBinding.layoutManager = layoutManager
 
         listeBinding.addItemDecoration(
             DividerItemDecoration(requireContext(), layoutManager.orientation).apply {
-                setDrawable(requireContext().getDrawable(R.drawable.divider_item)!!) // Set your custom divider
+                setDrawable(requireContext().getDrawable(R.drawable.divider_item)!!)
             }
         )
     }

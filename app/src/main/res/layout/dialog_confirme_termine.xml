@@ -6,10 +6,10 @@
     <TextView
         android:id="@+id/dialogTitre"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:scaleType="center"
-        android:text="Archiver la tâche?"
+        android:text="Avez vous fini cette tâche?"
         android:textSize="30dp"
         android:textColor="@color/texteCouleurPrincipale"
         android:contentDescription="@string/app_name"/>
@@ -20,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Voulez-vous vraiment archiver la tâche {NOM TACHE ICI}? Vous ne pourrez plus réactiver cette tâche!
-        Cependant vous pourrez toujours la revoir dans la page d'archive."
+        android:text="Si vous confirmez que vous avez bien terminé la tâche {NOM TACHE ICI}?"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"/>
@@ -32,14 +31,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/boutonArchiver"
+            android:id="@+id/boutonTerminer"
             android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/red"
-            android:text="Archiver" />
+            android:text="Terminer" />
 
         <Button
             android:id="@+id/boutonAnnuler"
