@@ -78,17 +78,6 @@
                 app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier"
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
 
-            <ProgressBar
-                android:id="@+id/progressTachesJournalier"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="10dp"
-                android:max="100"
-                android:progress="0"
-                app:layout_constraintTop_toBottomOf="@id/texteTitreTaches" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesJournalier"
                 android:layout_width="match_parent"
@@ -96,10 +85,10 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:clipToPadding="false"
-                app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier"
+                app:layout_constraintTop_toBottomOf="@id/progressTachesJournalier"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:listitem="@layout/liste_taches" />
+                tools:listitem="@layout/liste_termine_taches" />
 
             <TextView
                 android:id="@+id/texteTachesHebdomadaire"
@@ -112,7 +101,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.047"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/listeTachesJournalier" />
+                app:layout_constraintTop_toBottomOf="@id/listeTaches" />
 
             <ProgressBar
                 android:id="@+id/progressTachesHebdomadaire"
@@ -125,17 +114,6 @@
                 app:layout_constraintTop_toBottomOf="@id/texteTachesHebdomadaire"
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
 
-            <ProgressBar
-                android:id="@+id/progressTachesHebdomadaire"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:max="100"
-                android:progress="0"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintTop_toBottomOf="@id/listeTachesJournalier"
-                style="@android:style/Widget.ProgressBar.Horizontal"/>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesHebdomadaire"
                 android:layout_width="match_parent"
@@ -143,10 +121,10 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:clipToPadding="false"
-                app:layout_constraintTop_toBottomOf="@+id/texteTachesHebdomadaire"
+                app:layout_constraintTop_toBottomOf="@id/progressTachesHebdomadaire"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:listitem="@layout/liste_taches" />
+                tools:listitem="@layout/liste_termine_taches" />
 
             <TextView
                 android:id="@+id/texteTachesMensuel"
@@ -172,17 +150,6 @@
                 app:layout_constraintTop_toBottomOf="@id/texteTachesMensuel"
                 style="@android:style/Widget.ProgressBar.Horizontal"/>
 
-            <ProgressBar
-                android:id="@+id/progressTachesMensuel"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:max="100"
-                android:progress="0"
-                app:layout_constraintTop_toBottomOf="@id/listeTachesHebdomadaire" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesMensuel"
                 android:layout_width="match_parent"
@@ -190,10 +157,10 @@
                 android:layout_marginTop="8dp"
                 android:padding="2dp"
                 android:clipToPadding="false"
-                app:layout_constraintTop_toBottomOf="@+id/texteTachesMensuel"
+                app:layout_constraintTop_toBottomOf="@id/progressTachesMensuel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:listitem="@layout/liste_taches" />
+                tools:listitem="@layout/liste_termine_taches" />
 
         </LinearLayout>
 

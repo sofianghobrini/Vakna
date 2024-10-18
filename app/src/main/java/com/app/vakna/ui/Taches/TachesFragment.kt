@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.Toast
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.R
+import com.app.vakna.adapters.ListAdapter
+import com.app.vakna.adapters.ListAdapterProgress
+import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
 
 
@@ -41,7 +41,7 @@ class TachesFragment : Fragment() {
         val imageButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
         imageButton.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(R.id.navigation_ajouter)
+            navController.navigate(R.id.navigation_gerer)
         }
 
         return root
@@ -50,7 +50,7 @@ class TachesFragment : Fragment() {
     private fun SetUpRecyclerView() {
 
         val dataJournalier = AjoutData()
-        listAdapterJ = ListAdapter(dataJournalier, binding.progressTachesJournalier)
+        listAdapterJ = ListAdapterProgress(dataJournalier, binding.progressTachesJournalier)
 
         AjoutDividers(binding.listeTachesJournalier)
 
@@ -59,7 +59,7 @@ class TachesFragment : Fragment() {
         // Separation diff Frequences
 
         val dataHebdo = AjoutData()
-        listAdapterH = ListAdapter(dataHebdo, binding.progressTachesHebdomadaire)
+        listAdapterH = ListAdapterProgress(dataHebdo, binding.progressTachesHebdomadaire)
 
         AjoutDividers(binding.listeTachesHebdomadaire)
 
@@ -68,17 +68,17 @@ class TachesFragment : Fragment() {
         // Separation diff Frequences
 
         val dataMensuel = AjoutData()
-        listAdapterM = ListAdapter(dataMensuel, binding.progressTachesMensuel)
+        listAdapterM = ListAdapterProgress(dataMensuel, binding.progressTachesMensuel)
 
         AjoutDividers(binding.listeTachesMensuel)
 
         binding.listeTachesMensuel.adapter = listAdapterM
 
-        completedJournalier = dataJournalier.count { it.estTermine }
+        completedJournalier = dataJournalier.count { it.estTermine ?: false }
         binding.progressTachesJournalier.progress = ((completedJournalier.toDouble() / dataJournalier.count()) * 100).toInt()
-        completedHebdomadaire = dataHebdo.count { it.estTermine }
+        completedHebdomadaire = dataHebdo.count { it.estTermine ?: false }
         binding.progressTachesHebdomadaire.progress = ((completedHebdomadaire.toDouble() / dataHebdo.count()) * 100).toInt()
-        completedMensuel = dataMensuel.count { it.estTermine }
+        completedMensuel = dataMensuel.count { it.estTermine ?: false }
         binding.progressTachesMensuel.progress = ((completedMensuel.toDouble() / dataMensuel.count()) * 100).toInt()
     }
 
@@ -95,7 +95,7 @@ class TachesFragment : Fragment() {
             "Lire 20 pages d'un livre"
         )
         val typeList = arrayOf("Projet", "Sport", "Literature")
-        val importanceList = arrayOf(true, false, false)
+        val importanceList = arrayOf("faible", "moyen", "elevee")
         val terminer = arrayOf(false, true, false)
         for (i in iconList.indices) {
             val listData = ListData(
