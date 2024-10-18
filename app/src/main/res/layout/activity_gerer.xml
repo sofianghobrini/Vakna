@@ -7,18 +7,41 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    tools:context=".ui.gerer.GererFragment" >
+    tools:context=".GererActivity" >
 
-    <TextView
-        android:id="@+id/texteTitreGerer"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layoutTitreGerer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gérer ses tâches"
-        android:textColor="@color/texteCouleurPrincipale"
-        android:textSize="30sp"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/texteTitreGerer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gérer ses tâches"
+            android:textColor="@color/texteCouleurPrincipale"
+            android:textSize="30sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/boutonListeTaches"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/taches_icon"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -27,7 +50,7 @@
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/texteTitreGerer" />
+        app:layout_constraintTop_toBottomOf="@id/layoutTitreGerer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listeTaches"
@@ -36,7 +59,7 @@
         android:layout_marginTop="32dp"
         android:padding="2dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/texteTitreGerer"
+        app:layout_constraintTop_toBottomOf="@id/layoutTitreGerer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/liste_gerer_taches" />

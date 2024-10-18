@@ -1,58 +1,63 @@
-package com.app.vakna.ui.gerer
+package com.app.vakna
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.vakna.R
-import com.app.vakna.databinding.FragmentGererBinding
 import com.app.vakna.adapters.ListAdapterBoutons
 import com.app.vakna.adapters.ListData
+import com.app.vakna.databinding.ActivityGererBinding
+import com.app.vakna.ui.Taches.TachesFragment
+import com.app.vakna.ui.ajouter.AjouterFragment
 
+class GererActivity : AppCompatActivity() {
 
-class GererFragment : Fragment() {
-
-    private var _binding: FragmentGererBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: ActivityGererBinding
     private lateinit var listAdapter: ListAdapterBoutons
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentGererBinding.inflate(inflater, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Inflate the layout using View Binding
+        binding = ActivityGererBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val root: View = binding.root
 
-        SetUpRecyclerView()
+        // Setup RecyclerView
+        setUpRecyclerView()
 
-        return root
+        val tachesBouton: ImageButton = root.findViewById(R.id.boutonListeTaches)
+        tachesBouton.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("navigateTo", "Taches")
+            startActivity(intent)
+            finish() 
+        }
     }
 
-    private fun SetUpRecyclerView() {
-
-        listAdapter = ListAdapterBoutons(AjoutData()) { nomTache ->
+    private fun setUpRecyclerView() {
+        listAdapter = ListAdapterBoutons(ajoutData()) { nomTache ->
             showArchiveDialog(nomTache)
         }
 
-        AjoutDividers(binding.listeTaches)
-
+        // Add dividers and set the adapter
+        ajoutDividers(binding.listeTaches)
         binding.listeTaches.adapter = listAdapter
-
     }
 
     private fun showArchiveDialog(nomTache: String) {
-        val dialogView = LayoutInflater.from(requireContext())
+        val dialogView = LayoutInflater.from(this)
             .inflate(R.layout.dialog_archive, null)
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
 
@@ -73,7 +78,7 @@ class GererFragment : Fragment() {
         dialog.show()
     }
 
-    private fun AjoutData(): ArrayList<ListData> {
+    private fun ajoutData(): ArrayList<ListData> {
         val dataArrayList = ArrayList<ListData>()
         val iconList = intArrayOf(
             R.drawable.type_icon_exemple,
@@ -98,20 +103,15 @@ class GererFragment : Fragment() {
         return dataArrayList
     }
 
-    private fun AjoutDividers(listeBinding: RecyclerView) {
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        // Mise en place d'un divider pour les items de la liste
+    private fun ajoutDividers(listeBinding: RecyclerView) {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        // Add dividers between items in the list
         listeBinding.layoutManager = layoutManager
 
         listeBinding.addItemDecoration(
-            DividerItemDecoration(requireContext(), layoutManager.orientation).apply {
-                setDrawable(requireContext().getDrawable(R.drawable.divider_item)!!) // Set your custom divider
+            DividerItemDecoration(this, layoutManager.orientation).apply {
+                setDrawable(getDrawable(R.drawable.divider_item)!!) // Set your custom divider
             }
         )
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -1,5 +1,6 @@
 package com.app.vakna.ui.Taches
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.vakna.GererActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapter
 import com.app.vakna.adapters.ListAdapterProgress
@@ -38,10 +40,16 @@ class TachesFragment : Fragment() {
 
         SetUpRecyclerView()
 
-        val imageButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
-        imageButton.setOnClickListener {
+        val ajouterButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
+        ajouterButton.setOnClickListener {
             val navController = findNavController()
-            navController.navigate(R.id.navigation_gerer)
+            navController.navigate(R.id.navigation_ajouter)
+        }
+
+        val gererButton: ImageButton = root.findViewById(R.id.boutonGererTache)
+        gererButton.setOnClickListener {
+            val intent = Intent(context, GererActivity::class.java)
+            startActivity(intent)
         }
 
         return root
