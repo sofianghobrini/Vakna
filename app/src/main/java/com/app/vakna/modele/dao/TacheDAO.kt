@@ -62,7 +62,17 @@ class TacheDAO (contexte : Context) : DAO<Tache, String> {
         .create()
     private val accesJson = AccesJson("taches", contexte)
 
+    private fun verifierExistance() {
+        if (!accesJson.fichierExiste()) {
+            val emptyJson = """{"taches": []}"""
+            accesJson.ecrireFichierJson(emptyJson)
+        }
+    }
+
     override fun obtenirTous(): List<Tache> {
+
+        verifierExistance()
+
         val jsonString = accesJson.lireFichierJson()
 
         val tachesJsonArray = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
