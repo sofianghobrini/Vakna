@@ -8,7 +8,8 @@ import com.app.vakna.R
 
 class ListAdapterBoutons(
     dataArrayList: ArrayList<ListData>,
-    private val onArchiveClick: (String) -> Unit
+    private val onArchiveClick: (String) -> Unit,
+    private val onModifierClick: (String) -> Unit
 ) : ListAdapter(dataArrayList) {
 
     private var completedTasks = 0
@@ -26,6 +27,9 @@ class ListAdapterBoutons(
 
         holder.boutonArchiverTache?.setOnClickListener {
             onArchiveClick(listData.name)
+        }
+        holder.boutonModifierTache?.setOnClickListener {
+            onModifierClick(listData.name)
         }
     }
 }

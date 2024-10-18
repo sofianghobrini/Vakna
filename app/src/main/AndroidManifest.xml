@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".GererActivity"
             android:label="Gérer Tâches" />
+        <activity android:name=".ModifierActivity"
+            android:label="Modifier Tâche" />
     </application>
 
 </manifest>

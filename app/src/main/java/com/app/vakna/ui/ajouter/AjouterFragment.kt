@@ -23,10 +23,10 @@ class AjouterFragment : Fragment() {
         val root: View = binding.root
 
         // Handle task form inputs
-        val tacheNomInput = binding.inputNomTache
-        val tacheTypeSpinner = binding.selectTypeTache
-        val tacheRadioFrequence = binding.radioFrequenceTache
-        val tacheRadioImportance = binding.radioImportanceTache
+        val tacheNomInput = binding.contenuInclude.inputNomTache
+        val tacheTypeSpinner = binding.contenuInclude.selectTypeTache
+        val tacheRadioFrequence = binding.contenuInclude.radioFrequenceTache
+        val tacheRadioImportance = binding.contenuInclude.radioImportanceTache
         val confirmButton = binding.boutonCreerTache
         val annulerButton = binding.boutonAnnulerCreation
 

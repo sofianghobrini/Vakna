@@ -44,9 +44,18 @@ class GererActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView() {
-        listAdapter = ListAdapterBoutons(ajoutData()) { nomTache ->
-            showArchiveDialog(nomTache)
-        }
+        listAdapter = ListAdapterBoutons(ajoutData(),
+            onArchiveClick = {
+                nomTache ->
+                showArchiveDialog(nomTache)
+            },
+            onModifierClick = {
+                nomTache ->
+                val intent = Intent(this, ModifierActivity::class.java).apply {
+                    putExtra("NOM_TACHE", nomTache) // Pass the task name
+                }
+                startActivity(intent)
+            })
 
         // Add dividers and set the adapter
         ajoutDividers(binding.listeTaches)

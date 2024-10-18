@@ -20,7 +20,8 @@ open class ListAdapter(
         val listType: TextView = itemView.findViewById(R.id.listType)
         val listImportance: TextView = itemView.findViewById(R.id.listImportance)
         val listTermine: SwitchMaterial? = itemView.findViewById(R.id.listSwitchTermine)
-        val boutonArchiverTache: ImageButton? = itemView.findViewById<ImageButton>(R.id.boutonArchiverTache)
+        val boutonArchiverTache: ImageButton? = itemView.findViewById(R.id.boutonArchiverTache)
+        val boutonModifierTache: ImageButton? = itemView.findViewById(R.id.boutonModifierTache)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TachesViewHolder {
