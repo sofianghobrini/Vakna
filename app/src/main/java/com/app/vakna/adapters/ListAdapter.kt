@@ -3,6 +3,7 @@ package com.app.vakna.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ open class ListAdapter(
         val listType: TextView = itemView.findViewById(R.id.listType)
         val listImportance: TextView = itemView.findViewById(R.id.listImportance)
         val listTermine: SwitchMaterial? = itemView.findViewById(R.id.listSwitchTermine)
+        val boutonArchiverTache: ImageButton? = itemView.findViewById<ImageButton>(R.id.boutonArchiverTache)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TachesViewHolder {
