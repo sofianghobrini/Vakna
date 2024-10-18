@@ -62,7 +62,7 @@ class TacheDAO (contexte : Context) : DAO<Tache, String> {
         .create()
     private val accesJson = AccesJson("taches", contexte)
 
-    private fun verifierExistance() {
+    private fun verifierExistence() {
         if (!accesJson.fichierExiste()) {
             val emptyJson = """{"taches": []}"""
             accesJson.ecrireFichierJson(emptyJson)
@@ -71,7 +71,7 @@ class TacheDAO (contexte : Context) : DAO<Tache, String> {
 
     override fun obtenirTous(): List<Tache> {
 
-        verifierExistance()
+        verifierExistence()
 
         val jsonString = accesJson.lireFichierJson()
 

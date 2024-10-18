@@ -63,7 +63,7 @@ class TachesFragment : Fragment() {
     private fun SetUpRecyclerView() {
 
         val dataJournalier = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(Frequence.QUOTIDIENNE))
-        listAdapterJ = ListAdapterProgress(dataJournalier, binding.progressTachesJournalier)
+        listAdapterJ = ListAdapterProgress(dataJournalier, binding.progressTachesJournalier, requireContext())
 
         AjoutDividers(binding.listeTachesJournalier)
 
@@ -72,7 +72,7 @@ class TachesFragment : Fragment() {
         // Separation diff Frequences
 
         val dataHebdo = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(Frequence.HEBDOMADAIRE))
-        listAdapterH = ListAdapterProgress(dataHebdo, binding.progressTachesHebdomadaire)
+        listAdapterH = ListAdapterProgress(dataHebdo, binding.progressTachesHebdomadaire, requireContext())
 
         AjoutDividers(binding.listeTachesHebdomadaire)
 
@@ -81,45 +81,19 @@ class TachesFragment : Fragment() {
         // Separation diff Frequences
 
         val dataMensuel = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(Frequence.MENSUELLE))
-        listAdapterM = ListAdapterProgress(dataMensuel, binding.progressTachesMensuel)
+        listAdapterM = ListAdapterProgress(dataMensuel, binding.progressTachesMensuel, requireContext())
 
         AjoutDividers(binding.listeTachesMensuel)
 
         binding.listeTachesMensuel.adapter = listAdapterM
 
-        completedJournalier = dataJournalier.count { it.estTermine ?: false }
-        binding.progressTachesJournalier.progress = ((completedJournalier.toDouble() / dataJournalier.count()) * 100).toInt()
-        completedHebdomadaire = dataHebdo.count { it.estTermine ?: false }
-        binding.progressTachesHebdomadaire.progress = ((completedHebdomadaire.toDouble() / dataHebdo.count()) * 100).toInt()
-        completedMensuel = dataMensuel.count { it.estTermine ?: false }
-        binding.progressTachesMensuel.progress = ((completedMensuel.toDouble() / dataMensuel.count()) * 100).toInt()
+//        completedJournalier = dataJournalier.count { it.estTermine ?: false }
+//        binding.progressTachesJournalier.progress = ((completedJournalier.toDouble() / dataJournalier.count()) * 100).toInt()
+//        completedHebdomadaire = dataHebdo.count { it.estTermine ?: false }
+//        binding.progressTachesHebdomadaire.progress = ((completedHebdomadaire.toDouble() / dataHebdo.count()) * 100).toInt()
+//        completedMensuel = dataMensuel.count { it.estTermine ?: false }
+//        binding.progressTachesMensuel.progress = ((completedMensuel.toDouble() / dataMensuel.count()) * 100).toInt()
     }
-
-    /*private fun AjoutData(): ArrayList<ListData> {
-        val dataArrayList = ArrayList<ListData>()
-
-        val iconList = intArrayOf(
-            R.drawable.type_icon_exemple,
-            R.drawable.type_icon_exemple,
-            R.drawable.type_icon_exemple
-        )
-        val nameList = arrayOf(
-            "50 minutes de travail sur projet X",
-            "Faire 100 pompes",
-            "Lire 20 pages d'un livre"
-        )
-        val typeList = arrayOf("Projet", "Sport", "Literature")
-        val importanceList = arrayOf("faible", "moyen", "elevee")
-        val terminer = arrayOf(false, true, false)
-        for (i in iconList.indices) {
-            val listData = ListData(
-                nameList[i],
-                typeList[i], importanceList[i], iconList[i], terminer[i]
-            )
-            dataArrayList.add(listData)
-        }
-        return dataArrayList
-    }*/
 
     private fun AjoutDividers(listeBinding: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

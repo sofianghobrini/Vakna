@@ -1,5 +1,6 @@
 package com.app.vakna.modele
 
+import android.util.Log
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
@@ -111,6 +112,7 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
+        dao.modifier(nom, tache)
     }
 
     fun obtenirTaches(): Set<Tache> {
