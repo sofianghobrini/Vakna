@@ -30,10 +30,10 @@ class Tache(
     }
 }
 
-class GestionnaireDeTaches() {
+class GestionnaireDeTaches(tacheDAO : TacheDAO) {
     private val setDeTaches = mutableSetOf<Tache>()
     private lateinit var compagnon: Compagnon
-    private val dao = TacheDAO()
+    private var dao = tacheDAO
 
     fun setCompagnon(compagnon: Compagnon) {
         this.compagnon = compagnon

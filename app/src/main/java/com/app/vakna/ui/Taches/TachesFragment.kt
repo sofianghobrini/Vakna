@@ -17,6 +17,7 @@ import com.app.vakna.adapters.ListAdapter
 import com.app.vakna.adapters.ListAdapterProgress
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
+import com.app.vakna.modele.dao.TacheDAO
 
 
 class TachesFragment : Fragment() {
@@ -40,8 +41,8 @@ class TachesFragment : Fragment() {
 
         SetUpRecyclerView()
 
-        val ajouterButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
-        ajouterButton.setOnClickListener {
+        val imageButton: ImageButton = root.findViewById(R.id.boutonAjouterTache)
+        imageButton.setOnClickListener {
             val navController = findNavController()
             navController.navigate(R.id.navigation_ajouter)
         }

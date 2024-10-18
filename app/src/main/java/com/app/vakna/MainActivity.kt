@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
+import com.app.vakna.modele.dao.AccesJson
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,13 @@ class MainActivity : AppCompatActivity() {
         // Initialize binding first to get the layout
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val accesJson = AccesJson("taches",this)
+        if (!accesJson.fichierExiste()) {
+            accesJson.ecrireFichierJson("""{
+  "taches": []
+}""")
+        }
 
         // Now access the toolbar after setContentView is called
         val toolbar: Toolbar = findViewById(R.id.toolbar)

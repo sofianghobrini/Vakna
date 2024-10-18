@@ -1,5 +1,7 @@
 package com.app.vakna.modele.dao
 
+import android.content.Context
+import android.util.Log
 import com.app.vakna.modele.*
 
 import com.google.gson.GsonBuilder
@@ -54,17 +56,21 @@ class TacheToJson : JsonSerializer<Tache> {
     }
 }
 
-class TacheDAO : DAO<Tache, String> {
+class TacheDAO (contexte : Context) : DAO<Tache, String> {
     private val gson = GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Tache::class.java, JsonToTache())
         .registerTypeAdapter(Tache::class.java, TacheToJson())
         .create()
-
-    private val cheminFichier = System.getProperty("user.dir")?.plus("/src/bdd/tache.json") ?: ""
+    private val accesJson = AccesJson("taches", contexte)
 
     override fun obtenirTous(): List<Tache> {
-        val jsonString = File(cheminFichier).readText()
+//        if (!accesJson.fichierExiste("tache.json", ctxt)) {
+//
+//            accesJson.ecrireFichierJson("tache.json",jsonTest, ctxt)
+//        }
+        Log.e("Test", "prout")
+        val jsonString = accesJson.lireFichierJson()
 
         val tachesJsonArray = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
             .getAsJsonArray("taches")
@@ -89,8 +95,9 @@ class TacheDAO : DAO<Tache, String> {
 
     /** Insère l'entité T dans la BDD */
     override fun inserer(entite : Tache): Boolean {
-        val fichierJson = File(cheminFichier)
-        val jsonString = fichierJson.readText()
+        var sysdir = System.getProperty("user.dir")
+        val jsonString = accesJson.lireFichierJson()
+
 
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val tachesJsonArray = objetJson.getAsJsonArray("taches")
@@ -107,15 +114,14 @@ class TacheDAO : DAO<Tache, String> {
 
         objetJson.add("taches", gson.toJsonTree(listeTaches))
 
-        fichierJson.writeText(gson.toJson(objetJson))
+        accesJson.ecrireFichierJson(gson.toJson(objetJson))
 
         return true
     }
 
     /** Remplace l'entite avec l'id P par l'entite T */
     override fun modifier(id: String, entite: Tache): Boolean {
-        val fichierJson = File(cheminFichier)
-        val jsonString = fichierJson.readText()
+        val jsonString = accesJson.lireFichierJson()
 
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val tachesJsonArray = objetJson.getAsJsonArray("taches")
@@ -134,15 +140,14 @@ class TacheDAO : DAO<Tache, String> {
 
         objetJson.add("taches", gson.toJsonTree(listeTaches))
 
-        fichierJson.writeText(gson.toJson(objetJson))
+        accesJson.ecrireFichierJson(gson.toJson(objetJson))
 
         return true
     }
 
     /** Supprime l'entité avec l'id P associé */
     override fun supprimer(id : String): Boolean {
-        val fichierJson = File(cheminFichier)
-        val jsonString = fichierJson.readText()
+        val jsonString = accesJson.lireFichierJson()
 
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val tachesJsonArray = objetJson.getAsJsonArray("taches")
@@ -156,7 +161,7 @@ class TacheDAO : DAO<Tache, String> {
 
         objetJson.add("taches", gson.toJsonTree(listeTaches))
 
-        fichierJson.writeText(gson.toJson(objetJson))
+        accesJson.ecrireFichierJson(gson.toJson(objetJson))
 
         return true
     }
