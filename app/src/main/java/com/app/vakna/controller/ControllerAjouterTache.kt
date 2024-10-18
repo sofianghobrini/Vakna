@@ -1,10 +1,15 @@
 package com.app.vakna.controller
-import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.RadioGroup
+import android.widget.EditText
+import android.widget.Spinner
 import com.app.vakna.R
-import com.app.vakna.modele.*
-import com.app.vakna.modele.dao.*
+import com.app.vakna.modele.Importance
+import com.app.vakna.modele.TypeTache
+import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.Frequence
+import com.app.vakna.modele.Tache
+import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
 
