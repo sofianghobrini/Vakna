@@ -10,7 +10,7 @@
     android:paddingTop="32dp"
     android:paddingEnd="16dp"
     android:paddingBottom="0dp"
-    tools:context=".ui.ajouter.AjouterFragment">
+    tools:context=".AjouterActivity">
 
     <TextView
         android:id="@+id/titreCreerTache"

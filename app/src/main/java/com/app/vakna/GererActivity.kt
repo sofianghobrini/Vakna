@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.adapters.ListAdapterBoutons
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityGererBinding
-import com.app.vakna.ui.Taches.TachesFragment
-import com.app.vakna.ui.ajouter.AjouterFragment
 
 class GererActivity : AppCompatActivity() {
 
@@ -39,7 +37,6 @@ class GererActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("navigateTo", "Taches")
             startActivity(intent)
-            finish() 
         }
     }
 

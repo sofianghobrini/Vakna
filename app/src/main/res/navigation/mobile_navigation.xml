@@ -23,9 +23,4 @@
         android:label="@string/title_magasin"
         tools:layout="@layout/fragment_magasin" />
 
-    <fragment
-        android:id="@+id/navigation_ajouter"
-        android:name="com.app.vakna.ui.ajouter.AjouterFragment"
-        android:label="Créer Tâche"
-        tools:layout="@layout/fragment_ajouter" />
 </navigation>
