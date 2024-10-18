@@ -5,4 +5,8 @@ class ListData(
     var importance: String,
     var icon: Int,
     var estTermine: Boolean? = null
-)
+) {
+    override fun toString(): String {
+        return "$name : $type $importance " + if(estTermine == null || !estTermine!!) "pas fini" else "fini"
+    }
+}

@@ -1,5 +1,6 @@
 package com.app.vakna.modele
 
+import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
@@ -16,6 +17,10 @@ class Tache(
     var derniereValidation: LocalDate,
     var estTerminee: Boolean
 ) {
+    fun toListData(): ListData {
+        return ListData(nom, frequence.name, importance.name, 0, estTerminee)
+    }
+
     override fun equals(other: Any?): Boolean{
         if (other !is Tache) return false
         return nom == other.nom
@@ -109,15 +114,31 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
     }
 
     fun obtenirTaches(): Set<Tache> {
+        dao.obtenirTous().forEach { setDeTaches.add(it) }
         return setDeTaches
     }
 
 
-    fun obtenirTache(type: TypeTache): Set<Tache> {
-        return setDeTaches.filter { it.type == type }.toSet()
+    fun obtenirTaches(type: TypeTache): Set<Tache> {
+        return obtenirTaches().filter { it.type == type }.toSet()
     }
 
-    fun rechercherTache(input: String): Set<Tache> {
-        return setDeTaches.filter { it.nom.contains(input) }.toSet()
+    fun obtenirTaches(nom: String): Set<Tache> {
+        return obtenirTaches().filter { it.nom.contains(nom) }.toSet()
+    }
+
+    fun obtenirTaches(frequence: Frequence): Set<Tache> {
+        return obtenirTaches().filter { it.frequence == frequence }.toSet()
+    }
+
+    companion object {
+        fun setToListDataArray(taches: Set<Tache>): ArrayList<ListData> {
+            val list = ArrayList<ListData>()
+            for( tache in taches) {
+                val listData = tache.toListData()
+                list.add(listData)
+            }
+            return list
+        }
     }
 }

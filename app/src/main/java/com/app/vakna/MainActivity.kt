@@ -1,6 +1,7 @@
 package com.app.vakna
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -24,9 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         val accesJson = AccesJson("taches",this)
         if (!accesJson.fichierExiste()) {
-            accesJson.ecrireFichierJson("""{
-  "taches": []
-}""")
+            accesJson.ecrireFichierJson("""{"taches": []}""")
         }
 
         // Now access the toolbar after setContentView is called
@@ -47,5 +46,15 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("test", AccesJson("taches",this).lireFichierJson())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("test", AccesJson("taches",this).lireFichierJson())
     }
 }

@@ -1,7 +1,6 @@
 package com.app.vakna.modele.dao
 
 import android.content.Context
-import android.util.Log
 import com.app.vakna.modele.*
 
 import com.google.gson.GsonBuilder
@@ -12,7 +11,6 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
-import java.io.File
 import java.lang.reflect.Type
 import java.time.LocalDate
 
@@ -65,11 +63,6 @@ class TacheDAO (contexte : Context) : DAO<Tache, String> {
     private val accesJson = AccesJson("taches", contexte)
 
     override fun obtenirTous(): List<Tache> {
-//        if (!accesJson.fichierExiste("tache.json", ctxt)) {
-//
-//            accesJson.ecrireFichierJson("tache.json",jsonTest, ctxt)
-//        }
-        Log.e("Test", "prout")
         val jsonString = accesJson.lireFichierJson()
 
         val tachesJsonArray = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
@@ -95,7 +88,6 @@ class TacheDAO (contexte : Context) : DAO<Tache, String> {
 
     /** Insère l'entité T dans la BDD */
     override fun inserer(entite : Tache): Boolean {
-        var sysdir = System.getProperty("user.dir")
         val jsonString = accesJson.lireFichierJson()
 
 

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +15,9 @@ import com.app.vakna.GererActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapter
 import com.app.vakna.adapters.ListAdapterProgress
-import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
+import com.app.vakna.modele.Frequence
+import com.app.vakna.modele.GestionnaireDeTaches
 import com.app.vakna.modele.dao.TacheDAO
 
 
@@ -28,6 +28,7 @@ class TachesFragment : Fragment() {
     private lateinit var listAdapterJ: ListAdapter
     private lateinit var listAdapterH: ListAdapter
     private lateinit var listAdapterM: ListAdapter
+    private lateinit var gestionnaire: GestionnaireDeTaches
     private var completedJournalier = 0
     private var completedHebdomadaire = 0
     private var completedMensuel = 0
@@ -39,6 +40,8 @@ class TachesFragment : Fragment() {
     ): View {
         _binding = FragmentTachesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        gestionnaire = GestionnaireDeTaches(TacheDAO(this.requireContext()))
 
         SetUpRecyclerView()
 
@@ -59,7 +62,7 @@ class TachesFragment : Fragment() {
 
     private fun SetUpRecyclerView() {
 
-        val dataJournalier = AjoutData()
+        val dataJournalier = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(Frequence.QUOTIDIENNE))
         listAdapterJ = ListAdapterProgress(dataJournalier, binding.progressTachesJournalier)
 
         AjoutDividers(binding.listeTachesJournalier)
@@ -68,7 +71,7 @@ class TachesFragment : Fragment() {
 
         // Separation diff Frequences
 
-        val dataHebdo = AjoutData()
+        val dataHebdo = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(Frequence.HEBDOMADAIRE))
         listAdapterH = ListAdapterProgress(dataHebdo, binding.progressTachesHebdomadaire)
 
         AjoutDividers(binding.listeTachesHebdomadaire)
@@ -77,7 +80,7 @@ class TachesFragment : Fragment() {
 
         // Separation diff Frequences
 
-        val dataMensuel = AjoutData()
+        val dataMensuel = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(Frequence.MENSUELLE))
         listAdapterM = ListAdapterProgress(dataMensuel, binding.progressTachesMensuel)
 
         AjoutDividers(binding.listeTachesMensuel)
@@ -92,8 +95,9 @@ class TachesFragment : Fragment() {
         binding.progressTachesMensuel.progress = ((completedMensuel.toDouble() / dataMensuel.count()) * 100).toInt()
     }
 
-    private fun AjoutData(): ArrayList<ListData> {
+    /*private fun AjoutData(): ArrayList<ListData> {
         val dataArrayList = ArrayList<ListData>()
+
         val iconList = intArrayOf(
             R.drawable.type_icon_exemple,
             R.drawable.type_icon_exemple,
@@ -115,7 +119,7 @@ class TachesFragment : Fragment() {
             dataArrayList.add(listData)
         }
         return dataArrayList
-    }
+    }*/
 
     private fun AjoutDividers(listeBinding: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
