@@ -2,10 +2,8 @@ package com.app.vakna
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.app.vakna.databinding.ActivityModifierBinding
 
 class ModifierActivity : AppCompatActivity() {
