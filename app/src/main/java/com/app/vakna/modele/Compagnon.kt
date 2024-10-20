@@ -31,16 +31,7 @@ class Compagnon(
 
     // Méthode pour ajouter de l'expérience (XP) au compagnon
     fun gagnerXp(montant: Int) {
-        // Enregistrer le niveau actuel du compagnon
-        val ancienNiveau = niveau()
-
-        // Ajouter le montant d'XP au total
         xp += montant
-
-        // Si le compagnon perd un niveau après l'ajout, annuler l'ajout d'XP
-        if (ancienNiveau > niveau()) {
-            xp -= montant
-        }
     }
 
     // Méthode pour déterminer le niveau actuel du compagnon en fonction de son XP

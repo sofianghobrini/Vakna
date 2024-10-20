@@ -53,7 +53,15 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/NOTICE"
         }
+    }
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -77,6 +85,7 @@ dependencies {
     testImplementation(libs.junit)
     implementation("androidx.databinding:databinding-runtime:7.0.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -86,6 +95,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.code.gson:gson:2.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.robolectric:robolectric:4.7.3")
+    testImplementation("androidx.test:core:1.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test:core:1.4.0")
     implementation(kotlin("test"))
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 }

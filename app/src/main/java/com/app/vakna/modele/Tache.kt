@@ -132,6 +132,17 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
     fun obtenirTaches(frequence: Frequence): Set<Tache> {
         return obtenirTaches().filter { it.frequence == frequence }.toSet()
     }
+    fun obtenirTachesParFrequence(): Map<Frequence, Set<Tache>> {
+        return obtenirTaches().groupBy { it.frequence }.mapValues { it.value.toSet() }
+    }
+
+    fun obtenirTachesParImportance(): Map<Importance, Set<Tache>> {
+        return obtenirTaches().groupBy { it.importance }.mapValues { it.value.toSet() }
+    }
+
+    fun rechercherTache(nom: String): Set<Tache> {
+        return obtenirTaches().filter { it.nom.contains(nom) }.toSet()
+    }
 
     companion object {
         fun setToListDataArray(taches: Set<Tache>): ArrayList<ListData> {
