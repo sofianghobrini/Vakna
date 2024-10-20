@@ -18,24 +18,6 @@ class AjouterActivity : AppCompatActivity() {
         binding = ActivityAjouterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val dao = TacheDAO(this)
-
-        val confirmButton: Button = binding.boutonCreerTache
-        val annulerButton: Button = binding.boutonAnnulerCreation
-
-        confirmButton.setOnClickListener {
-            val controller = ControllerAjouterTache(binding.root, dao)
-            controller.ConfirmTache()
-
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("navigateTo", "Taches")
-            startActivity(intent)
-        }
-
-        annulerButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("navigateTo", "Taches")
-            startActivity(intent)
-        }
+        ControllerAjouterTache(binding)
     }
 }

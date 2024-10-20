@@ -98,10 +98,20 @@
     </RadioGroup>
 
     <TextView
+        android:id="@+id/errorFrequence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Veuillez sélectionner une fréquence"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
+
+    <TextView
     android:id="@+id/labelImportanceTache"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="32dp"
     android:text="Importance de la tâche:"
     android:textColor="@color/texteCouleurPrincipale"
     android:textSize="20sp"
@@ -138,5 +148,15 @@
         android:text="Élevée" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/errorImportance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Veuillez sélectionner une importance"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioImportanceTache" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
