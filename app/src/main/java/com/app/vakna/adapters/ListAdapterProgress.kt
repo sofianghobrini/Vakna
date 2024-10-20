@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.app.vakna.R
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
 
 class ListAdapterProgress(
@@ -21,6 +22,7 @@ class ListAdapterProgress(
 
     private var completedTasks = 0
     private var gestionnaire = GestionnaireDeTaches(TacheDAO(context))
+    private val compagnonDAO = CompagnonDAO(context)
     init {
         // Initialize the count of completed tasks
         completedTasks = dataArrayList.count { it.estTermine == true }
@@ -37,13 +39,12 @@ class ListAdapterProgress(
         holder.listName.text = listData.name
         holder.listType.text = listData.type
         holder.listImportance.text = listData.importance
-        gestionnaire.setCompagnon(Compagnon(0, "Veolia la dragonne", espece = "Dragon"))
+        gestionnaire.setCompagnon(compagnonDAO.obtenirTous().first())
         gestionnaire.obtenirTaches()
 
         holder.listTermine?.let { switchTermine ->
             switchTermine.isChecked = listData.estTermine ?: false
             if (switchTermine.isChecked) {
-                gestionnaire.finirTache(listData.name)
                 switchTermine.isEnabled = false
             }
 

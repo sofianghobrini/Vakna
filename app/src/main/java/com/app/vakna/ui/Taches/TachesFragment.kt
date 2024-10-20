@@ -26,7 +26,6 @@ class TachesFragment : Fragment() {
 
     private var _binding: FragmentTachesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var gestionnaire: GestionnaireDeTaches
 
     override fun onCreateView(
         inflater: LayoutInflater,
