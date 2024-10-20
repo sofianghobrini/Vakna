@@ -29,6 +29,8 @@
             android:label="Gérer Tâches" />
         <activity android:name=".ModifierActivity"
             android:label="Modifier Tâche" />
+        <activity android:name=".CreerCompagnonActivity"
+            android:label="Créer le compagnon" />
     </application>
 
 </manifest>
