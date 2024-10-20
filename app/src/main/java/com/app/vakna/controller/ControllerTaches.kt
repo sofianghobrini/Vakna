@@ -1,6 +1,7 @@
 package com.app.vakna.controller
 
 import android.content.Intent
+import android.util.Log
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import com.app.vakna.GererActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapterProgress
+import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
 import com.app.vakna.modele.Frequence
 import com.app.vakna.modele.GestionnaireDeTaches
@@ -50,7 +52,22 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
 
     private fun CreerListeAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
         val data = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
-        val listAdapter = ListAdapterProgress(data, progressBar, context)
+
+        val dataTrier = data.sortedWith(
+            compareBy<ListData> { it.estTermine ?: false }
+                .thenByDescending {
+                    Log.e("test", it.importance)
+                    when (it.importance) {
+                        "ELEVEE" -> 3
+                        "MOYENNE" -> 2
+                        "FAIBLE" -> 1
+                        else -> 0
+                    }
+                }
+                .thenBy { it.name }
+        )
+
+        val listAdapter = ListAdapterProgress(ArrayList(dataTrier), progressBar, context)
 
         AjoutDividers(listeTaches)
 
