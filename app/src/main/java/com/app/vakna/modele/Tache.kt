@@ -19,7 +19,7 @@ class Tache(
     var estTerminee: Boolean
 ) {
     fun toListData(): ListData {
-        return ListData(nom, frequence.name, importance.name, 0, estTerminee)
+        return ListData(nom, type.name, importance.name, 0, estTerminee)
     }
 
     override fun equals(other: Any?): Boolean{

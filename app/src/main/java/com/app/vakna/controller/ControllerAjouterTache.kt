@@ -89,12 +89,8 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     // Méthode privée pour récupérer le type de la tâche
     private fun recupererTypeTache(): TypeTache {
         val type = binding.contenuInclude.selectTypeTache
-        val typeDeLaTache = type.selectedItem.toString()
-        return when (typeDeLaTache) {
-            "Sport" -> TypeTache.PERSONNELLE
-            "Etude" -> TypeTache.PROFESSIONNELLE
-            else -> TypeTache.AUTRE
-        }
+        val typeDeLaTache = type.selectedItem.toString().uppercase()
+        return enumValueOf<TypeTache>(typeDeLaTache)
     }
 
     // Méthode privée pour récupérer la fréquence de la tâche

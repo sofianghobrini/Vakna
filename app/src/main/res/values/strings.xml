@@ -6,9 +6,12 @@
     <string name="title_compagnon">Compagnon</string>
     <string name="edit_name">Edit Name</string>
     <string-array name="typeTacheExemple">
-        <item>Sport</item>
-        <item>Informatique</item>
+        <item>Personnelle</item>
+        <item>Professionnelle</item>
         <item>Projet</item>
-        <item>Divers</item>
+        <item>Etudes</item>
+        <item>Sport</item>
+        <item>VieQuo</item>
+        <item>Autre</item>
     </string-array>
 </resources>
