@@ -44,8 +44,9 @@ class GererActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView() {
-        val taches = GestionnaireDeTaches(this).obtenirTaches()
-        listAdapter = ListAdapterBoutons(GestionnaireDeTaches.setToListDataArray(taches),
+        val data = GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(this).obtenirTaches())
+        val dataTrier = data.filter { it.estArchivee == false }
+        listAdapter = ListAdapterBoutons(ArrayList(dataTrier),
             onArchiveClick = {
                 nomTache ->
                 showArchiveDialog(nomTache)
@@ -57,7 +58,6 @@ class GererActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             })
-
         // Add dividers and set the adapter
         ajoutDividers(binding.listeTaches)
         binding.listeTaches.adapter = listAdapter
@@ -83,6 +83,7 @@ class GererActivity : AppCompatActivity() {
 
         dialogView.findViewById<Button>(R.id.boutonArchiver).setOnClickListener {
             ControllerArchiverTache(binding.root).archiverTache(nomTache)
+            dialog.dismiss()
         }
 
         dialog.show()

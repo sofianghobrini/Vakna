@@ -53,7 +53,8 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
     private fun CreerListeAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
         val data = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
 
-        val dataTrier = data.sortedWith(
+        val dataTrier = data.filter { it.estArchivee == false }
+            .sortedWith(
             compareBy<ListData> { it.estTermine ?: false }
                 .thenByDescending {
                     Log.e("test", it.importance)

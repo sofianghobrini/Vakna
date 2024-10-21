@@ -8,7 +8,7 @@ import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
 // Enums pour la tâche
-enum class Frequence { QUOTIDIENNE, HEBDOMADAIRE, MENSUELLE, ANNUELLE }
+enum class Frequence { QUOTIDIENNE, HEBDOMADAIRE, MENSUELLE}
 enum class Importance { FAIBLE, MOYENNE, ELEVEE }
 enum class TypeTache { PERSONNELLE, PROFESSIONNELLE, PROJET, ETUDES, SPORT, VIEQUO, AUTRE }
 
@@ -22,7 +22,7 @@ class Tache(
     var estArchivee: Boolean = false
 ) {
     fun toListData(): ListData {
-        return ListData(nom, type.name, importance.name, 0, estTerminee)
+        return ListData(nom, type.name, importance.name, 0, estTerminee, estArchivee)
     }
 
     override fun equals(other: Any?): Boolean{
