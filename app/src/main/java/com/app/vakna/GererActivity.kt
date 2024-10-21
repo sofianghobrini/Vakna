@@ -83,6 +83,7 @@ class GererActivity : AppCompatActivity() {
 
         dialogView.findViewById<Button>(R.id.boutonArchiver).setOnClickListener {
             ControllerArchiverTache(binding.root).archiverTache(nomTache)
+            setUpRecyclerView()
             dialog.dismiss()
         }
 
