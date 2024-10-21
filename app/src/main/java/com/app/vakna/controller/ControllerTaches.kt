@@ -15,26 +15,30 @@ import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
 import com.app.vakna.modele.Frequence
 import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.dao.TacheDAO
 
+/**
+ * Contrôleur pour gérer l'affichage des tâches (quotidiennes, hebdomadaires et mensuelles)
+ * dans le fragment des tâches.
+ */
 class ControllerTaches(private val binding: FragmentTachesBinding) {
 
     private val context = binding.root.context
-    private var gestionnaire = GestionnaireDeTaches(binding.root.context)
+    private var gestionnaire = GestionnaireDeTaches(context)
 
+    // Initialisation du contrôleur et des boutons
     init {
-        SetUpRecyclerView()
+        setupRecyclerView()
 
-        val boutonAjouter = binding.boutonAjouterTache
-        boutonAjouter.setOnClickListener {
+        // Bouton pour ajouter une nouvelle tâche
+        binding.boutonAjouterTache.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, AjouterActivity::class.java)
                 context.startActivity(intent)
             }
         }
 
-        val boutonGerer = binding.boutonGererTache
-        boutonGerer.setOnClickListener {
+        // Bouton pour gérer les tâches (archiver, supprimer, etc.)
+        binding.boutonGererTache.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, GererActivity::class.java)
                 context.startActivity(intent)
@@ -42,45 +46,64 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         }
     }
 
-    private fun SetUpRecyclerView() {
-        CreerListeAdapter(Frequence.QUOTIDIENNE, binding.listeTachesJournalier, binding.progressTachesJournalier)
-
-        CreerListeAdapter(Frequence.HEBDOMADAIRE, binding.listeTachesHebdomadaire, binding.progressTachesHebdomadaire)
-
-        CreerListeAdapter(Frequence.MENSUELLE, binding.listeTachesMensuel, binding.progressTachesMensuel)
+    /**
+     * Méthode pour configurer les RecyclerViews pour les tâches quotidiennes, hebdomadaires et mensuelles.
+     */
+    private fun setupRecyclerView() {
+        createListAdapter(Frequence.QUOTIDIENNE, binding.listeTachesJournalier, binding.progressTachesJournalier)
+        createListAdapter(Frequence.HEBDOMADAIRE, binding.listeTachesHebdomadaire, binding.progressTachesHebdomadaire)
+        createListAdapter(Frequence.MENSUELLE, binding.listeTachesMensuel, binding.progressTachesMensuel)
     }
 
-    private fun CreerListeAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
-        val data = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
+    /**
+     * Créer et configurer un adaptateur pour les RecyclerViews en fonction de la fréquence.
+     * Trie les tâches selon leur statut d'achèvement et leur importance.
+     *
+     * @param frequence : Frequence - La fréquence des tâches (quotidienne, hebdomadaire, mensuelle)
+     * @param listeTaches : RecyclerView - Le RecyclerView à remplir
+     * @param progressBar : ProgressBar - La barre de progression associée
+     */
+    private fun createListAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
+        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
 
-        val dataTrier = data.filter { it.estArchivee == false }
+        // Filtrer les tâches non archivées et les trier par statut et importance
+        val sortedTasks = taskList
+            .filter { !it.estArchivee }
             .sortedWith(
-            compareBy<ListData> { it.estTermine ?: false }
-                .thenByDescending {
-                    when (it.importance) {
-                        "ELEVEE" -> 3
-                        "MOYENNE" -> 2
-                        "FAIBLE" -> 1
-                        else -> 0
+                compareBy<ListData> { it.estTermine ?: false } // Trier par tâche terminée
+                    .thenByDescending {
+                        when (it.importance) {
+                            "ELEVEE" -> 3
+                            "MOYENNE" -> 2
+                            "FAIBLE" -> 1
+                            else -> 0
+                        }
                     }
-                }
-                .thenBy { it.name }
-        )
+                    .thenBy { it.name }  // Trier par nom alphabétique
+            )
 
-        val listAdapter = ListAdapterProgress(ArrayList(dataTrier), progressBar, context)
+        // Création de l'adaptateur avec les tâches triées et la barre de progression
+        val listAdapter = ListAdapterProgress(ArrayList(sortedTasks), progressBar, context)
 
-        AjoutDividers(listeTaches)
+        // Ajout des séparateurs dans la liste
+        addDividers(listeTaches)
 
+        // Affecter l'adaptateur au RecyclerView
         listeTaches.adapter = listAdapter
     }
 
-    private fun AjoutDividers(listeBinding: RecyclerView) {
+    /**
+     * Méthode pour ajouter des séparateurs dans les RecyclerViews
+     * @param listeTaches : RecyclerView - Le RecyclerView auquel ajouter les séparateurs
+     */
+    private fun addDividers(listeTaches: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        listeBinding.layoutManager = layoutManager
+        listeTaches.layoutManager = layoutManager
 
-        listeBinding.addItemDecoration(
+        // Ajout des séparateurs entre les éléments de la liste
+        listeTaches.addItemDecoration(
             DividerItemDecoration(context, layoutManager.orientation).apply {
-                setDrawable(context.getDrawable(R.drawable.divider_item)!!)
+                setDrawable(context.getDrawable(R.drawable.divider_item)!!)  // Séparateur personnalisé
             }
         )
     }
