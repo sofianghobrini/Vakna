@@ -4,57 +4,8 @@ import android.content.Context
 import com.app.vakna.modele.*
 
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import java.time.LocalDate
-
-/** Permet de convertir une entrée JSON en objet Tache */
-class JsonToTache : JsonDeserializer<Tache> {
-    override fun deserialize(
-        json: JsonElement,
-        typeOfT: Type,
-        context: JsonDeserializationContext
-    ): Tache {
-        val objetJson = json.asJsonObject
-
-        val nom = objetJson.get("nom").asString
-        val frequence = Frequence.valueOf(objetJson.get("frequence").asString)
-        val importance = Importance.valueOf(objetJson.get("importance").asString)
-        val type = TypeTache.valueOf(objetJson.get("type").asString)
-        val derniereValidation = LocalDate.parse(objetJson.get("derniereValidation").asString)
-        val estTerminee = objetJson.get("estTerminee").asBoolean
-        val estArchivee = objetJson.get("estArchivee").asBoolean
-
-        return Tache(nom, frequence, importance, type, derniereValidation, estTerminee, estArchivee)
-    }
-}
-
-/** Permet de convertir un objet Tache en entrée JSON */
-class TacheToJson : JsonSerializer<Tache> {
-    override fun serialize(
-        src: Tache,
-        typeOfSrc: Type,
-        context: JsonSerializationContext
-    ): JsonElement {
-        val objetJson = JsonObject()
-
-        objetJson.addProperty("nom", src.nom)
-        objetJson.addProperty("frequence", src.frequence.name)
-        objetJson.addProperty("importance", src.importance.name)
-        objetJson.addProperty("type", src.type.name)
-        objetJson.addProperty("estTerminee", src.estTerminee)
-        objetJson.addProperty("estArchivee", src.estArchivee)
-        objetJson.addProperty("derniereValidation", src.derniereValidation.toString())
-
-        return objetJson
-    }
-}
 
 class TacheDAO (contexte : Context) : DAO<Tache, String> {
     private val gson = GsonBuilder()

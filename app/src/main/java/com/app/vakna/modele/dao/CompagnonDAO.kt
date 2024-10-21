@@ -2,60 +2,10 @@ package com.app.vakna.modele.dao
 
 import android.content.Context
 import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.Tache
-import com.app.vakna.modele.TypeTache
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
 import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import java.time.LocalDate
 
-/** Permet de convertir un JSON en objet Compagnon */
-class JsonToCompagnon : JsonDeserializer<Compagnon> {
-    override fun deserialize(
-        json: JsonElement,
-        typeOfT: Type,
-        context: JsonDeserializationContext
-    ): Compagnon {
-        val objetJson = json.asJsonObject
-
-        val id = objetJson.get("id").asInt
-        val nom = objetJson.get("nom").asString
-        val faim = objetJson.get("faim").asInt
-        val humeur = objetJson.get("humeur").asInt
-        val xp = objetJson.get("xp").asInt
-        val espece = objetJson.get("espece").asString
-
-        return Compagnon(id, nom, faim, humeur, xp, espece)
-    }
-}
-
-/** Permet de convertir un objet Tache en entrée JSON */
-class CompagnonToJson : JsonSerializer<Compagnon> {
-    override fun serialize(
-        src: Compagnon,
-        typeOfSrc: Type,
-        context: JsonSerializationContext
-    ): JsonElement {
-        val objetJson = JsonObject()
-
-        objetJson.addProperty("id", src.id)
-        objetJson.addProperty("nom", src.nom)
-        objetJson.addProperty("faim", src.faim)
-        objetJson.addProperty("humeur", src.humeur)
-        objetJson.addProperty("xp", src.xp)
-        objetJson.addProperty("espece", src.espece)
-
-        return objetJson
-    }
-}
 class CompagnonDAO(private val contexte: Context) : DAO<Compagnon, Int> {
 
     // Initialisation de l'objet Gson avec un adaptateur personnalisé pour les objets Compagnon
