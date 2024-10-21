@@ -27,8 +27,12 @@ class ControllerModifierTache(private val view: View, private val nomTacheOrigin
         val type = view.findViewById<Spinner>(R.id.selectTypeTache)
         val typeDeLaTache = type.selectedItem.toString()
         return when (typeDeLaTache) {
-            "Sport" -> TypeTache.PERSONNELLE
-            "Etude" -> TypeTache.PROFESSIONNELLE
+            "Sport" -> TypeTache.SPORT
+            "Etudes" -> TypeTache.ETUDES
+            "Professionnelle" -> TypeTache.PROFESSIONNELLE
+            "VieQuo" -> TypeTache.VIEQUO
+            "Projet" -> TypeTache.PROJET
+            "Personnelle" -> TypeTache.PERSONNELLE
             else -> TypeTache.AUTRE
         }
     }
