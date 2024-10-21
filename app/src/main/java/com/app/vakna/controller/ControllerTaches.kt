@@ -20,7 +20,7 @@ import com.app.vakna.modele.dao.TacheDAO
 class ControllerTaches(private val binding: FragmentTachesBinding) {
 
     private val context = binding.root.context
-    private var gestionnaire = GestionnaireDeTaches(TacheDAO(binding.root.context))
+    private var gestionnaire = GestionnaireDeTaches(binding.root.context)
 
     init {
         SetUpRecyclerView()

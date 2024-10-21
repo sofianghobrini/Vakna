@@ -27,10 +27,11 @@ class JsonToTache : JsonDeserializer<Tache> {
         val frequence = Frequence.valueOf(objetJson.get("frequence").asString)
         val importance = Importance.valueOf(objetJson.get("importance").asString)
         val type = TypeTache.valueOf(objetJson.get("type").asString)
-        val estTerminee = objetJson.get("estTerminee").asBoolean
         val derniereValidation = LocalDate.parse(objetJson.get("derniereValidation").asString)
+        val estTerminee = objetJson.get("estTerminee").asBoolean
+        val estArchivee = objetJson.get("estArchivee").asBoolean
 
-        return Tache(nom, frequence, importance, type, derniereValidation, estTerminee)
+        return Tache(nom, frequence, importance, type, derniereValidation, estTerminee, estArchivee)
     }
 }
 
@@ -48,6 +49,7 @@ class TacheToJson : JsonSerializer<Tache> {
         objetJson.addProperty("importance", src.importance.name)
         objetJson.addProperty("type", src.type.name)
         objetJson.addProperty("estTerminee", src.estTerminee)
+        objetJson.addProperty("estArchivee", src.estArchivee)
         objetJson.addProperty("derniereValidation", src.derniereValidation.toString())
 
         return objetJson

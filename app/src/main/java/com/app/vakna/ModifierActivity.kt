@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.app.vakna.controller.ControllerModifierTache
 import com.app.vakna.databinding.ActivityModifierBinding
+import com.app.vakna.modele.dao.TacheDAO
 
 class ModifierActivity : AppCompatActivity() {
 
@@ -22,7 +24,7 @@ class ModifierActivity : AppCompatActivity() {
         binding.titreModifierTache.text = "Modifier la tâche \"$taskName\""
 
         binding.boutonModifierTache.setOnClickListener {
-            Toast.makeText(this, "Bonjour :]", Toast.LENGTH_SHORT).show()
+            ControllerModifierTache(binding.root, taskName).modifierTache()
             val intent = Intent(this, GererActivity::class.java)
             startActivity(intent)
         }

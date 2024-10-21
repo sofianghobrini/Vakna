@@ -1,7 +1,9 @@
 package com.app.vakna.modele
 
+import android.content.Context
 import android.util.Log
 import com.app.vakna.adapters.ListData
+import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
@@ -16,7 +18,8 @@ class Tache(
     var importance: Importance,
     var type: TypeTache,
     var derniereValidation: LocalDate,
-    var estTerminee: Boolean
+    var estTerminee: Boolean = false,
+    var estArchivee: Boolean = false
 ) {
     fun toListData(): ListData {
         return ListData(nom, type.name, importance.name, 0, estTerminee)
@@ -32,17 +35,22 @@ class Tache(
     }
 
     override fun toString(): String {
-        return "$nom : $frequence $importance $type $derniereValidation " + if(estTerminee)"Finie" else "Pas Finie"
+        return "$nom : $frequence $importance $type $derniereValidation " + if(estTerminee)"Finie" else "Pas Finie" + if(estArchivee)" ARCHIVEE" else ""
     }
 }
 
-class GestionnaireDeTaches(tacheDAO : TacheDAO) {
+class GestionnaireDeTaches(private var context : Context) {
+    private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
-    private lateinit var compagnon: Compagnon
-    private var dao = tacheDAO
+    private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var idCompagnon: Int = 1
 
-    fun setCompagnon(compagnon: Compagnon) {
-        this.compagnon = compagnon
+    init {
+        tacheDAO.obtenirTous().forEach { setDeTaches.add(it) }
+    }
+
+    fun setCompagnon(id: Int) {
+        this.idCompagnon = id
     }
 
     fun ajouterTache(tache: Tache): Boolean {
@@ -52,7 +60,7 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
         if (!setDeTaches.add(tache)) {
             throw IllegalArgumentException("Une tâche avec le nom '${tache.nom}' existe déjà")
         }
-        return dao.inserer(tache)
+        return tacheDAO.inserer(tache)
     }
 
     fun ajouterTaches(taches: List<Tache>): Boolean {
@@ -62,7 +70,7 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
         }
         for (t in taches) {
             ajouterTache(t)
-            if (!dao.inserer(t)) {
+            if (!tacheDAO.inserer(t)) {
                 toutesInsertionsOK = false
             }
         }
@@ -79,7 +87,7 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
             tache.derniereValidation = nouvelleTache.derniereValidation
             tache.estTerminee = nouvelleTache.estTerminee
 
-            return dao.modifier(nom, nouvelleTache)
+            return tacheDAO.modifier(nom, nouvelleTache)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
@@ -91,12 +99,12 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
             if (!tache.estTerminee) {
                 tache.estTerminee = true
                 tache.derniereValidation = LocalDate.now()
-                compagnon.modifierHumeur(-5 * (tache.importance.ordinal + 1))
-                compagnon.gagnerXp(-5 * (tache.importance.ordinal + 1))
+                gestionnaireCompagnons.modifierHumeur(idCompagnon, -5 * (tache.importance.ordinal + 1))
+                gestionnaireCompagnons.gagnerXp(idCompagnon, -5 * (tache.importance.ordinal + 1))
             }
             setDeTaches.remove(tache)
 
-            return dao.supprimer(tache.nom)
+            return tacheDAO.supprimer(tache.nom)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
@@ -107,16 +115,24 @@ class GestionnaireDeTaches(tacheDAO : TacheDAO) {
         if (tache != null) {
             tache.estTerminee = true
             tache.derniereValidation = LocalDate.now()
-            compagnon.modifierHumeur(10 * (tache.importance.ordinal + 1))
-            compagnon.gagnerXp(5 * (tache.importance.ordinal + 1))
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, 10 * (tache.importance.ordinal + 1))
+            gestionnaireCompagnons.gagnerXp(idCompagnon, 5 * (tache.importance.ordinal + 1))
+            Log.i("test2", gestionnaireCompagnons.obtenirCompagnons().find { it.id == 1 }!!.toString())
         } else {
-            throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
+            throw IllegalArgumentException("Tâche avec le nom $nom introuvable $setDeTaches")
         }
-        dao.modifier(nom, tache)
+        tacheDAO.modifier(nom, tache)
+    }
+
+    fun archiverTache(nom: String): Boolean {
+        val tacheAArchiver = setDeTaches.find { it.nom == nom }?:return false
+        tacheAArchiver.estArchivee = true
+        tacheDAO.modifier(nom, tacheAArchiver)
+        return true
     }
 
     fun obtenirTaches(): Set<Tache> {
-        dao.obtenirTous().forEach { setDeTaches.add(it) }
+        tacheDAO.obtenirTous().forEach { setDeTaches.add(it) }
         return setDeTaches
     }
 

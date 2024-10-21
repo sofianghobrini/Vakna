@@ -127,7 +127,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val frequenceTache = recupererFrequenceTache()
         val derniereValidation = LocalDate.now()
         val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation,false)
-        val gestionnaireDeTaches = GestionnaireDeTaches(dao)
+        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
         gestionnaireDeTaches.ajouterTache(tache)
     }
 }

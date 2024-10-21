@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:4.8.0")
     implementation("androidx.databinding:databinding-runtime:7.0.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     androidTestImplementation("org.junit.jupiter:junit-jupiter:5.8.1")

@@ -4,7 +4,7 @@ import android.content.Context
 
 class AccesJson (nomFichier: String, context: Context) {
     private val ctxt = context
-    private val cheminFichier = nomFichier + ".json"
+    private val cheminFichier = "$nomFichier.json"
 
     fun ecrireFichierJson( contenu: String) {
         ctxt.openFileOutput(cheminFichier, Context.MODE_PRIVATE).use { output ->

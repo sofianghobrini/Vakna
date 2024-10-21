@@ -2,6 +2,7 @@
 package com.app.vakna.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -21,7 +22,7 @@ class ListAdapterProgress(
 ) : ListAdapter(dataArrayList) {
 
     private var completedTasks = 0
-    private var gestionnaire = GestionnaireDeTaches(TacheDAO(context))
+    private var gestionnaire = GestionnaireDeTaches(context)
     private val compagnonDAO = CompagnonDAO(context)
     init {
         // Initialize the count of completed tasks
@@ -39,7 +40,7 @@ class ListAdapterProgress(
         holder.listName.text = listData.name
         holder.listType.text = listData.type
         holder.listImportance.text = listData.importance
-        gestionnaire.setCompagnon(compagnonDAO.obtenirTous().first())
+        gestionnaire.setCompagnon(1)
         gestionnaire.obtenirTaches()
 
         holder.listTermine?.let { switchTermine ->
@@ -54,6 +55,7 @@ class ListAdapterProgress(
                         if (confirmed) {
                             listData.estTermine = true
                             gestionnaire.finirTache(listData.name)
+//                            Log.i("test", "listdata : " + listData.name)
                             switchTermine.isEnabled = false
                             completedTasks++
                             updateProgressBar()
@@ -81,7 +83,7 @@ class ListAdapterProgress(
 
         val textView = dialogView.findViewById<TextView>(R.id.dialogTexteWarning)
 
-        textView.text = "Si vous confirmez que vous avez bien terminé la tâche $nomTache?"
+        textView.text = "Vous avez bien terminé la tâche $nomTache?"
 
         dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
             dialog.dismiss()
@@ -90,6 +92,7 @@ class ListAdapterProgress(
 
         dialogView.findViewById<Button>(R.id.boutonTerminer).setOnClickListener {
             dialog.dismiss()
+//            Log.i("test", nomTache)
             onConfirm(true)
         }
 

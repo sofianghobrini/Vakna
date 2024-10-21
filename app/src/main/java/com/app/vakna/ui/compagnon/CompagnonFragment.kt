@@ -1,12 +1,14 @@
 package com.app.vakna.ui.compagnon
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.vakna.controller.ControllerCompagnon
 import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.app.vakna.modele.dao.AccesJson
 
 class CompagnonFragment : Fragment() {
 
@@ -36,5 +38,10 @@ class CompagnonFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("test", AccesJson("compagnons", binding.root.context).lireFichierJson())
     }
 }

@@ -47,7 +47,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         }
 
         // Créer un nouveau compagnon avec des valeurs par défaut (faim et humeur à 50, XP à 0)
-        val nouveauCompagnon = Compagnon(id = 0, nom = nomCompagnon, faim = 50, humeur = 50, xp = 0, espece = "Dragon")
+        val nouveauCompagnon = Compagnon(id = 1, nom = nomCompagnon, faim = 50, humeur = 50, xp = 0, espece = "Dragon")
 
         // Créer une instance de CompagnonDAO pour gérer les opérations de base de données
         val compagnonDAO = CompagnonDAO(context)
