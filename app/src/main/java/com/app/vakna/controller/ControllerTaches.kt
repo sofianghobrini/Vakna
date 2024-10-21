@@ -57,7 +57,6 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
             .sortedWith(
             compareBy<ListData> { it.estTermine ?: false }
                 .thenByDescending {
-                    Log.e("test", it.importance)
                     when (it.importance) {
                         "ELEVEE" -> 3
                         "MOYENNE" -> 2

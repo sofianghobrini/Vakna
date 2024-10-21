@@ -2,6 +2,7 @@ package com.app.vakna
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.adapters.ListAdapterBoutons
+import com.app.vakna.adapters.ListData
 import com.app.vakna.controller.ControllerArchiverTache
 import com.app.vakna.databinding.ActivityGererBinding
 import com.app.vakna.modele.GestionnaireDeTaches
@@ -35,6 +37,9 @@ class GererActivity : AppCompatActivity() {
         // Setup RecyclerView
         setUpRecyclerView()
 
+        // Add dividers and set the adapter
+        ajoutDividers(binding.listeTaches)
+
         val tachesBouton: ImageButton = root.findViewById(R.id.boutonListeTaches)
         tachesBouton.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
@@ -45,7 +50,18 @@ class GererActivity : AppCompatActivity() {
 
     private fun setUpRecyclerView() {
         val data = GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(this).obtenirTaches())
-        val dataTrier = data.filter { it.estArchivee == false }
+
+        val dataTrier = data.filter { !it.estArchivee }
+            .sortedWith(compareByDescending<ListData>
+            {
+                when (it.importance) {
+                    "ELEVEE" -> 3
+                    "MOYENNE" -> 2
+                    "FAIBLE" -> 1
+                    else -> 0
+                }
+            }.thenBy{ it.name })
+
         listAdapter = ListAdapterBoutons(ArrayList(dataTrier),
             onArchiveClick = {
                 nomTache ->
@@ -58,8 +74,6 @@ class GererActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             })
-        // Add dividers and set the adapter
-        ajoutDividers(binding.listeTaches)
         binding.listeTaches.adapter = listAdapter
     }
 
