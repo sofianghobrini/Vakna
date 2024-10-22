@@ -5,10 +5,11 @@ class ObjetObtenu(
     nom: String,
     prix: Int,
     niveau: Int,
-    type: String,
+    type: TypeObjet,
     detail: String,
-    private var quantite: Int
-) : Objet(id, nom, prix, niveau, type, detail) {
+    private var quantite: Int,
+    imageUrl: String
+) : Objet(id, nom, prix, niveau, type, detail, imageUrl) {
 
     fun getQuantite(): Int {
         return quantite
