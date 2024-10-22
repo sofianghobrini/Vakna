@@ -24,7 +24,7 @@ class Shop (private val objets : List<Objet>){
 
         // Vérifier si l'objet existe et si le solde de l'inventaire est suffisant pour la quantité demandée
         if (objet != null) {
-            val id = Instant.now().toEpochMilli().toInt() * (1..1000).random()
+            val id = objet.getId()
             val totalPrix = objet.getPrix() * quantite
             if (inventaire.getPieces() >= totalPrix) {
                 // Ajouter l'objet à l'inventaire et mettre à jour le solde
@@ -36,12 +36,7 @@ class Shop (private val objets : List<Objet>){
                 )
                 inventaire.ajouterObjet(objetObtenu, quantite)
                 inventaire.ajouterPieces(-totalPrix) // Déduire le prix total
-                println("$quantite x $nom ont été ajoutés à votre inventaire.")
-            } else {
-                println("Solde insuffisant pour acheter $quantite x $nom.")
-            }
-        } else {
-            println("Objet $nom non trouvé.")
+            } 
         }
     }
 
