@@ -31,4 +31,5 @@ open class Objet(
     fun getDetails(): String {
         return detail
     }
+
 }
