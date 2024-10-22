@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.app.vakna">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
 
     <application
         android:allowBackup="true"
@@ -31,6 +38,13 @@
             android:label="Modifier Tâche" />
         <activity android:name=".CreerCompagnonActivity"
             android:label="Créer le compagnon" />
+        <activity android:name=".DetailsObjetActivity"
+            android:label="Créer le compagnon" />
+        <service
+            android:name=".notifications.NotificationService"
+            android:enabled="true"
+            android:exported="false"/>
+        <receiver android:name=".notifications.NotificationReceiver" />
     </application>
 
 </manifest>
