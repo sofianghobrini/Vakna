@@ -36,7 +36,7 @@ class Shop (private val objets : List<Objet>){
                 )
                 inventaire.ajouterObjet(objetObtenu, quantite)
                 inventaire.ajouterPieces(-totalPrix) // Déduire le prix total
-            } 
+            }
         }
     }
 
