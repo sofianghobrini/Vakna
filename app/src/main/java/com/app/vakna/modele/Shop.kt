@@ -16,10 +16,10 @@ class Shop (private val objets : List<Objet>){
     }
 
     // Méthode pour acheter une certaine quantité d'un objet
-    fun acheter(nom: String, quantite: Int, inventaire: Inventaire) {
+/*    fun acheter(nom: String, quantite: Int, inventaire: Inventaire) {
         // Obtenir l'objet par son nom
         val objet = getObjet(nom)
-/*
+
         // Vérifier si l'objet existe et si le solde de l'inventaire est suffisant pour la quantité demandée
         if (objet != null) {
             val totalPrix = objet.getPrix() * quantite
