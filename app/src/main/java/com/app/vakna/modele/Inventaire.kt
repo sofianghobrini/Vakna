@@ -1,10 +1,20 @@
 package com.app.vakna.modele
 
-class Inventaire(
-    private var pieces: Int,
-    private var objets: List<ObjetObtenu>,
-    private var compagnon: GestionnaireDeCompagnons
-) {
+import android.content.Context
+import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.InventaireDAO
+
+class Inventaire(private var contexte: Context) {
+    private var inventaireDAO = InventaireDAO(contexte)
+    private var objets = mutableListOf<ObjetObtenu>()
+    private var pieces = 0
+    private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(contexte))
+
+
+     init {
+         inventaireDAO.obtenirTousObjetsObtenus().forEach() { objets.add(it) }
+         pieces = inventaireDAO.obtenirPieces()
+     }
 
     fun getObjets(): List<ObjetObtenu> {
         return objets
@@ -26,9 +36,9 @@ class Inventaire(
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
         if (objet.getType() == TypeObjet.JOUET) {
-            compagnon.modifierFaim(0, niveau)
+            gestionnaireCompagnons.modifierFaim(0, niveau)
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
-            compagnon.modifierHumeur(0, niveau)
+            gestionnaireCompagnons.modifierHumeur(0, niveau)
         }
         objet.updateQuantite(-1)
     }
@@ -41,6 +51,7 @@ class Inventaire(
         for (i in 0 until n) {
             utiliserObjet(objet)
         }
+        inventaireDAO.mettreAJourQuantiteObjet(objet.getId(), objet.getQuantite())
     }
 
     fun ajouterObjet(objet: ObjetObtenu, quantite: Int) {
@@ -48,10 +59,12 @@ class Inventaire(
             objets += objet
         }
         getObjetParNom(objet.getNom())?.updateQuantite(quantite)
+        inventaireDAO.insererObjetObtenu(objet)
     }
 
     fun ajouterPieces(valeur: Int) {
         assert(pieces + valeur >= 0) { "Il est impossible d'avoir des pièces en négatif" }
         pieces += valeur
+        inventaireDAO.mettreAJourPieces(pieces)
     }
 }
