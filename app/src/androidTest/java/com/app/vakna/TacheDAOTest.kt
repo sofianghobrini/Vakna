@@ -1,12 +1,14 @@
 package com.app.vakna
 
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.dao.TacheDAO
 import com.app.vakna.modele.*
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -14,11 +16,12 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.time.LocalDate
 
+@RunWith(AndroidJUnit4::class)
 class TacheDAOTest {
 
     private lateinit var dao: TacheDAO
     private lateinit var cheminFichier: File
-    private lateinit var backupFile: File
+    /** private lateinit var backupFile: File*/
     private lateinit var context: android.content.Context
     private lateinit var backupFilePath: Path
 
@@ -167,7 +170,7 @@ class TacheDAOTest {
     @Test
     fun testObtenirTous() {
         // TO DO
-        val taches = dao.obtenirTous()
+        dao.obtenirTous()
         assertTrue(true)
     }
 }

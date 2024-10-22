@@ -82,6 +82,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.databinding.compiler)
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:4.8.0")
     implementation("androidx.databinding:databinding-runtime:7.0.0")
