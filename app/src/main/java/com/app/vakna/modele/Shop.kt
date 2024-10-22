@@ -1,12 +1,20 @@
 package com.app.vakna.modele
 
+import android.content.Context
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
 class Shop(
-    private val objetDAO: ObjetDAO,
-    private val inventaireDAO: InventaireDAO
+    private val context: Context
 ) {
+
+    private val objetDAO = ObjetDAO(context)
+    private val inventaireDAO = InventaireDAO(context)
+    private var objetMagasin = mutableListOf<Objet>()
+
+    init {
+        objetDAO.obtenirTous().forEach() { objetMagasin.add(it) }
+    }
 
     // Méthode pour obtenir un objet par son nom
     fun getObjet(nom: String): Objet? {
