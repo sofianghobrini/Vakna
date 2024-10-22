@@ -1,12 +1,17 @@
 package com.app.vakna.modele
 
 open class Objet(
+    private var id: Int,
     private var nom: String,
     private var prix: Int,
     private var niveau: Int,
     private var type: String,
     private var detail: String
 ) {
+    fun getId(): Int {
+        return id
+    }
+
     fun getNom(): String {
         return nom
     }
