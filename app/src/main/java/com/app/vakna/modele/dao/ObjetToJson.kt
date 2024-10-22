@@ -1,6 +1,6 @@
 package com.app.vakna.modele.dao
 
-import com.app.vakna.modele.ObjetObtenu
+import com.app.vakna.modele.Objet
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
@@ -8,9 +8,9 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 /** Permet de convertir un objet Tache en entrée JSON */
-class ObjetObtenuToJson : JsonSerializer<ObjetObtenu> {
+class ObjetToJson : JsonSerializer<ObjetObtenu> {
     override fun serialize(
-        src: ObjetObtenu,
+        src: Objet,
         typeOfSrc: Type,
         context: JsonSerializationContext
     ): JsonElement {
