@@ -5,7 +5,7 @@ class ObjetObtenu(
     nom: String,
     prix: Int,
     niveau: Int,
-    type: String,
+    type: TypeObjet,
     detail: String,
     private var quantite: Int
 ) : Objet(id, nom, prix, niveau, type, detail) {
