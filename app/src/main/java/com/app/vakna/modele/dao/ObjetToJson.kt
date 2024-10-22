@@ -8,7 +8,7 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 /** Permet de convertir un objet Tache en entrée JSON */
-class ObjetToJson : JsonSerializer<ObjetObtenu> {
+class ObjetToJson : JsonSerializer<Objet> {
     override fun serialize(
         src: Objet,
         typeOfSrc: Type,
