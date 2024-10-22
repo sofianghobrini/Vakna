@@ -1,5 +1,7 @@
 package com.app.vakna.modele
 
+import java.time.Instant
+
 
 class Shop (private val objets : List<Objet>){
     fun getObjet(nom : String) : Objet?{
@@ -16,26 +18,23 @@ class Shop (private val objets : List<Objet>){
     }
 
     // Méthode pour acheter une certaine quantité d'un objet
-/*    fun acheter(nom: String, quantite: Int, inventaire: Inventaire) {
+    fun acheter(nom: String, quantite: Int, inventaire: Inventaire) {
         // Obtenir l'objet par son nom
         val objet = getObjet(nom)
 
         // Vérifier si l'objet existe et si le solde de l'inventaire est suffisant pour la quantité demandée
         if (objet != null) {
+            val id = Instant.now().toEpochMilli().toInt() * (1..1000).random()
             val totalPrix = objet.getPrix() * quantite
             if (inventaire.getPieces() >= totalPrix) {
                 // Ajouter l'objet à l'inventaire et mettre à jour le solde
-                inventaire.ajouterObjet(
-                    ObjetObtenu(
-                        nom = objet.getNom(),
-                        prix = objet.getPrix(),
-                        niveau = objet.getNiveau(),
-                        type = objet.getType(), // Conversion du type enum en chaîne
-                        detail = objet.getDetails(),
-                        quantite =
-                    ),
-                    quantite
+                val objetObtenu =  ObjetObtenu(id=id,nom = objet.getNom(), prix = objet.getPrix(),
+                    niveau = objet.getNiveau(),
+                    type = objet.getType(), // Conversion du type enum en chaîne
+                    detail = objet.getDetails(),
+                    quantite = quantite
                 )
+                inventaire.ajouterObjet(objetObtenu, quantite)
                 inventaire.ajouterPieces(-totalPrix) // Déduire le prix total
                 println("$quantite x $nom ont été ajoutés à votre inventaire.")
             } else {
@@ -44,7 +43,7 @@ class Shop (private val objets : List<Objet>){
         } else {
             println("Objet $nom non trouvé.")
         }
-    }*/
+    }
 
     fun listerObjet():List<Objet>{
         return objets
