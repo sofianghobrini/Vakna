@@ -23,6 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AjouterActivity"
+            android:label="Ajouter Tâche" />
+        <activity android:name=".GererActivity"
+            android:label="Gérer Tâches" />
+        <activity android:name=".ModifierActivity"
+            android:label="Modifier Tâche" />
+        <activity android:name=".CreerCompagnonActivity"
+            android:label="Créer le compagnon" />
     </application>
 
 </manifest>

@@ -1,0 +1,143 @@
+package com.app.vakna.controller
+
+import android.content.Intent
+import android.util.Log
+import android.view.View
+import com.app.vakna.AjouterActivity
+import com.app.vakna.MainActivity
+import com.app.vakna.R
+import com.app.vakna.databinding.ActivityAjouterBinding
+import com.app.vakna.modele.*
+import java.time.LocalDate
+
+/**
+ * Contrôleur pour la gestion de l'ajout de tâches.
+ * @param binding Le binding de l'activité Ajouter, pour accéder aux vues.
+ */
+class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
+
+    init {
+        val context = binding.root.context
+
+        // Bouton pour confirmer la création de la tâche
+        binding.boutonCreerTache.setOnClickListener {
+            if (validerFormulaire()) {
+                Log.d("AjoutTache", "Validation réussie")
+                confirmerTache()
+
+                // Naviguer vers l'écran principal après l'ajout de la tâche
+                if (context is AjouterActivity) {
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.putExtra("navigateTo", "Taches")
+                    context.startActivity(intent)
+                }
+            }
+        }
+
+        // Bouton pour annuler la création de la tâche et revenir à l'écran principal
+        binding.boutonAnnulerCreation.setOnClickListener {
+            if (context is AjouterActivity) {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("navigateTo", "Taches")
+                context.startActivity(intent)
+            }
+        }
+    }
+
+    /**
+     * Méthode privée pour valider le formulaire d'ajout de tâche.
+     */
+    private fun validerFormulaire(): Boolean {
+        var valide = true
+
+        // Vérification du nom de la tâche
+        val nomTacheEditText = binding.contenuInclude.inputNomTache
+        if (nomTacheEditText.text.isNullOrEmpty()) {
+            nomTacheEditText.error = "Le nom de la tâche est obligatoire"
+            valide = false
+        }
+
+        // Vérification de la fréquence sélectionnée
+        val radioGroupFrequence = binding.contenuInclude.radioFrequenceTache
+        val errorFrequenceTextView = binding.contenuInclude.errorFrequence
+        if (radioGroupFrequence.checkedRadioButtonId == -1) {
+            errorFrequenceTextView.visibility = View.VISIBLE
+            valide = false
+        } else {
+            errorFrequenceTextView.visibility = View.GONE
+        }
+
+        // Vérification de l'importance sélectionnée
+        val radioGroupImportance = binding.contenuInclude.radioImportanceTache
+        val errorImportanceTextView = binding.contenuInclude.errorImportance
+        if (radioGroupImportance.checkedRadioButtonId == -1) {
+            errorImportanceTextView.visibility = View.VISIBLE
+            valide = false
+        } else {
+            errorImportanceTextView.visibility = View.GONE
+        }
+
+        Log.d("ValidationFormulaire", "Formulaire valide: $valide")
+        return valide
+    }
+
+    /**
+     * Méthode privée pour récupérer le nom de la tâche.
+     */
+    private fun recupererNomTache(): String {
+        return binding.contenuInclude.inputNomTache.text.toString()
+    }
+
+    /**
+     * Méthode privée pour récupérer le type de la tâche.
+     */
+    private fun recupererTypeTache(): TypeTache {
+        val type = binding.contenuInclude.selectTypeTache.selectedItem.toString().uppercase()
+        return enumValueOf<TypeTache>(type)
+    }
+
+    /**
+     * Méthode privée pour récupérer la fréquence de la tâche.
+     */
+    private fun recupererFrequenceTache(): Frequence {
+        val selectedRadioButtonId = binding.contenuInclude.radioFrequenceTache.checkedRadioButtonId
+        return when (selectedRadioButtonId) {
+            R.id.radioQuotidien -> Frequence.QUOTIDIENNE
+            R.id.radioHebdomadaire -> Frequence.HEBDOMADAIRE
+            else -> Frequence.MENSUELLE
+        }
+    }
+
+    /**
+     * Méthode privée pour récupérer l'importance de la tâche.
+     */
+    private fun recupererImportanceTache(): Importance {
+        val selectedRadioButtonId = binding.contenuInclude.radioImportanceTache.checkedRadioButtonId
+        return when (selectedRadioButtonId) {
+            R.id.radioFaible -> Importance.FAIBLE
+            R.id.radioMoyen -> Importance.MOYENNE
+            R.id.radioElevee -> Importance.ELEVEE
+            else -> Importance.MOYENNE
+        }
+    }
+
+    /**
+     * Méthode pour confirmer la création de la tâche.
+     */
+    private fun confirmerTache() {
+
+        // Création de l'objet Tache avec les informations récupérées
+        val tache = Tache(
+            nom = recupererNomTache(),
+            frequence = recupererFrequenceTache(),
+            importance = recupererImportanceTache(),
+            type = recupererTypeTache(),
+            derniereValidation = LocalDate.now(),
+            estTerminee = false
+        )
+
+        // Gestionnaire de tâches pour ajouter la nouvelle tâche
+        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
+        gestionnaireDeTaches.ajouterTache(tache)
+    }
+}

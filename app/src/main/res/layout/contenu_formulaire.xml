@@ -1,0 +1,162 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+    android:id="@+id/labelNomTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:text="Nom de la tâche:"
+    android:textColor="@color/texteCouleurPrincipale"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+    android:id="@+id/inputNomTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/input_border"
+    android:hint="ex: Faire la vaisselle"
+    android:inputType="text"
+    android:padding="5dp"
+    android:textColorHint="@color/gray"
+    android:textSize="18sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelNomTache" />
+
+    <TextView
+    android:id="@+id/labelTypeTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:text="Type de la tâche:"
+    android:textColor="@color/texteCouleurPrincipale"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
+
+    <Spinner
+    android:id="@+id/selectTypeTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:entries="@array/typeTacheExemple"
+    android:spinnerMode="dropdown"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
+
+    <TextView
+    android:id="@+id/labelFrequenceTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:text="Fréquence de la tâche:"
+    android:textColor="@color/texteCouleurPrincipale"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
+
+    <RadioGroup
+    android:id="@+id/radioFrequenceTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache">
+
+    <RadioButton
+        android:id="@+id/radioQuotidien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quotidienne" />
+
+    <RadioButton
+        android:id="@+id/radioHebdomadaire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hebdomadaire" />
+
+    <RadioButton
+        android:id="@+id/radioMensuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mensuel" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/errorFrequence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Veuillez sélectionner une fréquence"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
+
+    <TextView
+    android:id="@+id/labelImportanceTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:text="Importance de la tâche:"
+    android:textColor="@color/texteCouleurPrincipale"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
+
+    <RadioGroup
+    android:id="@+id/radioImportanceTache"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelImportanceTache">
+
+    <RadioButton
+        android:id="@+id/radioFaible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Faible"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="10dp" />
+
+    <RadioButton
+        android:id="@+id/radioMoyen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moyen"
+        android:layout_marginEnd="30dp" />
+
+    <RadioButton
+        android:id="@+id/radioElevee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Élevée" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/errorImportance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Veuillez sélectionner une importance"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioImportanceTache" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

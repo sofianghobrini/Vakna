@@ -1,51 +1,32 @@
 package com.app.vakna.modele
 
-import com.app.vakna.modele.dao.CompagnonDAO
-
 class Compagnon(
-    var id: Int,
-    var nom: String,
-    var faim: Int = 50,
-    var humeur: Int = 50,
-    var xp: Int = 0,
-    var espece: String
+    var id: Int,                // Identifiant unique du compagnon
+    var nom: String,            // Nom du compagnon
+    var faim: Int = 50,         // Niveau de faim (valeur par défaut = 50)
+    var humeur: Int = 50,       // Niveau d'humeur (valeur par défaut = 50)
+    var xp: Int = 0,            // Expérience (XP) du compagnon (par défaut = 0)
+    var espece: String,         // Espèce du compagnon (par exemple, "Dragon")
 ) {
-    private val dao = CompagnonDAO()
 
-    fun modifierFaim(niveau: Int) {
-        assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
-
-        faim += niveau
-        faim = faim.coerceIn(0, 100)
-        dao.modifier(id, this)
-    }
-
-    fun modifierHumeur(niveau: Int) {
-        assert(niveau in -100..100) { "Le niveau d'humeur doit être compris entre -100 et 100." }
-
-        humeur += niveau
-        humeur = humeur.coerceIn(0, 100)
-        dao.modifier(id, this)
-    }
-
-    fun gagnerXp(montant: Int) {
-        val ancienNiveau = niveau()
-        xp += montant
-        if (ancienNiveau > niveau())
-            xp -= montant
-        dao.modifier(id, this)
-    }
-
+    // Méthode pour déterminer le niveau actuel du compagnon en fonction de son XP
     fun niveau(): Int {
-        return when {
-            xp < 100 -> 0
-            xp < 250 -> 1
-            xp < 1000 -> 2
-            else -> 3
-        }
+        return xp / 100  // Le niveau est calculé en divisant l'XP par 100
     }
 
+    // Redéfinition de la méthode toString pour afficher les informations du compagnon
     override fun toString(): String {
         return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()})"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Compagnon) return false
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
 }
+
