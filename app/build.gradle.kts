@@ -56,6 +56,7 @@ android {
             excludes += "META-INF/LICENSE.md"
             excludes += "META-INF/LICENSE-notice.md"
             excludes += "META-INF/LICENSE"
+            excludes += "META-INF/NOTICE.md"
             excludes += "META-INF/NOTICE"
         }
     }
