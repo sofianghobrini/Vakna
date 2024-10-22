@@ -178,7 +178,7 @@ class ModeleTacheTest {
         val expectedHumeur = 0 + 10 * (tache.importance.ordinal + 1)
         val expectedXp = 0 + 5 * (tache.importance.ordinal + 1)
         gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(expectedHumeur, it.humeur) }
-        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(expectedHumeur, it.xp) }
+        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(expectedXp, it.xp) }
     }
 
     @Test

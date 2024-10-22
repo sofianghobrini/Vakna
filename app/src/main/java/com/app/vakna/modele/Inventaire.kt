@@ -25,9 +25,9 @@ class Inventaire(
     private fun utiliserObjet(objet: ObjetObtenu) {
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
-        if (objet.getType() == "Nourriture") {
+        if (objet.getType() == TypeObjet.JOUET) {
             compagnon.modifierFaim(0, niveau)
-        } else if (objet.getType() == "Jouet") {
+        } else if (objet.getType() == TypeObjet.NOURRITURE) {
             compagnon.modifierHumeur(0, niveau)
         }
         objet.updateQuantite(-1)

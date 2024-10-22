@@ -8,8 +8,9 @@ import org.junit.runners.Suite
     CompagnonDAOTest::class,
     ModeleCompagnonTest::class,
     ModeleTacheTest::class,
-    TacheDAOTest::class
+    TacheDAOTest::class,
+    ModeleObjetTest::class
 )
 class AllTests {
-    // This class remains empty, used only to hold the annotations for running the suite.
+    // Cette classe reste vide, utilisée uniquement pour l'annotation de la suite.
 }
