@@ -1,47 +1,66 @@
 package com.app.vakna.controller
+
 import android.util.Log
-import android.view.View
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
 import com.app.vakna.R
+import com.app.vakna.databinding.ActivityModifierBinding
 import com.app.vakna.modele.Importance
 import com.app.vakna.modele.TypeTache
 import com.app.vakna.modele.GestionnaireDeTaches
 import com.app.vakna.modele.Frequence
 import com.app.vakna.modele.Tache
-import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
+/**
+ * Contrôleur pour la modification des tâches dans l'ActivityModifier.
+ * @param binding : le binding pour accéder aux éléments de l'interface utilisateur
+ * @param nomTacheOriginale : le nom de la tâche à modifier
+ */
+class ControllerModifierTache(
+    private val binding: ActivityModifierBinding,
+    private val nomTacheOriginale: String
+) {
 
-class ControllerModifierTache(private val view: View, private val nomTacheOriginale: String) {
-
-    // Méthode privée pour récupérer le nom de la tâche
+    /**
+     * Récupérer le nom de la tâche à partir de l'interface utilisateur
+     * @return String : le nom de la tâche
+     */
     private fun recupererNomTache(): String {
-        val nomTacheEditText = view.findViewById<EditText>(R.id.inputNomTache)
-        return nomTacheEditText.text.toString()
+        val nomTacheEditText = binding.root.findViewById<EditText>(R.id.inputNomTache)
+        return nomTacheEditText.text.toString().trim()  // Suppression des espaces inutiles
     }
 
-    // Méthode privée pour récupérer le type de la tâche
+    /**
+     * Récupérer le type de la tâche depuis l'interface utilisateur (Spinner)
+     * @return TypeTache : l'énumération correspondant au type de la tâche sélectionné
+     */
     private fun recupererTypeTache(): TypeTache {
-        val type = view.findViewById<Spinner>(R.id.selectTypeTache)
-        val typeDeLaTache = type.selectedItem.toString()
-        return when (typeDeLaTache) {
-            "Sport" -> TypeTache.SPORT
-            "Etudes" -> TypeTache.ETUDES
-            "Professionnelle" -> TypeTache.PROFESSIONNELLE
-            "VieQuo" -> TypeTache.VIEQUO
-            "Projet" -> TypeTache.PROJET
-            "Personnelle" -> TypeTache.PERSONNELLE
+        val typeSpinner = binding.root.findViewById<Spinner>(R.id.selectTypeTache)
+        val typeSelectionne = typeSpinner.selectedItem.toString()
+
+        // Correspondance entre la chaîne sélectionnée et l'énumération TypeTache
+        return when (typeSelectionne.uppercase()) {
+            "SPORT" -> TypeTache.SPORT
+            "ETUDES" -> TypeTache.ETUDES
+            "PROFESSIONNELLE" -> TypeTache.PROFESSIONNELLE
+            "VIEQUO" -> TypeTache.VIEQUO
+            "PROJET" -> TypeTache.PROJET
+            "PERSONNELLE" -> TypeTache.PERSONNELLE
             else -> TypeTache.AUTRE
         }
     }
 
-    // Méthode privée pour récupérer la fréquence de la tâche
+    /**
+     * Récupérer la fréquence de la tâche en fonction de l'option sélectionnée dans le RadioGroup
+     * @return Frequence : l'énumération correspondant à la fréquence sélectionnée
+     */
     private fun recupererFrequenceTache(): Frequence {
-        val radioGroupFrequence = view.findViewById<RadioGroup>(R.id.radioFrequenceTache)
+        val radioGroupFrequence = binding.root.findViewById<RadioGroup>(R.id.radioFrequenceTache)
         val selectedRadioButtonId = radioGroupFrequence.checkedRadioButtonId
 
+        // Associer le bouton radio sélectionné à une valeur d'énumération
         return when (selectedRadioButtonId) {
             R.id.radioQuotidien -> Frequence.QUOTIDIENNE
             R.id.radioHebdomadaire -> Frequence.HEBDOMADAIRE
@@ -49,11 +68,15 @@ class ControllerModifierTache(private val view: View, private val nomTacheOrigin
         }
     }
 
-    // Méthode privée pour récupérer l'importance de la tâche
-    private fun recupererImportanceTache(): Importance  {
-        val radioGroupFrequence = view.findViewById<RadioGroup>(R.id.radioImportanceTache)
-        val selectedRadioButtonId = radioGroupFrequence.checkedRadioButtonId
+    /**
+     * Récupérer l'importance de la tâche en fonction de l'option sélectionnée dans le RadioGroup
+     * @return Importance : l'énumération correspondant à l'importance sélectionnée
+     */
+    private fun recupererImportanceTache(): Importance {
+        val radioGroupImportance = binding.root.findViewById<RadioGroup>(R.id.radioImportanceTache)
+        val selectedRadioButtonId = radioGroupImportance.checkedRadioButtonId
 
+        // Associer le bouton radio sélectionné à une valeur d'énumération
         return when (selectedRadioButtonId) {
             R.id.radioFaible -> Importance.FAIBLE
             R.id.radioMoyen -> Importance.MOYENNE
@@ -62,24 +85,35 @@ class ControllerModifierTache(private val view: View, private val nomTacheOrigin
         }
     }
 
-    // Méthode publique pour envoyer les informations de la tâche
-    fun modifierTache(){
+    /**
+     * Méthode publique pour modifier une tâche. Elle récupère les nouvelles valeurs saisies, puis modifie
+     * la tâche en conséquence.
+     */
+    fun modifierTache() {
         val nomTache = recupererNomTache()
+
+        // Vérification si le nom de la tâche est vide
         if (nomTache.isBlank()) {
-            // Afficher un message d'erreur ou retourner une valeur d'erreur
+            Log.e("ControllerModifierTache", "Le nom de la tâche ne peut pas être vide.")
             return
         }
+
         val typeTache = recupererTypeTache()
         val importanceTache = recupererImportanceTache()
         val frequenceTache = recupererFrequenceTache()
         val derniereValidation = LocalDate.now()
-        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation,false)
-        val gestionnaireDeTaches = GestionnaireDeTaches(view.context)
-        Log.i("test", "Ancien nom : $nomTacheOriginale, Nouveau nom : $nomTache")
-        Log.i("test", gestionnaireDeTaches.obtenirTaches().toString())
+
+        // Créer une nouvelle instance de Tache avec les valeurs modifiées
+        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, false)
+
+        // Initialiser le gestionnaire de tâches et modifier la tâche existante
+        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
+
+        // Logging pour le débogage
+        Log.i("ControllerModifierTache", "Ancien nom : $nomTacheOriginale, Nouveau nom : $nomTache")
+        Log.i("ControllerModifierTache", gestionnaireDeTaches.obtenirTaches().toString())
+
+        // Appeler la fonction de modification dans le gestionnaire de tâches
         gestionnaireDeTaches.modifierTache(nomTacheOriginale, tache)
     }
-
 }
-
-

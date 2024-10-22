@@ -39,7 +39,7 @@ class ModifierActivity : AppCompatActivity() {
         binding.titreModifierTache.text = "Modifier la tâche \"$taskName\""
 
         binding.boutonModifierTache.setOnClickListener {
-            ControllerModifierTache(binding.root, taskName).modifierTache()
+            ControllerModifierTache(binding, taskName).modifierTache()
             val intent = Intent(this, GererActivity::class.java)
             startActivity(intent)
         }

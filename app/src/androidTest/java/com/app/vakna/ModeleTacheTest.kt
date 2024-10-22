@@ -8,10 +8,6 @@ import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.StandardCopyOption
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -31,14 +27,13 @@ class ModeleTacheTest {
 
         // Initialize DAO and gestionnaire
         dao = TacheDAO(context)
-        gestionnaire = GestionnaireDeTaches(dao)
+        gestionnaire = GestionnaireDeTaches(context)
         compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
-        gestionnaire.setCompagnon(compagnon)
+        gestionnaire.setCompagnon(compagnon.id)
 
         // Initialize file paths and ensure taches.json exists
         cheminFichier = File(context.filesDir, "taches.json")
         if (!cheminFichier.exists()) {
-            // Create file if it doesn't exist and write default content
             cheminFichier.createNewFile()
             cheminFichier.writeText("""{"taches": []}""")
         }
@@ -156,13 +151,13 @@ class ModeleTacheTest {
 
     @Test
     fun testSupprimerTacheAffecteHumeur() {
-        compagnon.humeur = 50
         val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache)
         val humeurInitiale = compagnon.humeur
 
         gestionnaire.supprimerTache("Tâche 1")
-        assertEquals(humeurInitiale - (5 * (tache.importance.ordinal + 1)), compagnon.humeur)
+
+        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(humeurInitiale - (5 * (tache.importance.ordinal + 1)), it.humeur) }
     }
 
     @Test
@@ -178,13 +173,12 @@ class ModeleTacheTest {
         compagnon.humeur = 0
         val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.ELEVEE, TypeTache.PERSONNELLE, LocalDate.now(), false)
         gestionnaire.ajouterTache(tache)
-
         gestionnaire.finirTache("Tâche 1")
         assertTrue(tache.estTerminee)
         val expectedHumeur = 0 + 10 * (tache.importance.ordinal + 1)
         val expectedXp = 0 + 5 * (tache.importance.ordinal + 1)
-        assertEquals(expectedHumeur, compagnon.humeur)
-        assertEquals(expectedXp, compagnon.xp)
+        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(expectedHumeur, it.humeur) }
+        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(expectedHumeur, it.xp) }
     }
 
     @Test
@@ -194,6 +188,19 @@ class ModeleTacheTest {
         }
         assertEquals("Tâche avec le nom Tâche Inexistante introuvable", exception.message)
     }
+
+    @Test
+    fun testFinirTacheAffecteHumeur(){
+        compagnon.humeur = 50
+        compagnon.xp = 50
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        gestionnaire.ajouterTache(tache)
+        val humeurInitiale = compagnon.humeur
+        val xpInitiale = compagnon.xp
+        gestionnaire.finirTache("Tâche 1")
+        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(humeurInitiale - (5 * (tache.importance.ordinal + 1)), it.humeur) }
+        gestionnaire.getGestionnaireCompagnon().obtenirCompagnon(compagnon.id)?.let { assertEquals(xpInitiale - (5 * (tache.importance.ordinal + 1)), it.xp) }
+}
 
     @Test
     fun testObtenirTaches() {

@@ -2,7 +2,6 @@
 package com.app.vakna.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -10,11 +9,9 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.app.vakna.R
-import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.TacheDAO
 
+// Adapter pour la liste de tâches terminées
 class ListAdapterProgress(
     dataArrayList: ArrayList<ListData>,
     private val progressBar: ProgressBar? = null,
@@ -23,13 +20,12 @@ class ListAdapterProgress(
 
     private var completedTasks = 0
     private var gestionnaire = GestionnaireDeTaches(context)
-    private val compagnonDAO = CompagnonDAO(context)
     init {
-        // Initialize the count of completed tasks
         completedTasks = dataArrayList.count { it.estTermine == true }
-        updateProgressBar() // Update progress bar based on initial data
+        updateProgressBar()
     }
 
+    // Crée une vue pour chaque élément de la liste
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TachesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.liste_termine_taches, parent, false)
         return TachesViewHolder(view)
@@ -43,6 +39,7 @@ class ListAdapterProgress(
         gestionnaire.setCompagnon(1)
         gestionnaire.obtenirTaches()
 
+        // Si la tâche est terminée, on désactive le switch
         holder.listTermine?.let { switchTermine ->
             switchTermine.isChecked = listData.estTermine ?: false
             if (switchTermine.isChecked) {
@@ -55,7 +52,6 @@ class ListAdapterProgress(
                         if (confirmed) {
                             listData.estTermine = true
                             gestionnaire.finirTache(listData.name)
-//                            Log.i("test", "listdata : " + listData.name)
                             switchTermine.isEnabled = false
                             completedTasks++
                             updateProgressBar()
@@ -68,11 +64,13 @@ class ListAdapterProgress(
         }
     }
 
+    // Met à jour la barre de progression
     private fun updateProgressBar() {
         val progressPercentage = (completedTasks.toDouble() / itemCount) * 100
         progressBar?.progress = progressPercentage.toInt()
     }
 
+    // Affiche une boîte de dialogue de confirmation
     private fun showConfirmationDialog(nomTache: String, onConfirm: (Boolean) -> Unit) {
         val dialogView = LayoutInflater.from(context)
             .inflate(R.layout.dialog_confirme_termine, null)
@@ -92,7 +90,6 @@ class ListAdapterProgress(
 
         dialogView.findViewById<Button>(R.id.boutonTerminer).setOnClickListener {
             dialog.dismiss()
-//            Log.i("test", nomTache)
             onConfirm(true)
         }
 

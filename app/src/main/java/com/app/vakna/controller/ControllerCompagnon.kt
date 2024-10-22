@@ -11,39 +11,46 @@ import com.app.vakna.modele.dao.CompagnonDAO
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class ControllerCompagnon(
-    private val binding: FragmentCompagnonBinding
-) {
+/**
+ * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
+ * @param binding Le binding associé au fragment compagnon pour accéder aux vues.
+ */
+class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
+
     private val context: Context = binding.root.context
     private val dao = CompagnonDAO(context)
     private var compagnon: Compagnon? = null
 
-    // Items pour "Jouets" et "Nourriture"
+    // Liste des items "Jouets" disponibles
     private val jouetsItems = listOf(
         "Jouet 1", "Jouet 2", "Jouet 3", "Jouet 4",
         "Jouet 5", "Jouet 6", "Jouet 7", "Jouet 8",
         "Jouet 9", "Jouet 10"
     )
 
+    // Liste des items "Nourriture" disponibles
     private val nourritureItems = listOf(
         "Kebab", "Pizza", "Burger", "Sandwich",
         "Salade", "Kebab", "Kebab", "Pasta",
         "Sushi", "Steak"
     )
 
-    // Initialiser la vue pour le compagnon
+    /**
+     * Initialise l'interface utilisateur pour afficher les informations du compagnon.
+     * Charge les données depuis la base et configure les éléments graphiques.
+     */
     fun initializeCompagnon() {
         // Charger le compagnon depuis la base de données
         val compagnons = dao.obtenirTous()
         compagnon = if (compagnons.isNotEmpty()) compagnons[0] else null
 
-        // Afficher le nom du compagnon si disponible
+        // Mettre à jour l'affichage du nom et du niveau du compagnon
         compagnon?.let {
             binding.dragonName.text = it.nom
-            updateLevelAndProgress(it) // Mettre à jour le niveau et la progression en fonction de l'XP
+            updateLevelAndProgress(it) // Mise à jour du niveau et progression XP
         }
 
-        // Charger le GIF en utilisant Glide
+        // Charger et afficher un GIF via Glide
         Glide.with(context)
             .asGif()
             .load(R.drawable.dragon)
@@ -53,10 +60,10 @@ class ControllerCompagnon(
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Jouets"))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nourriture"))
 
-        // Configurer le GridView par défaut avec les jouets
+        // Configurer le GridView par défaut avec les items "Jouets"
         setupGridView(jouetsItems)
 
-        // Gérer la sélection d'onglets entre "Jouets" et "Nourriture"
+        // Gérer la sélection d'onglets (Jouets / Nourriture)
         binding.tabLayout.addOnTabSelectedListener(object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
                 when (tab?.text) {
@@ -64,26 +71,31 @@ class ControllerCompagnon(
                     "Nourriture" -> setupGridView(nourritureItems)
                 }
             }
-
             override fun onTabUnselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {}
             override fun onTabReselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {}
         })
     }
 
-    // Configurer le GridView pour afficher les items
+    /**
+     * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
+     * @param items La liste d'items à afficher dans le GridView.
+     */
     private fun setupGridView(items: List<String>) {
         val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, items)
         binding.gridViewItems.adapter = adapter
     }
 
-    // Afficher une boîte de dialogue pour modifier le nom du compagnon
+    /**
+     * Affiche une boîte de dialogue permettant de modifier le nom du compagnon.
+     * Le nouveau nom est sauvegardé dans la base de données et mis à jour dans l'interface utilisateur.
+     */
     fun showEditNameDialog() {
         val editText = EditText(context).apply {
             hint = "Nouveau nom"
             inputType = android.text.InputType.TYPE_CLASS_TEXT
             filters = arrayOf(android.text.InputFilter.LengthFilter(50))
             compagnon?.let {
-                setText(it.nom)  // Pré-remplir avec le nom actuel
+                setText(it.nom)  // Pré-remplir avec le nom actuel du compagnon
             }
         }
 
@@ -93,11 +105,11 @@ class ControllerCompagnon(
             .setPositiveButton("Confirmer") { dialog, _ ->
                 val newName = editText.text.toString()
                 if (newName.isNotEmpty()) {
-                    // Mettre à jour le nom du compagnon et sauvegarder dans la base de données
+                    // Mettre à jour le nom du compagnon dans la base de données
                     compagnon?.let {
                         it.nom = newName
-                        dao.modifier(it.id, it)  // Sauvegarder le nom mis à jour
-                        binding.dragonName.text = newName  // Mettre à jour l'UI
+                        dao.modifier(it.id, it)  // Sauvegarder les modifications
+                        binding.dragonName.text = newName  // Mettre à jour l'affichage
                         Toast.makeText(context, "Nom du compagnon changé", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -109,16 +121,19 @@ class ControllerCompagnon(
             .show()
     }
 
-    // Fonction pour mettre à jour le niveau et la progression de l'XP dans l'UI
+    /**
+     * Met à jour le niveau du compagnon et l'affichage de la progression en fonction de l'XP.
+     * @param compagnon Le compagnon pour lequel le niveau et la progression doivent être mis à jour.
+     */
     private fun updateLevelAndProgress(compagnon: Compagnon) {
         val currentXp = compagnon.xp
-        val level = currentXp / 100  // Calculer le niveau en tant que XP / 100
-        val xpForCurrentLevel = currentXp % 100  // XP restant pour le niveau actuel
+        val level = currentXp / 100  // Calculer le niveau à partir de l'XP
+        val xpForCurrentLevel = currentXp % 100  // XP restant pour compléter le niveau actuel
 
         // Mettre à jour le texte du niveau
         binding.dragonLevel.text = "Niv. $level"
 
-        // Mettre à jour la barre de progression pour le niveau actuel (XP sur 100)
+        // Mettre à jour la barre de progression avec l'XP restant pour le niveau
         binding.progressBarLevel.progress = xpForCurrentLevel
     }
 }
