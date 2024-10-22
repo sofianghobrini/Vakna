@@ -5,7 +5,7 @@ open class Objet(
     private var nom: String,
     private var prix: Int,
     private var niveau: Int,
-    private var type: String,
+    private var type: TypeObjet,
     private var detail: String
 ) {
     fun getId(): Int {
@@ -24,11 +24,12 @@ open class Objet(
         return niveau
     }
 
-    fun getType(): String {
+    fun getType(): TypeObjet {
         return type
     }
 
     fun getDetails(): String {
         return detail
     }
+
 }
