@@ -9,9 +9,15 @@ import com.google.gson.reflect.TypeToken
 
 class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
 
-    private val gson = GsonBuilder().setPrettyPrinting().create()
+    private val gson = GsonBuilder()
+        .setPrettyPrinting()
+        .registerTypeAdapter(Objet::class.java, JsonToObjet())
+        .registerTypeAdapter(Objet::class.java, ObjetToJson())
+        .create()
+
     private val accesJson = AccesJson("objets", contexte)
 
+    // Ensure that the file exists, otherwise create it with an empty JSON structure
     private fun verifierExistence() {
         if (!accesJson.fichierExiste()) {
             val emptyJson = """{"objets": []}"""
@@ -33,20 +39,25 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
     }
 
     override fun obtenirParId(id: Int): Objet? {
-        val objets = obtenirTous()
-        return objets.find { it.getId() == id }
+        val objets = obtenirTous() // Get the list of all objects
+        return objets.find { it.getId() == id } // Find the object with the matching ID
     }
 
     override fun inserer(entite: Objet): Boolean {
+        verifierExistence()
+
         val jsonString = accesJson.lireFichierJson()
 
         val objetsJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val objetsJsonArray = objetsJson.getAsJsonArray("objets")
 
-        val listeObjets: MutableList<Objet> = gson.fromJson(objetsJsonArray, object : TypeToken<MutableList<Objet>>() {}.type)
+        val listeObjets: MutableList<Objet> = gson.fromJson(
+            objetsJsonArray,
+            object : TypeToken<MutableList<Objet>>() {}.type
+        )
 
         if (listeObjets.any { it.getId() == entite.getId() }) {
-            return false // Objet avec cet ID existe déjà
+            return false // Objet with this ID already exists
         }
 
         listeObjets.add(entite)
@@ -61,7 +72,7 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
         val indexObjetAModifier = objets.indexOfFirst { it.getId() == id }
 
         if (indexObjetAModifier == -1) {
-            return false // Objet non trouvé
+            return false // Object not found
         }
 
         objets[indexObjetAModifier] = entite
@@ -90,7 +101,7 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
         return true
     }
 
-    // Méthode pour obtenir les objets par type (utile pour le shop)
+    // Method to obtain objects by type (useful for the shop)
     fun obtenirParType(type: TypeObjet): List<Objet> {
         return obtenirTous().filter { it.getType() == type }
     }
