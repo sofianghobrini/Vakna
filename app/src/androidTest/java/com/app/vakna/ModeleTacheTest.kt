@@ -1,17 +1,20 @@
 package com.app.vakna
 
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.*
 import com.app.vakna.modele.dao.TacheDAO
 import org.junit.Before
 import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.runner.RunWith
 import java.io.File
 import java.time.LocalDate
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@RunWith(AndroidJUnit4::class)
 class ModeleTacheTest {
 
     private lateinit var dao: TacheDAO

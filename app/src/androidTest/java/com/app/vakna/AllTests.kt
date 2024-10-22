@@ -1,5 +1,6 @@
 package com.app.vakna
 
+import com.app.vakna.modele.dao.ObjetDAOTest
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -11,7 +12,8 @@ import org.junit.runners.Suite
     TacheDAOTest::class,
     ModeleObjetTest::class,
     ShopTest::class,
-    ObjetObtenuTest::class
+    ObjetObtenuTest::class,
+    ObjetDAOTest::class
 )
 class AllTests {
     // Cette classe reste vide, utilisée uniquement pour l'annotation de la suite.

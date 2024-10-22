@@ -1,11 +1,14 @@
 package com.app.vakna
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.Objet
 import com.app.vakna.modele.TypeObjet
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.runner.RunWith
 import kotlin.test.assertFailsWith
 
+@RunWith(AndroidJUnit4::class)
 class ModeleObjetTest {
 
     @Test

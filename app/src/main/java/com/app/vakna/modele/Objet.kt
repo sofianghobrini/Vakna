@@ -14,6 +14,7 @@ open class Objet(
         setNom(nom)
         setPrix(prix)
         setDetails(detail)
+        require(imageUrl.isNotBlank()){"L'URL de l'image ne doit pas être vide"}
     }
     fun getId(): Int {
         return id
