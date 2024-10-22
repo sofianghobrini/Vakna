@@ -42,8 +42,8 @@ class ShopTest {
         inventaire = Inventaire(100, mutableListOf(), gestionnaireDeCompagnons, inventaireDAO)
 
         // Manually insert objects into ObjetDAO
-        val potion = Objet(1, "Potion", 10, 1, TypeObjet.NOURRITURE, "Restores health")
-        val sword = Objet(2, "Sword", 50, 5, TypeObjet.JOUET, "A sharp weapon")
+        val potion = Objet(1, "Potion", 10, 1, TypeObjet.NOURRITURE, "Restores health", "https://example.com/potion.jpg")
+        val sword = Objet(2, "Sword", 50, 5, TypeObjet.JOUET, "A sharp weapon", "https://example.com/sword.jpg")
 
         objetDAO.inserer(potion)
         objetDAO.inserer(sword)

@@ -22,6 +22,7 @@ class ObjetToJson : JsonSerializer<Objet> {
         objetJson.addProperty("niveau", src.getNiveau())
         objetJson.addProperty("type", src.getType().name)
         objetJson.addProperty("detail", src.getDetails())
+        objetJson.addProperty("imageUrl", src.getImageUrl())
 
         return objetJson
     }

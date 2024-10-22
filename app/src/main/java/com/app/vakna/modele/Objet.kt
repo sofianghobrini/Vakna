@@ -6,7 +6,8 @@ open class Objet(
     private var prix: Int,
     private var niveau: Int,
     private var type: TypeObjet,
-    private var detail: String
+    private var detail: String,
+    private var imageUrl: String
 ) {
 
     init {
@@ -66,4 +67,8 @@ open class Objet(
         }
         this.detail = detail
     }
+    fun getImageUrl(): String {
+        return imageUrl
+    }
+
 }

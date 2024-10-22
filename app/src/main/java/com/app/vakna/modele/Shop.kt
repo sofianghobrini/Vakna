@@ -31,7 +31,8 @@ class Shop(
                     niveau = objet.getNiveau(),
                     type = objet.getType(),
                     detail = objet.getDetails(),
-                    quantite = quantite
+                    quantite = quantite,
+                    imageUrl = objet.getImageUrl()
                 )
 
                 // Ajouter ou mettre à jour l'objet dans l'inventaire

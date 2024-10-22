@@ -23,6 +23,7 @@ class ObjetObtenuToJson : JsonSerializer<ObjetObtenu> {
         objetJson.addProperty("type", src.getType().name)
         objetJson.addProperty("detail", src.getDetails())
         objetJson.addProperty("quantite", src.getQuantite())
+        objetJson.addProperty("imageUrl", src.getImageUrl())
 
         return objetJson
     }

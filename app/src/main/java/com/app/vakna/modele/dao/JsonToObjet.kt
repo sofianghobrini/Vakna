@@ -22,7 +22,8 @@ class JsonToObjet : JsonDeserializer<Objet> {
         val niveau = objetJson.get("niveau").asInt
         val type = TypeObjet.valueOf(objetJson.get("type").asString)
         val detail = objetJson.get("detail").asString
+        val imageUrl = objetJson.get("imageUrl").asString
 
-        return Objet(id, nom, prix, niveau, type, detail)
+        return Objet(id, nom, prix, niveau, type, detail, imageUrl)
     }
 }
