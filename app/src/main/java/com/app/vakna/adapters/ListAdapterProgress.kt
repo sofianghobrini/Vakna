@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.app.vakna.R
 import com.app.vakna.modele.GestionnaireDeTaches
 
@@ -44,6 +46,7 @@ class ListAdapterProgress(
             switchTermine.isChecked = listData.estTermine ?: false
             if (switchTermine.isChecked) {
                 switchTermine.isEnabled = false
+                updateBackground(holder.cardView)
             }
 
             switchTermine.setOnCheckedChangeListener { _, isChecked ->
@@ -55,6 +58,7 @@ class ListAdapterProgress(
                             switchTermine.isEnabled = false
                             completedTasks++
                             updateProgressBar()
+                            updateBackground(holder.cardView)
                         } else {
                             switchTermine.isChecked = false
                         }
@@ -62,12 +66,19 @@ class ListAdapterProgress(
                 }
             }
         }
+
+
     }
 
     // Met à jour la barre de progression
     private fun updateProgressBar() {
         val progressPercentage = (completedTasks.toDouble() / itemCount) * 100
         progressBar?.progress = progressPercentage.toInt()
+    }
+
+    // Change la couleur du fond du cardView de l'item
+    private fun updateBackground(cardView: CardView?) {
+        cardView?.setCardBackgroundColor(ContextCompat.getColor(context, R.color.tacheTermine))
     }
 
     // Affiche une boîte de dialogue de confirmation

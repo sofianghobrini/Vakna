@@ -1,8 +1,12 @@
 package com.app.vakna
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +17,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
 import com.app.vakna.modele.dao.AccesJson
+import com.app.vakna.notifications.NotificationReceiver
+import com.app.vakna.notifications.NotificationService
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,11 +65,16 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+//        scheduleNotification(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.i("test", AccesJson("taches",this).lireFichierJson())
+    private fun scheduleNotification(context: Context) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+        val triggerAtMillis = SystemClock.elapsedRealtime() + 15000
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtMillis, pendingIntent)
     }
 
     private fun isFirstLaunch(): Boolean {

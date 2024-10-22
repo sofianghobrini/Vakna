@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.R
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -22,6 +23,7 @@ open class ListAdapter(
         val listType: TextView = itemView.findViewById(R.id.listType)
         val listImportance: TextView = itemView.findViewById(R.id.listImportance)
         val listTermine: SwitchMaterial? = itemView.findViewById(R.id.listSwitchTermine)
+        val cardView: CardView? = itemView.findViewById(R.id.cardView)
         val boutonArchiverTache: ImageButton? = itemView.findViewById(R.id.boutonArchiverTache)
         val boutonModifierTache: ImageButton? = itemView.findViewById(R.id.boutonModifierTache)
     }
