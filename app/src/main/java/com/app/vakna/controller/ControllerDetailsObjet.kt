@@ -41,12 +41,14 @@ class ControllerDetailsObjet(
             val qte = quantite.text.toString().toInt()
             if (qte > 1) {
                 quantite.setText((qte - 1).toString())
+                reduirePrix()
             }
         }
 
         boutonAugmenter.setOnClickListener {
             val qte = quantite.text.toString().toInt()
             quantite.setText((qte + 1).toString())
+            prixTotal()
         }
 
         val boutonAchat = binding.boutonAchat
@@ -82,6 +84,28 @@ class ControllerDetailsObjet(
     }
     private fun achat( nom:String,  quantite:Int){
         shop.acheter(nom, quantite)
+    }
+    private fun prixTotal(){
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name =  intent.getStringExtra("NOM_OBJET") ?: "Objet inconnu"
+        val objet = shop.getObjet(name)
+
+        // Calcul du prix total
+        val prixTotal = objet?.getPrix()!! * quantite
+
+        // Mettre à jour l'affichage du prix total
+        binding.texteCout.text = "Coût total: $prixTotal"
+    }
+    private fun reduirePrix(){
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name =  intent.getStringExtra("NOM_OBJET") ?: "Objet inconnu"
+        val objet = shop.getObjet(name)
+
+        // Calcul du prix total
+        val prixTotal = objet?.getPrix()!! * quantite
+
+        // Mettre à jour l'affichage du prix total
+        binding.texteCout.text = "Coût total: $prixTotal"
     }
 
     inner class MinFilter(private val minValue: Int) : InputFilter {
