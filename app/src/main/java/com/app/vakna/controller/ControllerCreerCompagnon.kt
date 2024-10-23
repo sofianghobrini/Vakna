@@ -45,16 +45,16 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         // Configurer le bouton de confirmation de création du compagnon
         binding.boutonCreerCompagnon.setOnClickListener {
-            creerCompagnon() // Appeler la méthode pour créer le compagnon
-            navigateToMainActivity() // Naviguer vers l'activité principale
+            creerCompagnon()
+            navigateToMainActivity()
         }
 
         // Configurer l'éditeur de texte pour détecter l'appui sur "Enter"
         binding.inputNomCompagnon.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
                 if (binding.boutonCreerCompagnon.isEnabled) {
-                    creerCompagnon() // Appeler la méthode pour créer le compagnon
-                    navigateToMainActivity() // Naviguer vers l'activité principale
+                    creerCompagnon()
+                    navigateToMainActivity()
                 }
                 true
             } else {
