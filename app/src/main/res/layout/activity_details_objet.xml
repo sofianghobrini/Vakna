@@ -9,6 +9,19 @@
     android:paddingEnd="16dp"
     tools:context=".DetailsObjetActivity" >
 
+    <ImageButton
+        android:id="@+id/boutonRetour"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/retour"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/texteTitreDetails"
         android:layout_width="wrap_content"
