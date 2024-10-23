@@ -54,12 +54,15 @@ class Inventaire(private var contexte: Context) {
         inventaireDAO.mettreAJourQuantiteObjet(objet.getId(), objet.getQuantite())
     }
 
-    fun ajouterObjet(objet: ObjetObtenu, quantite: Int) {
+    fun ajouterObjet(objet: Objet, quantite: Int) {
+        var nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 1, objet.getImageUrl())
         if (!objets.any { it.getId() == objet.getId() }) {
-            objets += objet
+            objets += nouvelObjet
+            inventaireDAO.insererObjetObtenu(nouvelObjet)
         }
         getObjetParNom(objet.getNom())?.updateQuantite(quantite)
-        inventaireDAO.insererObjetObtenu(objet)
+        inventaireDAO.mettreAJourQuantiteObjet(nouvelObjet.getId(), nouvelObjet.getQuantite())
+
     }
 
     fun ajouterPieces(valeur: Int) {
