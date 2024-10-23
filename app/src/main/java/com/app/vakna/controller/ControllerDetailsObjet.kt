@@ -45,9 +45,15 @@ class ControllerDetailsObjet(
 
         boutonAchat.setOnClickListener {
             if (context is DetailsObjetActivity) {
-                val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("navigateTo", "Magasin")
-                context.startActivity(intent)
+                context.finish()
+            }
+        }
+
+        val boutonRetour = binding.boutonRetour
+
+        boutonRetour.setOnClickListener {
+            if (context is DetailsObjetActivity) {
+                context.finish()
             }
         }
 
