@@ -5,8 +5,14 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import com.app.vakna.R
+import com.app.vakna.adapters.GridAdapter
+import com.app.vakna.adapters.GridAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.ObjetObtenu
+import com.app.vakna.modele.Shop
+import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,20 +26,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     private val context: Context = binding.root.context
     private val dao = CompagnonDAO(context)
     private var compagnon: Compagnon? = null
+    private var inventaire = Inventaire(context)
 
-    // Liste des items "Jouets" disponibles
-    private val jouetsItems = listOf(
-        "Jouet 1", "Jouet 2", "Jouet 3", "Jouet 4",
-        "Jouet 5", "Jouet 6", "Jouet 7", "Jouet 8",
-        "Jouet 9", "Jouet 10"
-    )
-
-    // Liste des items "Nourriture" disponibles
-    private val nourritureItems = listOf(
-        "Kebab", "Pizza", "Burger", "Sandwich",
-        "Salade", "Kebab", "Kebab", "Pasta",
-        "Sushi", "Steak"
-    )
+    private val jouetsItems = inventaire.getObjetsParType(TypeObjet.JOUET)
+    private val nourritureItems = inventaire.getObjetsParType(TypeObjet.NOURRITURE)
 
     /**
      * Initialise l'interface utilisateur pour afficher les informations du compagnon.
@@ -80,8 +76,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
      * @param items La liste d'items à afficher dans le GridView.
      */
-    private fun setupGridView(items: List<String>) {
-        val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, items)
+    private fun setupGridView(items: List<ObjetObtenu>) {
+        val gridItems = Inventaire.setToGridDataArray(items)
+        val adapter = GridAdapterInventaire(context, gridItems)
         binding.gridViewItems.adapter = adapter
     }
 
