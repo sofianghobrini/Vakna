@@ -44,7 +44,6 @@ class Shop(
             val totalPrix = objet.getPrix() * quantite
             if (inventaireDAO.obtenirPieces() >= totalPrix) {
                 inventaire.ajouterObjet(objet, quantite)
-                inventaire.ajouterObjet(objet, quantite)
                 val nouvellesPieces = inventaire.getPieces() - totalPrix
                 inventaireDAO.mettreAJourPieces(nouvellesPieces)
 
