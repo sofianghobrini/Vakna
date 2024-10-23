@@ -23,14 +23,7 @@ class CompagnonFragment : Fragment() {
     ): View {
         _binding = FragmentCompagnonBinding.inflate(inflater, container, false)
 
-        // Initialize the controller and compagnon
         compagnonController = ControllerCompagnon(binding)
-        compagnonController.initializeCompagnon()
-
-        // Handle click on the button to modify compagnon name
-        binding.editNameButton.setOnClickListener {
-            compagnonController.showEditNameDialog()
-        }
 
         return binding.root
     }

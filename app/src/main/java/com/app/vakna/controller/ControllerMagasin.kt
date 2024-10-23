@@ -1,15 +1,15 @@
 package com.app.vakna.controller
 
-import android.content.Context
 import android.util.Log
 import android.widget.GridView
 import com.app.vakna.R
 import com.app.vakna.adapters.GridAdapter
+import com.app.vakna.adapters.GridAdapterInventaire
 import com.app.vakna.adapters.GridData
-import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
@@ -88,7 +88,11 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     // Use the correct data type (List<GridData>) in setupGridView
     private fun setupGridView(items: List<Objet>) {
-        val gridItems = Shop.setToGridDataArray(items)
+        val sortedItems = items.sortedWith(compareBy<Objet> { it.getType() }.thenBy { it.getId() })
+
+        // Convert sorted items to GridData format
+        val gridItems = Shop.setToGridDataArray(sortedItems)
+
         val adapter = GridAdapter(context, gridItems)
         binding.gridViewItems.adapter = adapter
     }

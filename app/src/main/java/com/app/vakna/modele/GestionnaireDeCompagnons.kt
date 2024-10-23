@@ -35,12 +35,18 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         }
     }
 
+    fun modifierNom(id: Int, nom: String) {
+        val compagnon = setDeCompagnons.find { it.id == id }?: return
+
+        compagnon.nom = nom
+        dao.modifier(id, compagnon)
+    }
+
     fun modifierFaim(id: Int, niveau: Int) {
         // Vérification que le niveau est compris entre -100 et 100
         assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
         val compagnon = setDeCompagnons.find { it.id == id }?: return
 
-        // Modification du niveau de faim et forçage de la valeur entre 0 et 100
         compagnon.faim += niveau
         compagnon.faim = compagnon.faim.coerceIn(0, 100)
         dao.modifier(id, compagnon)

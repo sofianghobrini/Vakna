@@ -1,21 +1,26 @@
 package com.app.vakna.controller
 
 import android.content.Context
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import com.app.vakna.R
-import com.app.vakna.adapters.GridAdapter
 import com.app.vakna.adapters.GridAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.Objet
 import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.ObjetDAO
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
+import kotlin.random.Random
 
 /**
  * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
@@ -24,21 +29,29 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
-    private val dao = CompagnonDAO(context)
+    private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var compagnon: Compagnon? = null
-    private var inventaire = Inventaire(context)
-
-    private val jouetsItems = inventaire.getObjetsParType(TypeObjet.JOUET)
-    private val nourritureItems = inventaire.getObjetsParType(TypeObjet.NOURRITURE)
+    private val inventaire = Inventaire(context)
+    private val shop = Shop(context)
 
     /**
      * Initialise l'interface utilisateur pour afficher les informations du compagnon.
      * Charge les données depuis la base et configure les éléments graphiques.
      */
-    fun initializeCompagnon() {
+    init {
+        Log.e("test", inventaire.getObjetParNom("Jouet 4")?.getQuantite().toString())
+
+        setUpView()
+
+        binding.editNameButton.setOnClickListener {
+            showEditNameDialog()
+        }
+    }
+
+    private fun setUpView() {
         // Charger le compagnon depuis la base de données
-        val compagnons = dao.obtenirTous()
-        compagnon = if (compagnons.isNotEmpty()) compagnons[0] else null
+        val compagnons = gestionnaire.obtenirCompagnons()
+        compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
 
         // Mettre à jour l'affichage du nom et du niveau du compagnon
         compagnon?.let {
@@ -52,23 +65,30 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             .load(R.drawable.dragon)
             .into(binding.dragonGif)
 
-        // Ajouter les onglets "Jouets" et "Nourriture" dans le TabLayout
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Jouets"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nourriture"))
+        val distinctTypesList = shop.getObjets().map { it.getType() }
+            .distinct()
 
-        // Configurer le GridView par défaut avec les items "Jouets"
-        setupGridView(jouetsItems)
+        distinctTypesList.forEach {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.name))
+        }
+
+        val items = inventaire.getObjetsParType(distinctTypesList.first())
+        setupGridView(items)
 
         // Gérer la sélection d'onglets (Jouets / Nourriture)
-        binding.tabLayout.addOnTabSelectedListener(object : com.google.android.material.tabs.TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: com.google.android.material.tabs.TabLayout.Tab?) {
-                when (tab?.text) {
-                    "Jouets" -> setupGridView(jouetsItems)
-                    "Nourriture" -> setupGridView(nourritureItems)
-                }
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val selectedTypeName = tab?.text.toString()
+
+                val selectedType = TypeObjet.valueOf(selectedTypeName)
+
+                val filteredItems = inventaire.getObjetsParType(selectedType)
+
+                setupGridView(filteredItems)
             }
-            override fun onTabUnselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {}
-            override fun onTabReselected(tab: com.google.android.material.tabs.TabLayout.Tab?) {}
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
 
@@ -77,7 +97,12 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * @param items La liste d'items à afficher dans le GridView.
      */
     private fun setupGridView(items: List<ObjetObtenu>) {
-        val gridItems = Inventaire.setToGridDataArray(items)
+        val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+
+        // Convert sorted items to GridData format
+        val gridItems = Inventaire.setToGridDataArray(sortedItems)
+
+        // Set up the GridAdapterInventaire with the sorted items
         val adapter = GridAdapterInventaire(context, gridItems)
         binding.gridViewItems.adapter = adapter
     }
@@ -103,12 +128,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 val newName = editText.text.toString()
                 if (newName.isNotEmpty()) {
                     // Mettre à jour le nom du compagnon dans la base de données
-                    compagnon?.let {
-                        it.nom = newName
-                        dao.modifier(it.id, it)  // Sauvegarder les modifications
-                        binding.dragonName.text = newName  // Mettre à jour l'affichage
-                        Toast.makeText(context, "Nom du compagnon changé", Toast.LENGTH_SHORT).show()
-                    }
+                    compagnon?.let { gestionnaire.modifierNom(it.id, newName) }
                 }
                 dialog.dismiss()
             }

@@ -9,12 +9,9 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.app.vakna.AjouterActivity
 import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
-import com.app.vakna.ModifierActivity
 import com.app.vakna.R
-import com.app.vakna.databinding.FragmentMagasinBinding
 
 open class GridAdapter (
     private val context: Context,
