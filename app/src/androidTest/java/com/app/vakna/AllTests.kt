@@ -11,9 +11,9 @@ import org.junit.runners.Suite
     ModeleTacheTest::class,
     TacheDAOTest::class,
     ModeleObjetTest::class,
-    ShopTest::class,
     ObjetObtenuTest::class,
-    ObjetDAOTest::class
+    ObjetDAOTest::class,
+    ModeleInventaireTest::class
 )
 class AllTests {
     // Cette classe reste vide, utilisée uniquement pour l'annotation de la suite.
