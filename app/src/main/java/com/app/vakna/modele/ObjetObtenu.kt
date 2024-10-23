@@ -14,7 +14,7 @@ class ObjetObtenu(
     imageUrl: String
 ) : Objet(id, nom, prix, niveau, type, detail, imageUrl) {
 
-    fun toGridData(): GridData {
+    override fun toGridData(): GridData {
         return GridData(0, getNom(), getNiveau(), getPrix(), getQuantite())
     }
 

@@ -6,6 +6,10 @@ import com.app.vakna.MainActivity
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import android.text.InputFilter
 import android.text.Spanned
+import android.util.Log
+import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.Shop
+import com.app.vakna.modele.dao.InventaireDAO
 
 class ControllerDetailsObjet(
     private val binding: ActivityDetailsObjetBinding,
@@ -13,17 +17,21 @@ class ControllerDetailsObjet(
 ) {
 
     val context = binding.root.context
+    val shop = Shop(context)
+    val inventaireDAO = InventaireDAO(context)
 
     init {
         val nomObjet = intent.getStringExtra("NOM_OBJET") ?: "Objet inconnu"
-        val niveauObjet = intent.getStringExtra("NIVEAU_OBJET") ?: "Objet inconnu"
-        val coutObjet = intent.getStringExtra("COUT_OBJET") ?: "Objet inconnu"
+        val objet = shop.getObjet(nomObjet)
+        afficherNombreDeCoins()
+        binding.texteTitreDetails.text = "${objet?.getNom()}"
 
-        binding.texteTitreDetails.text = "$nomObjet"
 
-        binding.texteNiveau.text = "Niveau: $niveauObjet"
+        binding.texteNiveau.text = "Niveau: ${objet?.getNiveau()}"
 
-        binding.texteCout.text = "Coût: $coutObjet"
+        binding.texteCout.text = "Coût: ${objet?.getPrix()}"
+
+        binding.texteDescription.text = "${objet?.getDetails()}"
 
         val boutonDiminuer = binding.boutonDiminuer
         val boutonAugmenter = binding.boutonAugmenter
@@ -44,8 +52,14 @@ class ControllerDetailsObjet(
         val boutonAchat = binding.boutonAchat
 
         boutonAchat.setOnClickListener {
+            val nomObjet = intent.getStringExtra("NOM_OBJET") ?: "Objet inconnu"
+            val textQuantite = quantite.text.toString()
+            val nbrQuantite = textQuantite.toInt()
+            achat(nomObjet, nbrQuantite)
             if (context is DetailsObjetActivity) {
-                context.finish()
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("navigateTo", "Magasin")
+                context.startActivity(intent)
             }
         }
 
@@ -60,6 +74,14 @@ class ControllerDetailsObjet(
         val editText = binding.inputQuantite
 
         editText.filters = arrayOf<InputFilter>(MinFilter(1))
+    }
+    private fun afficherNombreDeCoins() {
+        val nombreDeCoins = inventaireDAO.obtenirPieces()
+        val texteNombreCoins = binding.texteNombreCoins
+        texteNombreCoins.text = "$nombreDeCoins"
+    }
+    private fun achat( nom:String,  quantite:Int){
+        shop.acheter(nom, quantite)
     }
 
     inner class MinFilter(private val minValue: Int) : InputFilter {

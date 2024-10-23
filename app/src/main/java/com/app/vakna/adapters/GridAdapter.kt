@@ -48,8 +48,6 @@ open class GridAdapter (
             if (context is MainActivity) {
                 val intent = Intent(context, DetailsObjetActivity::class.java).apply {
                     putExtra("NOM_OBJET", item.nom)
-                    putExtra("NIVEAU_OBJET", item.niveau)
-                    putExtra("COUT_OBJET", item.cout)
                 }
                 context.startActivity(intent)
             }

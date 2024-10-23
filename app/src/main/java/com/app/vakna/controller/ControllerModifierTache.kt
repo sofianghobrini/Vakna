@@ -94,7 +94,6 @@ class ControllerModifierTache(
 
         // Vérification si le nom de la tâche est vide
         if (nomTache.isBlank()) {
-            Log.e("ControllerModifierTache", "Le nom de la tâche ne peut pas être vide.")
             return
         }
 
@@ -109,9 +108,7 @@ class ControllerModifierTache(
         // Initialiser le gestionnaire de tâches et modifier la tâche existante
         val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
 
-        // Logging pour le débogage
-        Log.i("ControllerModifierTache", "Ancien nom : $nomTacheOriginale, Nouveau nom : $nomTache")
-        Log.i("ControllerModifierTache", gestionnaireDeTaches.obtenirTaches().toString())
+
 
         // Appeler la fonction de modification dans le gestionnaire de tâches
         gestionnaireDeTaches.modifierTache(nomTacheOriginale, tache)

@@ -1,6 +1,8 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.util.Log
+import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
@@ -11,6 +13,7 @@ class Shop(
     private val objetDAO = ObjetDAO(context)
     private val inventaireDAO = InventaireDAO(context)
     private var objetMagasin = mutableListOf<Objet>()
+    private val inventaire = Inventaire(context)
 
     init {
         objetDAO.obtenirTous().forEach() { objetMagasin.add(it) }
@@ -21,13 +24,17 @@ class Shop(
         return objetMagasin.find { it.getNom() == nom }
     }
 
+    fun getObjetsParType(type: TypeObjet): List<Objet> {
+        return objetMagasin.filter { it.getType() == type }
+    }
+
     // Méthode pour obtenir tous les objets
     fun getObjets(): List<Objet> {
         return objetMagasin
     }
 
     // Méthode pour acheter une certaine quantité d'un objet
-    fun acheter(nom: String, quantite: Int, inventaire: Inventaire) {
+    fun acheter(nom: String, quantite: Int) {
         // Obtenir l'objet par son nom
         val objet = getObjet(nom)
 
@@ -35,10 +42,12 @@ class Shop(
         if (objet != null) {
             val id = objet.getId()
             val totalPrix = objet.getPrix() * quantite
-            if (inventaire.getPieces() >= totalPrix) {
+            if (inventaireDAO.obtenirPieces() >= totalPrix) {
                 inventaire.ajouterObjet(objet, quantite)
-                inventaire.ajouterPieces(-totalPrix)
-                inventaireDAO.mettreAJourPieces(inventaire.getPieces())
+                inventaire.ajouterObjet(objet, quantite)
+                val nouvellesPieces = inventaire.getPieces() - totalPrix
+                inventaireDAO.mettreAJourPieces(nouvellesPieces)
+
             }
         }
     }
@@ -51,5 +60,16 @@ class Shop(
     // Méthode pour lister les objets par type
     fun listerObjet(type: TypeObjet): List<Objet> {
         return objetMagasin.filter { it.getType() == type}
+    }
+
+    companion object {
+        fun setToGridDataArray(objets: List<Objet>): ArrayList<GridData> {
+            val list = ArrayList<GridData>()
+            for (objet in objets) {
+                val listData = objet.toGridData()
+                list.add(listData)
+            }
+            return list
+        }
     }
 }

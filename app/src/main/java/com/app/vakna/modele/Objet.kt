@@ -1,5 +1,7 @@
 package com.app.vakna.modele
 
+import com.app.vakna.adapters.GridData
+
 open class Objet(
     private var id: Int,
     private var nom: String,
@@ -16,6 +18,11 @@ open class Objet(
         setDetails(detail)
         require(imageUrl.isNotBlank()){"L'URL de l'image ne doit pas être vide"}
     }
+
+    open fun toGridData(): GridData {
+        return GridData(0, getNom(), getNiveau(), getPrix())
+    }
+
     fun getId(): Int {
         return id
     }
