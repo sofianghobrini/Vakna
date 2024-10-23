@@ -11,6 +11,7 @@ class GestionnaireDeTaches(private var context: Context) {
     private val setDeTaches = mutableSetOf<Tache>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var idCompagnon: Int = 1
+    private var inventaire = Inventaire(context)
 
     init {
         tacheDAO.obtenirTous().forEach { setDeTaches.add(it) }
@@ -92,6 +93,7 @@ class GestionnaireDeTaches(private var context: Context) {
             tache.derniereValidation = LocalDate.now()
             gestionnaireCompagnons.modifierHumeur(idCompagnon, 5 * (tache.importance.ordinal + 1))
             gestionnaireCompagnons.gagnerXp(idCompagnon, 5 * (tache.importance.ordinal + 1))
+            inventaire.ajouterPieces(tache.importance.ordinal*2)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
