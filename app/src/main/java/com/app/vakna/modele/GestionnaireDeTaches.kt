@@ -93,7 +93,7 @@ class GestionnaireDeTaches(private var context: Context) {
             tache.derniereValidation = LocalDate.now()
             gestionnaireCompagnons.modifierHumeur(idCompagnon, 5 * (tache.importance.ordinal + 1))
             gestionnaireCompagnons.gagnerXp(idCompagnon, 5 * (tache.importance.ordinal + 1))
-            inventaire.ajouterPieces(tache.importance.ordinal*2)
+            inventaire.ajouterPieces(tache.importance.ordinal*5)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
