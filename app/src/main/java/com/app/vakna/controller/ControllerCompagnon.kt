@@ -28,9 +28,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     private var compagnon: Compagnon? = null
     private var inventaire = Inventaire(context)
 
-    private val jouetsItems = inventaire.getObjetsParType(TypeObjet.JOUET)
-    private val nourritureItems = inventaire.getObjetsParType(TypeObjet.NOURRITURE)
-
     /**
      * Initialise l'interface utilisateur pour afficher les informations du compagnon.
      * Charge les données depuis la base et configure les éléments graphiques.
@@ -39,6 +36,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         // Charger le compagnon depuis la base de données
         val compagnons = dao.obtenirTous()
         compagnon = if (compagnons.isNotEmpty()) compagnons[0] else null
+        val jouetsItems = inventaire.getObjetsParType(TypeObjet.JOUET)
+        val nourritureItems = inventaire.getObjetsParType(TypeObjet.NOURRITURE)
 
         // Mettre à jour l'affichage du nom et du niveau du compagnon
         compagnon?.let {
