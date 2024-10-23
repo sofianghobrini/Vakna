@@ -33,23 +33,6 @@ class GridAdapterInventaire(
         coutTextView.text = item.cout.toString()
         qteTextView.text = "${item.qte}x"
 
-        view.setOnClickListener {
-            val popupView = LayoutInflater.from(context).inflate(R.layout.popup_objet, null)
-            val popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-            val popupTextView: TextView = popupView.findViewById(R.id.popupTextView)
-            popupTextView.text = item.nom
-
-            popupWindow.isOutsideTouchable = true
-            popupWindow.isFocusable = true
-            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0) // Show it centered on the item
-
-            // Optional: dismiss the popup when clicked
-            popupView.setOnClickListener {
-                popupWindow.dismiss()
-            }
-        }
-
         return view
     }
 
