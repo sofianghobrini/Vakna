@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadingEdge="horizontal|vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/customborder"
+        android:fadingEdge="horizontal|vertical"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dialogTexteWarningQteTravail"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:text="Quelle quantité de travail pensez vous avoir fourni ? " />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:gravity="center|top"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/boutonFaibleQteTravail"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#FCC53D"
+                android:text="Faible"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/boutonMoyenneQteTravail"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#F2E949"
+                android:text="Moyenne"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/boutonEleveeQteTravail"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#91D26E"
+                android:text="Élevée"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
