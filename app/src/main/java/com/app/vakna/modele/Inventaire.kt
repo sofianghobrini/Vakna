@@ -1,8 +1,11 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import com.app.vakna.adapters.GridData
+import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
+import java.lang.reflect.Type
 
 class Inventaire(private var contexte: Context) {
     private var inventaireDAO = InventaireDAO(contexte)
@@ -18,6 +21,10 @@ class Inventaire(private var contexte: Context) {
 
     fun getObjets(): List<ObjetObtenu> {
         return objets
+    }
+
+    fun getObjetsParType(type: TypeObjet): List<ObjetObtenu> {
+        return objets.filter { it.getType() == type }
     }
 
     fun getPieces(): Int {
@@ -69,5 +76,16 @@ class Inventaire(private var contexte: Context) {
         assert(pieces + valeur >= 0) { "Il est impossible d'avoir des pièces en négatif" }
         pieces += valeur
         inventaireDAO.mettreAJourPieces(pieces)
+    }
+
+    companion object {
+        fun setToGridDataArray(objets: List<ObjetObtenu>): ArrayList<GridData> {
+            val list = ArrayList<GridData>()
+            for (objet in objets) {
+                val listData = objet.toGridData()
+                list.add(listData)
+            }
+            return list
+        }
     }
 }

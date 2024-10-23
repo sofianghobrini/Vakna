@@ -1,5 +1,8 @@
 package com.app.vakna.modele
 
+import com.app.vakna.adapters.GridData
+import com.app.vakna.adapters.ListData
+
 class ObjetObtenu(
     id: Int,
     nom: String,
@@ -10,6 +13,10 @@ class ObjetObtenu(
     private var quantite: Int,
     imageUrl: String
 ) : Objet(id, nom, prix, niveau, type, detail, imageUrl) {
+
+    fun toGridData(): GridData {
+        return GridData(0, getNom(), getNiveau(), getPrix(), getQuantite())
+    }
 
     fun getQuantite(): Int {
         return quantite

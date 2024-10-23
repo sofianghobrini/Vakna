@@ -16,9 +16,9 @@ import com.app.vakna.ModifierActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.FragmentMagasinBinding
 
-class GridAdapter (
+open class GridAdapter (
     private val context: Context,
-    private val items: List<GridData>
+    private val items: ArrayList<GridData>
 ) : BaseAdapter() {
 
     override fun getCount(): Int = items.size
@@ -41,8 +41,8 @@ class GridAdapter (
 
         imageView.setImageResource(item.image)
         nomTextView.text = item.nom
-        niveauTextView.text = item.niveau
-        coutTextView.text = item.cout
+        niveauTextView.text = item.niveau.toString()
+        coutTextView.text = item.cout.toString()
 
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {

@@ -21,6 +21,11 @@ class Shop(
         return objetMagasin.find { it.getNom() == nom }
     }
 
+    // Méthode pour obtenir tous les objets
+    fun getObjets(): List<Objet> {
+        return objetMagasin
+    }
+
     // Méthode pour acheter une certaine quantité d'un objet
     fun acheter(nom: String, quantite: Int, inventaire: Inventaire) {
         // Obtenir l'objet par son nom
