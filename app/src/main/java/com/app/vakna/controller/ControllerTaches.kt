@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.AjouterActivity
 import com.app.vakna.GererActivity
 import com.app.vakna.MainActivity
+import com.app.vakna.ProjetsActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapterProgress
 import com.app.vakna.adapters.ListData
@@ -47,7 +48,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         }
         binding.texteTitreGoProjets.setOnClickListener{
             if (context is MainActivity) {
-            val intent = Intent(context, TachesFragment::class.java)
+            val intent = Intent(context, ProjetsActivity::class.java)
             context.startActivity(intent)
         }}
     }
