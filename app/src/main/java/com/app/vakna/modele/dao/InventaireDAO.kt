@@ -81,6 +81,26 @@ class InventaireDAO(private val contexte: Context) {
         return true
     }
 
+    // Supprimer un objet obtenu de l'inventaire
+    fun supprimerObjetObtenu(id: Int): Boolean {
+        verifierExistence()
+        val jsonString = accesJson.lireFichierJson()
+        val objetsObtenusJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
+        val objetsObtenusJsonArray = objetsObtenusJson.getAsJsonArray("objets_obtenus")
+
+        val listeObjetsObtenus: MutableList<ObjetObtenu> = gson.fromJson(
+            objetsObtenusJsonArray, object : TypeToken<MutableList<ObjetObtenu>>() {}.type
+        )
+
+        val objetASupprimer = listeObjetsObtenus.find { it.getId() == id } ?: return false
+
+        listeObjetsObtenus.remove(objetASupprimer)
+        objetsObtenusJson.add("objets_obtenus", gson.toJsonTree(listeObjetsObtenus))
+        accesJson.ecrireFichierJson(gson.toJson(objetsObtenusJson))
+
+        return true
+    }
+
     // Mettre à jour la quantité d'un objet obtenu
     fun mettreAJourQuantiteObjet(id: Int, quantite: Int): Boolean {
         val objetsObtenus = obtenirTousObjetsObtenus().toMutableList()
