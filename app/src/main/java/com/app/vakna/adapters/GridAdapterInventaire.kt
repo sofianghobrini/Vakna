@@ -1,6 +1,5 @@
 package com.app.vakna.adapters
 
-import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +10,22 @@ import android.widget.NumberPicker
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.app.vakna.R
+import com.app.vakna.controller.ControllerCompagnon
+import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.dao.CompagnonDAO
 
 class GridAdapterInventaire(
-    private val context: Context,
+    private val binding: FragmentCompagnonBinding,
     private val items: ArrayList<GridData>
-) : GridAdapter(context, items) {
+) : GridAdapter(binding.root.context, items) {
 
+    private val context = binding.root.context
     private val inventaire = Inventaire(context)
+    private var compagnon: Compagnon? = null
+    private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_inventaire, parent, false)
@@ -70,10 +77,8 @@ class GridAdapterInventaire(
                 val type = inventaire.getObjetParNom(item.nom)?.getType()
                 val updatedItems = type?.let { it1 -> inventaire.getObjetsParType(it1) }
                 items.clear()
-                updatedItems?.let { it1 -> Inventaire.setToGridDataArray(it1) }
-                    ?.let { it2 -> items.addAll(it2) }
-                notifyDataSetChanged()
 
+                ControllerCompagnon.setupGridView(updatedItems!!, binding)
                 popupUtilisationWindow.dismiss()
             }
 
