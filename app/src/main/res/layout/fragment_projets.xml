@@ -109,9 +109,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/progressProjets"
-            <!-- a faire la liste terminer projets -->
+            <!-- a faire la liste terminer projets
             tools:listitem="@layout/liste_termine_projets" />
-
+-->
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
