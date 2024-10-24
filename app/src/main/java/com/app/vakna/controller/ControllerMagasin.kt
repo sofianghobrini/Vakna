@@ -101,9 +101,4 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         val texteNombreCoins = binding.texteNombreCoins
         texteNombreCoins.text = "$nombreDeCoins"
     }
-
-
-
-
-
 }

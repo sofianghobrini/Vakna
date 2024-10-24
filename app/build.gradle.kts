@@ -64,6 +64,12 @@ android {
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+        }
+    }
 }
 
 dependencies {
@@ -108,4 +114,5 @@ dependencies {
     androidTestImplementation("androidx.test:core:1.4.0")
     implementation(kotlin("test"))
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+    androidTestImplementation("org.jacoco:org.jacoco.core:0.8.1")
 }
