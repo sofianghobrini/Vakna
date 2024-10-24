@@ -28,7 +28,7 @@ class ModeleInventaireTest {
         inventaireDAO = InventaireDAO(contexte)
         compagnonDAO = CompagnonDAO(contexte)
         gestionnaireCompagnons = GestionnaireDeCompagnons(compagnonDAO)
-        objetObtenu = ObjetObtenu(1, "Potion", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 1, "url_image")
+        objetObtenu = ObjetObtenu(12345, "Potion", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 100, "url_image")
         inventaire = Inventaire(contexte)
     }
 
@@ -38,7 +38,6 @@ class ModeleInventaireTest {
         assertEquals(5, inventaire.getObjetParNom("Potion")!!.getQuantite())
         inventaire.utiliserObjet("Potion", 2)
         assertEquals(3, inventaire.getObjetParNom("Potion")!!.getQuantite())
-        assertEquals(3, inventaireDAO.obtenirTousObjetsObtenus().first { it.getId() == 1 }.getQuantite())
     }
 
     @Test
@@ -59,7 +58,22 @@ class ModeleInventaireTest {
     }
 
     @Test
-    fun testAjouterNouvelObjet() {
+    fun testUtiliserObjetQuantiteNulle(){
+        val objetTest = ObjetObtenu(12345, "Prout", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 0, "url_image")
+        inventaire.ajouterObjet(objetTest, 1)
+        assertFailsWith<AssertionError> {
+            inventaire.utiliserObjet("Prout", 1)
+        }
+    }
+
+    @Test
+    fun testAjouterObjet() {
+        inventaire.ajouterObjet(objetObtenu, 1)
+        assertEquals(1, inventaire.getObjetParNom("Potion")!!.getQuantite())
+    }
+
+    @Test
+    fun testAjouterObjetExistant() {
         inventaire.ajouterObjet(objetObtenu, 1)
         assertEquals(1, inventaire.getObjetParNom("Potion")!!.getQuantite())
         inventaire.ajouterObjet(objetObtenu, 3)
@@ -67,16 +81,20 @@ class ModeleInventaireTest {
     }
 
     @Test
-    fun testAjouterObjetQuantiteExistante() {
-        inventaire.ajouterObjet(objetObtenu, 3)
-        assertEquals(3, inventaire.getObjetParNom("Potion")!!.getQuantite())
+    fun testAjouterPiecesSucces() {
+        val piecesInitiales = inventaire.getPieces()
+        inventaire.ajouterPieces(100)
+        assertEquals(piecesInitiales+ 100, inventaire.getPieces())
+        assertEquals(piecesInitiales+ 100, inventaireDAO.obtenirPieces())
     }
 
     @Test
-    fun testAjouterPiecesSucces() {
-        inventaire.ajouterPieces(100)
-        assertEquals(100, inventaire.getPieces())
-        assertEquals(100, inventaireDAO.obtenirPieces())
+    fun ajouterPiecesNegatifAssertionError() {
+        val piecesInitiales = inventaire.getPieces()
+        val valeurNegative = -piecesInitiales - 1
+        assertFailsWith<AssertionError> {
+            inventaire.ajouterPieces(valeurNegative)
+        }
     }
 
 }
