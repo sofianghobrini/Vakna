@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.GererActivity
+import com.app.vakna.MainActivity
 import com.app.vakna.ModifierActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapterBoutons
@@ -34,7 +35,9 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         val boutonRetour = binding.boutonRetour
         boutonRetour.setOnClickListener {
             if (context is GererActivity) {
-                context.finish()
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("navigateTo", "Taches")
+                context.startActivity(intent)
             }
         }
     }

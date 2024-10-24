@@ -5,6 +5,10 @@
     <color name="couleurSecondaire">#3483EB</color>
     <color name="tacheTermine">#AA55FF</color>
     <color name="tacheDefaut">#BBBBBB</color>
+    <color name="progressHumeur">#FFFF22</color>
+    <color name="backgroundProgressHumeur">#FFFFAA</color>
+    <color name="progressFaim">#00AA00</color>
+    <color name="backgroundProgressFaim">#AAFFAA</color>
     <!-- Couleurs par défaut -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

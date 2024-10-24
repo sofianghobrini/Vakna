@@ -1,26 +1,20 @@
 package com.app.vakna.controller
 
 import android.content.Context
-import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.Toast
 import com.app.vakna.R
 import com.app.vakna.adapters.GridAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Objet
 import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.ObjetDAO
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
-import kotlin.random.Random
 
 /**
  * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
@@ -66,6 +60,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             .load(R.drawable.dragon)
             .into(binding.dragonGif)
 
+        // Mettre à jour les progress bar
+        compagnon?.let {
+            binding.texteHumeur.text = it.humeur.toString()
+            binding.progressHumeur.progress = it.humeur
+            binding.texteFaim.text = it.faim.toString()
+            binding.progressFaim.progress = it.faim
+        }
+
         val distinctTypesList = shop.getObjets().map { it.getType() }
             .distinct()
 
@@ -74,39 +76,25 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         val items = inventaire.getObjetsParType(distinctTypesList.first())
-        setupGridView(items)
+        setupGridView(items, binding)
 
         // Gérer la sélection d'onglets (Jouets / Nourriture)
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 inventaire = Inventaire(context)
+
                 val selectedTypeName = tab?.text.toString()
 
                 val selectedType = TypeObjet.valueOf(selectedTypeName)
 
                 val filteredItems = inventaire.getObjetsParType(selectedType)
 
-                setupGridView(filteredItems)
+                setupGridView(filteredItems, binding)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-    }
-
-    /**
-     * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
-     * @param items La liste d'items à afficher dans le GridView.
-     */
-    private fun setupGridView(items: List<ObjetObtenu>) {
-        val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
-
-        // Convert sorted items to GridData format
-        val gridItems = Inventaire.setToGridDataArray(sortedItems)
-
-        // Set up the GridAdapterInventaire with the sorted items
-        val adapter = GridAdapterInventaire(context, gridItems)
-        binding.gridViewItems.adapter = adapter
     }
 
     /**
@@ -154,5 +142,30 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         // Mettre à jour la barre de progression avec l'XP restant pour le niveau
         binding.progressBarLevel.progress = xpForCurrentLevel
+    }
+
+    companion object {
+        /**
+         * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
+         * @param items La liste d'items à afficher dans le GridView.
+         */
+        fun setupGridView(items: List<ObjetObtenu>, binding: FragmentCompagnonBinding) {
+            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(binding.root.context))
+            val compagnons = gestionnaire.obtenirCompagnons()
+            val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
+            compagnon?.let {
+                binding.texteHumeur.text = it.humeur.toString()
+                binding.progressHumeur.progress = it.humeur
+                binding.texteFaim.text = it.faim.toString()
+                binding.progressFaim.progress = it.faim
+            }
+
+            val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+
+            val gridItems = Inventaire.setToGridDataArray(sortedItems)
+
+            val adapter = GridAdapterInventaire(binding, gridItems)
+            binding.gridViewItems.adapter = adapter
+        }
     }
 }
