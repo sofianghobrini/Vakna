@@ -25,36 +25,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private val shop = Shop(context)
 
     init {
-        val jouet1 = Objet(0, "Jouet 1", 15, 5, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet2 = Objet(1, "Jouet 2", 20, 6, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet3 = Objet(2, "Jouet 3", 25, 7, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet4 = Objet(3, "Jouet 4", 30, 8, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet5 = Objet(4, "Jouet 5", 35, 9, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet6 = Objet(5, "Jouet 6", 40, 10, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet7 = Objet(6, "Jouet 7", 45, 11, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet8 = Objet(7, "Jouet 8", 50, 12, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet9 = Objet(8, "Jouet 9", 55, 13, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet10 = Objet(9, "Jouet 10", 60, 14, TypeObjet.JOUET, "jouet", "placeholder")
-
-        val jouetsItems = listOf(jouet1, jouet2, jouet3, jouet4, jouet5, jouet6, jouet7, jouet8, jouet9, jouet10)
-
-        val kebab = Objet(10, "Kebab", 8, 10, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val pizza = Objet(11, "Pizza", 12, 15, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val burger = Objet(12, "Burger", 10, 8, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val sandwich = Objet(13, "Sandwich", 7, 5, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val salade = Objet(14, "Salade", 6, 4, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val pasta = Objet(15, "Pasta", 11, 9, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val sushi = Objet(16, "Sushi", 14, 13, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val steak = Objet(17, "Steak", 20, 18, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val nourritureItems = listOf(kebab, pizza, burger, sandwich, salade, pasta, sushi, steak)
-
-        val allItems = jouetsItems + nourritureItems
-
-        allItems.forEach {
-            Log.e("testBug", it.toString())
-            shopDAO.inserer(it)
-        }
-
         afficherNombreDeCoins()
 
         val distinctTypeList = shop.getObjets().map { it.getType() }

@@ -11,7 +11,7 @@
         android:scaleType="center"
         android:text="Avez vous fini cette tâche?"
         android:textSize="30dp"
-        android:textColor="@color/texteCouleurPrincipale"
+        android:textColor="@color/couleurTitre"
         android:contentDescription="@string/app_name"/>
 
     <TextView
