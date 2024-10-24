@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="165dp"
+    android:layout_width="125dp"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
     <LinearLayout
         android:id="@+id/layoutPopUp"
-        android:layout_width="165dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:background="@color/purple_200"
         android:orientation="vertical"
@@ -31,21 +31,22 @@
             android:textColor="@android:color/black"
             android:textSize="10sp" />
 
-            <NumberPicker
-                android:id="@+id/nombreUtilisations"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+        <NumberPicker
+            android:id="@+id/nombreUtilisations"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center" />
 
         <Button
-            android:id="@+id/boutonChoisirNombre"
+            android:id="@+id/boutonUtiliser"
             android:layout_width="85dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:backgroundTint="@color/green"
-            android:text="Choisir"
+            android:text="Utiliser"
             android:textSize="10sp" />
 
     </LinearLayout>
