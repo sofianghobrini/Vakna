@@ -67,8 +67,9 @@ class Inventaire(private var contexte: Context) {
             objets += nouvelObjet
             inventaireDAO.insererObjetObtenu(nouvelObjet)
         }
-        getObjetParNom(objet.getNom())?.updateQuantite(quantite)
-        inventaireDAO.mettreAJourQuantiteObjet(nouvelObjet.getId(), nouvelObjet.getQuantite())
+        var objetNouveau = getObjetParNom(objet.getNom())
+        objetNouveau?.updateQuantite(quantite)
+        inventaireDAO.mettreAJourQuantiteObjet(objetNouveau!!.getId(), objetNouveau!!.getQuantite())
     }
 
     fun ajouterPieces(valeur: Int) {

@@ -108,9 +108,7 @@
                 android:padding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressProjets"
-            <!-- a faire la liste terminer projets -->
-            tools:listitem="@layout/liste_termine_projets" />
+                app:layout_constraintTop_toBottomOf="@id/progressProjets"/>
 
 
         </LinearLayout>
