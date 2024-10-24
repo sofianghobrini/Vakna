@@ -32,13 +32,24 @@
                     android:id="@+id/texteTitreTaches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
                     android:text="Tâches"
+                    android:textColor="@color/texteCouleurPrincipale"
+                    android:textSize="30sp"
+                    android:background="@drawable/customborder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/texteTitreProjets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Projets"
                     android:textColor="@color/texteCouleurPrincipale"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
                 <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
