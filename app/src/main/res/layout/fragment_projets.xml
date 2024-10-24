@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Projets"
-                    android:background="@drawable/customborder"
+                    android:background="@drawable/input_border"
                     android:textColor="@color/texteCouleurPrincipale"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -98,20 +98,20 @@
                 android:max="100"
                 android:progress="0"
                 app:layout_constraintTop_toBottomOf="@id/texteProjets" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listeProjets"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:padding="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressProjets"
             <!-- a faire la liste terminer projets
-            tools:listitem="@layout/liste_termine_projets" />
--->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/listeProjets"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="8dp"
+                            android:clipToPadding="false"
+                            android:padding="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/progressProjets"
+
+                        tools:listitem="@layout/liste_termine_projets" />
+            -->
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
