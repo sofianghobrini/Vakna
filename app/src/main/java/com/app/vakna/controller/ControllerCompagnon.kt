@@ -31,7 +31,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     private val context: Context = binding.root.context
     private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var compagnon: Compagnon? = null
-    private val inventaire = Inventaire(context)
+    private var inventaire = Inventaire(context)
     private val shop = Shop(context)
 
     /**
@@ -39,8 +39,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
-        Log.e("test", inventaire.getObjetParNom("Jouet 4")?.getQuantite().toString())
-
         setUpView()
 
         binding.editNameButton.setOnClickListener {
@@ -49,6 +47,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     private fun setUpView() {
+
+        inventaire.ajouterPieces(1000)
+
         // Charger le compagnon depuis la base de données
         val compagnons = gestionnaire.obtenirCompagnons()
         compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
@@ -78,6 +79,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         // Gérer la sélection d'onglets (Jouets / Nourriture)
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                inventaire = Inventaire(context)
                 val selectedTypeName = tab?.text.toString()
 
                 val selectedType = TypeObjet.valueOf(selectedTypeName)
