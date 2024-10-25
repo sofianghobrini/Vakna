@@ -1,6 +1,7 @@
 package com.app.vakna.controller
 
 import android.content.Context
+import android.util.Log
 import android.widget.EditText
 import com.app.vakna.R
 import com.app.vakna.adapters.GridAdapterInventaire

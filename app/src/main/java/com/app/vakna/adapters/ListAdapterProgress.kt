@@ -11,7 +11,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.app.vakna.R
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.dao.CompagnonDAO
 
 // Adapter pour la liste de tâches terminées
 class ListAdapterProgress(
@@ -22,6 +24,7 @@ class ListAdapterProgress(
 
     private var completedTasks = 0
     private var gestionnaire = GestionnaireDeTaches(context)
+    private var compagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     init {
         completedTasks = dataArrayList.count { it.estTermine == true }
         updateProgressBar()
@@ -38,7 +41,7 @@ class ListAdapterProgress(
         holder.listName.text = listData.name
         holder.listType.text = listData.type
         holder.listImportance.text = listData.importance
-        gestionnaire.setCompagnon(1)
+        gestionnaire.setCompagnon(compagnons.obtenirCompagnons().first().id)
         gestionnaire.obtenirTaches()
 
         // Si la tâche est terminée, on désactive le switch
@@ -92,6 +95,8 @@ class ListAdapterProgress(
 
         val textView = dialogView.findViewById<TextView>(R.id.dialogTexteWarning)
 
+        var confirme = false
+
         textView.text = "Vous avez bien terminé la tâche $nomTache?"
 
         dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
@@ -100,8 +105,15 @@ class ListAdapterProgress(
         }
 
         dialogView.findViewById<Button>(R.id.boutonTerminer).setOnClickListener {
+            confirme = true
             dialog.dismiss()
             onConfirm(true)
+        }
+
+        dialog.setOnDismissListener {
+            if(!confirme) {
+                onConfirm(false)
+            }
         }
 
         dialog.show()
