@@ -107,6 +107,8 @@ class GestionnaireDeTaches(private var context: Context) {
 
     fun archiverTache(nom: String): Boolean {
         val tacheAArchiver = setDeTaches.find { it.nom == nom } ?: return false
+        if (!tacheAArchiver.estTerminee)
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, tacheAArchiver.importance.ordinal+1*20)
         tacheAArchiver.estArchivee = true
         tacheDAO.modifier(nom, tacheAArchiver)
         return true
