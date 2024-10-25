@@ -63,7 +63,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     // Méthode pour modifier le niveau d'humeur du compagnon
     fun modifierHumeur(id: Int, niveau: Int) {
         // Vérification que le niveau est compris entre -100 et 100
-        assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
+        assert(niveau in -100..100) { "Le niveau d'humeur doit être compris entre -100 et 100." }
         val compagnon = setDeCompagnons.find { it.id == id }?: return
 
         // Modification du niveau d'humeur et forçage de la valeur entre 0 et 100
@@ -102,12 +102,11 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
 
             // Calculer combien de points de faim ont été perdus pendant l'absence apres la présentation mettre en 30 min
             //val pointsToReduce = (elapsedTime / 30).toInt()
-            val pointsToReduce = (elapsedTime / 10).toInt()
+            var pointsToReduce = (elapsedTime / 10).toInt()
+            pointsToReduce = if(pointsToReduce > 100) 100 else pointsToReduce
+            modifierHumeur(id, -pointsToReduce)
 
-            // Mettre à jour la faim en fonction du temps écoulé
-            if (pointsToReduce > 0) {
-                modifierFaim(id, -pointsToReduce)
-            }
+            modifierFaim(id, -pointsToReduce)
         }
 
         val faimRunnable = object : Runnable {
@@ -127,7 +126,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
             val elapsedTime = (currentTime - lastLaunch) / 1000  // Temps en secondes
 
             //val pointsToReduce = (elapsedTime / (4 * 60)).toInt()
-            val pointsToReduce = (elapsedTime / 10).toInt()
+            var pointsToReduce = (elapsedTime / 10).toInt()
+            pointsToReduce = if(pointsToReduce > 100) 100 else pointsToReduce
             modifierHumeur(id, -pointsToReduce)
         }
 

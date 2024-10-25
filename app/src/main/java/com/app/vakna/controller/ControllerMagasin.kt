@@ -25,8 +25,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     init {
 
-        inventaireDAO.mettreAJourPieces(1000)
-
         afficherNombreDeCoins()
 
         val distinctTypeList = shop.getObjets().map { it.getType() }
