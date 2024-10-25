@@ -1,7 +1,6 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import android.util.Log
 import com.app.vakna.adapters.GridData
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
@@ -43,11 +42,10 @@ class Inventaire(private var contexte: Context) {
     private fun utiliserObjet(objet: ObjetObtenu) {
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
-        val id = gestionnaireCompagnons.obtenirCompagnons().first().id
         if (objet.getType() == TypeObjet.JOUET) {
-            gestionnaireCompagnons.modifierHumeur(id, niveau)
+            gestionnaireCompagnons.modifierFaim(0, niveau)
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
-            gestionnaireCompagnons.modifierFaim(id, niveau)
+            gestionnaireCompagnons.modifierHumeur(0, niveau)
         }
         objet.updateQuantite(-1)
     }

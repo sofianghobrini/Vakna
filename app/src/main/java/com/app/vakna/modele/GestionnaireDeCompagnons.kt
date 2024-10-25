@@ -1,10 +1,18 @@
 package com.app.vakna.modele
 
+import android.content.Context
 import android.util.Log
 import com.app.vakna.modele.dao.CompagnonDAO
+import android.os.Handler
+import android.os.Looper
+import com.app.vakna.controller.ControllerCompagnon
+
 
 class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     private val setDeCompagnons = mutableSetOf<Compagnon>()
+    private val handler = Handler(Looper.getMainLooper())
+    private val intervalleFaim = 10 * 1000L  // apres la presentation le mettre en 30 min
+    private val intervalleBonheur =  10 * 1000L  // Quatre heures en millisecondes
 
     init {
         dao.obtenirTous().forEach { setDeCompagnons.add(it) }
@@ -82,5 +90,53 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
 
     fun obtenirCompagnon(id: Int): Compagnon? {
         return obtenirCompagnons().find { it.id == id }
+    }
+
+    fun baisserNivFaim(id :Int, context: Context, lastLaunch: Long?) {
+        val compagnon = setDeCompagnons.find { it.id == id }?: return
+        if(lastLaunch != null) {
+            // Calculer le temps écoulé depuis la dernière utilisation en minutes
+            val currentTime = System.currentTimeMillis()
+            //val elapsedTime = (currentTime - lastUsageTime) / (1000 * 60)  // Temps en minutes
+            val elapsedTime = (currentTime - lastLaunch) / 1000  // Temps en secondes
+
+            // Calculer combien de points de faim ont été perdus pendant l'absence apres la présentation mettre en 30 min
+            //val pointsToReduce = (elapsedTime / 30).toInt()
+            val pointsToReduce = (elapsedTime / 10).toInt()
+
+            // Mettre à jour la faim en fonction du temps écoulé
+            if (pointsToReduce > 0) {
+                modifierFaim(id, -pointsToReduce)
+            }
+        }
+
+        val faimRunnable = object : Runnable {
+            override fun run() {
+                modifierFaim(id, -1)
+                handler.postDelayed(this, intervalleFaim)  // Reprogrammer pour toutes les 30 minutes
+            }
+        }
+        handler.post(faimRunnable)  // Lancer la première réduction de faim
+    }
+    fun baisserNivHumeur(id: Int, context: Context, lastLaunch: Long?){
+        val compagnon = setDeCompagnons.find { it.id == id } ?: return
+
+        if(lastLaunch != null) {
+            val currentTime = System.currentTimeMillis()
+            //val elapsedTime = (currentTime - lastUsageTime) / (1000 * 60)
+            val elapsedTime = (currentTime - lastLaunch) / 1000  // Temps en secondes
+
+            //val pointsToReduce = (elapsedTime / (4 * 60)).toInt()
+            val pointsToReduce = (elapsedTime / 10).toInt()
+            modifierHumeur(id, -pointsToReduce)
+        }
+
+        val bonheurRunnable = object : Runnable {
+            override fun run() {
+                modifierHumeur(id, -1)
+                handler.postDelayed(this, intervalleBonheur)
+            }
+        }
+        handler.post(bonheurRunnable)
     }
 }

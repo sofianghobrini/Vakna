@@ -1,5 +1,8 @@
 package com.app.vakna
 
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.Compagnon
@@ -26,6 +29,7 @@ class ModeleCompagnonTest {
         // Initialize the real DAO with application context
         val context = ApplicationProvider.getApplicationContext<android.content.Context>()
         compagnonDAO = CompagnonDAO(context)
+
 
         // Initialize the gestionnaire with the real DAO
         gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
@@ -149,5 +153,15 @@ class ModeleCompagnonTest {
     fun testNiveau3() {
         gestionnaireDeCompagnons.gagnerXp(compagnon.id, 310)
         assertEquals(3, compagnon.niveau())
+    }
+    @Test
+    fun testBaisserNivFaim() {
+        val compagnon = gestionnaireDeCompagnons.obtenirCompagnon(compagnon.id) ?: return
+
+        // Simuler plusieurs exécutions manuellement
+        repeat(5) {
+            gestionnaireDeCompagnons.BaisserNivFaim(compagnon.id)
+        }
+
     }
 }

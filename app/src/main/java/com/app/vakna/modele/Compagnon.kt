@@ -1,5 +1,6 @@
 package com.app.vakna.modele
 
+
 class Compagnon(
     var id: Int,                // Identifiant unique du compagnon
     var nom: String,            // Nom du compagnon

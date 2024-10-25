@@ -62,9 +62,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         // Mettre à jour les progress bar
         compagnon?.let {
-            binding.texteHumeur.text = it.humeur.toString()
+            binding.texteHumeur.text = "${it.humeur}/100"
             binding.progressHumeur.progress = it.humeur
-            binding.texteFaim.text = it.faim.toString()
+            binding.texteFaim.text = "${it.faim}/100"
             binding.progressFaim.progress = it.faim
         }
 
@@ -154,9 +154,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
             compagnon?.let {
-                binding.texteHumeur.text = it.humeur.toString()
+                binding.texteHumeur.text = "${it.humeur}/100"
                 binding.progressHumeur.progress = it.humeur
-                binding.texteFaim.text = it.faim.toString()
+                binding.texteFaim.text = "${it.faim}/100"
                 binding.progressFaim.progress = it.faim
             }
 
