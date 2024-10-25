@@ -36,10 +36,10 @@ class ShopTest {
         val gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
 
         // Initialize the shop
-        shop = Shop(objetDAO, inventaireDAO)
+        shop = Shop(context)
 
         // Initialize an inventory with 100 pieces and some existing objects
-        inventaire = Inventaire(100, mutableListOf(), gestionnaireDeCompagnons, inventaireDAO)
+        inventaire = Inventaire(context)
 
         // Manually insert objects into ObjetDAO
         val potion = Objet(1, "Potion", 10, 1, TypeObjet.NOURRITURE, "Restores health", "https://example.com/potion.jpg")
@@ -68,7 +68,7 @@ class ShopTest {
     @Test
     fun testAcheterUpdatesInventory() {
         // Buy 2 Potions
-        shop.acheter("Potion", 2, inventaire)
+        shop.acheter("Potion", 2)
 
         // Verify that the quantity and pieces have been updated correctly
         assertEquals(80, inventaire.getPieces()) // 100 - 2 * 10 = 80
@@ -83,7 +83,7 @@ class ShopTest {
     @Test
     fun testAcheterFailsForInsufficientFunds() {
         // Try to buy 3 Swords, but the inventory has only 100 pieces (3 * 50 = 150)
-        shop.acheter("Sword", 3, inventaire)
+        shop.acheter("Sword", 3)
 
         // Verify that the purchase fails and nothing is updated in the inventory
         assertEquals(100, inventaire.getPieces())

@@ -1,17 +1,21 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.util.Log
+import com.app.vakna.adapters.ListData
+import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.ProjetDAO
 import java.time.LocalDate
 
-class GestionnaireDeProjets(private var context: Context) {
+class GestionnaireDeProjets(private val context: Context) {
     private var projetDAO = ProjetDAO(context)
     private val setDeProjets = mutableSetOf<Projet>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var idCompagnon: Int = 1
 
     init {
+        Log.d("test", setToListDataArray(obtenirProjets()).toString())
         projetDAO.obtenirTous().forEach { setDeProjets.add(it) }
     }
 
@@ -48,17 +52,17 @@ class GestionnaireDeProjets(private var context: Context) {
     return toutesInsertionsOK
     }*/
 
-    fun modifierProjet(nom: String, nouvelleProjet: Projet): Boolean {
+    fun modifierProjet(nom: String, nouveauProjet: Projet): Boolean {
         val projet = setDeProjets.find { it.nom == nom }
         if (projet != null) {
-            projet.nom = nouvelleProjet.nom
-            projet.frequence = nouvelleProjet.frequence
-            projet.importance = nouvelleProjet.importance
-            projet.type = nouvelleProjet.type
-            projet.derniereValidation = nouvelleProjet.derniereValidation
-            projet.estTermine = nouvelleProjet.estTermine
+            projet.nom = nouveauProjet.nom
+            projet.importance = nouveauProjet.importance
+            projet.type = nouveauProjet.type
+            projet.derniereValidation = nouveauProjet.derniereValidation
+            projet.estTermine = nouveauProjet.estTermine
+            projet.nbAvancements = nouveauProjet.nbAvancements
 
-            return projetDAO.modifier(nom, nouvelleProjet)
+            return projetDAO.modifier(nom, nouveauProjet)
         } else {
             throw IllegalArgumentException("Projet avec le nom $nom introuvable")
         }
@@ -84,17 +88,31 @@ class GestionnaireDeProjets(private var context: Context) {
         }
     }
 
+    fun avancerProjet(nom: String, qteTravail: Importance) {
+        val projet = setDeProjets.find { it.nom == nom }
+        if (projet != null) {
+            projet.derniereValidation = LocalDate.now()
+            projet.estArchive = true
+            projet.nbAvancements++
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, 3 * (projet.importance.ordinal + qteTravail.ordinal + 2))
+            gestionnaireCompagnons.gagnerXp(idCompagnon, 3 * (projet.importance.ordinal + qteTravail.ordinal + 2))
+        } else {
+            throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
+        }
+        projetDAO.modifier(nom, projet)
+    }
+
     fun finirProjet(nom: String) {
         val projet = setDeProjets.find { it.nom == nom }
         if (projet != null) {
             projet.estTermine = true
             projet.derniereValidation = LocalDate.now()
-            gestionnaireCompagnons.modifierHumeur(idCompagnon, 5 * (projet.importance.ordinal + 1))
-            gestionnaireCompagnons.gagnerXp(idCompagnon, 5 * (projet.importance.ordinal + 1))
+            projet.nbAvancements++
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, 10 * (projet.importance.ordinal + 1) * projet.nbAvancements)
+            gestionnaireCompagnons.gagnerXp(idCompagnon, 10 * (projet.importance.ordinal + 1) * projet.nbAvancements)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
         }
-        projetDAO.modifier(nom, projet)
     }
 
     fun archiverProjet(nom: String): Boolean {
@@ -118,19 +136,22 @@ class GestionnaireDeProjets(private var context: Context) {
         return obtenirProjets().filter { it.nom.contains(nom) }.toSet()
     }
 
-    fun obtenirProjets(frequence: Frequence): Set<Projet> {
-        return obtenirProjets().filter { it.frequence == frequence }.toSet()
-    }
-
-    fun obtenirProjetsParFrequence(): Map<Frequence, Set<Projet>> {
-        return obtenirProjets().groupBy { it.frequence }.mapValues { it.value.toSet() }
-    }
-
     fun obtenirProjetsParImportance(): Map<Importance, Set<Projet>> {
         return obtenirProjets().groupBy { it.importance }.mapValues { it.value.toSet() }
     }
 
     fun rechercherProjet(nom: String): Set<Projet> {
         return obtenirProjets().filter { it.nom.contains(nom) }.toSet()
+    }
+
+    companion object {
+        fun setToListDataArray(projets: Set<Projet>): ArrayList<ListData> {
+            val list = ArrayList<ListData>()
+            for (projet in projets) {
+                val listData = projet.toListData()
+                list.add(listData)
+            }
+            return list
+        }
     }
 }

@@ -1,0 +1,113 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+    android:id="@+id/labelNomProjet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:text="Nom du projet:"
+    android:textColor="@color/couleurTexte"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+    android:id="@+id/inputNomProjet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/input_border"
+    android:hint="ex: Faire site web"
+    android:inputType="text"
+    android:padding="5dp"
+    android:textColorHint="@color/gray"
+    android:textSize="18sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelNomProjet" />
+
+    <TextView
+    android:id="@+id/labelTypeProjet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:text="Type du projet:"
+    android:textColor="@color/couleurTexte"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/inputNomProjet" />
+
+    <Spinner
+    android:id="@+id/selectTypeProjet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:entries="@array/typeTacheExemple"
+    android:spinnerMode="dropdown"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelTypeProjet" />
+
+    <TextView
+    android:id="@+id/labelImportanceProjet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:text="Importance du projet:"
+    android:textColor="@color/couleurTexte"
+    android:textSize="20sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/selectTypeProjet" />
+
+    <RadioGroup
+    android:id="@+id/radioImportanceProjet"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/labelImportanceProjet">
+
+    <RadioButton
+        android:id="@+id/radioFaible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Faible"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="10dp" />
+
+    <RadioButton
+        android:id="@+id/radioMoyen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moyen"
+        android:layout_marginEnd="30dp" />
+
+    <RadioButton
+        android:id="@+id/radioElevee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Élevée" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/errorImportance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Veuillez sélectionner une importance"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioImportanceProjet" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

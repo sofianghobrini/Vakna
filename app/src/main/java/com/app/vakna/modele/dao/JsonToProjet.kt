@@ -20,14 +20,13 @@ class JsonToProjet : JsonDeserializer<Projet> {
         val objetJson = json.asJsonObject
 
         val nom = objetJson.get("nom").asString
-        val frequence = Frequence.valueOf(objetJson.get("frequence").asString)
         val importance = Importance.valueOf(objetJson.get("importance").asString)
         val type = TypeTache.valueOf(objetJson.get("type").asString)
         val derniereValidation = LocalDate.parse(objetJson.get("derniereValidation").asString)
         val estTermine = objetJson.get("estTermine").asBoolean
         val estArchive = objetJson.get("estArchive").asBoolean
-        val nbFinis = objetJson.get("nbFinis").asInt
+        val nbFinis = objetJson.get("nbAvancements").asInt
 
-        return Projet(nom, frequence, importance, type, derniereValidation, estTermine, estArchive, nbFinis)
+        return Projet(nom, importance, type, derniereValidation, estTermine, estArchive, nbFinis)
     }
 }

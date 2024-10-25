@@ -6,49 +6,49 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.vakna.AjouterTacheActivity
-import com.app.vakna.GererTachesActivity
+import com.app.vakna.AjouterProjetActivity
+import com.app.vakna.GererProjetsActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapterProgress
 import com.app.vakna.adapters.ListData
-import com.app.vakna.databinding.FragmentTachesBinding
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.ui.Taches.ProjetsFragment
+import com.app.vakna.databinding.FragmentProjetsBinding
+import com.app.vakna.modele.GestionnaireDeProjets
+import com.app.vakna.ui.Taches.TachesFragment
 
 /**
  * Contrôleur pour gérer l'affichage des tâches (quotidiennes, hebdomadaires et mensuelles)
  * dans le fragment des tâches.
  */
-class ControllerTaches(private val binding: FragmentTachesBinding) {
+
+class ControllerProjets(private val binding: FragmentProjetsBinding) {
 
     private val context = binding.root.context
-    private var gestionnaire = GestionnaireDeTaches(context)
+    private var gestionnaire = GestionnaireDeProjets(context)
 
     // Initialisation du contrôleur et des boutons
     init {
         setupRecyclerView()
 
         // Bouton pour ajouter une nouvelle tâche
-        binding.boutonAjouterTache.setOnClickListener {
+        binding.boutonAjouterProjet.setOnClickListener {
             if (context is MainActivity) {
-                val intent = Intent(context, AjouterTacheActivity::class.java)
+                val intent = Intent(context, AjouterProjetActivity::class.java)
                 context.startActivity(intent)
             }
         }
 
         // Bouton pour gérer les tâches (archiver, supprimer, etc.)
-        binding.boutonGererTache.setOnClickListener {
+        binding.boutonGererProjet.setOnClickListener {
             if (context is MainActivity) {
-                val intent = Intent(context, GererTachesActivity::class.java)
+                val intent = Intent(context, GererProjetsActivity::class.java)
                 context.startActivity(intent)
             }
         }
 
-        binding.texteTitreProjets.setOnClickListener {
+        binding.texteTitreTaches.setOnClickListener {
             if (context is MainActivity) {
-                val fragment = ProjetsFragment()  // Créez une instance de votre fragment
+                val fragment = TachesFragment()  // Créez une instance de votre fragment
 
                 // Utilisez le FragmentManager pour remplacer le fragment actuel
                 (context as MainActivity).supportFragmentManager.beginTransaction()
@@ -58,31 +58,30 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         }
     }
 
-    /**
+/**
      * Méthode pour configurer les RecyclerViews pour les tâches quotidiennes, hebdomadaires et mensuelles.
      */
+
     private fun setupRecyclerView() {
-        createListAdapter(Frequence.QUOTIDIENNE, binding.listeTachesJournalier, binding.progressTachesJournalier)
-        createListAdapter(Frequence.HEBDOMADAIRE, binding.listeTachesHebdomadaire, binding.progressTachesHebdomadaire)
-        createListAdapter(Frequence.MENSUELLE, binding.listeTachesMensuel, binding.progressTachesMensuel)
+        createListAdapter(binding.listeProjets, binding.progressProjets)
     }
 
-    /**
+/**
      * Créer et configurer un adaptateur pour les RecyclerViews en fonction de la fréquence.
-     * Trie les tâches selon leur statut d'achèvement et leur importance.
+     * Trie les projets selon leur statut d'achèvement et leur importance.
      *
-     * @param frequence : Frequence - La fréquence des tâches (quotidienne, hebdomadaire, mensuelle)
-     * @param listeTaches : RecyclerView - Le RecyclerView à remplir
+     * @param listeProjets : RecyclerView - Le RecyclerView à remplir
      * @param progressBar : ProgressBar - La barre de progression associée
      */
-    private fun createListAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
-        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
 
-        // Filtrer les tâches non archivées et les trier par statut et importance
-        val sortedTasks = taskList
+    private fun createListAdapter(listeProjets: RecyclerView, progressBar: ProgressBar) {
+        val projetList = GestionnaireDeProjets.setToListDataArray(gestionnaire.obtenirProjets())
+
+        // Filtrer les projets non archivées et les trier par statut et importance
+        val sortedProjets = projetList
             .filter { !it.estArchivee }
             .sortedWith(
-                compareBy<ListData> { it.estTermine ?: false } // Trier par tâche terminée
+                compareBy<ListData> { it.estTermine ?: false } // Trier par projet terminé
                     .thenByDescending {
                         when (it.importance) {
                             "ELEVEE" -> 3
@@ -95,25 +94,26 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
             )
 
         // Création de l'adaptateur avec les tâches triées et la barre de progression
-        val listAdapter = ListAdapterProgress(ArrayList(sortedTasks), progressBar, context)
+        val listAdapter = ListAdapterProgress(ArrayList(sortedProjets), progressBar, context)
 
         // Ajout des séparateurs dans la liste
-        addDividers(listeTaches)
+        addDividers(listeProjets)
 
         // Affecter l'adaptateur au RecyclerView
-        listeTaches.adapter = listAdapter
+        listeProjets.adapter = listAdapter
     }
 
-    /**
+/**
      * Méthode pour ajouter des séparateurs dans les RecyclerViews
-     * @param listeTaches : RecyclerView - Le RecyclerView auquel ajouter les séparateurs
+     * @param listeProjets : RecyclerView - Le RecyclerView auquel ajouter les séparateurs
      */
-    private fun addDividers(listeTaches: RecyclerView) {
+
+    private fun addDividers(listeProjets: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        listeTaches.layoutManager = layoutManager
+        listeProjets.layoutManager = layoutManager
 
         // Ajout des séparateurs entre les éléments de la liste
-        listeTaches.addItemDecoration(
+        listeProjets.addItemDecoration(
             DividerItemDecoration(context, layoutManager.orientation).apply {
                 setDrawable(context.getDrawable(R.drawable.divider_item)!!)  // Séparateur personnalisé
             }

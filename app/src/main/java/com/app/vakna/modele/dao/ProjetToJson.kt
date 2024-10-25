@@ -17,12 +17,12 @@ class ProjetToJson : JsonSerializer<Projet> {
         val objetJson = JsonObject()
 
         objetJson.addProperty("nom", src.nom)
-        objetJson.addProperty("frequence", src.frequence.name)
         objetJson.addProperty("importance", src.importance.name)
         objetJson.addProperty("type", src.type.name)
-        objetJson.addProperty("estTerminee", src.estTermine)
-        objetJson.addProperty("estArchivee", src.estArchive)
+        objetJson.addProperty("estTermine", src.estTermine)
+        objetJson.addProperty("estArchive", src.estArchive)
         objetJson.addProperty("derniereValidation", src.derniereValidation.toString())
+        objetJson.addProperty("nbAvancements", src.nbAvancements)
 
         return objetJson
     }

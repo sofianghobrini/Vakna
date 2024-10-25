@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
+    android:background="@color/design_default_color_background"
     tools:context=".ui.Taches.TachesFragment" >
 
     <androidx.core.widget.NestedScrollView
@@ -29,13 +30,15 @@
                 android:layout_marginTop="16dp">
 
                 <TextView
-                    android:id="@+id/texteTitreGoTaches"
+                    android:id="@+id/texteTitreTaches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:text="Tâches"
                     android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +61,7 @@
                     android:layout_weight="1" />
 
                 <ImageButton
-                    android:id="@+id/boutonGererProjets"
+                    android:id="@+id/boutonGererProjet"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="15dp"
@@ -68,7 +71,7 @@
                     android:textColor="@color/white"/>
 
                 <ImageButton
-                    android:id="@+id/boutonAjouterProjets"
+                    android:id="@+id/boutonAjouterProjet"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="fitCenter"

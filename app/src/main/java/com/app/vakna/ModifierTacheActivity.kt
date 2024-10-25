@@ -5,21 +5,21 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.app.vakna.controller.ControllerModifierTache
-import com.app.vakna.databinding.ActivityModifierBinding
+import com.app.vakna.databinding.ActivityModifierTacheBinding
 import com.app.vakna.modele.Frequence
 import com.app.vakna.modele.GestionnaireDeTaches
 import com.app.vakna.modele.Importance
 import com.app.vakna.modele.Tache
 
-class ModifierActivity : AppCompatActivity() {
+class ModifierTacheActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityModifierBinding
+    private lateinit var binding: ActivityModifierTacheBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Inflate the layout using View Binding
-        binding = ActivityModifierBinding.inflate(layoutInflater)
+        binding = ActivityModifierTacheBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val taskName = intent.getStringExtra("NOM_TACHE") ?: "Tâche inconnue"
@@ -39,12 +39,12 @@ class ModifierActivity : AppCompatActivity() {
 
         binding.boutonModifierTache.setOnClickListener {
             ControllerModifierTache(binding, taskName).modifierTache()
-            val intent = Intent(this, GererActivity::class.java)
+            val intent = Intent(this, GererTachesActivity::class.java)
             startActivity(intent)
         }
 
         binding.boutonAnnulerCreation.setOnClickListener {
-            val intent = Intent(this, GererActivity::class.java)
+            val intent = Intent(this, GererTachesActivity::class.java)
             startActivity(intent)
         }
     }

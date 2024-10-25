@@ -1,17 +1,21 @@
 package com.app.vakna.modele
 
+import com.app.vakna.adapters.ListData
 import java.time.LocalDate
 
 class Projet (
     var nom: String,
-    var frequence: Frequence,
     var importance: Importance,
     var type: TypeTache,
     var derniereValidation: LocalDate? = null,
     var estTermine: Boolean = false,
     var estArchive: Boolean = false,
-    val nbFinis: Int = 0
+    var nbAvancements: Int = 0
 ) {
+
+    fun toListData(): ListData {
+        return ListData(nom, type.name, importance.name, 0, estTermine, estArchive)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Tache) return false
@@ -23,6 +27,6 @@ class Projet (
     }
 
     override fun toString(): String {
-        return "$nom : $frequence $importance $type $derniereValidation (fini $nbFinis fois) " + if (estTermine) "Terminé" else "En cours" + if (estArchive) " ARCHIVE" else ""
+        return "$nom : $importance $type $derniereValidation (fini $nbAvancements fois) " + if (estTermine) "Terminé" else "En cours" + if (estArchive) " ARCHIVE" else ""
     }
 }

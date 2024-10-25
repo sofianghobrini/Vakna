@@ -42,9 +42,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val accesJson = AccesJson("taches",this)
-        if (!accesJson.fichierExiste()) {
-            accesJson.ecrireFichierJson("""{"taches": []}""")
+        val accesJsonTaches = AccesJson("taches",this)
+        if (!accesJsonTaches.fichierExiste()) {
+            accesJsonTaches.ecrireFichierJson("""{"taches": []}""")
+        }
+
+        val accesJsonProjets = AccesJson("projets",this)
+        if (!accesJsonProjets.fichierExiste()) {
+            accesJsonProjets.ecrireFichierJson("""{"projets": []}""")
         }
 
         // Now access the toolbar after setContentView is called

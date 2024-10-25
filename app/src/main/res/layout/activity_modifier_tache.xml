@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="16dp"
+    android:paddingTop="32dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="0dp"
+    tools:context=".ModifierTacheActivity">
+
+    <TextView
+        android:id="@+id/titreModifierTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modifier la tâche &quot;{nom tache ici}&quot;"
+        android:textColor="@color/couleurTitre"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        layout="@layout/contenu_formulaire_tache"
+        android:id="@+id/contenuInclude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/titreModifierTache"/>
+
+    <LinearLayout
+        android:layout_width="314dp"
+        android:layout_height="92dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contenuInclude">
+
+        <Button
+            android:id="@+id/boutonAnnulerCreation"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/red"
+            android:text="Annuler" />
+
+        <Button
+            android:id="@+id/boutonModifierTache"
+            android:layout_width="144dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/green"
+            android:text="Modifier" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@ import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
 import com.app.vakna.R
-import com.app.vakna.databinding.ActivityModifierBinding
+import com.app.vakna.databinding.ActivityModifierTacheBinding
 import com.app.vakna.modele.Importance
 import com.app.vakna.modele.TypeTache
 import com.app.vakna.modele.GestionnaireDeTaches
@@ -19,7 +19,7 @@ import java.time.LocalDate
  * @param nomTacheOriginale : le nom de la tâche à modifier
  */
 class ControllerModifierTache(
-    private val binding: ActivityModifierBinding,
+    private val binding: ActivityModifierTacheBinding,
     private val nomTacheOriginale: String
 ) {
 

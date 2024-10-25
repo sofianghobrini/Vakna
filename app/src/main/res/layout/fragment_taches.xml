@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
+    android:background="@color/design_default_color_background"
     tools:context=".ui.Taches.TachesFragment" >
 
     <androidx.core.widget.NestedScrollView
@@ -47,6 +48,8 @@
                     android:text="Projets"
                     android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
+                    android:clickable="true"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

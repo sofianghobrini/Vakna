@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.app.vakna.controller.ControllerTaches
-import com.app.vakna.databinding.FragmentTachesBinding
+import com.app.vakna.controller.ControllerProjets
+import com.app.vakna.databinding.FragmentProjetsBinding
 
 
-class TachesFragment : Fragment() {
+class ProjetsFragment : Fragment() {
 
-    private var _binding: FragmentTachesBinding? = null
+    private var _binding: FragmentProjetsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,10 +19,10 @@ class TachesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTachesBinding.inflate(inflater, container, false)
+        _binding = FragmentProjetsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        ControllerTaches(binding)
+        ControllerProjets(binding)
 
         return root
     }

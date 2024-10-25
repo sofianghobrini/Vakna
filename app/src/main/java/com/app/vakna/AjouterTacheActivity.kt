@@ -1,21 +1,18 @@
 package com.app.vakna
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.app.vakna.controller.ControllerAjouterTache
-import com.app.vakna.databinding.ActivityAjouterBinding
-import com.app.vakna.modele.dao.TacheDAO
+import com.app.vakna.databinding.ActivityAjouterTacheBinding
 
-class AjouterActivity : AppCompatActivity() {
+class AjouterTacheActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAjouterBinding
+    private lateinit var binding: ActivityAjouterTacheBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityAjouterBinding.inflate(layoutInflater)
+        binding = ActivityAjouterTacheBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ControllerAjouterTache(binding)

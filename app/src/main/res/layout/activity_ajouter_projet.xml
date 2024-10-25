@@ -10,13 +10,13 @@
     android:paddingTop="32dp"
     android:paddingEnd="16dp"
     android:paddingBottom="0dp"
-    tools:context=".AjouterActivity">
+    tools:context=".AjouterProjetActivity">
 
     <TextView
-        android:id="@+id/titreCreerTache"
+        android:id="@+id/titreCreerProjet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Créer une tâche"
+        android:text="Créer un projet"
         android:textColor="@color/couleurTitre"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,11 +24,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        layout="@layout/contenu_formulaire"
+        layout="@layout/contenu_formulaire_projet"
         android:id="@+id/contenuInclude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titreCreerTache"/>
+        app:layout_constraintTop_toBottomOf="@id/titreCreerProjet"/>
 
     <LinearLayout
         android:layout_width="314dp"
@@ -49,7 +49,7 @@
             android:text="Annuler" />
 
         <Button
-            android:id="@+id/boutonCreerTache"
+            android:id="@+id/boutonCreerProjet"
             android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

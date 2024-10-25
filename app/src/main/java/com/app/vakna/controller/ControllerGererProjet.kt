@@ -8,21 +8,21 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.vakna.GererActivity
+import com.app.vakna.GererProjetsActivity
 import com.app.vakna.MainActivity
-import com.app.vakna.ModifierActivity
+import com.app.vakna.ModifierProjetActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapterBoutons
 import com.app.vakna.adapters.ListData
-import com.app.vakna.databinding.ActivityGererBinding
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.dao.TacheDAO
+import com.app.vakna.databinding.ActivityGererProjetBinding
+import com.app.vakna.modele.GestionnaireDeProjets
+import com.app.vakna.modele.dao.ProjetDAO
 
-class ControllerGerer(private val binding: ActivityGererBinding) {
+class ControllerGererProjet(private val binding: ActivityGererProjetBinding) {
 
     val context = binding.root.context
     private lateinit var listAdapter: ListAdapterBoutons
-    private var dao = TacheDAO(context)
+    private var dao = ProjetDAO(context)
 
     init {
 
@@ -30,13 +30,13 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         setUpRecyclerView()
 
         // Add dividers and set the adapter
-        ajoutDividers(binding.listeTaches)
+        ajoutDividers(binding.listeProjets)
 
         val boutonRetour = binding.boutonRetour
         boutonRetour.setOnClickListener {
-            if (context is GererActivity) {
+            if (context is GererProjetsActivity) {
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("navigateTo", "Taches")
+                intent.putExtra("navigateTo", "Projets")
                 context.startActivity(intent)
             }
         }
@@ -44,7 +44,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
 
     private fun setUpRecyclerView() {
         val data =
-            GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches())
+            GestionnaireDeProjets.setToListDataArray(GestionnaireDeProjets(context).obtenirProjets())
 
         val dataTrier = data.filter { !it.estArchivee }
             .sortedWith(compareByDescending<ListData>
@@ -59,20 +59,20 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
 
         listAdapter = ListAdapterBoutons(
             ArrayList(dataTrier),
-            onArchiveClick = { nomTache ->
-                showArchiveDialog(nomTache)
+            onArchiveClick = { nomProjet ->
+                showArchiveDialog(nomProjet)
             },
-            onModifierClick = { nomTache ->
-                if (context is GererActivity) {
-                    val intent = Intent(context, ModifierActivity::class.java)
-                    intent.putExtra("NOM_TACHE", nomTache) // Pass the task name
+            onModifierClick = { nomProjet ->
+                if (context is GererProjetsActivity) {
+                    val intent = Intent(context, ModifierProjetActivity::class.java)
+                    intent.putExtra("NOM_PROJET", nomProjet) // Pass the task name
                     context.startActivity(intent)
                 }
             })
-        binding.listeTaches.adapter = listAdapter
+        binding.listeProjets.adapter = listAdapter
     }
 
-    private fun showArchiveDialog(nomTache: String) {
+    private fun showArchiveDialog(nomProjet: String) {
         val dialogView = LayoutInflater.from(context)
             .inflate(R.layout.dialog_archive, null)
 
@@ -80,19 +80,19 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
             .setView(dialogView)
             .create()
 
-        val nomTacheTextView = dialogView.findViewById<TextView>(R.id.dialogTexteWarning)
+        val nomProjetTextView = dialogView.findViewById<TextView>(R.id.dialogTexteWarning)
 
         // Update the TextView content dynamically with the task name
-        nomTacheTextView.text =
-            "Voulez-vous vraiment archiver la tâche \"$nomTache\" ? Vous ne pourrez plus réactiver cette tâche! " +
-                    "Cependant vous pourrez toujours la revoir dans la page d'archive."
+        nomProjetTextView.text =
+            "Voulez-vous vraiment archiver le projet \"$nomProjet\" ? Vous ne pourrez plus réactiver ce projet! " +
+                    "Cependant vous pourrez toujours le revoir dans la page d'archive."
 
         dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
             dialog.dismiss()
         }
 
         dialogView.findViewById<Button>(R.id.boutonArchiver).setOnClickListener {
-            ControllerArchiverTache(binding).archiverTache(nomTache)
+            ControllerArchiverProjet(binding).archiverProjet(nomProjet)
             setUpRecyclerView()
             dialog.dismiss()
         }

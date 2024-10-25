@@ -12,7 +12,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.app.vakna.AjouterActivity
+import com.app.vakna.AjouterTacheActivity
 import java.util.Timer
 import java.util.TimerTask
 
@@ -79,7 +79,7 @@ class NotificationService : Service() {
     }
 
     private fun creerTestNotification(): Notification {
-        val intent = Intent(this, AjouterActivity::class.java).apply {
+        val intent = Intent(this, AjouterTacheActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 

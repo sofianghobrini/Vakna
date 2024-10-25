@@ -3,10 +3,10 @@ package com.app.vakna.controller
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import com.app.vakna.AjouterActivity
+import com.app.vakna.AjouterTacheActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
-import com.app.vakna.databinding.ActivityAjouterBinding
+import com.app.vakna.databinding.ActivityAjouterTacheBinding
 import com.app.vakna.modele.*
 import java.time.LocalDate
 
@@ -14,7 +14,7 @@ import java.time.LocalDate
  * Contrôleur pour la gestion de l'ajout de tâches.
  * @param binding Le binding de l'activité Ajouter, pour accéder aux vues.
  */
-class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
+class ControllerAjouterTache(private val binding: ActivityAjouterTacheBinding) {
 
     init {
         val context = binding.root.context
@@ -26,7 +26,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 confirmerTache()
 
                 // Naviguer vers l'écran principal après l'ajout de la tâche
-                if (context is AjouterActivity) {
+                if (context is AjouterTacheActivity) {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("navigateTo", "Taches")
                     context.startActivity(intent)
@@ -36,7 +36,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
 
         // Bouton pour annuler la création de la tâche et revenir à l'écran principal
         binding.boutonAnnulerCreation.setOnClickListener {
-            if (context is AjouterActivity) {
+            if (context is AjouterTacheActivity) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("navigateTo", "Taches")
                 context.startActivity(intent)
