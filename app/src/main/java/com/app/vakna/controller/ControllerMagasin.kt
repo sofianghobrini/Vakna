@@ -25,6 +25,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     init {
 
+        inventaireDAO.mettreAJourPieces(1000)
 
         afficherNombreDeCoins()
 
