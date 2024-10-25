@@ -31,11 +31,15 @@ class GestionnaireDeProjets(private val context: Context) {
         if (projet.nom.isBlank()) {
             throw IllegalArgumentException("Le nom du projet ne peut pas être vide")
         }
-        if (!setDeProjets.add(projet)) {
+        if (setDeProjets.any { it.nom == projet.nom }) {
             throw IllegalArgumentException("Un projet avec le nom '${projet.nom}' existe déjà")
         }
-        return projetDAO.inserer(projet)
+        if (setDeProjets.add(projet)) {
+            return projetDAO.inserer(projet)
+        }
+        return false
     }
+
 
     /** Fonction inutile pour le moment
     fun ajouterProjets(projets: List<Projet>): Boolean {
@@ -123,6 +127,7 @@ class GestionnaireDeProjets(private val context: Context) {
     }
 
     fun obtenirProjets(): Set<Projet> {
+        setDeProjets.clear()
         projetDAO.obtenirTous().forEach { setDeProjets.add(it) }
         return setDeProjets
     }
