@@ -65,7 +65,7 @@ class CompagnonDAOTest {
         // Verify that the compagnon was added
         val compagnonInsere = dao.obtenirParId(nouveauCompagnon.id)
         assertNotNull(compagnonInsere)
-        assertEquals("TestCompagnon", compagnonInsere?.nom)
+        assertEquals("TestCompagnon", compagnonInsere.nom)
     }
 
     @Test
@@ -73,7 +73,7 @@ class CompagnonDAOTest {
         val compagnonExistant = dao.obtenirTous().firstOrNull()
         assertNotNull(compagnonExistant)
 
-        val idCompagnon = compagnonExistant!!.id
+        val idCompagnon = compagnonExistant.id
         val nouveauNom = "CompagnonModifie"
 
         // Modify the compagnon’s name
@@ -84,7 +84,7 @@ class CompagnonDAOTest {
         // Verify that the modification was successful
         val compagnonModifie = dao.obtenirParId(idCompagnon)
         assertNotNull(compagnonModifie)
-        assertEquals(nouveauNom, compagnonModifie?.nom)
+        assertEquals(nouveauNom, compagnonModifie.nom)
     }
 
     @Test
@@ -92,7 +92,7 @@ class CompagnonDAOTest {
         val compagnonExistant = dao.obtenirTous().firstOrNull()
         assertNotNull(compagnonExistant)
 
-        val idCompagnon = compagnonExistant!!.id
+        val idCompagnon = compagnonExistant.id
 
         // Delete the compagnon
         val suppressionReussie = dao.supprimer(idCompagnon)

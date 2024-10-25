@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:text="Tâches"
-                    android:textColor="@color/texteCouleurPrincipale"
+                    android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:text="Projets"
                     android:background="@drawable/customborder"
-                    android:textColor="@color/texteCouleurPrincipale"
+                    android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Projets"
-                android:textColor="@color/texteCouleurPrincipale"
+                android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.047"
@@ -108,9 +108,7 @@
                 android:padding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/progressProjets"
-            <!-- a faire la liste terminer projets -->
-            tools:listitem="@layout/liste_termine_projets" />
+                app:layout_constraintTop_toBottomOf="@id/progressProjets"/>
 
 
         </LinearLayout>

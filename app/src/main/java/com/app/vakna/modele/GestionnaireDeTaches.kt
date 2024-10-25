@@ -107,8 +107,41 @@ class GestionnaireDeTaches(private var context: Context) {
 
     fun archiverTache(nom: String): Boolean {
         val tacheAArchiver = setDeTaches.find { it.nom == nom } ?: return false
+        if (!tacheAArchiver.estTerminee)
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, tacheAArchiver.importance.ordinal+1*20)
         tacheAArchiver.estArchivee = true
         tacheDAO.modifier(nom, tacheAArchiver)
+        return true
+    }
+
+    fun verifierTacheNonAccomplies(): Boolean {
+        var dateActuelle = LocalDate.now()
+        tacheDAO.obtenirTous().forEach {
+            when (it.frequence) {
+                Frequence.QUOTIDIENNE -> {
+                    if (it.derniereValidation!!.dayOfMonth < dateActuelle.dayOfMonth-1){
+                        it.derniereValidation = dateActuelle.minusDays(1)
+                        modifierTache(it.nom, it)
+                        gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*3)
+                    }
+                } Frequence.HEBDOMADAIRE -> {
+                    if (it.derniereValidation!!.dayOfMonth < dateActuelle.dayOfMonth-1*7){
+                        it.derniereValidation = dateActuelle.minusDays(7)
+                        modifierTache(it.nom, it)
+                        gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*9)
+                    }
+                } Frequence.MENSUELLE -> {
+                    if (it.derniereValidation!!.month < dateActuelle.month-1){
+                        it.derniereValidation = dateActuelle.minusMonths(1)
+                        modifierTache(it.nom, it)
+                        gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*15)
+                    }
+                }
+                else -> {
+                    println("kaka")
+                }
+            }
+        }
         return true
     }
 

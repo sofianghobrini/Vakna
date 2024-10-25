@@ -42,8 +42,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private fun setUpView() {
 
-        inventaire.ajouterPieces(1000)
-
         // Charger le compagnon depuis la base de données
         val compagnons = gestionnaire.obtenirCompagnons()
         compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
@@ -119,6 +117,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 if (newName.isNotEmpty()) {
                     // Mettre à jour le nom du compagnon dans la base de données
                     compagnon?.let { gestionnaire.modifierNom(it.id, newName) }
+                    binding.dragonName.text = newName
                 }
                 dialog.dismiss()
             }
