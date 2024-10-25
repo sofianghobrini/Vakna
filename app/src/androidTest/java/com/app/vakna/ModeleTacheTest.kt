@@ -7,6 +7,7 @@ import com.app.vakna.modele.dao.TacheDAO
 import org.junit.Before
 import org.junit.After
 import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import org.junit.runner.RunWith
 import java.io.File
@@ -39,6 +40,13 @@ class ModeleTacheTest {
         if (!cheminFichier.exists()) {
             cheminFichier.createNewFile()
             cheminFichier.writeText("""{"taches": []}""")
+        }
+    }
+
+    @BeforeEach
+    fun resetAll(){
+        for(Tache in dao.obtenirTous()){
+            dao.supprimer(Tache.nom)
         }
     }
 

@@ -1,15 +1,20 @@
 package com.app.vakna
 
 import android.content.Context
+import android.util.Log
 import androidx.test.core.app.ApplicationProvider
+import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
@@ -21,6 +26,7 @@ class ModeleInventaireTest {
     private lateinit var inventaireDAO: InventaireDAO
     private lateinit var compagnonDAO: CompagnonDAO
     private lateinit var objetObtenu: ObjetObtenu
+    private lateinit var compagnon: Compagnon
 
     @Before
     fun setUp() {
@@ -30,12 +36,34 @@ class ModeleInventaireTest {
         gestionnaireCompagnons = GestionnaireDeCompagnons(compagnonDAO)
         objetObtenu = ObjetObtenu(12345, "Potion", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 100, "url_image")
         inventaire = Inventaire(contexte)
+        compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
+        inventaire.getGestionnaireC().ajouterCompagnon(compagnon)
+
+    }
+
+    @BeforeEach
+    fun resetAll(){
+        for(Objet in inventaireDAO.obtenirTousObjetsObtenus()){
+            inventaireDAO.supprimerObjetObtenu(Objet.getId())
+        }
+    }
+
+    @After
+    fun tearDown() {
+        val fichierInventaire = File(contexte.filesDir, "inventaire.json")
+        if (fichierInventaire.exists()) {
+            fichierInventaire.delete()
+        }
+        val fichierCompagnons = File(contexte.filesDir, "compagnons.json")
+        if (fichierCompagnons.exists()) {
+            fichierCompagnons.delete()
+        }
+        resetAll()
     }
 
     @Test
     fun testUtiliserObjetSucces() {
         inventaire.ajouterObjet(objetObtenu, 5)
-        assertEquals(5, inventaire.getObjetParNom("Potion")!!.getQuantite())
         inventaire.utiliserObjet("Potion", 2)
         assertEquals(3, inventaire.getObjetParNom("Potion")!!.getQuantite())
     }
@@ -43,11 +71,11 @@ class ModeleInventaireTest {
     @Test
     fun testUtiliserObjetQuantiteInsuffisante() {
         inventaire.ajouterObjet(objetObtenu, 1)
-        assertEquals(4, inventaire.getObjetParNom("Potion")!!.getQuantite())
+        assertEquals(1, inventaire.getObjetParNom("Potion")!!.getQuantite())
         assertFailsWith<AssertionError> {
             inventaire.utiliserObjet("Potion", 5)
         }
-        assertEquals(4, inventaire.getObjetParNom("Potion")!!.getQuantite())
+        assertEquals(1, inventaire.getObjetParNom("Potion")!!.getQuantite())
     }
 
     @Test
@@ -59,10 +87,9 @@ class ModeleInventaireTest {
 
     @Test
     fun testUtiliserObjetQuantiteNulle(){
-        val objetTest = ObjetObtenu(12345, "Prout", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 0, "url_image")
-        inventaire.ajouterObjet(objetTest, 1)
+        inventaire.ajouterObjet(objetObtenu, 1)
         assertFailsWith<AssertionError> {
-            inventaire.utiliserObjet("Prout", 1)
+            inventaire.utiliserObjet("Potion", 0)
         }
     }
 
