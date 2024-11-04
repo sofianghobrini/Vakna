@@ -1,5 +1,6 @@
 package com.app.vakna.modele
 
+import android.content.Context
 import android.util.Log
 import com.app.vakna.modele.dao.CompagnonDAO
 import android.os.Handler
@@ -89,7 +90,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         return obtenirCompagnons().find { it.id == id }
     }
 
-    fun baisserNivFaim(id: Int, lastLaunch: Long?) {
+    fun baisserNivFaim(id: Int, context: Context, lastLaunch: Long?) {
         setDeCompagnons.find { it.id == id }?: return
         if(lastLaunch != null) {
             // Calculer le temps écoulé depuis la dernière utilisation en minutes
@@ -114,7 +115,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         }
         handler.post(faimRunnable)  // Lancer la première réduction de faim
     }
-    fun baisserNivHumeur(id: Int, lastLaunch: Long?){
+    fun baisserNivHumeur(id: Int, context: Context, lastLaunch: Long?){
         setDeCompagnons.find { it.id == id } ?: return
 
         if(lastLaunch != null) {
