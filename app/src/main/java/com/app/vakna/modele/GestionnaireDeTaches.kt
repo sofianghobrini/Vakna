@@ -122,9 +122,6 @@ class GestionnaireDeTaches(context: Context) {
                             gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*15)
                         }
                     }
-                    else -> {
-                        println("scrum")
-                    }
                 }
             }
         }

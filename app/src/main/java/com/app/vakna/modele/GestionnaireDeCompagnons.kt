@@ -1,12 +1,9 @@
 package com.app.vakna.modele
 
-import android.content.Context
 import android.util.Log
 import com.app.vakna.modele.dao.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
-import com.app.vakna.controller.ControllerCompagnon
-
 
 class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     private val setDeCompagnons = mutableSetOf<Compagnon>()
@@ -92,8 +89,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         return obtenirCompagnons().find { it.id == id }
     }
 
-    fun baisserNivFaim(id :Int, context: Context, lastLaunch: Long?) {
-        val compagnon = setDeCompagnons.find { it.id == id }?: return
+    fun baisserNivFaim(id: Int, lastLaunch: Long?) {
+        setDeCompagnons.find { it.id == id }?: return
         if(lastLaunch != null) {
             // Calculer le temps écoulé depuis la dernière utilisation en minutes
             val currentTime = System.currentTimeMillis()
@@ -117,8 +114,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         }
         handler.post(faimRunnable)  // Lancer la première réduction de faim
     }
-    fun baisserNivHumeur(id: Int, context: Context, lastLaunch: Long?){
-        val compagnon = setDeCompagnons.find { it.id == id } ?: return
+    fun baisserNivHumeur(id: Int, lastLaunch: Long?){
+        setDeCompagnons.find { it.id == id } ?: return
 
         if(lastLaunch != null) {
             val currentTime = System.currentTimeMillis()

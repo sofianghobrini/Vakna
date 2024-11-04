@@ -20,11 +20,13 @@ class Compagnon(
         return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()})"
     }
 
+    // Méthode equals pour comparer 2 compagnons, renvoie faux s'ils sont différents par ID
     override fun equals(other: Any?): Boolean {
         if (other !is Compagnon) return false
         return id == other.id
     }
 
+    // Méthode hashCode pour calculer le hashcode en utilisant l'ID du compagnon
     override fun hashCode(): Int {
         return id.hashCode()
     }
