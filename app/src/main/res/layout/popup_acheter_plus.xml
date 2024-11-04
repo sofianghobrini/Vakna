@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="125dp"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/layoutPopUp"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/popupMagasinTitre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Nom"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/popupMagasinQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Vous n'avez plus de {NOM OBJET}, voulez-vous en acheter plus?"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/boutonMagasin"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="@color/green"
+            android:text="Magasin"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/layoutPopUp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
+        android:src="@drawable/triangle" />
+</RelativeLayout>

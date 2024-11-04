@@ -6,7 +6,7 @@
             <solid android:color="@android:color/transparent" />
             <stroke
                 android:width="2dp"
-                android:color="@color/couleurSecondaire" />
+                android:color="@color/couleurTitre" />
             <corners android:radius="1dp" />
         </shape>
     </item>

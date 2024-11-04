@@ -19,7 +19,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="32dp"
     android:text="Nom de la tâche:"
-    android:textColor="@color/texteCouleurPrincipale"
+    android:textColor="@color/couleurTexte"
     android:textSize="20sp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
     android:text="Type de la tâche:"
-    android:textColor="@color/texteCouleurPrincipale"
+    android:textColor="@color/couleurTexte"
     android:textSize="20sp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
@@ -64,7 +64,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
     android:text="Fréquence de la tâche:"
-    android:textColor="@color/texteCouleurPrincipale"
+    android:textColor="@color/couleurTexte"
     android:textSize="20sp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
@@ -113,7 +113,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="32dp"
     android:text="Importance de la tâche:"
-    android:textColor="@color/texteCouleurPrincipale"
+    android:textColor="@color/couleurTexte"
     android:textSize="20sp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />

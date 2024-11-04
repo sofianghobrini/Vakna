@@ -1,11 +1,13 @@
 package com.app.vakna.controller
 
 import android.content.Intent
+import android.text.Editable
 import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import android.text.InputFilter
 import android.text.Spanned
+import android.text.TextWatcher
 import android.util.Log
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.Shop
@@ -36,6 +38,42 @@ class ControllerDetailsObjet(
         val boutonDiminuer = binding.boutonDiminuer
         val boutonAugmenter = binding.boutonAugmenter
         val quantite = binding.inputQuantite
+
+        quantite.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                null
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                null
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrEmpty()) {
+                    prixTotal()
+                    try {
+                        val input = s.toString().toInt()
+                        val maxValue = inventaireDAO.obtenirPieces() / (objet?.getPrix() ?: 1)
+
+                        when {
+                            input < 1 -> {
+                                quantite.setText("1")
+                                quantite.setSelection(quantite.text.length)
+                            }
+                            input > maxValue -> {
+                                quantite.setText(maxValue.toString())
+                                quantite.setSelection(quantite.text.length)
+                            }
+                            else -> {}
+                        }
+                    } catch (e: NumberFormatException) {
+                        quantite.setText("1")
+                        quantite.setSelection(quantite.text.length)
+                    }
+                }
+            }
+        })
+
 
         boutonDiminuer.setOnClickListener {
             val qte = quantite.text.toString().toInt()
@@ -75,7 +113,9 @@ class ControllerDetailsObjet(
 
         val editText = binding.inputQuantite
 
-        editText.filters = arrayOf<InputFilter>(MinFilter(1))
+        val maxValue = inventaireDAO.obtenirPieces() / objet?.getPrix()!!
+
+        editText.filters = arrayOf<InputFilter>(MinMaxFilter(1,maxValue))
     }
     private fun afficherNombreDeCoins() {
         val nombreDeCoins = inventaireDAO.obtenirPieces()
@@ -108,7 +148,7 @@ class ControllerDetailsObjet(
         binding.texteCout.text = "Coût total: $prixTotal"
     }
 
-    inner class MinFilter(private val minValue: Int) : InputFilter {
+    inner class MinMaxFilter(private val minValue: Int, private val maxValue: Int) : InputFilter {
         override fun filter(
             source: CharSequence,
             start: Int,
@@ -118,9 +158,15 @@ class ControllerDetailsObjet(
             dEnd: Int
         ): CharSequence? {
             try {
-                val input = Integer.parseInt(dest.toString() + source.toString())
-                if (input >= minValue) {
-                    return null
+                // Build the new input by combining existing text with new input
+                val newInput = (dest.toString().substring(0, dStart) +
+                        source.toString() +
+                        dest.toString().substring(dEnd)).toInt()
+
+                return when {
+                    newInput < minValue -> minValue.toString()
+                    newInput > maxValue -> maxValue.toString()
+                    else -> null // Input is within bounds
                 }
             } catch (e: NumberFormatException) {
                 e.printStackTrace()

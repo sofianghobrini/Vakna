@@ -1,9 +1,14 @@
 package com.app.vakna.controller
 
+import android.content.Intent
 import android.util.Log
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import com.app.vakna.GererActivity
+import com.app.vakna.ModifierActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityModifierBinding
 import com.app.vakna.modele.Importance
@@ -20,8 +25,60 @@ import java.time.LocalDate
  */
 class ControllerModifierTache(
     private val binding: ActivityModifierBinding,
-    private val nomTacheOriginale: String
+    private val intent: Intent
 ) {
+
+    private val context = binding.root.context
+    private lateinit var tacheOriginel: Tache
+
+    init{
+        val taskName = intent.getStringExtra("NOM_TACHE") ?: "Tâche inconnue"
+
+        var gestionnaire = GestionnaireDeTaches(binding.root.context)
+
+        tacheOriginel = gestionnaire.obtenirTaches(taskName).first()
+
+        if (tacheOriginel != null) {
+            preFillFields(tacheOriginel)
+        }
+
+        binding.titreModifierTache.text = "Modifier la tâche \"$taskName\""
+
+        binding.boutonModifierTache.setOnClickListener {
+            modifierTache()
+            if (context is ModifierActivity) {
+                val intent = Intent(context, GererActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
+
+        binding.boutonAnnulerCreation.setOnClickListener {
+            if (context is ModifierActivity) {
+                val intent = Intent(context, GererActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
+
+    }
+
+    private fun preFillFields(task: Tache) {
+        binding.contenuInclude.inputNomTache.setText(task.nom)
+        val taskTypePosition = task.type.ordinal
+        binding.contenuInclude.selectTypeTache.setSelection(taskTypePosition)
+
+        when (task.frequence) {
+            Frequence.QUOTIDIENNE -> binding.contenuInclude.radioFrequenceTache.check(R.id.radioQuotidien)
+            Frequence.HEBDOMADAIRE -> binding.contenuInclude.radioFrequenceTache.check(R.id.radioHebdomadaire)
+            Frequence.MENSUELLE -> binding.contenuInclude.radioFrequenceTache.check(R.id.radioMensuel)
+        }
+
+        // Set the importance RadioButton
+        when (task.importance) {
+            Importance.FAIBLE -> binding.contenuInclude.radioImportanceTache.check(R.id.radioFaible)
+            Importance.MOYENNE -> binding.contenuInclude.radioImportanceTache.check(R.id.radioMoyen)
+            Importance.ELEVEE -> binding.contenuInclude.radioImportanceTache.check(R.id.radioElevee)
+        }
+    }
 
     /**
      * Récupérer le nom de la tâche à partir de l'interface utilisateur
@@ -101,9 +158,10 @@ class ControllerModifierTache(
         val importanceTache = recupererImportanceTache()
         val frequenceTache = recupererFrequenceTache()
         val derniereValidation = LocalDate.now()
+        val estTermine = tacheOriginel.estTerminee
 
         // Créer une nouvelle instance de Tache avec les valeurs modifiées
-        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, false)
+        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, estTermine)
 
         // Initialiser le gestionnaire de tâches et modifier la tâche existante
         val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
@@ -111,6 +169,6 @@ class ControllerModifierTache(
 
 
         // Appeler la fonction de modification dans le gestionnaire de tâches
-        gestionnaireDeTaches.modifierTache(nomTacheOriginale, tache)
+        gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
     }
 }

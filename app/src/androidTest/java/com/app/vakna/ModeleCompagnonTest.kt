@@ -1,5 +1,8 @@
 package com.app.vakna
 
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.Compagnon
@@ -26,6 +29,7 @@ class ModeleCompagnonTest {
         // Initialize the real DAO with application context
         val context = ApplicationProvider.getApplicationContext<android.content.Context>()
         compagnonDAO = CompagnonDAO(context)
+
 
         // Initialize the gestionnaire with the real DAO
         gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
@@ -92,7 +96,7 @@ class ModeleCompagnonTest {
         val exception = assertThrows<AssertionError> {
             gestionnaireDeCompagnons.modifierHumeur(compagnon.id, 101)
         }
-        assertEquals("Le niveau de faim doit être compris entre -100 et 100.", exception.message)
+        assertEquals("Le niveau d'humeur doit être compris entre -100 et 100.", exception.message)
     }
 
     @Test
@@ -100,7 +104,7 @@ class ModeleCompagnonTest {
         val exception = assertThrows<AssertionError> {
             gestionnaireDeCompagnons.modifierHumeur(compagnon.id, -101)
         }
-        assertEquals("Le niveau de faim doit être compris entre -100 et 100.", exception.message)
+        assertEquals("Le niveau d'humeur doit être compris entre -100 et 100.", exception.message)
     }
 
     @Test

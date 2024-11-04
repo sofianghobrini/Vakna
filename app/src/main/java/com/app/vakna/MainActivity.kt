@@ -16,14 +16,22 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
+import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.notifications.NotificationReceiver
 import com.app.vakna.notifications.NotificationService
+
+import com.app.vakna.modele.dao.CompagnonDAO
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var context: Context
+    private lateinit var gestionnaire: GestionnaireDeCompagnons
+    private var compagnon: Compagnon? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +50,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        context = binding.root.context
+
+        gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+
         val accesJson = AccesJson("taches",this)
         if (!accesJson.fichierExiste()) {
             accesJson.ecrireFichierJson("""{"taches": []}""")
+        }
+
+        compagnon = gestionnaire.obtenirCompagnons().first()
+
+        val lastLaunchTime = getLastLaunchTime()
+        if (lastLaunchTime != null){
+            Log.e("testttt", lastLaunchTime.toString())
+        }
+
+        compagnon?.let {
+            diminuerHumeurCompagnon(it.id, lastLaunchTime)
+            diminuerFaimCompagnon(it.id, lastLaunchTime)
         }
 
         // Now access the toolbar after setContentView is called
@@ -68,6 +92,30 @@ class MainActivity : AppCompatActivity() {
 //        scheduleNotification(this)
     }
 
+    override fun onStop () {
+        super.onStop()
+        saveCurrentLauchTime()
+    }
+
+    private fun getLastLaunchTime(): Long? {
+        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val lastLaunchMillis = sharedPref.getLong("lastLaunchTime", -1)
+
+        return if (lastLaunchMillis != -1L) {
+            lastLaunchMillis
+        } else {
+            null
+        }
+    }
+
+    private fun saveCurrentLauchTime() {
+        val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putLong("lastLaunchTime", System.currentTimeMillis())
+            apply()
+        }
+    }
+
     private fun scheduleNotification(context: Context) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, NotificationReceiver::class.java)
@@ -85,6 +133,16 @@ class MainActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putBoolean("isFirstLaunch", isFirst)
         editor.apply()  // Save the changes
+    }
+    private fun diminuerFaimCompagnon(id: Int, lastLaunch: Long?) {
+        compagnon?.let {
+            gestionnaire.baisserNivFaim(id, context, lastLaunch)
+        }
+    }
+    private fun diminuerHumeurCompagnon(id: Int, lastLaunch: Long?) {
+        compagnon?.let {
+            gestionnaire.baisserNivHumeur(id, context, lastLaunch)
+        }
     }
 
 }

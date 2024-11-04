@@ -14,7 +14,7 @@
         android:text="Magasin"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:textColor="@color/purple_200"
+        android:textColor="@color/couleurTitre"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="{Nombre Coins}"
-            android:textColor="@color/texteCouleurPrincipale"
+            android:textColor="@color/couleurTexte"
             android:textSize="12sp" />
 
         <ImageView

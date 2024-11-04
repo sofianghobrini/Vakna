@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="{Nom objet}"
-        android:textColor="@color/texteCouleurPrincipale"
+        android:textColor="@color/couleurTitre"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="{Nombre Coins}"
-            android:textColor="@color/texteCouleurPrincipale"
+            android:textColor="@color/couleurTexte"
             android:textSize="12sp" />
 
         <ImageView
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="{Action du produit}: {Niveau du produit}"
-            android:textColor="@color/texteCouleurPrincipale"
+            android:textColor="@color/couleurTexte"
             android:textSize="24sp" />
 
         <View
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Cout: {Cout du produit}"
-            android:textColor="@color/texteCouleurPrincipale"
+            android:textColor="@color/couleurTexte"
             android:textSize="24sp" />
         
     </LinearLayout>
@@ -167,7 +167,7 @@
         android:layout_marginTop="16dp"
         android:inputType="textMultiLine"
         android:text="{Description objet}"
-        android:textColor="@color/texteCouleurPrincipale"
+        android:textColor="@color/couleurTexte"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

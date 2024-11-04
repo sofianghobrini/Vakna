@@ -1,6 +1,6 @@
 package com.app.vakna.adapters
 
-import android.content.Context
+import android.content.Intent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +10,25 @@ import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.PopupWindow
 import android.widget.TextView
+import com.app.vakna.DetailsObjetActivity
+import com.app.vakna.MainActivity
 import com.app.vakna.R
+import com.app.vakna.controller.ControllerCompagnon
+import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.dao.CompagnonDAO
 
 class GridAdapterInventaire(
-    private val context: Context,
+    private val binding: FragmentCompagnonBinding,
     private val items: ArrayList<GridData>
-) : GridAdapter(context, items) {
+) : GridAdapter(binding.root.context, items) {
 
+    private val context = binding.root.context
     private val inventaire = Inventaire(context)
+    private var compagnon: Compagnon? = null
+    private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_inventaire, parent, false)
@@ -36,52 +46,110 @@ class GridAdapterInventaire(
         qteTextView.text = "${item.qte}x"
 
         view.setOnClickListener {
-            val popupUtilisationView = LayoutInflater.from(context).inflate(R.layout.popup_nombre_utilisations, null)
-            val popupUtilisationWindow = PopupWindow(popupUtilisationView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-            val popupTextUtilisationView: TextView = popupUtilisationView.findViewById(R.id.popupUtilisationTitre)
-            popupTextUtilisationView.text = item.nom
-            val popupTextQuestion: TextView = popupUtilisationView.findViewById(R.id.popupQuestion)
-            popupTextQuestion.text = "Combien voulez-vous utiliser de ${item.nom}."
-
-            val nombreUtilisaitons = popupUtilisationView.findViewById<NumberPicker>(R.id.nombreUtilisations)
-            nombreUtilisaitons.minValue = 1
-            nombreUtilisaitons.maxValue = item.qte!!
-
-            popupUtilisationView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            val popupWidth = popupUtilisationView.measuredWidth
-
-            val location = IntArray(2)
-            view.getLocationOnScreen(location)
-
-            val offsetX = location[0] + (view.width / 2) - (popupWidth / 2)
-            val offsetY = location[1] - popupUtilisationView.measuredHeight
-
-            popupUtilisationWindow.isOutsideTouchable = true
-            popupUtilisationWindow.isFocusable = true
-
-            popupUtilisationWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
-
-            val buttonUtiliser: Button = popupUtilisationView.findViewById(R.id.boutonUtiliser)
-            buttonUtiliser.setOnClickListener {
-                val qteUtilisations = nombreUtilisaitons.value
-                inventaire.utiliserObjet(item.nom, qteUtilisations)
-
-                val type = inventaire.getObjetParNom(item.nom)?.getType()
-                val updatedItems = type?.let { it1 -> inventaire.getObjetsParType(it1) }
-                items.clear()
-                updatedItems?.let { it1 -> Inventaire.setToGridDataArray(it1) }
-                    ?.let { it2 -> items.addAll(it2) }
-                notifyDataSetChanged()
-
-                popupUtilisationWindow.dismiss()
-            }
-
-            popupUtilisationView.setOnClickListener {
-                popupUtilisationWindow.dismiss()
+            if(item.qte!! <= 0) {
+                showAcheterPlusPopUp(item, view)
+            } else {
+                showUtilisationPopUp(item, view)
             }
         }
 
         return view
+    }
+
+    private fun showAcheterPlusPopUp(item: GridData, view: View) {
+        val popupMagasinView =
+            LayoutInflater.from(context).inflate(R.layout.popup_acheter_plus, null)
+        val popupMagasinWindow = PopupWindow(
+            popupMagasinView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val popupTextMagasinView: TextView =
+            popupMagasinView.findViewById(R.id.popupMagasinTitre)
+        popupTextMagasinView.text = item.nom
+        val popupTextQuestion: TextView = popupMagasinView.findViewById(R.id.popupMagasinQuestion)
+        popupTextQuestion.text = "Vous n'avez plus de ${item.nom}, voulez-vous en acheter plus?"
+
+        popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val popupWidth = popupMagasinView.measuredWidth
+
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+
+        val offsetX = location[0] + (view.width / 2) - (popupWidth / 2)
+        val offsetY = location[1] - popupMagasinView.measuredHeight
+
+        popupMagasinWindow.isOutsideTouchable = true
+        popupMagasinWindow.isFocusable = true
+
+        popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
+
+        val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
+        boutonMagasin.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsObjetActivity::class.java).apply {
+                    putExtra("NOM_OBJET", item.nom)
+                }
+                context.startActivity(intent)
+            }
+            popupMagasinWindow.dismiss()
+        }
+
+        popupMagasinView.setOnClickListener {
+            popupMagasinWindow.dismiss()
+        }
+    }
+
+    private fun showUtilisationPopUp(item: GridData, view: View) {
+        val popupUtilisationView =
+            LayoutInflater.from(context).inflate(R.layout.popup_nombre_utilisations, null)
+        val popupUtilisationWindow = PopupWindow(
+            popupUtilisationView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val popupTextUtilisationView: TextView =
+            popupUtilisationView.findViewById(R.id.popupUtilisationTitre)
+        popupTextUtilisationView.text = item.nom
+        val popupTextQuestion: TextView = popupUtilisationView.findViewById(R.id.popupQuestion)
+        popupTextQuestion.text = "Combien voulez-vous utiliser de ${item.nom}."
+
+        val nombreUtilisations =
+            popupUtilisationView.findViewById<NumberPicker>(R.id.nombreUtilisations)
+        nombreUtilisations.minValue = 1
+        nombreUtilisations.maxValue = item.qte!!
+
+        popupUtilisationView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val popupWidth = popupUtilisationView.measuredWidth
+
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+
+        val offsetX = location[0] + (view.width / 2) - (popupWidth / 2)
+        val offsetY = location[1] - popupUtilisationView.measuredHeight
+
+        popupUtilisationWindow.isOutsideTouchable = true
+        popupUtilisationWindow.isFocusable = true
+
+        popupUtilisationWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
+
+        val buttonUtiliser: Button = popupUtilisationView.findViewById(R.id.boutonUtiliser)
+        buttonUtiliser.setOnClickListener {
+            val qteUtilisations = nombreUtilisations.value
+            inventaire.utiliserObjet(item.nom, qteUtilisations)
+
+            val type = inventaire.getObjetParNom(item.nom)?.getType()
+            val updatedItems = type?.let { it1 -> inventaire.getObjetsParType(it1) }
+            items.clear()
+
+            ControllerCompagnon.setupGridView(updatedItems!!, binding)
+            popupUtilisationWindow.dismiss()
+        }
+
+        popupUtilisationView.setOnClickListener {
+            popupUtilisationWindow.dismiss()
+        }
     }
 }

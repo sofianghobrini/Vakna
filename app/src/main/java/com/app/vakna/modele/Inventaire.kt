@@ -2,10 +2,8 @@ package com.app.vakna.modele
 
 import android.content.Context
 import com.app.vakna.adapters.GridData
-import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
-import java.lang.reflect.Type
 
 class Inventaire(private var contexte: Context) {
     private var inventaireDAO = InventaireDAO(contexte)
@@ -39,18 +37,23 @@ class Inventaire(private var contexte: Context) {
         return objets.find { it.getId() == id }
     }
 
+    fun getGestionnaireC(): GestionnaireDeCompagnons {
+        return gestionnaireCompagnons
+    }
+
     private fun utiliserObjet(objet: ObjetObtenu) {
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
         if (objet.getType() == TypeObjet.JOUET) {
-            gestionnaireCompagnons.modifierFaim(0, niveau)
+            gestionnaireCompagnons.modifierHumeur(1, niveau)
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
-            gestionnaireCompagnons.modifierHumeur(0, niveau)
+            gestionnaireCompagnons.modifierFaim(1, niveau)
         }
         objet.updateQuantite(-1)
     }
 
     fun utiliserObjet(nom: String, n: Int) {
+        assert(n > 0){"On ne peut pas utiliser 0 objet"}
         val objet = getObjetParNom(nom)
         assert(objet != null) { "On ne peut pas utiliser un objet que l'on ne possède pas" }
         assert(objet!!.getQuantite() >= n) { "On ne peut pas consommer plus d'objets que l'on en possède" }
@@ -62,13 +65,15 @@ class Inventaire(private var contexte: Context) {
     }
 
     fun ajouterObjet(objet: Objet, quantite: Int) {
+        assert(quantite > 0) { "La quantité d'objets ne peut pas être négative ou nulle" }
         var nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 0, objet.getImageUrl())
         if (!objets.any { it.getId() == objet.getId() }) {
             objets += nouvelObjet
             inventaireDAO.insererObjetObtenu(nouvelObjet)
         }
-        getObjetParNom(objet.getNom())?.updateQuantite(quantite)
-        inventaireDAO.mettreAJourQuantiteObjet(nouvelObjet.getId(), nouvelObjet.getQuantite())
+        var objetNouveau = getObjetParNom(objet.getNom())
+        objetNouveau?.updateQuantite(quantite)
+        inventaireDAO.mettreAJourQuantiteObjet(objetNouveau!!.getId(), objetNouveau!!.getQuantite())
     }
 
     fun ajouterPieces(valeur: Int) {

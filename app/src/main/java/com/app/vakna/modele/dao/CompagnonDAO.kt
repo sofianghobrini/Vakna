@@ -5,8 +5,15 @@ import com.app.vakna.modele.Compagnon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
+import com.app.vakna.modele.Objet
+import com.app.vakna.modele.Shop
+import com.app.vakna.modele.TypeObjet
+import com.app.vakna.modele.dao.InventaireDAO
+import com.app.vakna.modele.dao.ObjetDAO
 
 class CompagnonDAO(private val contexte: Context) : DAO<Compagnon, Int> {
+
+
 
     // Initialisation de l'objet Gson avec un adaptateur personnalisé pour les objets Compagnon
     private val gson = GsonBuilder()
