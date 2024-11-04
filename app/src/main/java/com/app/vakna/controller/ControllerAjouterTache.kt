@@ -19,6 +19,10 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     init {
         val context = binding.root.context
 
+        // Set button text using string resources
+        binding.boutonCreerTache.text = context.getString(R.string.create_task_button)
+        binding.boutonAnnulerCreation.text = context.getString(R.string.cancel_task_creation_button)
+
         // Bouton pour confirmer la création de la tâche
         binding.boutonCreerTache.setOnClickListener {
             if (validerFormulaire()) {
@@ -28,7 +32,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 // Naviguer vers l'écran principal après l'ajout de la tâche
                 if (context is AjouterActivity) {
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("navigateTo", "Taches")
+                    intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
                     context.startActivity(intent)
                 }
             }
@@ -38,7 +42,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         binding.boutonAnnulerCreation.setOnClickListener {
             if (context is AjouterActivity) {
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("navigateTo", "Taches")
+                intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
                 context.startActivity(intent)
             }
         }
@@ -53,7 +57,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Vérification du nom de la tâche
         val nomTacheEditText = binding.contenuInclude.inputNomTache
         if (nomTacheEditText.text.isNullOrEmpty()) {
-            nomTacheEditText.error = "Le nom de la tâche est obligatoire"
+            nomTacheEditText.error = binding.root.context.getString(R.string.task_name_error)
             valide = false
         }
 
@@ -62,6 +66,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val errorFrequenceTextView = binding.contenuInclude.errorFrequence
         if (radioGroupFrequence.checkedRadioButtonId == -1) {
             errorFrequenceTextView.visibility = View.VISIBLE
+            errorFrequenceTextView.text = binding.root.context.getString(R.string.frequency_error)
             valide = false
         } else {
             errorFrequenceTextView.visibility = View.GONE
@@ -72,6 +77,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val errorImportanceTextView = binding.contenuInclude.errorImportance
         if (radioGroupImportance.checkedRadioButtonId == -1) {
             errorImportanceTextView.visibility = View.VISIBLE
+            errorImportanceTextView.text = binding.root.context.getString(R.string.importance_error)
             valide = false
         } else {
             errorImportanceTextView.visibility = View.GONE
@@ -125,7 +131,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
      * Méthode pour confirmer la création de la tâche.
      */
     private fun confirmerTache() {
-
         // Création de l'objet Tache avec les informations récupérées
         val tache = Tache(
             nom = recupererNomTache(),

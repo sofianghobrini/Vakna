@@ -1,7 +1,6 @@
 package com.app.vakna.controller
 
 import android.content.Intent
-import android.util.Log
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -104,7 +103,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         // Ajout des séparateurs entre les éléments de la liste
         listeTaches.addItemDecoration(
             DividerItemDecoration(context, layoutManager.orientation).apply {
-                setDrawable(context.getDrawable(R.drawable.divider_item)!!)  // Séparateur personnalisé
+                setDrawable(context.getDrawable(R.drawable.divider_item)!!)
             }
         )
     }

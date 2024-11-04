@@ -1,5 +1,7 @@
 package com.app.vakna.controller
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Button
@@ -16,13 +18,11 @@ import com.app.vakna.adapters.ListAdapterBoutons
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityGererBinding
 import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.dao.TacheDAO
 
 class ControllerGerer(private val binding: ActivityGererBinding) {
 
-    val context = binding.root.context
+    val context: Context = binding.root.context
     private lateinit var listAdapter: ListAdapterBoutons
-    private var dao = TacheDAO(context)
 
     init {
 
@@ -46,7 +46,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         val data =
             GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches())
 
-        val dataTrier = data.filter { !it.estArchivee }
+        val dataTrier = data.filter { !it.estTermine || !it.estArchivee }
             .sortedWith(compareByDescending<ListData>
             {
                 when (it.importance) {
@@ -72,6 +72,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         binding.listeTaches.adapter = listAdapter
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showArchiveDialog(nomTache: String) {
         val dialogView = LayoutInflater.from(context)
             .inflate(R.layout.dialog_archive, null)
@@ -100,6 +101,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         dialog.show()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun ajoutDividers(listeBinding: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         // Add dividers between items in the list

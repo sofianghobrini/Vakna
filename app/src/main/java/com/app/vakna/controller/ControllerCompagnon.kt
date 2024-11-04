@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.content.Context
 import android.util.Log
+import android.util.TypedValue
 import android.widget.EditText
 import com.app.vakna.R
 import com.app.vakna.adapters.GridAdapterInventaire
@@ -24,7 +25,7 @@ import com.google.android.material.tabs.TabLayout
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
-    private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var compagnon: Compagnon? = null
     private var inventaire = Inventaire(context)
     private val shop = Shop(context)
@@ -43,8 +44,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private fun setUpView() {
 
-        inventaire.ajouterPieces(500)
-
         // Charger le compagnon depuis la base de données
         val compagnons = gestionnaire.obtenirCompagnons()
         compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
@@ -55,22 +54,17 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             updateLevelAndProgress(it) // Mise à jour du niveau et progression XP
         }
 
-        // Charger et afficher un GIF via Glide
-        Glide.with(context)
-            .asGif()
-            .load(R.drawable.dragon)
-            .into(binding.dragonGif)
+        updateHumeurCompagnon(binding)
 
         // Mettre à jour les progress bar
         compagnon?.let {
-            binding.texteHumeur.text = "${it.humeur}/100"
+            binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             binding.progressHumeur.progress = it.humeur
-            binding.texteFaim.text = "${it.faim}/100"
+            binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
             binding.progressFaim.progress = it.faim
         }
 
-        val distinctTypesList = shop.getObjets().map { it.getType() }
-            .distinct()
+        val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
 
         distinctTypesList.forEach {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.name))
@@ -104,7 +98,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      */
     fun showEditNameDialog() {
         val editText = EditText(context).apply {
-            hint = "Nouveau nom"
+            hint = context.getString(R.string.new_name_hint)
             inputType = android.text.InputType.TYPE_CLASS_TEXT
             filters = arrayOf(android.text.InputFilter.LengthFilter(50))
             compagnon?.let {
@@ -113,9 +107,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         MaterialAlertDialogBuilder(context)
-            .setTitle("Modifier le nom de ton Companion")
+            .setTitle(context.getString(R.string.edit_name_dialog_title))
             .setView(editText)
-            .setPositiveButton("Confirmer") { dialog, _ ->
+            .setPositiveButton(context.getString(R.string.confirm)) { dialog, _ ->
                 val newName = editText.text.toString()
                 if (newName.isNotEmpty()) {
                     // Mettre à jour le nom du compagnon dans la base de données
@@ -124,7 +118,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
                 dialog.dismiss()
             }
-            .setNegativeButton("Annuler") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -140,13 +134,52 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val xpForCurrentLevel = currentXp % 100  // XP restant pour compléter le niveau actuel
 
         // Mettre à jour le texte du niveau
-        binding.dragonLevel.text = "Niv. $level"
+        binding.dragonLevel.text = context.getString(R.string.level_text, level)
 
         // Mettre à jour la barre de progression avec l'XP restant pour le niveau
         binding.progressBarLevel.progress = xpForCurrentLevel
     }
 
     companion object {
+        fun updateHumeurCompagnon(binding: FragmentCompagnonBinding) {
+            val context = binding.root.context
+            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            val compagnons = gestionnaire.obtenirCompagnons()
+            val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
+
+            var humeurImage = "@drawable/humeur_"
+
+            humeurImage += compagnon?.espece?.lowercase() + "_"
+
+            var humeurComp = 0
+            humeurComp = if (compagnon?.humeur!! < compagnon.faim) {
+                compagnon.humeur
+            } else {
+                compagnon.faim
+            }
+
+
+            Log.e("test", humeurComp.toString())
+
+            humeurImage += if (humeurComp > 60) {
+                "heureux"
+            } else if (humeurComp > 30) {
+                "moyen"
+            } else if (humeurComp > 0) {
+                "enerve"
+            } else {
+                "triste"
+            }
+
+            val image = context.resources.getIdentifier(humeurImage, null, context.packageName)
+
+            // Charger et afficher un GIF via Glide
+            Glide.with(context)
+                .asGif()
+                .load(image)
+                .into(binding.dragonGif)
+        }
+
         /**
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
          * @param items La liste d'items à afficher dans le GridView.
@@ -156,9 +189,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
             compagnon?.let {
-                binding.texteHumeur.text = "${it.humeur}/100"
+                binding.texteHumeur.text = binding.root.context.getString(R.string.humeur_text, it.humeur)
                 binding.progressHumeur.progress = it.humeur
-                binding.texteFaim.text = "${it.faim}/100"
+                binding.texteFaim.text = binding.root.context.getString(R.string.faim_text, it.faim)
                 binding.progressFaim.progress = it.faim
             }
 

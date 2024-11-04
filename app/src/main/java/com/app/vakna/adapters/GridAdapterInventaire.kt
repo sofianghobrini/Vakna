@@ -1,6 +1,7 @@
 package com.app.vakna.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,6 @@ class GridAdapterInventaire(
 
     private val context = binding.root.context
     private val inventaire = Inventaire(context)
-    private var compagnon: Compagnon? = null
-    private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_inventaire, parent, false)
@@ -145,6 +144,7 @@ class GridAdapterInventaire(
             items.clear()
 
             ControllerCompagnon.setupGridView(updatedItems!!, binding)
+            ControllerCompagnon.updateHumeurCompagnon(binding)
             popupUtilisationWindow.dismiss()
         }
 

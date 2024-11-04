@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,90 +12,89 @@
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-    android:id="@+id/labelNomTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
-    android:text="Nom de la tâche:"
-    android:textColor="@color/couleurTexte"
-    android:textSize="20sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/labelNomTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/label_task_name"
+        android:textColor="@color/couleurTexte"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-    android:id="@+id/inputNomTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:background="@drawable/input_border"
-    android:hint="ex: Faire la vaisselle"
-    android:inputType="text"
-    android:padding="5dp"
-    android:textColorHint="@color/gray"
-    android:textSize="18sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/labelNomTache" />
+        android:id="@+id/inputNomTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/input_border"
+        android:hint="@string/hint_task_name"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textColorHint="@color/gray"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelNomTache" />
 
     <TextView
-    android:id="@+id/labelTypeTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:text="Type de la tâche:"
-    android:textColor="@color/couleurTexte"
-    android:textSize="20sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
+        android:id="@+id/labelTypeTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/label_task_type"
+        android:textColor="@color/couleurTexte"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
 
     <Spinner
-    android:id="@+id/selectTypeTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:entries="@array/typeTacheExemple"
-    android:spinnerMode="dropdown"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
+        android:id="@+id/selectTypeTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/typeTacheExemple"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
 
     <TextView
-    android:id="@+id/labelFrequenceTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:text="Fréquence de la tâche:"
-    android:textColor="@color/couleurTexte"
-    android:textSize="20sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
+        android:id="@+id/labelFrequenceTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/label_task_frequency"
+        android:textColor="@color/couleurTexte"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
 
     <RadioGroup
-    android:id="@+id/radioFrequenceTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache">
-
-    <RadioButton
-        android:id="@+id/radioQuotidien"
+        android:id="@+id/radioFrequenceTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quotidienne" />
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelFrequenceTache">
 
-    <RadioButton
-        android:id="@+id/radioHebdomadaire"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hebdomadaire" />
+        <RadioButton
+            android:id="@+id/radioQuotidien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_daily" />
 
-    <RadioButton
-        android:id="@+id/radioMensuel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mensuel" />
+        <RadioButton
+            android:id="@+id/radioHebdomadaire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_weekly" />
 
+        <RadioButton
+            android:id="@+id/radioMensuel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_monthly" />
     </RadioGroup>
 
     <TextView
@@ -102,51 +102,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
-        android:text="Veuillez sélectionner une fréquence"
+        android:text="@string/error_task_frequency"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
 
     <TextView
-    android:id="@+id/labelImportanceTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
-    android:text="Importance de la tâche:"
-    android:textColor="@color/couleurTexte"
-    android:textSize="20sp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
+        android:id="@+id/labelImportanceTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/label_task_importance"
+        android:textColor="@color/couleurTexte"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
 
     <RadioGroup
-    android:id="@+id/radioImportanceTache"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/labelImportanceTache">
-
-    <RadioButton
-        android:id="@+id/radioFaible"
+        android:id="@+id/radioImportanceTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Faible"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="10dp" />
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelImportanceTache">
 
-    <RadioButton
-        android:id="@+id/radioMoyen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Moyen"
-        android:layout_marginEnd="30dp" />
+        <RadioButton
+            android:id="@+id/radioFaible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_low"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="10dp" />
 
-    <RadioButton
-        android:id="@+id/radioElevee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Élevée" />
+        <RadioButton
+            android:id="@+id/radioMoyen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_medium"
+            android:layout_marginEnd="30dp" />
 
+        <RadioButton
+            android:id="@+id/radioElevee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_high" />
     </RadioGroup>
 
     <TextView
@@ -154,9 +153,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
-        android:text="Veuillez sélectionner une importance"
+        android:text="@string/error_task_importance"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioImportanceTache" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

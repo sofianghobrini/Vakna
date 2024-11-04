@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.Toast
 import com.app.vakna.CreerCompagnonActivity
 import com.app.vakna.MainActivity
+import com.app.vakna.R
 import com.app.vakna.databinding.ActivityCreerCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.Objet
@@ -54,7 +55,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         // Charger le GIF du dragon à l'aide de Glide
         Glide.with(binding.root)
             .asGif()
-            .load(com.app.vakna.R.drawable.dragon)
+            .load(com.app.vakna.R.drawable.humeur_dragon_heureux)
             .into(binding.dragonGif)
 
         // Désactiver le bouton de confirmation au début
@@ -121,9 +122,9 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         // Afficher un message en fonction du résultat de l'insertion
         if (insertionReussie) {
-            Toast.makeText(context, "Compagnon créé avec succès!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.compagnon_cree_succes), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Erreur: Un compagnon avec ce nom existe déjà", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.compagnon_existe_erreur), Toast.LENGTH_SHORT).show()
         }
     }
 

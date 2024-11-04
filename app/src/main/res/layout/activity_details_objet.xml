@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageObjet">
-        
+
         <TextView
             android:id="@+id/texteNiveau"
             android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
             android:text="Cout: {Cout du produit}"
             android:textColor="@color/couleurTexte"
             android:textSize="24sp" />
-        
+
     </LinearLayout>
 
     <LinearLayout
@@ -159,7 +159,7 @@
             android:textAlignment="center"/>
 
     </LinearLayout>
-    
+
     <TextView
         android:id="@+id/texteDescription"
         android:layout_width="match_parent"
