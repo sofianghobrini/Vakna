@@ -103,7 +103,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         // Ajout des séparateurs entre les éléments de la liste
         listeTaches.addItemDecoration(
             DividerItemDecoration(context, layoutManager.orientation).apply {
-                setDrawable(context.getDrawable(R.drawable.divider_item)!!)  // Séparateur personnalisé
+                setDrawable(context.getDrawable(R.drawable.divider_item)!!)
             }
         )
     }

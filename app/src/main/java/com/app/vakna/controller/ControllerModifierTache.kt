@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import com.app.vakna.GererActivity
 import com.app.vakna.ModifierActivity
 import com.app.vakna.R
@@ -19,9 +20,8 @@ import java.time.LocalDate
 /**
  * Contrôleur pour la modification des tâches dans l'ActivityModifier.
  * @param binding : le binding pour accéder aux éléments de l'interface utilisateur
- * @param nomTacheOriginale : le nom de la tâche à modifier
+ * @param intent : l'intention qui contient le nom de la tâche à modifier
  */
-@SuppressLint("SetTextI18n")
 class ControllerModifierTache(
     private val binding: ActivityModifierBinding,
     intent: Intent
@@ -30,16 +30,21 @@ class ControllerModifierTache(
     private val context = binding.root.context
     private var tacheOriginel: Tache
 
-    init{
-        val taskName = intent.getStringExtra("NOM_TACHE") ?: "Tâche inconnue"
+    init {
+        val taskName = intent.getStringExtra("NOM_TACHE") ?: context.getString(R.string.task_unknown)
 
         val gestionnaire = GestionnaireDeTaches(binding.root.context)
 
+
+        // Récupérer la tâche à partir du gestionnaire
         tacheOriginel = gestionnaire.obtenirTaches(taskName).first()
 
         preFillFields(tacheOriginel)
 
-        binding.titreModifierTache.text = "Modifier la tâche \"$taskName\""
+        binding.titreModifierTache.text = context.getString(R.string.modifier_task_title, taskName)
+
+        binding.boutonModifierTache.text = context.getString(R.string.edit_task_button)
+        binding.boutonAnnulerCreation.text = context.getString(R.string.cancel)
 
         binding.boutonModifierTache.setOnClickListener {
             modifierTache()
@@ -51,11 +56,9 @@ class ControllerModifierTache(
 
         binding.boutonAnnulerCreation.setOnClickListener {
             if (context is ModifierActivity) {
-                val intent = Intent(context, GererActivity::class.java)
-                context.startActivity(intent)
+                context.finish()
             }
         }
-
     }
 
     private fun preFillFields(task: Tache) {
@@ -77,44 +80,30 @@ class ControllerModifierTache(
         }
     }
 
-    /**
-     * Récupérer le nom de la tâche à partir de l'interface utilisateur
-     * @return String : le nom de la tâche
-     */
     private fun recupererNomTache(): String {
         val nomTacheEditText = binding.root.findViewById<EditText>(R.id.inputNomTache)
-        return nomTacheEditText.text.toString().trim()  // Suppression des espaces inutiles
+        return nomTacheEditText.text.toString().trim()
     }
 
-    /**
-     * Récupérer le type de la tâche depuis l'interface utilisateur (Spinner)
-     * @return TypeTache : l'énumération correspondant au type de la tâche sélectionné
-     */
     private fun recupererTypeTache(): TypeTache {
         val typeSpinner = binding.root.findViewById<Spinner>(R.id.selectTypeTache)
         val typeSelectionne = typeSpinner.selectedItem.toString()
 
-        // Correspondance entre la chaîne sélectionnée et l'énumération TypeTache
         return when (typeSelectionne.uppercase()) {
-            "SPORT" -> TypeTache.SPORT
-            "ETUDES" -> TypeTache.ETUDES
-            "PROFESSIONNELLE" -> TypeTache.PROFESSIONNELLE
-            "VIEQUO" -> TypeTache.VIEQUO
-            "PROJET" -> TypeTache.PROJET
-            "PERSONNELLE" -> TypeTache.PERSONNELLE
+            context.getString(R.string.type_personnelle).uppercase() -> TypeTache.PERSONNELLE
+            context.getString(R.string.type_professionnelle).uppercase() -> TypeTache.PROFESSIONNELLE
+            context.getString(R.string.type_projet).uppercase() -> TypeTache.PROJET
+            context.getString(R.string.type_etudes).uppercase() -> TypeTache.ETUDES
+            context.getString(R.string.type_sport).uppercase() -> TypeTache.SPORT
+            context.getString(R.string.type_viequo).uppercase() -> TypeTache.VIEQUO
             else -> TypeTache.AUTRE
         }
     }
 
-    /**
-     * Récupérer la fréquence de la tâche en fonction de l'option sélectionnée dans le RadioGroup
-     * @return Frequence : l'énumération correspondant à la fréquence sélectionnée
-     */
     private fun recupererFrequenceTache(): Frequence {
         val radioGroupFrequence = binding.root.findViewById<RadioGroup>(R.id.radioFrequenceTache)
         val selectedRadioButtonId = radioGroupFrequence.checkedRadioButtonId
 
-        // Associer le bouton radio sélectionné à une valeur d'énumération
         return when (selectedRadioButtonId) {
             R.id.radioQuotidien -> Frequence.QUOTIDIENNE
             R.id.radioHebdomadaire -> Frequence.HEBDOMADAIRE
@@ -122,15 +111,10 @@ class ControllerModifierTache(
         }
     }
 
-    /**
-     * Récupérer l'importance de la tâche en fonction de l'option sélectionnée dans le RadioGroup
-     * @return Importance : l'énumération correspondant à l'importance sélectionnée
-     */
     private fun recupererImportanceTache(): Importance {
         val radioGroupImportance = binding.root.findViewById<RadioGroup>(R.id.radioImportanceTache)
         val selectedRadioButtonId = radioGroupImportance.checkedRadioButtonId
 
-        // Associer le bouton radio sélectionné à une valeur d'énumération
         return when (selectedRadioButtonId) {
             R.id.radioFaible -> Importance.FAIBLE
             R.id.radioMoyen -> Importance.MOYENNE
@@ -139,15 +123,11 @@ class ControllerModifierTache(
         }
     }
 
-    /**
-     * Méthode publique pour modifier une tâche. Elle récupère les nouvelles valeurs saisies, puis modifie
-     * la tâche en conséquence.
-     */
     fun modifierTache() {
         val nomTache = recupererNomTache()
 
-        // Vérification si le nom de la tâche est vide
         if (nomTache.isBlank()) {
+            Toast.makeText(context, context.getString(R.string.task_name_required), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -157,15 +137,15 @@ class ControllerModifierTache(
         val derniereValidation = LocalDate.now()
         val estTermine = tacheOriginel.estTerminee
 
-        // Créer une nouvelle instance de Tache avec les valeurs modifiées
         val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, estTermine)
+        val gestionnaireDeTaches = GestionnaireDeTaches(context)
 
-        // Initialiser le gestionnaire de tâches et modifier la tâche existante
-        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
+        val resultat = gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
 
-
-
-        // Appeler la fonction de modification dans le gestionnaire de tâches
-        gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
+        if (resultat) {
+            Toast.makeText(context, context.getString(R.string.task_edit_success), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.task_edit_failed), Toast.LENGTH_SHORT).show()
+        }
     }
 }
