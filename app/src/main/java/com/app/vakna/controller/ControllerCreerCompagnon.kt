@@ -54,7 +54,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         // Charger le GIF du dragon à l'aide de Glide
         Glide.with(binding.root)
             .asGif()
-            .load(com.app.vakna.R.drawable.dragon)
+            .load(com.app.vakna.R.drawable.humeur_dragon_heureux)
             .into(binding.dragonGif)
 
         // Désactiver le bouton de confirmation au début

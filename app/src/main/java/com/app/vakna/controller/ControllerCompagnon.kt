@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.content.Context
 import android.util.Log
+import android.util.TypedValue
 import android.widget.EditText
 import com.app.vakna.R
 import com.app.vakna.adapters.GridAdapterInventaire
@@ -24,7 +25,7 @@ import com.google.android.material.tabs.TabLayout
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
-    private val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var compagnon: Compagnon? = null
     private var inventaire = Inventaire(context)
     private val shop = Shop(context)
@@ -55,11 +56,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             updateLevelAndProgress(it) // Mise à jour du niveau et progression XP
         }
 
-        // Charger et afficher un GIF via Glide
-        Glide.with(context)
-            .asGif()
-            .load(R.drawable.dragon)
-            .into(binding.dragonGif)
+        updateHumeurCompagnon(binding)
 
         // Mettre à jour les progress bar
         compagnon?.let {
@@ -147,6 +144,45 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     companion object {
+        fun updateHumeurCompagnon(binding: FragmentCompagnonBinding) {
+            val context = binding.root.context
+            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            val compagnons = gestionnaire.obtenirCompagnons()
+            val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
+
+            var humeurImage = "@drawable/humeur_"
+
+            humeurImage += compagnon?.espece?.lowercase() + "_"
+
+            var humeurComp = 0
+            humeurComp = if (compagnon?.humeur!! < compagnon.faim) {
+                compagnon.humeur
+            } else {
+                compagnon.faim
+            }
+
+
+            Log.e("test", humeurComp.toString())
+
+            humeurImage += if (humeurComp > 60) {
+                "heureux"
+            } else if (humeurComp > 30) {
+                "moyen"
+            } else if (humeurComp > 0) {
+                "enerve"
+            } else {
+                "triste"
+            }
+
+            val image = context.resources.getIdentifier(humeurImage, null, context.packageName)
+
+            // Charger et afficher un GIF via Glide
+            Glide.with(context)
+                .asGif()
+                .load(image)
+                .into(binding.dragonGif)
+        }
+
         /**
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
          * @param items La liste d'items à afficher dans le GridView.
