@@ -43,7 +43,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     private fun setUpView() {
-        inventaire.ajouterPieces(500)
 
         // Charger le compagnon depuis la base de données
         val compagnons = gestionnaire.obtenirCompagnons()
