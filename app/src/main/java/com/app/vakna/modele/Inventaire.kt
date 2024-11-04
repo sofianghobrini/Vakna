@@ -45,9 +45,9 @@ class Inventaire(private var contexte: Context) {
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
         if (objet.getType() == TypeObjet.JOUET) {
-            gestionnaireCompagnons.modifierFaim(0, niveau)
+            gestionnaireCompagnons.modifierHumeur(1, niveau)
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
-            gestionnaireCompagnons.modifierHumeur(0, niveau)
+            gestionnaireCompagnons.modifierFaim(1, niveau)
         }
         objet.updateQuantite(-1)
     }

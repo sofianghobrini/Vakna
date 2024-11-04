@@ -116,10 +116,10 @@ class GridAdapterInventaire(
         val popupTextQuestion: TextView = popupUtilisationView.findViewById(R.id.popupQuestion)
         popupTextQuestion.text = "Combien voulez-vous utiliser de ${item.nom}."
 
-        val nombreUtilisaitons =
+        val nombreUtilisations =
             popupUtilisationView.findViewById<NumberPicker>(R.id.nombreUtilisations)
-        nombreUtilisaitons.minValue = 1
-        nombreUtilisaitons.maxValue = item.qte!!
+        nombreUtilisations.minValue = 1
+        nombreUtilisations.maxValue = item.qte!!
 
         popupUtilisationView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val popupWidth = popupUtilisationView.measuredWidth
@@ -137,7 +137,7 @@ class GridAdapterInventaire(
 
         val buttonUtiliser: Button = popupUtilisationView.findViewById(R.id.boutonUtiliser)
         buttonUtiliser.setOnClickListener {
-            val qteUtilisations = nombreUtilisaitons.value
+            val qteUtilisations = nombreUtilisations.value
             inventaire.utiliserObjet(item.nom, qteUtilisations)
 
             val type = inventaire.getObjetParNom(item.nom)?.getType()

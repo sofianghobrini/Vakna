@@ -11,8 +11,8 @@ import com.app.vakna.controller.ControllerCompagnon
 class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     private val setDeCompagnons = mutableSetOf<Compagnon>()
     private val handler = Handler(Looper.getMainLooper())
-    private val intervalleFaim = 10 * 1000L  // apres la presentation le mettre en 30 min
-    private val intervalleBonheur =  10 * 1000L  // Quatre heures en millisecondes
+    private val intervalleFaim = 30 * 60000L
+    private val intervalleBonheur =  4 * 3600000L
 
     init {
         dao.obtenirTous().forEach { setDeCompagnons.add(it) }
