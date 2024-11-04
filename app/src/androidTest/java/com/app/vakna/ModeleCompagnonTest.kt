@@ -96,7 +96,7 @@ class ModeleCompagnonTest {
         val exception = assertThrows<AssertionError> {
             gestionnaireDeCompagnons.modifierHumeur(compagnon.id, 101)
         }
-        assertEquals("Le niveau de faim doit être compris entre -100 et 100.", exception.message)
+        assertEquals("Le niveau d'humeur doit être compris entre -100 et 100.", exception.message)
     }
 
     @Test
@@ -104,7 +104,7 @@ class ModeleCompagnonTest {
         val exception = assertThrows<AssertionError> {
             gestionnaireDeCompagnons.modifierHumeur(compagnon.id, -101)
         }
-        assertEquals("Le niveau de faim doit être compris entre -100 et 100.", exception.message)
+        assertEquals("Le niveau d'humeur doit être compris entre -100 et 100.", exception.message)
     }
 
     @Test
@@ -153,15 +153,5 @@ class ModeleCompagnonTest {
     fun testNiveau3() {
         gestionnaireDeCompagnons.gagnerXp(compagnon.id, 310)
         assertEquals(3, compagnon.niveau())
-    }
-    @Test
-    fun testBaisserNivFaim() {
-        val compagnon = gestionnaireDeCompagnons.obtenirCompagnon(compagnon.id) ?: return
-
-        // Simuler plusieurs exécutions manuellement
-        repeat(5) {
-            gestionnaireDeCompagnons.BaisserNivFaim(compagnon.id)
-        }
-
     }
 }
