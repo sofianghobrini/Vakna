@@ -5,7 +5,7 @@ import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.ProjetDAO
 import java.time.LocalDate
 
-class GestionnaireDeProjets(private var context: Context) {
+class GestionnaireDeProjets(context: Context) {
     private var projetDAO = ProjetDAO(context)
     private val setDeProjets = mutableSetOf<Projet>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
@@ -32,21 +32,6 @@ class GestionnaireDeProjets(private var context: Context) {
         }
         return projetDAO.inserer(projet)
     }
-
-    /** Fonction inutile pour le moment
-    fun ajouterProjets(projets: List<Projet>): Boolean {
-    var toutesInsertionsOK = true
-    if (projets.isEmpty()) {
-    throw IllegalArgumentException("La liste de tâches à ajouter ne peut pas être vide")
-    }
-    for (t in projets) {
-    ajouterProjet(t)
-    if (!projetDAO.inserer(t)) {
-    toutesInsertionsOK = false
-    }
-    }
-    return toutesInsertionsOK
-    }*/
 
     fun modifierProjet(nom: String, nouvelleProjet: Projet): Boolean {
         val projet = setDeProjets.find { it.nom == nom }
@@ -104,7 +89,7 @@ class GestionnaireDeProjets(private var context: Context) {
         return true
     }
 
-    fun obtenirProjets(): Set<Projet> {
+    private fun obtenirProjets(): Set<Projet> {
         projetDAO.obtenirTous().forEach { setDeProjets.add(it) }
         return setDeProjets
     }

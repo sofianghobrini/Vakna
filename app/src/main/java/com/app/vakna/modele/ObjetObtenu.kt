@@ -1,7 +1,6 @@
 package com.app.vakna.modele
 
 import com.app.vakna.adapters.GridData
-import com.app.vakna.adapters.ListData
 
 class ObjetObtenu(
     id: Int,

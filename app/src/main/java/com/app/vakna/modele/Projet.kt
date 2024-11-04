@@ -10,7 +10,7 @@ class Projet (
     var derniereValidation: LocalDate? = null,
     var estTermine: Boolean = false,
     var estArchive: Boolean = false,
-    val nbFinis: Int = 0
+    private val nbFinis: Int = 0
 ) {
 
     override fun equals(other: Any?): Boolean {
