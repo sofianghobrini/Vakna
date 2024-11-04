@@ -1,7 +1,6 @@
 package com.app.vakna.controller
 
 import android.content.Intent
-import android.util.Log
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager

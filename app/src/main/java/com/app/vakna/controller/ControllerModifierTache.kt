@@ -1,12 +1,10 @@
 package com.app.vakna.controller
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.app.vakna.GererActivity
 import com.app.vakna.ModifierActivity
 import com.app.vakna.R
@@ -23,24 +21,23 @@ import java.time.LocalDate
  * @param binding : le binding pour accéder aux éléments de l'interface utilisateur
  * @param nomTacheOriginale : le nom de la tâche à modifier
  */
+@SuppressLint("SetTextI18n")
 class ControllerModifierTache(
     private val binding: ActivityModifierBinding,
-    private val intent: Intent
+    intent: Intent
 ) {
 
     private val context = binding.root.context
-    private lateinit var tacheOriginel: Tache
+    private var tacheOriginel: Tache
 
     init{
         val taskName = intent.getStringExtra("NOM_TACHE") ?: "Tâche inconnue"
 
-        var gestionnaire = GestionnaireDeTaches(binding.root.context)
+        val gestionnaire = GestionnaireDeTaches(binding.root.context)
 
         tacheOriginel = gestionnaire.obtenirTaches(taskName).first()
 
-        if (tacheOriginel != null) {
-            preFillFields(tacheOriginel)
-        }
+        preFillFields(tacheOriginel)
 
         binding.titreModifierTache.text = "Modifier la tâche \"$taskName\""
 
