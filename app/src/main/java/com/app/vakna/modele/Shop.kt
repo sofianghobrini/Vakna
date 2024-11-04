@@ -1,13 +1,12 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import android.util.Log
 import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
 class Shop(
-    private val context: Context
+    context: Context
 ) {
 
     private val objetDAO = ObjetDAO(context)
@@ -16,7 +15,7 @@ class Shop(
     private val inventaire = Inventaire(context)
 
     init {
-        objetDAO.obtenirTous().forEach() { objetMagasin.add(it) }
+        objetDAO.obtenirTous().forEach { objetMagasin.add(it) }
     }
 
     // Méthode pour obtenir un objet par son nom

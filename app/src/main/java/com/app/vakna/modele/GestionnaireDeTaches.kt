@@ -6,7 +6,7 @@ import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 
-class GestionnaireDeTaches(private var context: Context) {
+class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
@@ -35,21 +35,6 @@ class GestionnaireDeTaches(private var context: Context) {
         return tacheDAO.inserer(tache)
     }
 
-    /** Fonction inutile pour le moment
-     fun ajouterTaches(taches: List<Tache>): Boolean {
-     var toutesInsertionsOK = true
-     if (taches.isEmpty()) {
-     throw IllegalArgumentException("La liste de tâches à ajouter ne peut pas être vide")
-     }
-     for (t in taches) {
-     ajouterTache(t)
-     if (!tacheDAO.inserer(t)) {
-     toutesInsertionsOK = false
-     }
-     }
-     return toutesInsertionsOK
-     }*/
-
     fun modifierTache(nom: String, nouvelleTache: Tache): Boolean {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
@@ -59,7 +44,6 @@ class GestionnaireDeTaches(private var context: Context) {
             tache.type = nouvelleTache.type
             tache.derniereValidation = nouvelleTache.derniereValidation
             tache.estTerminee = nouvelleTache.estTerminee
-
             return tacheDAO.modifier(nom, nouvelleTache)
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
@@ -115,7 +99,7 @@ class GestionnaireDeTaches(private var context: Context) {
     }
 
     fun verifierTacheNonAccomplies(): Boolean {
-        var dateActuelle = LocalDate.now()
+        val dateActuelle = LocalDate.now()
         tacheDAO.obtenirTous().forEach {
             if (!it.estArchivee){
                 when (it.frequence) {
@@ -137,9 +121,6 @@ class GestionnaireDeTaches(private var context: Context) {
                             modifierTache(it.nom, it)
                             gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*15)
                         }
-                    }
-                    else -> {
-                        println("scrum")
                     }
                 }
             }

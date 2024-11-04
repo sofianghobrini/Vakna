@@ -43,7 +43,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     private fun setUpView() {
-
         inventaire.ajouterPieces(500)
 
         // Charger le compagnon depuis la base de données
@@ -60,14 +59,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         // Mettre à jour les progress bar
         compagnon?.let {
-            binding.texteHumeur.text = "${it.humeur}/100"
+            binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             binding.progressHumeur.progress = it.humeur
-            binding.texteFaim.text = "${it.faim}/100"
+            binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
             binding.progressFaim.progress = it.faim
         }
 
-        val distinctTypesList = shop.getObjets().map { it.getType() }
-            .distinct()
+        val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
 
         distinctTypesList.forEach {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.name))
@@ -101,7 +99,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      */
     fun showEditNameDialog() {
         val editText = EditText(context).apply {
-            hint = "Nouveau nom"
+            hint = context.getString(R.string.new_name_hint)
             inputType = android.text.InputType.TYPE_CLASS_TEXT
             filters = arrayOf(android.text.InputFilter.LengthFilter(50))
             compagnon?.let {
@@ -110,9 +108,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         MaterialAlertDialogBuilder(context)
-            .setTitle("Modifier le nom de ton Companion")
+            .setTitle(context.getString(R.string.edit_name_dialog_title))
             .setView(editText)
-            .setPositiveButton("Confirmer") { dialog, _ ->
+            .setPositiveButton(context.getString(R.string.confirm)) { dialog, _ ->
                 val newName = editText.text.toString()
                 if (newName.isNotEmpty()) {
                     // Mettre à jour le nom du compagnon dans la base de données
@@ -121,7 +119,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
                 dialog.dismiss()
             }
-            .setNegativeButton("Annuler") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -137,7 +135,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val xpForCurrentLevel = currentXp % 100  // XP restant pour compléter le niveau actuel
 
         // Mettre à jour le texte du niveau
-        binding.dragonLevel.text = "Niv. $level"
+        binding.dragonLevel.text = context.getString(R.string.level_text, level)
 
         // Mettre à jour la barre de progression avec l'XP restant pour le niveau
         binding.progressBarLevel.progress = xpForCurrentLevel
@@ -192,9 +190,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
             compagnon?.let {
-                binding.texteHumeur.text = "${it.humeur}/100"
+                binding.texteHumeur.text = binding.root.context.getString(R.string.humeur_text, it.humeur)
                 binding.progressHumeur.progress = it.humeur
-                binding.texteFaim.text = "${it.faim}/100"
+                binding.texteFaim.text = binding.root.context.getString(R.string.faim_text, it.faim)
                 binding.progressFaim.progress = it.faim
             }
 

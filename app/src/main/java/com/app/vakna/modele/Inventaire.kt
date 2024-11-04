@@ -5,7 +5,7 @@ import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
 
-class Inventaire(private var contexte: Context) {
+class Inventaire(contexte: Context) {
     private var inventaireDAO = InventaireDAO(contexte)
     private var objets = mutableListOf<ObjetObtenu>()
     private var pieces = 0
@@ -13,7 +13,7 @@ class Inventaire(private var contexte: Context) {
 
 
     init {
-        inventaireDAO.obtenirTousObjetsObtenus().forEach() { objets.add(it) }
+        inventaireDAO.obtenirTousObjetsObtenus().forEach { objets.add(it) }
         pieces = inventaireDAO.obtenirPieces()
     }
 
@@ -66,14 +66,14 @@ class Inventaire(private var contexte: Context) {
 
     fun ajouterObjet(objet: Objet, quantite: Int) {
         assert(quantite > 0) { "La quantité d'objets ne peut pas être négative ou nulle" }
-        var nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 0, objet.getImageUrl())
+        val nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 0, objet.getImageUrl())
         if (!objets.any { it.getId() == objet.getId() }) {
             objets += nouvelObjet
             inventaireDAO.insererObjetObtenu(nouvelObjet)
         }
-        var objetNouveau = getObjetParNom(objet.getNom())
+        val objetNouveau = getObjetParNom(objet.getNom())
         objetNouveau?.updateQuantite(quantite)
-        inventaireDAO.mettreAJourQuantiteObjet(objetNouveau!!.getId(), objetNouveau!!.getQuantite())
+        inventaireDAO.mettreAJourQuantiteObjet(objetNouveau!!.getId(), objetNouveau.getQuantite())
     }
 
     fun ajouterPieces(valeur: Int) {

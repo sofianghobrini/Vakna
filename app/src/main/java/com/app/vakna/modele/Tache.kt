@@ -18,7 +18,7 @@ class Tache(
 
     override fun equals(other: Any?): Boolean {
         if (other !is Tache) return false
-        return nom == other.nom
+        return nom == other.nom || type == other.type || importance == other.importance || frequence == other.frequence || derniereValidation == other.derniereValidation
     }
 
     override fun hashCode(): Int {

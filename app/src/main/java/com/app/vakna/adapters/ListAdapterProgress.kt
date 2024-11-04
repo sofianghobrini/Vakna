@@ -1,6 +1,7 @@
 // ListAdapterWithProgress.kt
 package com.app.vakna.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -26,7 +27,7 @@ class ListAdapterProgress(
     private var gestionnaire = GestionnaireDeTaches(context)
     private var compagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     init {
-        completedTasks = dataArrayList.count { it.estTermine == true }
+        completedTasks = dataArrayList.count { it.estTermine }
         updateProgressBar()
     }
 
@@ -46,7 +47,7 @@ class ListAdapterProgress(
 
         // Si la tâche est terminée, on désactive le switch
         holder.listTermine?.let { switchTermine ->
-            switchTermine.isChecked = listData.estTermine ?: false
+            switchTermine.isChecked = listData.estTermine
             if (switchTermine.isChecked) {
                 switchTermine.isEnabled = false
                 updateBackground(holder.cardView)
@@ -85,6 +86,7 @@ class ListAdapterProgress(
     }
 
     // Affiche une boîte de dialogue de confirmation
+    @SuppressLint("SetTextI18n")
     private fun showConfirmationDialog(nomTache: String, onConfirm: (Boolean) -> Unit) {
         val dialogView = LayoutInflater.from(context)
             .inflate(R.layout.dialog_confirme_termine, null)
