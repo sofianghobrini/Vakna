@@ -9,10 +9,10 @@
         android:layout_height="64dp"
         android:gravity="center"
         android:scaleType="center"
-        android:text="Archiver la tâche?"
+        android:text="@string/dialog_title_archive"
         android:textSize="30dp"
         android:textColor="@color/couleurTitre"
-        android:contentDescription="@string/app_name"/>
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/dialogTexteWarning"
@@ -20,11 +20,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Voulez-vous vraiment archiver la tâche {NOM TACHE ICI}? Vous ne pourrez plus réactiver cette tâche!
-        Cependant vous pourrez toujours la revoir dans la page d'archive."
+        android:text="@string/dialog_text_warning"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"/>
+        android:layout_marginRight="4dp" />
 
     <LinearLayout
         android:layout_width="314dp"
@@ -39,7 +38,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/red"
-            android:text="Archiver" />
+            android:text="@string/button_archive" />
 
         <Button
             android:id="@+id/boutonAnnuler"
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/gray"
-            android:text="Annuler" />
+            android:text="@string/cancel" />
 
     </LinearLayout>
 </LinearLayout>
