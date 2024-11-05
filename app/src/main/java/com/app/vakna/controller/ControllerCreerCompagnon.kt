@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.app.vakna.CreerCompagnonActivity
 import com.app.vakna.MainActivity
@@ -23,7 +26,17 @@ import com.bumptech.glide.Glide
 class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBinding) {
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
+    private val compagnonDAO = CompagnonDAO(context)
+    private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
     init {
+
+        val especeList = listOf("Dragon", "Lapin", "Chay", "Licorne")
+        val imageMap = mapOf(
+            "Dragon" to R.drawable.humeur_dragon_heureux,
+            "Phoenix" to R.drawable.lapin,
+            "Chat"    to R.drawable.chat,
+            "Licorne" to R.drawable.licorne
+        )
         val jouet1 = Objet(0, "Jouet 1", 15, 5, TypeObjet.JOUET, "jouet", "placeholder")
         val jouet2 = Objet(1, "Jouet 2", 20, 6, TypeObjet.JOUET, "jouet", "placeholder")
         val jouet3 = Objet(2, "Jouet 3", 25, 7, TypeObjet.JOUET, "jouet", "placeholder")
@@ -52,6 +65,23 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         allItems.forEach {
             shopDAO.inserer(it)
         }
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, especeList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.EspeceSelect.adapter = adapter
+
+        // Charger l'image initiale pour la première espèce
+        afficherImageCompagnon(especeList.first())
+
+        // Écouter les changements dans le Spinner
+        binding.EspeceSelect.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val especeSelectionnee = especeList[position]
+                afficherImageCompagnon(especeSelectionnee)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
         // Charger le GIF du dragon à l'aide de Glide
         Glide.with(binding.root)
             .asGif()
@@ -103,10 +133,10 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private fun creerCompagnon() {
         val context = binding.root.context
         val nomCompagnon = binding.inputNomCompagnon.text.toString().trim()
-
+        dernierId += 1
         // Créer une nouvelle instance de compagnon avec des valeurs par défaut
         val nouveauCompagnon = Compagnon(
-            id = 1,
+            id = dernierId,
             nom = nomCompagnon,
             faim = 50,
             humeur = 50,
@@ -125,7 +155,24 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             Toast.makeText(context, context.getString(R.string.compagnon_cree_succes), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, context.getString(R.string.compagnon_existe_erreur), Toast.LENGTH_SHORT).show()
+            dernierId -= 1
         }
+    }
+
+
+    /**
+     * Fonction privée pour affiche le visuel du campagnon
+     */
+    private fun afficherImageCompagnon(espece: String) {
+        val imageRes = when (espece) {
+            "Dragon" -> R.drawable.humeur_dragon_heureux
+            "Lapin" -> R.drawable.lapin
+            "Chat" -> R.drawable.chat
+            else -> R.drawable.humeur_dragon_heureux
+        }
+        Glide.with(context)
+            .load(imageRes)
+            .into(binding.dragonGif)
     }
 
     /**
