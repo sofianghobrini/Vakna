@@ -11,7 +11,7 @@
         android:id="@+id/titreMagasin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Magasin"
+        android:text="@string/store_title"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/couleurTitre"
@@ -35,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="{Nombre Coins}"
             android:textColor="@color/couleurTexte"
             android:textSize="12sp" />
 

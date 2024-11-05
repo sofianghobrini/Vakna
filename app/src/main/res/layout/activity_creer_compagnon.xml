@@ -35,24 +35,48 @@
 
     <ImageView
         android:id="@+id/dragon_gif"
-        android:layout_width="296dp"
-        android:layout_height="312dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="240dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titreCreerCompagnon" />
 
     <TextView
-        android:id="@+id/labelNomCompagnon"
+        android:id="@+id/labelEspeceCompagnon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/label_companion_name"
+        android:layout_marginTop="24dp"
+        android:text="Espece du compagnon:"
         android:textColor="@color/couleurTexte"
         android:textSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dragon_gif" />
+
+    <Spinner
+        android:id="@+id/EspeceSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:entries="@array/typeTacheExemple"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelEspeceCompagnon" />
+
+    <TextView
+        android:id="@+id/labelNomCompagnon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/label_companion_name"
+        android:textColor="@color/couleurTexte"
+        android:textSize="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EspeceSelect" />
 
     <EditText
         android:id="@+id/inputNomCompagnon"

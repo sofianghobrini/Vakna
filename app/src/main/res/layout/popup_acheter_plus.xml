@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Nom"
+            android:text="@string/popup_store_title"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Vous n'avez plus de {NOM OBJET}, voulez-vous en acheter plus?"
+            android:text="@string/popup_store_question"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="10sp" />
@@ -39,7 +39,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:backgroundTint="@color/green"
-            android:text="Magasin"
+            android:text="@string/store_button"
             android:textSize="10sp" />
 
     </LinearLayout>

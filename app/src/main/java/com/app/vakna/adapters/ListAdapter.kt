@@ -21,7 +21,9 @@ open class ListAdapter(
         val listTypeIcon: ImageView = itemView.findViewById(R.id.listTypeImage)
         val listName: TextView = itemView.findViewById(R.id.listName)
         val listType: TextView = itemView.findViewById(R.id.listType)
-        val listImportance: TextView = itemView.findViewById(R.id.listImportance)
+        val flameGreen: ImageView = itemView.findViewById(R.id.flame_green)
+        val flameOrange: ImageView = itemView.findViewById(R.id.flame_orange)
+        val flameRed: ImageView = itemView.findViewById(R.id.flame_red)
         val listTermine: SwitchMaterial? = itemView.findViewById(R.id.listSwitchTermine)
         val cardView: CardView? = itemView.findViewById(R.id.cardView)
         val boutonArchiverTache: ImageButton? = itemView.findViewById(R.id.boutonArchiverTache)
@@ -41,8 +43,33 @@ open class ListAdapter(
         holder.listTypeIcon.setImageResource(listData.icon)
         holder.listName.text = listData.name
         holder.listType.text = listData.type
-        holder.listImportance.text = listData.importance
+
+        when (listData.importance) {
+            "ELEVEE" -> {
+                holder.flameGreen.alpha = 0.3f
+                holder.flameOrange.alpha = 0.3f
+                holder.flameRed.alpha = 1.0f  // Affiche la flamme rouge
+            }
+            "MOYENNE" -> {
+                holder.flameGreen.alpha = 0.3f
+                holder.flameOrange.alpha = 1.0f  // Affiche la flamme orange
+                holder.flameRed.alpha = 0.3f
+            }
+            "FAIBLE" -> {
+                holder.flameGreen.alpha = 1.0f  // Affiche la flamme verte
+                holder.flameOrange.alpha = 0.3f
+                holder.flameRed.alpha = 0.3f
+            }
+            else -> {
+                // Si `importance` n'est pas défini, toutes les flammes sont en transparence
+                holder.flameGreen.alpha = 0.3f
+                holder.flameOrange.alpha = 0.3f
+                holder.flameRed.alpha = 0.3f
+            }
+        }
     }
+
+
 
     // Retourne le nombre d'éléments dans la liste
     override fun getItemCount(): Int {
