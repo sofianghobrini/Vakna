@@ -22,6 +22,7 @@ import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.notifications.NotificationReceiver
 
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.ui.compagnon.CompagnonFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,24 +61,18 @@ class MainActivity : AppCompatActivity() {
         compagnon = gestionnaire.obtenirCompagnons().first()
 
         val lastLaunchTime = getLastLaunchTime()
-        if (lastLaunchTime != null){
-            Log.e("testttt", lastLaunchTime.toString())
-        }
 
         compagnon?.let {
             diminuerHumeurCompagnon(it.id, lastLaunchTime)
             diminuerFaimCompagnon(it.id, lastLaunchTime)
         }
 
-        // Now access the toolbar after setContentView is called
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_taches,
@@ -88,6 +83,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 //        scheduleNotification(this)
+
+        val navigateTo = intent.getStringExtra("navigateTo")
+        if (navigateTo == "CompagnonFragment") {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.compagnon_container, CompagnonFragment())
+                .commit()
+        }
     }
 
     override fun onStop () {

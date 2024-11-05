@@ -85,9 +85,15 @@ class ControllerDetailsObjet(
             val nbrQuantite = textQuantite.toInt()
             achat(nomObjet, nbrQuantite)
             if (context is DetailsObjetActivity) {
-                val mainIntent = Intent(context, MainActivity::class.java)
-                mainIntent.putExtra("navigateTo", "Magasin")
-                context.startActivity(mainIntent)
+                val sourceFragment = intent.getStringExtra("sourceFragment")
+                if (sourceFragment == "CompagnonFragment") {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        intent.putExtra("navigateTo", "CompagnonFragment")
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    context.startActivity(intent)
+                }
+                context.finish()
             }
         }
 

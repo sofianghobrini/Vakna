@@ -135,8 +135,12 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         val context = binding.root.context
         if (context is CreerCompagnonActivity) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("navigateTo", "Taches")
+            intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
+
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             context.startActivity(intent)
+            context.finish()
         }
     }
 }

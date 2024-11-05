@@ -50,7 +50,10 @@ class ControllerModifierTache(
             modifierTache()
             if (context is ModifierActivity) {
                 val intent = Intent(context, GererActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
                 context.startActivity(intent)
+                context.finish()
             }
         }
 

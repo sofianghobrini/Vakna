@@ -33,7 +33,11 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 if (context is AjouterActivity) {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
+
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
                     context.startActivity(intent)
+                    context.finish()
                 }
             }
         }
@@ -43,7 +47,11 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             if (context is AjouterActivity) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
+
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
                 context.startActivity(intent)
+                context.finish()
             }
         }
     }
