@@ -30,12 +30,14 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
     init {
 
-        val especeList = listOf("Dragon", "Lapin", "Chay", "Licorne")
+        val especeList = listOf("Dragon", "Lapin", "Chat", "Licorne", "Serpent", "Ecureuil")
         val imageMap = mapOf(
             "Dragon" to R.drawable.humeur_dragon_heureux,
-            "Phoenix" to R.drawable.lapin,
-            "Chat"    to R.drawable.chat,
-            "Licorne" to R.drawable.licorne
+            "Phoenix" to R.drawable.humeur_lapin_heureux,
+            "Chat"    to R.drawable.humeur_chat_heureux,
+            "Licorne" to R.drawable.humeur_licorne_heureux,
+            "Serpent" to R.drawable.humeur_serpent_heureux,
+            "Ecureuil" to R.drawable.humeur_ecureuil_heureux
         )
         val jouet1 = Objet(0, "Jouet 1", 15, 5, TypeObjet.JOUET, "jouet", "placeholder")
         val jouet2 = Objet(1, "Jouet 2", 20, 6, TypeObjet.JOUET, "jouet", "placeholder")
@@ -133,6 +135,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private fun creerCompagnon() {
         val context = binding.root.context
         val nomCompagnon = binding.inputNomCompagnon.text.toString().trim()
+        val nomEspece = binding.EspeceSelect.selectedItem.toString()
         dernierId += 1
         // Créer une nouvelle instance de compagnon avec des valeurs par défaut
         val nouveauCompagnon = Compagnon(
@@ -141,7 +144,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             faim = 50,
             humeur = 50,
             xp = 0,
-            espece = "Dragon"
+            espece = nomEspece
         )
 
         // Instancier le DAO pour manipuler les données du compagnon dans la base
@@ -166,14 +169,18 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
             "Dragon" -> R.drawable.humeur_dragon_heureux
-            "Lapin" -> R.drawable.lapin
-            "Chat" -> R.drawable.chat
+            "Lapin" -> R.drawable.humeur_lapin_heureux
+            "Chat" -> R.drawable.humeur_chat_heureux
+            "Licorne" -> R.drawable.humeur_licorne_heureux
+            "Serpent" -> R.drawable.humeur_serpent_heureux
+            "Ecureuil" -> R.drawable.humeur_ecureuil_heureux
             else -> R.drawable.humeur_dragon_heureux
         }
         Glide.with(context)
             .load(imageRes)
             .into(binding.dragonGif)
     }
+
 
     /**
      * Fonction privée pour naviguer vers l'activité principale après création
