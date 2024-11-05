@@ -82,4 +82,30 @@
     <string name="button_low">Faible</string>
     <string name="button_medium">Moyenne</string>
     <string name="button_high">Élevée</string>
+    <string name="dragon_name">Lucy la dragonne</string>
+    <string name="tab_description">Tab navigation for Jouets and Nourriture</string>
+    <string name="grid_view_items">Items available in the selected category</string>
+    <string name="store_title">Magasin</string>
+    <string name="manage_projects">Gérer les projets</string>
+    <string name="add_project">Ajouter un projet</string>
+    <string name="title_tasks">Tâches</string>
+    <string name="title_projects">Projets</string>
+    <string name="manage_tasks">Gérer les tâches</string>
+    <string name="add_task">Ajouter une tâche</string>
+    <string name="daily_tasks">Journalier</string>
+    <string name="weekly_tasks">Hebdomadaire</string>
+    <string name="monthly_tasks">Mensuel</string>
+    <string name="popup_store_title">Nom</string>
+    <string name="popup_store_question">Vous n\'avez plus de {NOM OBJET}, voulez-vous en acheter plus?</string>
+    <string name="store_button">Magasin</string>
+    <string name="popup_usage_title">Nom</string>
+    <string name="popup_usage_question">Combien voulez-vous utiliser de {NOM OBJET}.</string>
+    <string name="use_button">Utiliser</string>
+    <string name="task_title_placeholder">Tâche : (Celui qui est sélectionné)</string>
+    <string name="task_name">Nom :</string>
+    <string name="task_type">Tâche :</string>
+    <string name="creation_date">Date de Création</string>
+    <string name="task_progress">Progression :</string>
+    <string name="complete_task_button">Terminer la Tâche</string>
+
 </resources>

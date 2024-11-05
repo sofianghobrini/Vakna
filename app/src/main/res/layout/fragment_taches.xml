@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
-                    android:text="Tâches"
+                    android:text="@string/title_tasks"
                     android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
                     android:background="@drawable/input_border"
@@ -46,16 +46,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:text="Projets"
+                    android:text="@string/title_projects"
                     android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/boutonGererTache"
@@ -65,7 +66,7 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/gerer_icon"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/white"/>
+                    android:contentDescription="@string/manage_tasks" />
 
                 <ImageButton
                     android:id="@+id/boutonAjouterTache"
@@ -74,7 +75,7 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/ajout_icon"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/white"/>
+                    android:contentDescription="@string/add_task" />
 
             </LinearLayout>
 
@@ -83,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="Journalier"
+                android:text="@string/daily_tasks"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Hebdomadaire"
+                android:text="@string/weekly_tasks"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Mensuel"
+                android:text="@string/monthly_tasks"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
