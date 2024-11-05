@@ -46,11 +46,6 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
                 context.startActivity(intent)
             }
         }
-        binding.texteTitreGoProjets.setOnClickListener{
-            if (context is MainActivity) {
-            val intent = Intent(context, ProjetsActivity::class.java)
-            context.startActivity(intent)
-        }}
     }
 
     /**
