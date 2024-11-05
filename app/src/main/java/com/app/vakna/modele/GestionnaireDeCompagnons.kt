@@ -5,8 +5,6 @@ import android.util.Log
 import com.app.vakna.modele.dao.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
-import com.app.vakna.controller.ControllerCompagnon
-
 
 class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     private val setDeCompagnons = mutableSetOf<Compagnon>()
@@ -74,12 +72,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
 
     // Méthode pour ajouter de l'expérience (XP) au compagnon
     fun gagnerXp(id: Int, montant: Int) {
-
-        //assert(0 < montant) { "Le montant d'xp a gagné doit être strictement positif" }
-        Log.i("test2", "gagnerXP montant : $montant, idCompa : $id")
         val compagnon = setDeCompagnons.find { it.id == id }?: return
         compagnon.xp += montant
-        Log.i("test2", "ca a marché ????")
         dao.modifier(id, compagnon)
     }
 
@@ -92,8 +86,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         return obtenirCompagnons().find { it.id == id }
     }
 
-    fun baisserNivFaim(id :Int, context: Context, lastLaunch: Long?) {
-        val compagnon = setDeCompagnons.find { it.id == id }?: return
+    fun baisserNivFaim(id: Int, context: Context, lastLaunch: Long?) {
+        setDeCompagnons.find { it.id == id }?: return
         if(lastLaunch != null) {
             // Calculer le temps écoulé depuis la dernière utilisation en minutes
             val currentTime = System.currentTimeMillis()
@@ -104,13 +98,13 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
             //val pointsToReduce = (elapsedTime / 30).toInt()
             var pointsToReduce = (elapsedTime / 10).toInt()
             pointsToReduce = if(pointsToReduce > 100) 100 else pointsToReduce
-            modifierHumeur(id, -pointsToReduce)
-
             modifierFaim(id, -pointsToReduce)
         }
 
         val faimRunnable = object : Runnable {
             override fun run() {
+                setDeCompagnons.removeAll {true}
+                dao.obtenirTous().forEach { setDeCompagnons.add(it) }
                 modifierFaim(id, -1)
                 handler.postDelayed(this, intervalleFaim)  // Reprogrammer pour toutes les 30 minutes
             }
@@ -118,7 +112,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         handler.post(faimRunnable)  // Lancer la première réduction de faim
     }
     fun baisserNivHumeur(id: Int, context: Context, lastLaunch: Long?){
-        val compagnon = setDeCompagnons.find { it.id == id } ?: return
+        setDeCompagnons.find { it.id == id } ?: return
 
         if(lastLaunch != null) {
             val currentTime = System.currentTimeMillis()
@@ -133,6 +127,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
 
         val bonheurRunnable = object : Runnable {
             override fun run() {
+                setDeCompagnons.removeAll {true}
+                dao.obtenirTous().forEach { setDeCompagnons.add(it) }
                 modifierHumeur(id, -1)
                 handler.postDelayed(this, intervalleBonheur)
             }

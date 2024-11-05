@@ -20,10 +20,8 @@ import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.notifications.NotificationReceiver
-import com.app.vakna.notifications.NotificationService
 
 import com.app.vakna.modele.dao.CompagnonDAO
-import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 

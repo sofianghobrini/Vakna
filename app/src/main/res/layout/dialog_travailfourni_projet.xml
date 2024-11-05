@@ -27,7 +27,7 @@
             android:layout_marginRight="4dp"
             android:gravity="center"
             android:inputType="textMultiLine"
-            android:text="Quelle quantité de travail pensez vous avoir fourni ? " />
+            android:text="@string/dialog_text_work_quantity" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="#FCC53D"
-                android:text="Faible"
+                android:text="@string/button_low"
                 android:textColor="#000000" />
 
             <Button
@@ -55,7 +55,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="#F2E949"
-                android:text="Moyenne"
+                android:text="@string/button_medium"
                 android:textColor="#000000" />
 
             <Button
@@ -66,7 +66,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="#91D26E"
-                android:text="Élevée"
+                android:text="@string/button_high"
                 android:textColor="#000000" />
         </LinearLayout>
 

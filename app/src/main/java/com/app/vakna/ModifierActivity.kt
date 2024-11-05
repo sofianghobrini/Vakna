@@ -1,15 +1,9 @@
 package com.app.vakna
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.app.vakna.controller.ControllerModifierTache
 import com.app.vakna.databinding.ActivityModifierBinding
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.Tache
 
 class ModifierActivity : AppCompatActivity() {
 

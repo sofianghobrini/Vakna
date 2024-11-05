@@ -16,7 +16,7 @@
         android:id="@+id/titreCreerTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Créer une tâche"
+        android:text="@string/create_task_button"
         android:textColor="@color/couleurTitre"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/red"
-            android:text="Annuler" />
+            android:text="@string/cancel_task_creation_button" />
 
         <Button
             android:id="@+id/boutonCreerTache"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/green"
-            android:text="Confirmer" />
+            android:text="@string/confirm" />
 
     </LinearLayout>
 
