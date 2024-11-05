@@ -40,7 +40,31 @@ class ListAdapterProgress(
         holder.listTypeIcon.setImageResource(listData.icon)
         holder.listName.text = listData.name
         holder.listType.text = listData.type
-        holder.listImportance.text = listData.importance
+
+        when (listData.importance) {
+            "ELEVEE" -> {
+                holder.flameGreen.alpha = 0.3f
+                holder.flameOrange.alpha = 0.3f
+                holder.flameRed.alpha = 1.0f  // Affiche la flamme rouge
+            }
+            "MOYENNE" -> {
+                holder.flameGreen.alpha = 0.3f
+                holder.flameOrange.alpha = 1.0f  // Affiche la flamme orange
+                holder.flameRed.alpha = 0.3f
+            }
+            "FAIBLE" -> {
+                holder.flameGreen.alpha = 1.0f  // Affiche la flamme verte
+                holder.flameOrange.alpha = 0.3f
+                holder.flameRed.alpha = 0.3f
+            }
+            else -> {
+                // Si `importance` n'est pas défini, toutes les flammes sont en transparence
+                holder.flameGreen.alpha = 0.3f
+                holder.flameOrange.alpha = 0.3f
+                holder.flameRed.alpha = 0.3f
+            }
+        }
+
         gestionnaire.setCompagnon(compagnons.obtenirCompagnons().first().id)
         gestionnaire.obtenirTaches()
 
