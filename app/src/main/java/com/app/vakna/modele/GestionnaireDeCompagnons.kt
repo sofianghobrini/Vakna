@@ -1,7 +1,6 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import android.util.Log
 import com.app.vakna.modele.dao.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
@@ -84,6 +83,10 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
 
     fun obtenirCompagnon(id: Int): Compagnon? {
         return obtenirCompagnons().find { it.id == id }
+    }
+
+    fun obtenirCompagnon(nom: String): Compagnon? {
+        return obtenirCompagnons().find { it.nom == nom }
     }
 
     fun baisserNivFaim(id: Int, context: Context, lastLaunch: Long?) {
