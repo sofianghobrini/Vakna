@@ -1,8 +1,7 @@
-package com.app.vakna
+package com.app.vakna.modele
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.*
 import com.app.vakna.modele.dao.TacheDAO
 import org.junit.Before
 import org.junit.After
