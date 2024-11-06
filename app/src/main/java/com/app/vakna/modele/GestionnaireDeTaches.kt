@@ -21,7 +21,7 @@ class GestionnaireDeTaches(context: Context) {
         this.idCompagnon = id
     }
 
-    fun getGestionnaireCompagnon(): GestionnaireDeCompagnons{
+    fun getGestionnaireCompagnon(): GestionnaireDeCompagnons {
         return gestionnaireCompagnons
     }
 
@@ -57,8 +57,8 @@ class GestionnaireDeTaches(context: Context) {
                 tache.estTerminee = true
                 tache.derniereValidation = LocalDate.now()
                 gestionnaireCompagnons.modifierHumeur(
-                        idCompagnon,
-                        -5 * (tache.importance.ordinal + 1)
+                    idCompagnon,
+                    -5 * (tache.importance.ordinal + 1)
                 )
                 gestionnaireCompagnons.gagnerXp(idCompagnon, -5 * (tache.importance.ordinal + 1))
             }
@@ -74,14 +74,12 @@ class GestionnaireDeTaches(context: Context) {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
-            tache.derniereValidation = LocalDate.now()
-            gestionnaireCompagnons.modifierHumeur(idCompagnon, 5 * (tache.importance.ordinal + 1))
-            gestionnaireCompagnons.gagnerXp(idCompagnon, 5 * (tache.importance.ordinal + 1))
-            when(tache.frequence) {
-                Frequence.QUOTIDIENNE -> inventaire.ajouterPieces((tache.importance.ordinal+1)*3)
-                Frequence.HEBDOMADAIRE -> inventaire.ajouterPieces((tache.importance.ordinal+1)*16)
-                Frequence.MENSUELLE -> inventaire.ajouterPieces((tache.importance.ordinal+1)*42)
-                else -> inventaire.ajouterPieces((tache.importance.ordinal+1))
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, (tache.importance.ordinal + 1) * (tache.frequence.ordinal + 1) * 3)
+            gestionnaireCompagnons.gagnerXp(idCompagnon, (tache.importance.ordinal + 1) * (tache.frequence.ordinal + 1) * 3)
+            when (tache.frequence) {
+                Frequence.QUOTIDIENNE -> inventaire.ajouterPieces((tache.importance.ordinal + 1) * 3)
+                Frequence.HEBDOMADAIRE -> inventaire.ajouterPieces((tache.importance.ordinal + 1) * 16)
+                Frequence.MENSUELLE -> inventaire.ajouterPieces((tache.importance.ordinal + 1) * 42)
             }
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
@@ -92,7 +90,10 @@ class GestionnaireDeTaches(context: Context) {
     fun archiverTache(nom: String): Boolean {
         val tacheAArchiver = setDeTaches.find { it.nom == nom } ?: return false
         if (!tacheAArchiver.estTerminee)
-            gestionnaireCompagnons.modifierHumeur(idCompagnon, tacheAArchiver.importance.ordinal+1*20)
+            gestionnaireCompagnons.modifierHumeur(
+                idCompagnon,
+                tacheAArchiver.importance.ordinal + 1 * 20
+            )
         tacheAArchiver.estArchivee = true
         tacheDAO.modifier(nom, tacheAArchiver)
         return true
@@ -101,25 +102,53 @@ class GestionnaireDeTaches(context: Context) {
     fun verifierTacheNonAccomplies(): Boolean {
         val dateActuelle = LocalDate.now()
         tacheDAO.obtenirTous().forEach {
-            if (!it.estArchivee){
+            if (!it.estArchivee) {
                 when (it.frequence) {
                     Frequence.QUOTIDIENNE -> {
-                        if (it.derniereValidation!!.dayOfMonth < dateActuelle.dayOfMonth-1){
-                            it.derniereValidation = dateActuelle.minusDays(1)
-                            modifierTache(it.nom, it)
-                            gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*3)
+                        if (it.derniereValidation!!.plusDays(1).isBefore(dateActuelle) || it.derniereValidation!!.plusDays(1).isEqual(dateActuelle)) {
+                            when (it.estTerminee) {
+                                true -> {
+                                    it.estTerminee = false
+                                    it.derniereValidation = it.derniereValidation!!.plusDays(1)
+                                    modifierTache(it.nom, it)
+                                }
+                                false -> {
+                                    it.derniereValidation = it.derniereValidation!!.plusDays(1)
+                                    gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
+                                }
+                            }
                         }
-                    } Frequence.HEBDOMADAIRE -> {
-                        if (it.derniereValidation!!.dayOfMonth < dateActuelle.dayOfMonth-1*7){
-                            it.derniereValidation = dateActuelle.minusDays(7)
-                            modifierTache(it.nom, it)
-                            gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*9)
+                    }
+
+                    Frequence.HEBDOMADAIRE -> {
+                        if (it.derniereValidation!!.plusWeeks(1).isBefore(dateActuelle) || it.derniereValidation!!.plusWeeks(1).isEqual(dateActuelle)) {
+                            when (it.estTerminee) {
+                                true -> {
+                                    it.estTerminee = false
+                                    it.derniereValidation = it.derniereValidation!!.plusWeeks(1)
+                                    modifierTache(it.nom, it)
+                                }
+                                false -> {
+                                    it.derniereValidation = it.derniereValidation!!.plusWeeks(1)
+                                    gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
+                                }
+                            }
                         }
-                    } Frequence.MENSUELLE -> {
-                        if (it.derniereValidation!!.month < dateActuelle.month-1){
-                            it.derniereValidation = dateActuelle.minusMonths(1)
-                            modifierTache(it.nom, it)
-                            gestionnaireCompagnons.modifierHumeur(idCompagnon, (it.importance.ordinal+1)*(it.frequence.ordinal+1)*15)
+                    }
+
+                    Frequence.MENSUELLE -> {
+                        if (it.derniereValidation!!.plusMonths(1).isBefore(dateActuelle) || it.derniereValidation!!.plusMonths(1).isEqual(dateActuelle)) {
+                            when (it.estTerminee) {
+                                true -> {
+                                    it.estTerminee = false
+                                    it.derniereValidation = it.derniereValidation!!.plusMonths(1)
+                                    modifierTache(it.nom, it)
+                                }
+                                false -> {
+                                    it.derniereValidation = it.derniereValidation!!.plusMonths(1)
+                                    gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
+                                }
+                            }
                         }
                     }
                 }

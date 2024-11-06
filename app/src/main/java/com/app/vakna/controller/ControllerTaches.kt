@@ -65,8 +65,8 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
      * @param progressBar : ProgressBar - La barre de progression associée
      */
     private fun createListAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
-        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
         gestionnaire.verifierTacheNonAccomplies()
+        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
 
         // Filtrer les tâches non archivées et les trier par statut et importance
         val sortedTasks = taskList

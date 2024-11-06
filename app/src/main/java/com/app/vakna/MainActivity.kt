@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,10 +20,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
+import com.app.vakna.modele.GestionnaireDeTaches
 import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.notifications.NotificationReceiver
 
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.TacheDAO
 import com.app.vakna.ui.compagnon.CompagnonFragment
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var context: Context
+    private lateinit var gestionnaireTaches: GestionnaireDeTaches
     private lateinit var gestionnaire: GestionnaireDeCompagnons
     private var compagnon: Compagnon? = null
 
@@ -51,6 +56,8 @@ class MainActivity : AppCompatActivity() {
 
         context = binding.root.context
 
+        gestionnaireTaches = GestionnaireDeTaches(context)
+
         gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
 
         val accesJson = AccesJson("taches",this)
@@ -66,6 +73,8 @@ class MainActivity : AppCompatActivity() {
             diminuerHumeurCompagnon(it.id, lastLaunchTime)
             diminuerFaimCompagnon(it.id, lastLaunchTime)
         }
+
+        gestionnaireTaches.verifierTacheNonAccomplies()
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
