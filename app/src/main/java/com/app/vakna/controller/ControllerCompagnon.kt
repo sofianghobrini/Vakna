@@ -1,11 +1,9 @@
 package com.app.vakna.controller
 
 import android.content.Context
-import android.util.Log
-import android.util.TypedValue
 import android.widget.EditText
 import com.app.vakna.R
-import com.app.vakna.adapters.GridAdapterInventaire
+import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
@@ -35,6 +33,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
+
         setUpView()
 
         binding.editNameButton.setOnClickListener {
@@ -175,7 +174,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
             val gridItems = Inventaire.setToGridDataArray(sortedItems)
 
-            val adapter = GridAdapterInventaire(binding, gridItems)
+            val adapter = GridConsommableAdapterInventaire(binding, gridItems)
             binding.gridViewItems.adapter = adapter
         }
     }

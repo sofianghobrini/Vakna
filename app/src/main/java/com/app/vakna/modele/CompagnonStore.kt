@@ -1,11 +1,18 @@
 package com.app.vakna.modele
 
-class CompanionStore(
+import com.app.vakna.adapters.GridConsommableData
+import com.app.vakna.adapters.GridData
+
+class CompagnonStore(
     var id: Int,           // Unique identifier for the companion in the store
     var nom: String,       // Name of the companion
     var espece: String,    // Species of the companion (e.g., "Dragon")
     var prix: Int       // Price of the companion in the store
 ) {
+
+    open fun toGridData(): GridData {
+        return GridData(0, espece, prix)
+    }
 
     // Overriding the toString method to display companion's information in the store
     override fun toString(): String {
@@ -14,7 +21,7 @@ class CompanionStore(
 
     // Method equals to compare two companions, returns false if they have different IDs
     override fun equals(other: Any?): Boolean {
-        if (other !is CompanionStore) return false
+        if (other !is CompagnonStore) return false
         return id == other.id
     }
 

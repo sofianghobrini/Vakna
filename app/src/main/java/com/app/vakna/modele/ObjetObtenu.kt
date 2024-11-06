@@ -1,6 +1,6 @@
 package com.app.vakna.modele
 
-import com.app.vakna.adapters.GridData
+import com.app.vakna.adapters.GridConsommableData
 
 class ObjetObtenu(
     id: Int,
@@ -13,8 +13,8 @@ class ObjetObtenu(
     imageUrl: String
 ) : Objet(id, nom, prix, niveau, type, detail, imageUrl) {
 
-    override fun toGridData(): GridData {
-        return GridData(0, getNom(), getNiveau(), getPrix(), getQuantite())
+    override fun toGridData(): GridConsommableData {
+        return GridConsommableData(0, getNom(), getNiveau(), getPrix(), getQuantite())
     }
 
     fun getQuantite(): Int {

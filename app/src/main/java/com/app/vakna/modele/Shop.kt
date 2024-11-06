@@ -1,9 +1,7 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import com.app.vakna.adapters.GridData
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.CompagnonStoreDAO
+import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
@@ -13,10 +11,8 @@ class Shop(
 
     private val objetDAO = ObjetDAO(context)
     private val inventaireDAO = InventaireDAO(context)
-    private val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var objetMagasin = mutableListOf<Objet>()
     private val inventaire = Inventaire(context)
-    private val compagnonStoreDAO = CompagnonStoreDAO(context)
 
     init {
         objetDAO.obtenirTous().forEach { objetMagasin.add(it) }
@@ -50,40 +46,6 @@ class Shop(
         }
     }
 
-    // Méthode pour acheter un compagnon
-    fun acheterCompagnon(compagnonId: Int): Boolean {
-        // Récupérer le compagnon du magasin en fonction de l'ID
-        val compagnonStore = compagnonStoreDAO.obtenirParId(compagnonId)
-            ?: return false // Return false if the companion doesn't exist
-
-        // Vérifier si l'utilisateur a suffisamment de pièces
-        if (inventaire.getPieces() < compagnonStore.prix) {
-            return false // Achat échoué, pièces insuffisantes
-        }
-
-        // Vérifier si le compagnon existe déjà dans l'inventaire
-        if (gestionnaireCompagnons.obtenirCompagnons().any { it.nom == compagnonStore.nom }) {
-            return false // Achat échoué, compagnon déjà possédé
-        }
-
-        // Déduire le prix des pièces
-        inventaire.ajouterPieces(-compagnonStore.prix)
-
-        // Créer un nouvel objet `Compagnon` et l'ajouter au gestionnaire
-        val nouvelCompagnon = Compagnon(
-            id = (gestionnaireCompagnons.obtenirCompagnons().maxOfOrNull { it.id } ?: 0) + 1,
-            nom = compagnonStore.nom,
-            faim = 50,
-            humeur = 50,
-            xp = 0,
-            espece = compagnonStore.espece
-        )
-
-        gestionnaireCompagnons.ajouterCompagnon(nouvelCompagnon)
-
-        return true // Achat réussi
-    }
-
     // Méthode pour lister tous les objets disponibles dans la boutique
     fun listerObjet(): List<Objet> {
         return objetMagasin
@@ -95,8 +57,8 @@ class Shop(
     }
 
     companion object {
-        fun setToGridDataArray(objets: List<Objet>): ArrayList<GridData> {
-            val list = ArrayList<GridData>()
+        fun setToGridDataArray(objets: List<Objet>): ArrayList<GridConsommableData> {
+            val list = ArrayList<GridConsommableData>()
             for (objet in objets) {
                 val listData = objet.toGridData()
                 list.add(listData)
