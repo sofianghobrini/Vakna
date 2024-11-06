@@ -9,15 +9,17 @@ import com.google.gson.reflect.TypeToken
 
 class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
 
+    // Initialisation de l'objet Gson avec un adaptateur personnalisé pour les objets Objet
     private val gson = GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Objet::class.java, JsonToObjet())
         .registerTypeAdapter(Objet::class.java, ObjetToJson())
         .create()
 
+    // Gestion de l'accès aux fichiers JSON
     private val accesJson = AccesJson("objets", contexte)
 
-    // Ensure that the file exists, otherwise create it with an empty JSON structure
+    // Vérifier l'existence du fichier, sinon en créer un vide
     private fun verifierExistence() {
         if (!accesJson.fichierExiste()) {
             val emptyJson = """{"objets": []}"""
@@ -25,27 +27,26 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
         }
     }
 
+    // Obtenir tous les objets depuis le fichier JSON
     override fun obtenirTous(): List<Objet> {
         verifierExistence()
-
         val jsonString = accesJson.lireFichierJson()
 
         val objetsJsonArray = gson.fromJson(jsonString, JsonElement::class.java)
             .asJsonObject.getAsJsonArray("objets")
 
         val objetListType = object : TypeToken<List<Objet>>() {}.type
-
         return gson.fromJson(objetsJsonArray, objetListType)
     }
 
+    // Obtenir un compagnon par son ID
     override fun obtenirParId(id: Int): Objet? {
-        val objets = obtenirTous() // Get the list of all objects
-        return objets.find { it.getId() == id } // Find the object with the matching ID
+        return obtenirTous().find { it.getId() == id }
     }
 
+    // Insérer un nouvel objet dans le fichier JSON
     override fun inserer(entite: Objet): Boolean {
         verifierExistence()
-
         val jsonString = accesJson.lireFichierJson()
 
         val objetsJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
@@ -56,8 +57,9 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
             object : TypeToken<MutableList<Objet>>() {}.type
         )
 
+        // Vérifier si un objet avec le même nom existe déjà
         if (listeObjets.any { it.getId() == entite.getId() }) {
-            return false // Objet with this ID already exists
+            return false
         }
 
         listeObjets.add(entite)
@@ -67,6 +69,7 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
         return true
     }
 
+    // Modifier un objet existant dans le fichier JSON
     override fun modifier(id: Int, entite: Objet): Boolean {
         val objets = obtenirTous().toMutableList()
         val indexObjetAModifier = objets.indexOfFirst { it.getId() == id }

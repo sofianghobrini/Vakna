@@ -2,6 +2,8 @@ package com.app.vakna.modele
 
 import android.content.Context
 import com.app.vakna.adapters.GridData
+import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
@@ -11,8 +13,10 @@ class Shop(
 
     private val objetDAO = ObjetDAO(context)
     private val inventaireDAO = InventaireDAO(context)
+    private val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var objetMagasin = mutableListOf<Objet>()
     private val inventaire = Inventaire(context)
+    private val compagnonStoreDAO = CompagnonStoreDAO(context)
 
     init {
         objetDAO.obtenirTous().forEach { objetMagasin.add(it) }
@@ -34,10 +38,7 @@ class Shop(
 
     // Méthode pour acheter une certaine quantité d'un objet
     fun acheter(nom: String, quantite: Int) {
-        // Obtenir l'objet par son nom
         val objet = getObjet(nom)
-
-        // Vérifier si l'objet existe et si le solde de l'inventaire est suffisant pour la quantité demandée
         if (objet != null) {
             val id = objet.getId()
             val totalPrix = objet.getPrix() * quantite
@@ -45,9 +46,42 @@ class Shop(
                 inventaire.ajouterObjet(objet, quantite)
                 val nouvellesPieces = inventaire.getPieces() - totalPrix
                 inventaireDAO.mettreAJourPieces(nouvellesPieces)
-
             }
         }
+    }
+
+    // Méthode pour acheter un compagnon
+    fun acheterCompagnon(compagnonId: Int): Boolean {
+        // Récupérer le compagnon du magasin en fonction de l'ID
+        val compagnonStore = compagnonStoreDAO.obtenirParId(compagnonId)
+            ?: return false // Return false if the companion doesn't exist
+
+        // Vérifier si l'utilisateur a suffisamment de pièces
+        if (inventaire.getPieces() < compagnonStore.prix) {
+            return false // Achat échoué, pièces insuffisantes
+        }
+
+        // Vérifier si le compagnon existe déjà dans l'inventaire
+        if (gestionnaireCompagnons.obtenirCompagnons().any { it.nom == compagnonStore.nom }) {
+            return false // Achat échoué, compagnon déjà possédé
+        }
+
+        // Déduire le prix des pièces
+        inventaire.ajouterPieces(-compagnonStore.prix)
+
+        // Créer un nouvel objet `Compagnon` et l'ajouter au gestionnaire
+        val nouvelCompagnon = Compagnon(
+            id = (gestionnaireCompagnons.obtenirCompagnons().maxOfOrNull { it.id } ?: 0) + 1,
+            nom = compagnonStore.nom,
+            faim = 50,
+            humeur = 50,
+            xp = 0,
+            espece = compagnonStore.espece
+        )
+
+        gestionnaireCompagnons.ajouterCompagnon(nouvelCompagnon)
+
+        return true // Achat réussi
     }
 
     // Méthode pour lister tous les objets disponibles dans la boutique
@@ -57,7 +91,7 @@ class Shop(
 
     // Méthode pour lister les objets par type
     fun listerObjet(type: TypeObjet): List<Objet> {
-        return objetMagasin.filter { it.getType() == type}
+        return objetMagasin.filter { it.getType() == type }
     }
 
     companion object {

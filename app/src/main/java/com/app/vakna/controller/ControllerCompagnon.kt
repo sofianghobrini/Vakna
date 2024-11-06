@@ -147,9 +147,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
 
-            var humeurImage = "@drawable/humeur_"
+            var humeurImage = "file:///android_asset/compagnons/"
 
-            humeurImage += compagnon?.espece?.lowercase() + "_"
+            humeurImage += compagnon?.espece?.lowercase() + "/" + compagnon?.espece?.lowercase() + "_"
 
             var humeurComp = 0
             humeurComp = if (compagnon?.humeur!! < compagnon.faim) {
@@ -157,9 +157,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             } else {
                 compagnon.faim
             }
-
-
-            Log.e("test", humeurComp.toString())
 
             humeurImage += if (humeurComp > 60) {
                 "heureux"
@@ -170,13 +167,12 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             } else {
                 "triste"
             }
-
-            val image = context.resources.getIdentifier(humeurImage, null, context.packageName)
+            humeurImage +=".gif"
 
             // Charger et afficher un GIF via Glide
             Glide.with(context)
                 .asGif()
-                .load(image)
+                .load(humeurImage)
                 .into(binding.dragonGif)
         }
 
