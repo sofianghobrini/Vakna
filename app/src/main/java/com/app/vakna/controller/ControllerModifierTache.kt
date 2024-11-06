@@ -34,7 +34,7 @@ class ControllerModifierTache(
     private val context = binding.root.context
     private var tacheOriginel: Tache
 
-    init {
+    init{
         val taskName = intent.getStringExtra("NOM_TACHE") ?: context.getString(R.string.task_unknown)
 
         val gestionnaire = GestionnaireDeTaches(binding.root.context)

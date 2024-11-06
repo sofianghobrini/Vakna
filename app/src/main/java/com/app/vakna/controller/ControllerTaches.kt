@@ -98,7 +98,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
      * Méthode pour ajouter des séparateurs dans les RecyclerViews
      * @param listeTaches : RecyclerView - Le RecyclerView auquel ajouter les séparateurs
      */
-    private fun addDividers(listeTaches: RecyclerView) {
+    private fun addDividers(listeTaches: RecyclerView){
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listeTaches.layoutManager = layoutManager
 
