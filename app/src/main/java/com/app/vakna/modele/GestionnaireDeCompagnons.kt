@@ -84,6 +84,10 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         return obtenirCompagnons().find { it.id == id }
     }
 
+    fun obtenirCompagnon(nom: String): Compagnon? {
+        return obtenirCompagnons().find { it.nom == nom }
+    }
+    
     fun baisserNivFaim(id: Int, lastLaunch: Long?) {
         setDeCompagnons.find { it.id == id }?: return
         if(lastLaunch != null) {
