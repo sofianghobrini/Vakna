@@ -7,6 +7,7 @@ import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
 import android.widget.Toast
+import com.app.vakna.DetailsCompagnonActivity
 import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -31,10 +32,10 @@ class ControllerDetailsCompagnon(
 
     init {
         val especeCompagnon = intent.getStringExtra("ESPECE_COMPAGNON") ?: context.getString(R.string.objet_inconnu)
-        val compagnon = shopCompagnon.getCompagnon(especeCompagnon)
+        val compagnon = shopCompagnon.getCompagnonParEspece(especeCompagnon)
         afficherNombreDeCoins()
 
-        binding.texteTitreDetails.text = compagnon?.nom ?: context.getString(R.string.objet_inconnu)
+        binding.texteTitreDetails.text = compagnon?.espece ?: context.getString(R.string.objet_inconnu)
         binding.texteCoutCompagnon.text = context.getString(R.string.cout_format, compagnon?.prix)
 
         binding.boutonAchat.setOnClickListener {
@@ -43,7 +44,7 @@ class ControllerDetailsCompagnon(
                 binding.inputNomCompagnon.error = "Entrez un nom pour votre compagnon"
             } else {
                 shopCompagnon.acheterCompagnon(compagnon!!.id, nomCompagnon)
-                if (context is DetailsObjetActivity) {
+                if (context is DetailsCompagnonActivity) {
                     val sourceFragment = intent.getStringExtra("sourceFragment")
                     if (sourceFragment == "CompagnonFragment") {
                         val intent = Intent(context, MainActivity::class.java).apply {
@@ -58,7 +59,7 @@ class ControllerDetailsCompagnon(
         }
 
         binding.boutonRetour.setOnClickListener {
-            if (context is DetailsObjetActivity) {
+            if (context is DetailsCompagnonActivity) {
                 context.finish()
             }
         }

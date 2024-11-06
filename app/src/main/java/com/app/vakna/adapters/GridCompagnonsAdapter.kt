@@ -11,6 +11,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import com.app.vakna.DetailsCompagnonActivity
 import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -50,8 +51,8 @@ open class GridCompagnonsAdapter (
 
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {
-                val intent = Intent(context, DetailsObjetActivity::class.java).apply {
-                    putExtra("NOM_ESPECE", item.nom)
+                val intent = Intent(context, DetailsCompagnonActivity::class.java).apply {
+                    putExtra("ESPECE_COMPAGNON", item.nom)
                 }
                 context.startActivity(intent)
             }
