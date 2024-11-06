@@ -1,0 +1,25 @@
+package com.app.vakna.modele
+
+class CompanionStore(
+    var id: Int,           // Unique identifier for the companion in the store
+    var nom: String,       // Name of the companion
+    var espece: String,    // Species of the companion (e.g., "Dragon")
+    var prix: Int       // Price of the companion in the store
+) {
+
+    // Overriding the toString method to display companion's information in the store
+    override fun toString(): String {
+        return "$nom ($espece) - Price: $$prix"
+    }
+
+    // Method equals to compare two companions, returns false if they have different IDs
+    override fun equals(other: Any?): Boolean {
+        if (other !is CompanionStore) return false
+        return id == other.id
+    }
+
+    // Method hashCode to calculate hashcode using the companion's ID
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+}
