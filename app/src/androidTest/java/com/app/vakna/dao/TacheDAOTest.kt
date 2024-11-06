@@ -1,4 +1,4 @@
-package com.app.vakna
+package com.app.vakna.dao
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4

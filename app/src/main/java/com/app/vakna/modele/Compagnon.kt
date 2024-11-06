@@ -15,7 +15,14 @@ class Compagnon(
         return xp / 100  // Le niveau est calculé en divisant l'XP par 100
     }
 
-    //Méthode pour obtenir le fichier ou est stocké l'apparence actuelle du compagnon
+    // Méthode pour obtenir le fichier ou est stocké l'apparence par défaut du compagnon
+    fun apparenceDefaut(): String {
+        var image = "file:///android_asset/compagnons/"
+        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux.gif"
+        return image
+    }
+
+    // Méthode pour obtenir le fichier ou est stocké l'apparence actuelle du compagnon
     fun apparence(): String {
         var humeurImage = "file:///android_asset/compagnons/"
 

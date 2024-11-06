@@ -1,12 +1,7 @@
-package com.app.vakna
+package com.app.vakna.modele
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.dao.CompagnonDAO
 import org.junit.After
 import org.junit.Before
