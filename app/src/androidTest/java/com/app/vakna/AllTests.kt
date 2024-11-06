@@ -1,16 +1,7 @@
 package com.app.vakna
 
-import com.app.vakna.dao.CompagnonDAOTest
-import com.app.vakna.dao.InventaireDAOTest
-import com.app.vakna.dao.ObjetDAOTest
-import com.app.vakna.dao.RefugeDAOTest
-import com.app.vakna.dao.TacheDAOTest
-import com.app.vakna.modele.ModeleCompagnonTest
-import com.app.vakna.modele.ModeleInventaireTest
-import com.app.vakna.modele.ModeleObjetTest
-import com.app.vakna.modele.ModeleTacheTest
-import com.app.vakna.modele.ObjetObtenuTest
-import com.app.vakna.modele.RefugeTest
+import com.app.vakna.dao.*
+import com.app.vakna.modele.*
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -27,7 +18,8 @@ import org.junit.runners.Suite
     ModeleObjetTest::class,
     ModeleInventaireTest::class,
     ObjetObtenuTest::class,
-    RefugeTest::class
+    RefugeTest::class,
+    GestionnaireDeRefugeTest::class
 
 )
 class AllTests {

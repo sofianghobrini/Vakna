@@ -36,13 +36,13 @@ class RefugeTest {
     @Test
     fun testEqualsClasseDifferente() {
         val autreType = 1
-        assertTrue(refuge.equals(autreType))
+        assertFalse(refuge.equals(autreType))
     }
 
     @Test
     fun testEqualsFalse() {
         val idDifferent = Refuge(2, "Dragon")
-        val nomDifferent = Refuge(1, "Dragon")
+        val nomDifferent = Refuge(1, "Lapin")
         val toutDifferent = Refuge(2, "Lapin")
         assertFalse(refuge.equals(idDifferent))
         assertFalse(refuge.equals(nomDifferent))
