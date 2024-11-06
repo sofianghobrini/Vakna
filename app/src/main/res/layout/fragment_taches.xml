@@ -12,10 +12,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,18 +25,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/texteTitreTaches"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
+                    android:background="@drawable/input_border"
                     android:text="Tâches"
                     android:textColor="@color/couleurTitre"
                     android:textSize="30sp"
-                    android:background="@drawable/input_border"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -52,29 +52,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-                <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-                <ImageButton
-                    android:id="@+id/boutonGererTache"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="15dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/gerer_icon"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/white"/>
-
-                <ImageButton
-                    android:id="@+id/boutonAjouterTache"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ajout_icon"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/white"/>
 
             </LinearLayout>
 
@@ -93,25 +70,25 @@
 
             <ProgressBar
                 android:id="@+id/progressTachesJournalier"
+                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier"
-                style="@android:style/Widget.ProgressBar.Horizontal"/>
+                app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesJournalier"
                 android:layout_width="match_parent"
                 android:layout_height="231dp"
                 android:layout_marginTop="8dp"
-                android:padding="2dp"
                 android:clipToPadding="false"
-                app:layout_constraintTop_toBottomOf="@id/progressTachesJournalier"
-                app:layout_constraintStart_toStartOf="parent"
+                android:padding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progressTachesJournalier"
                 tools:listitem="@layout/liste_termine_taches" />
 
             <TextView
@@ -129,25 +106,25 @@
 
             <ProgressBar
                 android:id="@+id/progressTachesHebdomadaire"
+                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintTop_toBottomOf="@id/texteTachesHebdomadaire"
-                style="@android:style/Widget.ProgressBar.Horizontal"/>
+                app:layout_constraintTop_toBottomOf="@id/texteTachesHebdomadaire" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesHebdomadaire"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
-                android:padding="2dp"
                 android:clipToPadding="false"
-                app:layout_constraintTop_toBottomOf="@id/progressTachesHebdomadaire"
-                app:layout_constraintStart_toStartOf="parent"
+                android:padding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progressTachesHebdomadaire"
                 tools:listitem="@layout/liste_termine_taches" />
 
             <TextView
@@ -165,29 +142,69 @@
 
             <ProgressBar
                 android:id="@+id/progressTachesMensuel"
+                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintTop_toBottomOf="@id/texteTachesMensuel"
-                style="@android:style/Widget.ProgressBar.Horizontal"/>
+                app:layout_constraintTop_toBottomOf="@id/texteTachesMensuel" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listeTachesMensuel"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
-                android:padding="2dp"
                 android:clipToPadding="false"
-                app:layout_constraintTop_toBottomOf="@id/progressTachesMensuel"
-                app:layout_constraintStart_toStartOf="parent"
+                android:padding="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/progressTachesMensuel"
                 tools:listitem="@layout/liste_termine_taches" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="137dp"
+        android:layout_height="80dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/floater_border"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/boutonAjouterTache"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center|start"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ajout_icon"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/boutonGererTache"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center|end"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/gerer_icon"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
