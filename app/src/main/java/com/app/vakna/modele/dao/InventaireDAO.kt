@@ -63,21 +63,24 @@ class InventaireDAO(private val contexte: Context) {
     fun insererObjetObtenu(entite: ObjetObtenu): Boolean {
         verifierExistence()
         val jsonString = accesJson.lireFichierJson()
+
         val objetsObtenusJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val objetsObtenusJsonArray = objetsObtenusJson.getAsJsonArray("objets_obtenus")
 
         val listeObjetsObtenus: MutableList<ObjetObtenu> = gson.fromJson(
-            objetsObtenusJsonArray, object : TypeToken<MutableList<ObjetObtenu>>() {}.type
+            objetsObtenusJsonArray,
+            object : TypeToken<MutableList<ObjetObtenu>>() {}.type
         )
 
+        // Vérifier si un inventaire avec le même nom existe déjà
         if (listeObjetsObtenus.any { it.getId() == entite.getId() }) {
-            return false // Si l'objet obtenu existe déjà
+            return false
         }
 
         listeObjetsObtenus.add(entite)
+        // Mettre à jour le fichier JSON avec la nouvelle liste d'objets obtenu
         objetsObtenusJson.add("objets_obtenus", gson.toJsonTree(listeObjetsObtenus))
         accesJson.ecrireFichierJson(gson.toJson(objetsObtenusJson))
-
         return true
     }
 
