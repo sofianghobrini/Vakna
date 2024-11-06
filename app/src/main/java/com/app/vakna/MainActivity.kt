@@ -6,10 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.SystemClock
-import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -25,7 +22,6 @@ import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.notifications.NotificationReceiver
 
 import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.TacheDAO
 import com.app.vakna.ui.compagnon.CompagnonFragment
 
 class MainActivity : AppCompatActivity() {
@@ -145,12 +141,12 @@ class MainActivity : AppCompatActivity() {
     }
     private fun diminuerFaimCompagnon(id: Int, lastLaunch: Long?) {
         compagnon?.let {
-            gestionnaire.baisserNivFaim(id, context, lastLaunch)
+            gestionnaire.baisserNivFaim(id, lastLaunch)
         }
     }
     private fun diminuerHumeurCompagnon(id: Int, lastLaunch: Long?) {
         compagnon?.let {
-            gestionnaire.baisserNivHumeur(id, context, lastLaunch)
+            gestionnaire.baisserNivHumeur(id, lastLaunch)
         }
     }
 
