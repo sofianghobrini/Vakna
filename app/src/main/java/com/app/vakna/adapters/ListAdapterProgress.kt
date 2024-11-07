@@ -127,7 +127,7 @@ class ListAdapterProgress(
 
         var confirme = false
 
-        textView.text = "Vous avez bien terminé la tâche $nomTache?"
+        textView.text = context.getString(R.string.dialog_text_confirmation_task, nomTache)
 
         dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
             dialog.dismiss()
@@ -145,6 +145,8 @@ class ListAdapterProgress(
                 onConfirm(false)
             }
         }
+        dialogView.findViewById<Button>(R.id.boutonAnnuler).text = context.getString(R.string.button_cancel)
+        dialogView.findViewById<Button>(R.id.boutonTerminer).text = context.getString(R.string.button_finish)
 
         dialog.show()
     }

@@ -25,8 +25,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     private val context = binding.root.context
 
     init {
-
-        // Set button text using string resources
+        // Définir le texte des boutons en utilisant les ressources de chaînes
         binding.boutonCreerTache.text = context.getString(R.string.create_task_button)
         binding.boutonAnnulerCreation.text = context.getString(R.string.cancel_task_creation_button)
 
@@ -40,9 +39,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 if (context is AjouterActivity) {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
-
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
                     context.startActivity(intent)
                     context.finish()
                 }
@@ -54,9 +51,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             if (context is AjouterActivity) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
-
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
                 context.startActivity(intent)
                 context.finish()
             }
@@ -167,6 +162,10 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
         gestionnaireDeTaches.ajouterTache(tache)
     }
+
+    /**
+     * Affiche un popup pour sélectionner les jours de la semaine.
+     */
     private fun afficherPopUp_semaine() {
         // Charger le layout personnalisé pour le popup
         val dialogView = LayoutInflater.from(context).inflate(R.layout.popup_jour_semaine, null)
@@ -174,7 +173,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("Choisissez les jours")
+            .setTitle(context.getString(R.string.popup_title_select_days))
 
         val dialog = dialogBuilder.create()
 
@@ -187,23 +186,28 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val checkSamedi = dialogView.findViewById<CheckBox>(R.id.checkbox_samedi)
         val checkDimanche = dialogView.findViewById<CheckBox>(R.id.checkbox_dimanche)
         val buttonValider = dialogView.findViewById<Button>(R.id.button_valider)
+        buttonValider.text = context.getString(R.string.button_validate)
 
         buttonValider.setOnClickListener {
             // Récupérer les jours sélectionnés
             val selectedDays = mutableListOf<String>()
-            if (checkLundi.isChecked) selectedDays.add("Lundi")
-            if (checkMardi.isChecked) selectedDays.add("Mardi")
-            if (checkMercredi.isChecked) selectedDays.add("Mercredi")
-            if (checkJeudi.isChecked) selectedDays.add("Jeudi")
-            if (checkVendredi.isChecked) selectedDays.add("Vendredi")
-            if (checkSamedi.isChecked) selectedDays.add("Samedi")
-            if (checkDimanche.isChecked) selectedDays.add("Dimanche")
+            if (checkLundi.isChecked) selectedDays.add(context.getString(R.string.day_monday))
+            if (checkMardi.isChecked) selectedDays.add(context.getString(R.string.day_tuesday))
+            if (checkMercredi.isChecked) selectedDays.add(context.getString(R.string.day_wednesday))
+            if (checkJeudi.isChecked) selectedDays.add(context.getString(R.string.day_thursday))
+            if (checkVendredi.isChecked) selectedDays.add(context.getString(R.string.day_friday))
+            if (checkSamedi.isChecked) selectedDays.add(context.getString(R.string.day_saturday))
+            if (checkDimanche.isChecked) selectedDays.add(context.getString(R.string.day_sunday))
 
             // Fermer le dialog après la sélection
             dialog.dismiss()
 
             // Afficher un Toast avec les jours sélectionnés
-            Toast.makeText(context, "Jours sélectionnés : ${selectedDays.joinToString()}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.popup_selected_days, selectedDays.joinToString()),
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         // Afficher le popup
