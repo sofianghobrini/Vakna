@@ -161,47 +161,49 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 setupGridView(items, binding)
             }
 
-            val boutonNext = switchBoutons[iteration + 1]
-            boutonNext.visibility = View.VISIBLE
+            if(iteration + 1 <= 4) {
+                val boutonNext = switchBoutons[iteration + 1]
+                boutonNext.visibility = View.VISIBLE
 
-            boutonNext.setOnClickListener {view ->
-                val popupMagasinView =
-                    LayoutInflater.from(context).inflate(R.layout.popup_acheter_compagnon, null)
+                boutonNext.setOnClickListener {view ->
+                    val popupMagasinView =
+                        LayoutInflater.from(context).inflate(R.layout.popup_acheter_compagnon, null)
 
-                val popupMagasinWindow = PopupWindow(
-                    popupMagasinView,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
+                    val popupMagasinWindow = PopupWindow(
+                        popupMagasinView,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
 
-                popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-                val popupWidth = popupMagasinView.measuredWidth
-                val popupHeight = popupMagasinView.measuredHeight
+                    popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                    val popupWidth = popupMagasinView.measuredWidth
+                    val popupHeight = popupMagasinView.measuredHeight
 
-                val location = IntArray(2)
-                view.getLocationOnScreen(location)
+                    val location = IntArray(2)
+                    view.getLocationOnScreen(location)
 
-                val offsetX = location[0] + view.width
-                val offsetY = location[1] - (popupHeight / 2) + (view.height / 2)
+                    val offsetX = location[0] + view.width
+                    val offsetY = location[1] - (popupHeight / 2) + (view.height / 2)
 
-                popupMagasinWindow.isOutsideTouchable = true
-                popupMagasinWindow.isFocusable = true
+                    popupMagasinWindow.isOutsideTouchable = true
+                    popupMagasinWindow.isFocusable = true
 
-                popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
+                    popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
 
-                val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
-                boutonMagasin.setOnClickListener {
-                    if (context is MainActivity) {
-                        val intent = Intent(context, MainActivity::class.java).apply {
-                            putExtra("navigateTo", "Magasin")
+                    val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
+                    boutonMagasin.setOnClickListener {
+                        if (context is MainActivity) {
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                putExtra("navigateTo", "Magasin")
+                            }
+                            context.startActivity(intent)
                         }
-                        context.startActivity(intent)
+                        popupMagasinWindow.dismiss()
                     }
-                    popupMagasinWindow.dismiss()
-                }
 
-                popupMagasinView.setOnClickListener {
-                    popupMagasinWindow.dismiss()
+                    popupMagasinView.setOnClickListener {
+                        popupMagasinWindow.dismiss()
+                    }
                 }
             }
             iteration++
