@@ -24,6 +24,7 @@ import com.app.vakna.notifications.NotificationReceiver
 
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.ui.compagnon.CompagnonFragment
+import com.app.vakna.ui.magasin.MagasinFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -62,7 +63,10 @@ class MainActivity : AppCompatActivity() {
             accesJson.ecrireFichierJson("""{"taches": []}""")
         }
 
-        compagnon = gestionnaire.obtenirCompagnons().first()
+        compagnon = gestionnaire.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaire.obtenirCompagnons().first()
+        }
 
         val lastLaunchTime = getLastLaunchTime()
 
@@ -91,11 +95,16 @@ class MainActivity : AppCompatActivity() {
 //        scheduleNotification(this)
 
         val navigateTo = intent.getStringExtra("navigateTo")
-        if (navigateTo == "CompagnonFragment") {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.compagnon_container, CompagnonFragment())
-                .commit()
-        }
+//        if (navigateTo == "CompagnonFragment") {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.compagnonContainer, CompagnonFragment())
+//                .commit()
+//        }
+//        if (navigateTo == "Magasin") {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.magasinContainer, MagasinFragment())
+//                .commit()
+//        }
     }
 
     override fun onStop () {

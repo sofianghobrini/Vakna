@@ -66,7 +66,11 @@ class ListAdapterProgress(
             }
         }
 
-        gestionnaire.setCompagnon(compagnons.obtenirCompagnons().first().id)
+        var compagnon = compagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = compagnons.obtenirCompagnons().first()
+        }
+        gestionnaire.setCompagnon(compagnon.id)
         gestionnaire.obtenirTaches()
 
         // Si la tâche est terminée, on désactive le switch

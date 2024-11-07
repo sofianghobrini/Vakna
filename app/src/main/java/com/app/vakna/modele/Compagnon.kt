@@ -8,6 +8,7 @@ class Compagnon(
     var humeur: Int = 50,       // Niveau d'humeur (valeur par défaut = 50)
     var xp: Int = 0,            // Expérience (XP) du compagnon (par défaut = 0)
     var espece: String,         // Espèce du compagnon (par exemple, "Dragon")
+    var actif: Boolean          // Indicateur si le compagnon est sélectionné
 ) {
 
     // Méthode pour déterminer le niveau actuel du compagnon en fonction de son XP

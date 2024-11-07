@@ -1,7 +1,16 @@
 package com.app.vakna.controller
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.PopupWindow
+import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
@@ -24,7 +33,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
     private var gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
-    private var compagnon: Compagnon? = null
+    private lateinit var compagnon: Compagnon
+    private lateinit var compagnonsSup: Array<Compagnon>
     private var inventaire = Inventaire(context)
     private val shop = Shop(context)
 
@@ -33,6 +43,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
+        inventaire.ajouterPieces(500)
 
         setUpView()
 
@@ -45,18 +56,24 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         // Charger le compagnon depuis la base de données
         val compagnons = gestionnaire.obtenirCompagnons()
-        compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
+        if (gestionnaire.obtenirActif() == null) {
+            compagnon = compagnons.first()
+            gestionnaire.setActif(compagnon.id)
+        } else {
+            compagnon = gestionnaire.obtenirActif()!!
+        }
 
         // Mettre à jour l'affichage du nom et du niveau du compagnon
-        compagnon?.let {
+        compagnon.let {
             binding.dragonName.text = it.nom
             updateLevelAndProgress(it) // Mise à jour du niveau et progression XP
         }
 
-        updateHumeurCompagnon(binding)
+        updateHumeurCompagnon(binding, compagnon)
 
         // Mettre à jour les progress bar
-        compagnon?.let {
+        Log.e("test", compagnon.nom + " - " + compagnon.faim + " " + compagnon.humeur)
+        compagnon.let {
             binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             binding.progressHumeur.progress = it.humeur
             binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
@@ -89,6 +106,106 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+
+        compagnonsSup = (compagnons - compagnon).toTypedArray()
+
+        var iteration = 0
+        compagnonsSup.forEach {
+            val switchBoutons = listOf(
+                binding.switchCompagnon1,
+                binding.switchCompagnon2,
+                binding.switchCompagnon3,
+                binding.switchCompagnon4,
+                binding.switchCompagnon5
+            )
+
+            val bouton = switchBoutons[iteration]
+            val appearancePath = it.apparenceDefaut()
+
+            Glide.with(context)
+                .asGif()
+                .load(appearancePath)
+                .into(bouton)
+            val id = iteration
+            Log.e("test", "iteration:" + iteration.toString())
+            bouton.setOnClickListener { view ->
+                val appearancePathNew = compagnon.apparenceDefaut()
+
+                Glide.with(context)
+                    .asGif()
+                    .load(appearancePathNew)
+                    .into(bouton)
+                Log.e("test", "id:" + id.toString())
+
+                val newCompagnon = compagnonsSup[id]
+                compagnonsSup[id] = compagnon
+                gestionnaire.setActif(newCompagnon.id)
+                compagnon = newCompagnon
+
+                newCompagnon.let { comp ->
+                    binding.dragonName.text = comp.nom
+                    updateLevelAndProgress(comp)
+                }
+
+                updateHumeurCompagnon(binding, newCompagnon)
+
+                // Mettre à jour les progress bar
+                newCompagnon.let { comp ->
+                    binding.texteHumeur.text = context.getString(R.string.humeur_text, comp.humeur)
+                    binding.progressHumeur.progress = comp.humeur
+                    binding.texteFaim.text = context.getString(R.string.faim_text, comp.faim)
+                    binding.progressFaim.progress = comp.faim
+                }
+
+                val items = inventaire.getObjetsParType(distinctTypesList.first())
+                setupGridView(items, binding)
+            }
+
+            val boutonNext = switchBoutons[iteration + 1]
+            boutonNext.visibility = View.VISIBLE
+
+            boutonNext.setOnClickListener {view ->
+                val popupMagasinView =
+                    LayoutInflater.from(context).inflate(R.layout.popup_acheter_compagnon, null)
+
+                val popupMagasinWindow = PopupWindow(
+                    popupMagasinView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+
+                popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                val popupWidth = popupMagasinView.measuredWidth
+                val popupHeight = popupMagasinView.measuredHeight
+
+                val location = IntArray(2)
+                view.getLocationOnScreen(location)
+
+                val offsetX = location[0] + view.width
+                val offsetY = location[1] - (popupHeight / 2) + (view.height / 2)
+
+                popupMagasinWindow.isOutsideTouchable = true
+                popupMagasinWindow.isFocusable = true
+
+                popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
+
+                val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
+                boutonMagasin.setOnClickListener {
+                    if (context is MainActivity) {
+                        val intent = Intent(context, MainActivity::class.java).apply {
+                            putExtra("navigateTo", "Magasin")
+                        }
+                        context.startActivity(intent)
+                    }
+                    popupMagasinWindow.dismiss()
+                }
+
+                popupMagasinView.setOnClickListener {
+                    popupMagasinWindow.dismiss()
+                }
+            }
+            iteration++
+        }
     }
 
     /**
@@ -100,7 +217,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             hint = context.getString(R.string.new_name_hint)
             inputType = android.text.InputType.TYPE_CLASS_TEXT
             filters = arrayOf(android.text.InputFilter.LengthFilter(50))
-            compagnon?.let {
+            compagnon.let {
                 setText(it.nom)  // Pré-remplir avec le nom actuel du compagnon
             }
         }
@@ -112,7 +229,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 val newName = editText.text.toString()
                 if (newName.isNotEmpty()) {
                     // Mettre à jour le nom du compagnon dans la base de données
-                    compagnon?.let { gestionnaire.modifierNom(it.id, newName) }
+                    compagnon.let { gestionnaire.modifierNom(it.id, newName) }
                     binding.dragonName.text = newName
                 }
                 dialog.dismiss()
@@ -140,12 +257,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     companion object {
-        fun updateHumeurCompagnon(binding: FragmentCompagnonBinding) {
+        fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
-            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
-            val compagnons = gestionnaire.obtenirCompagnons()
-            val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
-            val fichierApparence = compagnon?.apparence()
+            val fichierApparence = compagnon.apparence()
 
 
             // Charger et afficher un GIF via Glide
@@ -162,8 +276,11 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun setupGridView(items: List<ObjetObtenu>, binding: FragmentCompagnonBinding) {
             val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(binding.root.context))
             val compagnons = gestionnaire.obtenirCompagnons()
-            val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
-            compagnon?.let {
+            var compagnonGrid = gestionnaire.obtenirActif()
+            if (compagnonGrid == null) {
+                compagnonGrid = compagnons.first()
+            }
+            compagnonGrid.let {
                 binding.texteHumeur.text = binding.root.context.getString(R.string.humeur_text, it.humeur)
                 binding.progressHumeur.progress = it.humeur
                 binding.texteFaim.text = binding.root.context.getString(R.string.faim_text, it.faim)

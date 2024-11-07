@@ -5,6 +5,7 @@ import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
+import kotlin.properties.Delegates
 
 class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
@@ -15,6 +16,11 @@ class GestionnaireDeTaches(context: Context) {
 
     init {
         tacheDAO.obtenirTous().forEach { setDeTaches.add(it) }
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if(compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+        }
+        idCompagnon = compagnon.id
     }
 
     fun setCompagnon(id: Int) {

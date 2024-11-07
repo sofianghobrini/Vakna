@@ -15,7 +15,9 @@ import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerCompagnon
 import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.dao.CompagnonDAO
 
 class GridConsommableAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
@@ -141,7 +143,14 @@ class GridConsommableAdapterInventaire(
             items.clear()
 
             ControllerCompagnon.setupGridView(updatedItems!!, binding)
-            ControllerCompagnon.updateHumeurCompagnon(binding)
+            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            val compagnons = gestionnaire.obtenirCompagnons()
+            var compagnon = gestionnaire.obtenirActif()
+            if (compagnon == null) {
+                compagnon = compagnons.first()
+                gestionnaire.setActif(compagnon.id)
+            }
+            ControllerCompagnon.updateHumeurCompagnon(binding, compagnon)
             popupUtilisationWindow.dismiss()
         }
 

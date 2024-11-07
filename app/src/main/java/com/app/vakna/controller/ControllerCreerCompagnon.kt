@@ -156,7 +156,8 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             faim = 50,
             humeur = 50,
             xp = 0,
-            espece = nomEspece
+            espece = nomEspece,
+            actif = true
         )
 
         // Instancier le DAO pour manipuler les données du compagnon dans la base

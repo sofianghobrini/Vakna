@@ -50,7 +50,8 @@ class ShopCompagnons (
             faim = 50,
             humeur = 50,
             xp = 0,
-            espece = compagnonStore.espece
+            espece = compagnonStore.espece,
+            actif = false
         )
 
         gestionnaireCompagnons.ajouterCompagnon(nouveauCompagnon)

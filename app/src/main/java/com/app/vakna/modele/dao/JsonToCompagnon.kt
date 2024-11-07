@@ -21,7 +21,8 @@ class JsonToCompagnon : JsonDeserializer<Compagnon> {
         val humeur = objetJson.get("humeur").asInt
         val xp = objetJson.get("xp").asInt
         val espece = objetJson.get("espece").asString
+        val actif = objetJson.get("actif").asBoolean
 
-        return Compagnon(id, nom, faim, humeur, xp, espece)
+        return Compagnon(id, nom, faim, humeur, xp, espece, actif)
     }
 }
