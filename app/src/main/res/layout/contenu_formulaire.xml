@@ -27,8 +27,8 @@
 
     <EditText
         android:id="@+id/inputNomTache"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="315dp"
+        android:layout_height="44dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/input_border"
         android:hint="@string/hint_task_name"
@@ -52,8 +52,8 @@
 
     <Spinner
         android:id="@+id/selectTypeTache"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="313dp"
+        android:layout_height="30dp"
         android:entries="@array/typeTacheExemple"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,16 +130,16 @@
             android:id="@+id/radioFaible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_low"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginStart="10dp" />
+            android:text="@string/radio_low" />
 
         <RadioButton
             android:id="@+id/radioMoyen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/radio_medium"
-            android:layout_marginEnd="30dp" />
+            android:layout_marginEnd="30dp"
+            android:text="@string/radio_medium" />
 
         <RadioButton
             android:id="@+id/radioElevee"

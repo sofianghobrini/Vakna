@@ -16,6 +16,7 @@ import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
+import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Shop
@@ -43,7 +44,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
-        inventaire.ajouterPieces(500)
 
         setUpView()
 
@@ -69,10 +69,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             updateLevelAndProgress(it) // Mise à jour du niveau et progression XP
         }
 
+        updateRefuge(binding)
         updateHumeurCompagnon(binding, compagnon)
 
         // Mettre à jour les progress bar
-        Log.e("test", compagnon.nom + " - " + compagnon.faim + " " + compagnon.humeur)
         compagnon.let {
             binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             binding.progressHumeur.progress = it.humeur
@@ -259,7 +259,17 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     companion object {
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
-            val fichierApparence = compagnon.apparence()
+            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            var compagnons = gestionnaire.obtenirCompagnons()
+            var compagnonUpd = compagnons.first()
+            if (gestionnaire.obtenirActif() == null) {
+                compagnonUpd = compagnons.first()
+                gestionnaire.setActif(compagnon.id)
+            } else {
+                compagnonUpd = gestionnaire.obtenirActif()!!
+            }
+            val fichierApparence = compagnonUpd.apparence()
+            println(fichierApparence)
 
 
             // Charger et afficher un GIF via Glide

@@ -12,7 +12,7 @@
     android:text="Choisissez les jours de la semaine :"
     android:textColor="@color/purple_700"
     android:textSize="18sp"
-    android:paddingBottom="8dp" />
+    android:paddingBottom="8dp"/>
 
     <CheckBox android:id="@+id/checkbox_lundi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lundi" />
     <CheckBox android:id="@+id/checkbox_mardi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mardi" />

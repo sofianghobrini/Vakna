@@ -46,8 +46,8 @@ class GestionnaireDeRefugeTest {
 
     @Test
     fun testObtenirTousMultiple() {
-        val refuge1 = Refuge(1, "Dragon", 1, 1, 1, 1)
-        val refuge2 = Refuge(2, "Lapin", 1, 1, 1, 1)
+        val refuge1 = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
+        val refuge2 = Refuge(2, "Lapin", 1.0f, 1.0f, 1.0f, 1.0f)
         gestionnaireRefuge.ajouterRefuge(refuge1)
         gestionnaireRefuge.ajouterRefuge(refuge2)
         assertEquals(gestionnaireRefuge.getRefuges().size, 2)
@@ -55,35 +55,35 @@ class GestionnaireDeRefugeTest {
 
     @Test
     fun testObtenirParId() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         gestionnaireRefuge.ajouterRefuge(refuge)
         assertEquals(gestionnaireRefuge.getRefugeParId(1), refuge)
     }
 
     @Test
     fun testObtenirParIdInexistant() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         gestionnaireRefuge.ajouterRefuge(refuge)
         assertNull(gestionnaireRefuge.getRefugeParId(2))
     }
 
     @Test
     fun testObtenirParNom() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         gestionnaireRefuge.ajouterRefuge(refuge)
         assertEquals(gestionnaireRefuge.getRefugeParNom("Dragon"), refuge)
     }
 
     @Test
     fun testObtenirParNomInexistant() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         gestionnaireRefuge.ajouterRefuge(refuge)
         assertNull(gestionnaireRefuge.getRefugeParNom("Lapin"))
     }
 
     @Test
     fun testAjouterRefuge() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         gestionnaireRefuge.ajouterRefuge(refuge)
         assertEquals(gestionnaireRefuge.getRefuges().size, 1)
     }

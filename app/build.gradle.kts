@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.databinding.compiler)
+    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:4.8.0")
     implementation("androidx.databinding:databinding-runtime:7.0.0")
