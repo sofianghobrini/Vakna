@@ -65,7 +65,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val radioGroup = binding.contenuInclude.radioFrequenceTache
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == R.id.radioHebdomadaire) {
-                afficherPopUp()
+                afficherPopUp_semaine()
             }
         }
     }
@@ -167,7 +167,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
         gestionnaireDeTaches.ajouterTache(tache)
     }
-    private fun afficherPopUp() {
+    private fun afficherPopUp_semaine() {
         // Charger le layout personnalisé pour le popup
         val dialogView = LayoutInflater.from(context).inflate(R.layout.popup_jour_semaine, null)
 
