@@ -7,6 +7,7 @@ import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
+import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Shop
@@ -54,6 +55,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         updateHumeurCompagnon(binding)
+        updateRefuge(binding)
 
         // Mettre à jour les progress bar
         compagnon?.let {
@@ -146,6 +148,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
             val fichierApparence = compagnon?.apparence()
+            println(fichierApparence)
 
 
             // Charger et afficher un GIF via Glide
@@ -153,6 +156,19 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .asGif()
                 .load(fichierApparence)
                 .into(binding.dragonGif)
+        }
+
+        fun updateRefuge(binding: FragmentCompagnonBinding) {
+            val context = binding.root.context
+            val gestionnaire = GestionnaireDeRefuge(context)
+            val refuges = gestionnaire.getRefuges()
+            val refuge = if (refuges.isNotEmpty()) refuges.first() else null
+            val fichierApparence = refuge?.apparence()
+
+            // Charger et afficher un GIF via Glide
+            Glide.with(context)
+                .load(fichierApparence)
+                .into(binding.refuge)
         }
 
         /**
