@@ -60,20 +60,20 @@
 
         <ImageButton
             android:id="@+id/switchMagasinConsom"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="9dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ajout_compagnon"
+            android:src="@drawable/magasin_consommable_icon"
             android:background="@drawable/bouton_rond"
             android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/switchMagasinCompagnon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="9dp"
-            android:src="@drawable/ajout_compagnon"
+            android:src="@drawable/magasin_compagnon_icon"
             android:background="@drawable/bouton_rond"
             android:scaleType="fitCenter"/>
 
