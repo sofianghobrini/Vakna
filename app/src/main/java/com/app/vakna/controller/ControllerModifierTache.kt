@@ -72,7 +72,7 @@ class ControllerModifierTache(
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.radioHebdomadaire->afficherPopUp_semaine()
-                R.id.radioMensuel->afficherPopUp_mensuelle()
+                R.id.radioMensuel->afficherPopUp_mensuel()
             }
         }
     }
@@ -207,7 +207,7 @@ class ControllerModifierTache(
         dialog.show()
     }
 
-    private fun afficherPopUp_mensuelle(){
+    private fun afficherPopUp_mensuel(){
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuelle_perso, null)
 
         // Créer le popup avec AlertDialog
