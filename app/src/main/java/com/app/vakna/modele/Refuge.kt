@@ -3,10 +3,10 @@ package com.app.vakna.modele
 class Refuge(
     private var id: Int,                // Identifiant unique de l'environnement
     private var nom: String,            // Nom de l'environnement
-    private var modifFaim : Int = 1,         // Modificateur de faim
-    private var modifHumeur: Int = 1,       // Modificateur d'humeur
-    private var modifXp: Int = 1,            // Modificateur d'xp
-    private var modifPieces: Int = 1         // Modificateur de pieces
+    private var modifFaim : Float = 1f,         // Modificateur de faim
+    private var modifHumeur: Float = 1f,       // Modificateur d'humeur
+    private var modifXp: Float = 1f,            // Modificateur d'xp
+    private var modifPieces: Float = 1f         // Modificateur de pieces
 ) {
     fun getId(): Int {
         return id
@@ -14,16 +14,16 @@ class Refuge(
     fun getNom(): String {
         return nom
     }
-    fun getModifFaim(): Int {
+    fun getModifFaim(): Float {
         return modifFaim
     }
-    fun getModifHumeur(): Int {
+    fun getModifHumeur(): Float {
         return modifHumeur
     }
-    fun getModifXp(): Int {
+    fun getModifXp(): Float {
         return modifXp
     }
-    fun getModifPieces(): Int {
+    fun getModifPieces(): Float {
         return modifPieces
     }
 

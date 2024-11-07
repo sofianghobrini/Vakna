@@ -10,7 +10,9 @@ class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var gestionnaireDeRefuge = GestionnaireDeRefuge(context)
     private var idCompagnon: Int = 1
+    private var idRefuge: Int = 1
     private var inventaire = Inventaire(context)
 
     init {
@@ -74,12 +76,17 @@ class GestionnaireDeTaches(context: Context) {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
-            gestionnaireCompagnons.modifierHumeur(idCompagnon, (tache.importance.ordinal + 1) * (tache.frequence.ordinal + 1) * 3)
-            gestionnaireCompagnons.gagnerXp(idCompagnon, (tache.importance.ordinal + 1) * (tache.frequence.ordinal + 1) * 3)
+            val modifImportance = tache.importance.ordinal + 1
+            val modifFrequence = tache.frequence.ordinal + 1
+            val refuge = gestionnaireDeRefuge.getRefugeParId(idRefuge)
+            gestionnaireDeRefuge.getRefuges().forEach() {println("Tous les refuges" + it.getNom())}
+            println("Nom du refuge" + refuge?.getNom())
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, (modifImportance * modifFrequence * 3 * refuge!!.getModifHumeur()).toInt())
+            gestionnaireCompagnons.gagnerXp(idCompagnon, (modifImportance * modifFrequence * 3 * refuge.getModifXp()).toInt())
             when (tache.frequence) {
-                Frequence.QUOTIDIENNE -> inventaire.ajouterPieces((tache.importance.ordinal + 1) * 3)
-                Frequence.HEBDOMADAIRE -> inventaire.ajouterPieces((tache.importance.ordinal + 1) * 16)
-                Frequence.MENSUELLE -> inventaire.ajouterPieces((tache.importance.ordinal + 1) * 42)
+                Frequence.QUOTIDIENNE -> inventaire.ajouterPieces((modifImportance * 3 * refuge.getModifPieces()).toInt())
+                Frequence.HEBDOMADAIRE -> inventaire.ajouterPieces((modifImportance * 16 * refuge.getModifPieces()).toInt())
+                Frequence.MENSUELLE -> inventaire.ajouterPieces((modifImportance * 42 * refuge.getModifPieces()).toInt())
             }
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")

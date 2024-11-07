@@ -17,11 +17,13 @@ import com.app.vakna.modele.CompagnonStore
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.ObjetDAO
+import com.app.vakna.modele.dao.RefugeDAO
 import com.bumptech.glide.Glide
 
 /**
@@ -32,6 +34,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
+    private val refugeDAO = RefugeDAO(context)
     private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
@@ -79,6 +82,15 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         allItems.forEach {
             shopDAO.inserer(it)
         }
+
+        val refuge1 = Refuge(1, "Tresor", 1.0f, 1.0f, 1.0f, 1.5f)
+        val refuge2 = Refuge(2, "Cantine", 1.5f, 1.0f, 1.0f, 1.0f)
+        val refuges = listOf(refuge1, refuge2)
+
+        refuges.forEach {
+            refugeDAO.inserer(it)
+        }
+
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, especeList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.EspeceSelect.adapter = adapter
