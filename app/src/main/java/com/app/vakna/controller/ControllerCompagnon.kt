@@ -279,6 +279,19 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(binding.dragonGif)
         }
 
+        fun updateRefuge(binding: FragmentCompagnonBinding) {
+            val context = binding.root.context
+            val gestionnaire = GestionnaireDeRefuge(context)
+            val refuges = gestionnaire.getRefuges()
+            val refuge = if (refuges.isNotEmpty()) refuges.first() else null
+            val fichierApparence = refuge?.apparence()
+
+            // Charger et afficher un GIF via Glide
+            Glide.with(context)
+                .load(fichierApparence)
+                .into(binding.refuge)
+        }
+
         /**
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
          * @param items La liste d'items à afficher dans le GridView.
