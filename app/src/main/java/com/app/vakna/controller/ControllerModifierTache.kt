@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
@@ -66,10 +67,12 @@ class ControllerModifierTache(
                 context.finish()
             }
         }
+
         val radioGroup = binding.contenuInclude.radioFrequenceTache
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.radioHebdomadaire) {
-                afficherPopUp_semaine()
+            when (checkedId) {
+                R.id.radioHebdomadaire->afficherPopUp_semaine()
+                R.id.radioMensuel->afficherPopUp_mensuelle()
             }
         }
     }
@@ -198,6 +201,49 @@ class ControllerModifierTache(
 
             // Afficher un Toast avec les jours sélectionnés
             Toast.makeText(context, "Jours sélectionnés : ${selectedDays.joinToString()}", Toast.LENGTH_SHORT).show()
+        }
+
+        // Afficher le popup
+        dialog.show()
+    }
+
+    private fun afficherPopUp_mensuelle(){
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuelle_perso, null)
+
+        // Créer le popup avec AlertDialog
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setTitle("Choisissez les dates")
+
+        val dialog = dialogBuilder.create()
+
+        // Référencer le DatePicker et le bouton d'ajout
+        val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
+        val buttonAjouterDate = dialogView.findViewById<Button>(R.id.button_date)
+        val buttonConfirmDate = dialogView.findViewById<Button>(R.id.confirmer_date)
+        val selectedDates = mutableListOf<String>()
+
+        // Gestion de l'ajout de la date sélectionnée
+        buttonAjouterDate.setOnClickListener {
+            val day = datePicker.dayOfMonth
+            val month = datePicker.month + 1 // Les mois commencent à 0
+            val year = datePicker.year
+
+            // Formater la date (par exemple, en "dd-MM-yyyy")
+            val formattedDate = String.format("%02d-%02d-%04d", day, month, year)
+
+            // Ajouter la date à la liste si elle n'est pas déjà sélectionnée
+            if (!selectedDates.contains(formattedDate)) {
+                selectedDates.add(formattedDate)
+                Toast.makeText(context, "Date ajoutée : $formattedDate", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Date déjà sélectionnée", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Bouton de confirmation pour finaliser la sélection
+        buttonConfirmDate.setOnClickListener {
+            dialog.dismiss()
         }
 
         // Afficher le popup
