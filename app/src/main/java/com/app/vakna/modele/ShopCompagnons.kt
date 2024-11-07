@@ -1,13 +1,14 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.widget.Toast
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 
 class ShopCompagnons (
-    context: Context
+    private val context: Context
 ) {
     private val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var compagnonMagasin = mutableListOf<CompagnonStore>()
@@ -45,6 +46,11 @@ class ShopCompagnons (
             ?: return false
 
         if (inventaire.getPieces() < compagnonStore.prix) {
+            return false
+        }
+
+        if (gestionnaireCompagnons.obtenirCompagnons().count() >= 6) {
+            Toast.makeText(context, "Vous avez atteint la limite de compagnons", Toast.LENGTH_SHORT).show()
             return false
         }
 
