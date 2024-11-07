@@ -13,9 +13,14 @@ import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityCreerCompagnonBinding
 import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.CompagnonStore
+import com.app.vakna.modele.GestionnaireDeCompagnons
+import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.ObjetDAO
 import com.bumptech.glide.Glide
 
@@ -27,18 +32,25 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
+    private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
+    private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
     init {
 
+        val dragon = CompagnonStore(1, "test1", "Dragon", 750)
+        val lapin = CompagnonStore(2, "test2", "Lapin", 450)
+        val chat = CompagnonStore(3, "test3", "Chat", 500)
+        val licorne = CompagnonStore(4, "test4", "Licorne", 600)
+        val serpent = CompagnonStore(5, "test5", "Serpent", 650)
+        val ecureuil = CompagnonStore(6, "test6", "Ecureuil", 400)
+        val compagnonsList = listOf(dragon, lapin, chat, licorne, serpent, ecureuil)
+
+        compagnonsList.forEach {
+            compagnonStoreDAO.inserer(it)
+        }
+
         val especeList = listOf("Dragon", "Lapin", "Chat", "Licorne", "Serpent", "Ecureuil")
-        val imageMap = mapOf(
-            "Dragon" to R.drawable.humeur_dragon_heureux,
-            "Phoenix" to R.drawable.humeur_lapin_heureux,
-            "Chat"    to R.drawable.humeur_chat_heureux,
-            "Licorne" to R.drawable.humeur_licorne_heureux,
-            "Serpent" to R.drawable.humeur_serpent_heureux,
-            "Ecureuil" to R.drawable.humeur_ecureuil_heureux
-        )
+
         val jouet1 = Objet(0, "Jouet 1", 15, 5, TypeObjet.JOUET, "jouet", "placeholder")
         val jouet2 = Objet(1, "Jouet 2", 20, 6, TypeObjet.JOUET, "jouet", "placeholder")
         val jouet3 = Objet(2, "Jouet 3", 25, 7, TypeObjet.JOUET, "jouet", "placeholder")
@@ -87,7 +99,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         // Charger le GIF du dragon à l'aide de Glide
         Glide.with(binding.root)
             .asGif()
-            .load(R.drawable.humeur_dragon_heureux)
+            .load(gestionnaireCompagnon.obtenirCompagnon("Dragon"))
             .into(binding.dragonGif)
 
         // Désactiver le bouton de confirmation au début
@@ -168,13 +180,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
      */
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
-            "Dragon" -> R.drawable.humeur_dragon_heureux
-            "Lapin" -> R.drawable.humeur_lapin_heureux
-            "Chat" -> R.drawable.humeur_chat_heureux
-            "Licorne" -> R.drawable.humeur_licorne_heureux
-            "Serpent" -> R.drawable.humeur_serpent_heureux
-            "Ecureuil" -> R.drawable.humeur_ecureuil_heureux
-            else -> R.drawable.humeur_dragon_heureux
+            "Dragon" -> gestionnaireCompagnon.obtenirCompagnon("Dragon")
+            "Lapin" -> gestionnaireCompagnon.obtenirCompagnon("Lapin")
+            "Chat" -> gestionnaireCompagnon.obtenirCompagnon("Chat")
+            "Licorne" -> gestionnaireCompagnon.obtenirCompagnon("Licorne")
+            "Serpent" -> gestionnaireCompagnon.obtenirCompagnon("Serpent")
+            "Ecureuil" -> gestionnaireCompagnon.obtenirCompagnon("Ecureuil")
+            else -> gestionnaireCompagnon.obtenirCompagnon("Dragon")
         }
         Glide.with(context)
             .load(imageRes)
@@ -189,8 +201,12 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         val context = binding.root.context
         if (context is CreerCompagnonActivity) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("navigateTo", "Taches")
+            intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
+
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             context.startActivity(intent)
+            context.finish()
         }
     }
 }

@@ -5,15 +5,8 @@ import com.app.vakna.modele.Compagnon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
-import com.app.vakna.modele.Objet
-import com.app.vakna.modele.Shop
-import com.app.vakna.modele.TypeObjet
-import com.app.vakna.modele.dao.InventaireDAO
-import com.app.vakna.modele.dao.ObjetDAO
 
-class CompagnonDAO(private val contexte: Context) : DAO<Compagnon, Int> {
-
-
+class CompagnonDAO(contexte: Context) : DAO<Compagnon, Int> {
 
     // Initialisation de l'objet Gson avec un adaptateur personnalisé pour les objets Compagnon
     private val gson = GsonBuilder()
@@ -28,18 +21,16 @@ class CompagnonDAO(private val contexte: Context) : DAO<Compagnon, Int> {
     // Vérifier l'existence du fichier, sinon en créer un vide
     private fun verifierExistence() {
         if (!accesJson.fichierExiste()) {
-            val emptyJson = """{"compagnons": []}""" // Initialise une structure JSON vide
+            val emptyJson = """{"compagnons": []}"""
             accesJson.ecrireFichierJson(emptyJson)
         }
     }
 
     // Obtenir tous les compagnons depuis le fichier JSON
     override fun obtenirTous(): List<Compagnon> {
-        verifierExistence() // Vérifier si le fichier existe, sinon le créer
-
+        verifierExistence()
         val jsonString = accesJson.lireFichierJson()
 
-        // Convertir le tableau JSON en liste d'objets Compagnon
         val compagnonsJsonArray = gson.fromJson(jsonString, JsonElement::class.java)
             .asJsonObject.getAsJsonArray("compagnons")
 
@@ -54,15 +45,16 @@ class CompagnonDAO(private val contexte: Context) : DAO<Compagnon, Int> {
 
     // Insérer un nouveau compagnon dans le fichier JSON
     override fun inserer(entite: Compagnon): Boolean {
-        verifierExistence() // Vérifier l'existence du fichier
-
+        verifierExistence()
         val jsonString = accesJson.lireFichierJson()
 
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val compagnonsJsonArray = objetJson.getAsJsonArray("compagnons")
 
         val typeCompagnonList = object : TypeToken<MutableList<Compagnon>>() {}.type
-        val listeCompagnons: MutableList<Compagnon> = gson.fromJson(compagnonsJsonArray, typeCompagnonList)
+        val listeCompagnons: MutableList<Compagnon> = gson.fromJson(
+            compagnonsJsonArray,
+            typeCompagnonList)
             ?: mutableListOf()
 
         // Vérifier si un compagnon avec le même nom existe déjà
@@ -73,7 +65,6 @@ class CompagnonDAO(private val contexte: Context) : DAO<Compagnon, Int> {
         // Générer un ID unique pour le nouveau compagnon
         val nouvelId = (listeCompagnons.maxOfOrNull { it.id } ?: 0) + 1
         entite.id = nouvelId
-
         listeCompagnons.add(entite)
 
         // Mettre à jour le fichier JSON avec la nouvelle liste de compagnons

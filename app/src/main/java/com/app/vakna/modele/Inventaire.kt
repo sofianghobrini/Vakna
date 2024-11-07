@@ -1,7 +1,7 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import com.app.vakna.adapters.GridData
+import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
 
@@ -83,8 +83,8 @@ class Inventaire(contexte: Context) {
     }
 
     companion object {
-        fun setToGridDataArray(objets: List<ObjetObtenu>): ArrayList<GridData> {
-            val list = ArrayList<GridData>()
+        fun setToGridDataArray(objets: List<ObjetObtenu>): ArrayList<GridConsommableData> {
+            val list = ArrayList<GridConsommableData>()
             for (objet in objets) {
                 val listData = objet.toGridData()
                 list.add(listData)

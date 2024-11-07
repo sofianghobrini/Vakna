@@ -44,7 +44,10 @@
             android:label="Créer le compagnon" />
         <activity android:name=".DetailsObjetActivity"
             android:screenOrientation="portrait"
-            android:label="Créer le compagnon" />
+            android:label="Détails Objets" />
+        <activity android:name=".DetailsCompagnonActivity"
+            android:screenOrientation="portrait"
+            android:label="Détails compagnon" />
         <service
             android:name=".notifications.NotificationService"
             android:enabled="true"

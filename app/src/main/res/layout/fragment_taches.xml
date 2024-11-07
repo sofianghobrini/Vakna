@@ -36,7 +36,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/left_rounded_purple"
                     android:gravity="center"
-                    android:text="Tâches"
+                    android:text="@string/title_tasks"
                     android:textColor="@color/black"
                     android:textSize="30sp" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Projets"
+                    android:text="@string/title_projects"
                     android:textColor="@color/black"
                     android:textSize="30sp" />
 
@@ -81,11 +81,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="231dp"
                 android:layout_marginTop="8dp"
-                android:clipToPadding="false"
                 android:padding="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@id/progressTachesJournalier"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:listitem="@layout/liste_termine_taches" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Hebdomadaire"
+                android:text="@string/weekly_tasks"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -117,11 +117,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
-                android:clipToPadding="false"
                 android:padding="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@id/progressTachesHebdomadaire"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:listitem="@layout/liste_termine_taches" />
 
             <TextView
@@ -139,11 +139,9 @@
 
             <ProgressBar
                 android:id="@+id/progressTachesMensuel"
-                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesMensuel" />
@@ -153,11 +151,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:layout_marginTop="8dp"
-                android:clipToPadding="false"
                 android:padding="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toBottomOf="@id/progressTachesMensuel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:listitem="@layout/liste_termine_taches" />
 
             <View

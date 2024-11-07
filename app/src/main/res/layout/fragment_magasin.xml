@@ -11,7 +11,7 @@
         android:id="@+id/titreMagasin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Magasin"
+        android:text="@string/store_title"
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/couleurTitre"
@@ -35,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="{Nombre Coins}"
             android:textColor="@color/couleurTexte"
             android:textSize="12sp" />
 
@@ -48,14 +47,45 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/magasinTypeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titreMagasin">
+
+        <ImageButton
+            android:id="@+id/switchMagasinConsom"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="9dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ajout_compagnon"
+            android:background="@drawable/bouton_rond"
+            android:scaleType="fitCenter"/>
+
+        <ImageButton
+            android:id="@+id/switchMagasinCompagnon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="9dp"
+            android:src="@drawable/ajout_compagnon"
+            android:background="@drawable/bouton_rond"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titreMagasin"
+        app:layout_constraintTop_toBottomOf="@id/magasinTypeLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@color/white" />
 
     <androidx.viewpager2.widget.ViewPager2

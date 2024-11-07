@@ -13,9 +13,9 @@ import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 
-open class GridAdapter (
+open class GridConsommableAdapter (
     private val context: Context,
-    private val items: ArrayList<GridData>
+    private val items: ArrayList<GridConsommableData>
 ) : BaseAdapter() {
 
     override fun getCount(): Int = items.size

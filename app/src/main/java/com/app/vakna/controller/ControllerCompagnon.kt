@@ -1,11 +1,9 @@
 package com.app.vakna.controller
 
 import android.content.Context
-import android.util.Log
-import android.util.TypedValue
 import android.widget.EditText
 import com.app.vakna.R
-import com.app.vakna.adapters.GridAdapterInventaire
+import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
@@ -35,6 +33,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
+
         setUpView()
 
         binding.editNameButton.setOnClickListener {
@@ -146,37 +145,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnon = if (compagnons.isNotEmpty()) compagnons.first() else null
+            val fichierApparence = compagnon?.apparence()
 
-            var humeurImage = "@drawable/humeur_"
-
-            humeurImage += compagnon?.espece?.lowercase() + "_"
-
-            var humeurComp = 0
-            humeurComp = if (compagnon?.humeur!! < compagnon.faim) {
-                compagnon.humeur
-            } else {
-                compagnon.faim
-            }
-
-
-            Log.e("test", humeurComp.toString())
-
-            humeurImage += if (humeurComp > 60) {
-                "heureux"
-            } else if (humeurComp > 30) {
-                "moyen"
-            } else if (humeurComp > 0) {
-                "enerve"
-            } else {
-                "triste"
-            }
-
-            val image = context.resources.getIdentifier(humeurImage, null, context.packageName)
 
             // Charger et afficher un GIF via Glide
             Glide.with(context)
                 .asGif()
-                .load(image)
+                .load(fichierApparence)
                 .into(binding.dragonGif)
         }
 
@@ -199,7 +174,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
             val gridItems = Inventaire.setToGridDataArray(sortedItems)
 
-            val adapter = GridAdapterInventaire(binding, gridItems)
+            val adapter = GridConsommableAdapterInventaire(binding, gridItems)
             binding.gridViewItems.adapter = adapter
         }
     }

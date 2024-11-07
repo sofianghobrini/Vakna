@@ -1,6 +1,6 @@
 package com.app.vakna.modele
 
-import com.app.vakna.adapters.GridData
+import com.app.vakna.adapters.GridConsommableData
 
 open class Objet(
     private var id: Int,
@@ -19,8 +19,8 @@ open class Objet(
         require(imageUrl.isNotBlank()){"L'URL de l'image ne doit pas être vide"}
     }
 
-    open fun toGridData(): GridData {
-        return GridData(0, getNom(), getNiveau(), getPrix())
+    open fun toGridData(): GridConsommableData {
+        return GridConsommableData(0, getNom(), getNiveau(), getPrix())
     }
 
     fun getId(): Int {

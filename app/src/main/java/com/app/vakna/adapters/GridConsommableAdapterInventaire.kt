@@ -1,7 +1,6 @@
 package com.app.vakna.adapters
 
 import android.content.Intent
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +15,12 @@ import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerCompagnon
 import com.app.vakna.databinding.FragmentCompagnonBinding
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.dao.CompagnonDAO
 
-class GridAdapterInventaire(
+class GridConsommableAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
-    private val items: ArrayList<GridData>
-) : GridAdapter(binding.root.context, items) {
+    private val items: ArrayList<GridConsommableData>
+) : GridConsommableAdapter(binding.root.context, items) {
 
     private val context = binding.root.context
     private val inventaire = Inventaire(context)
@@ -55,7 +51,7 @@ class GridAdapterInventaire(
         return view
     }
 
-    private fun showAcheterPlusPopUp(item: GridData, view: View) {
+    private fun showAcheterPlusPopUp(item: GridConsommableData, view: View) {
         val popupMagasinView =
             LayoutInflater.from(context).inflate(R.layout.popup_acheter_plus, null)
         val popupMagasinWindow = PopupWindow(
@@ -88,6 +84,7 @@ class GridAdapterInventaire(
         boutonMagasin.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, DetailsObjetActivity::class.java).apply {
+                    putExtra("sourceFragment", "CompagnonFragment")
                     putExtra("NOM_OBJET", item.nom)
                 }
                 context.startActivity(intent)
@@ -100,7 +97,7 @@ class GridAdapterInventaire(
         }
     }
 
-    private fun showUtilisationPopUp(item: GridData, view: View) {
+    private fun showUtilisationPopUp(item: GridConsommableData, view: View) {
         val popupUtilisationView =
             LayoutInflater.from(context).inflate(R.layout.popup_nombre_utilisations, null)
         val popupUtilisationWindow = PopupWindow(

@@ -18,16 +18,19 @@ import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.databinding.ActivityMainBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
+import com.app.vakna.modele.GestionnaireDeTaches
 import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.notifications.NotificationReceiver
 
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.ui.compagnon.CompagnonFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var context: Context
+    private lateinit var gestionnaireTaches: GestionnaireDeTaches
     private lateinit var gestionnaire: GestionnaireDeCompagnons
     private var compagnon: Compagnon? = null
 
@@ -50,6 +53,8 @@ class MainActivity : AppCompatActivity() {
 
         context = binding.root.context
 
+        gestionnaireTaches = GestionnaireDeTaches(context)
+
         gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
 
         val accesJson = AccesJson("taches",this)
@@ -60,24 +65,20 @@ class MainActivity : AppCompatActivity() {
         compagnon = gestionnaire.obtenirCompagnons().first()
 
         val lastLaunchTime = getLastLaunchTime()
-        if (lastLaunchTime != null){
-            Log.e("testttt", lastLaunchTime.toString())
-        }
 
         compagnon?.let {
             diminuerHumeurCompagnon(it.id, lastLaunchTime)
             diminuerFaimCompagnon(it.id, lastLaunchTime)
         }
 
-        // Now access the toolbar after setContentView is called
+        gestionnaireTaches.verifierTacheNonAccomplies()
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_taches,
@@ -88,6 +89,13 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 //        scheduleNotification(this)
+
+        val navigateTo = intent.getStringExtra("navigateTo")
+        if (navigateTo == "CompagnonFragment") {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.compagnon_container, CompagnonFragment())
+                .commit()
+        }
     }
 
     override fun onStop () {
@@ -134,12 +142,12 @@ class MainActivity : AppCompatActivity() {
     }
     private fun diminuerFaimCompagnon(id: Int, lastLaunch: Long?) {
         compagnon?.let {
-            gestionnaire.baisserNivFaim(id, context, lastLaunch)
+            gestionnaire.baisserNivFaim(id, lastLaunch)
         }
     }
     private fun diminuerHumeurCompagnon(id: Int, lastLaunch: Long?) {
         compagnon?.let {
-            gestionnaire.baisserNivHumeur(id, context, lastLaunch)
+            gestionnaire.baisserNivHumeur(id, lastLaunch)
         }
     }
 

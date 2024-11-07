@@ -38,6 +38,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("navigateTo", "Taches")
                 context.startActivity(intent)
+                context.finish()
             }
         }
     }

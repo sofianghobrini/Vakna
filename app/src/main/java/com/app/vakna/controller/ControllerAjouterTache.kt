@@ -1,8 +1,14 @@
 package com.app.vakna.controller
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.RadioGroup
+import android.widget.Toast
 import com.app.vakna.AjouterActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -16,8 +22,9 @@ import java.time.LocalDate
  */
 class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
 
+    private val context = binding.root.context
+
     init {
-        val context = binding.root.context
 
         // Set button text using string resources
         binding.boutonCreerTache.text = context.getString(R.string.create_task_button)
@@ -33,7 +40,11 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 if (context is AjouterActivity) {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
+
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
                     context.startActivity(intent)
+                    context.finish()
                 }
             }
         }
@@ -43,7 +54,18 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             if (context is AjouterActivity) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
+
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
                 context.startActivity(intent)
+                context.finish()
+            }
+        }
+
+        val radioGroup = binding.contenuInclude.radioFrequenceTache
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.radioHebdomadaire) {
+                afficherPopUp()
             }
         }
     }
@@ -144,5 +166,47 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Gestionnaire de tâches pour ajouter la nouvelle tâche
         val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
         gestionnaireDeTaches.ajouterTache(tache)
+    }
+    private fun afficherPopUp() {
+        // Charger le layout personnalisé pour le popup
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.popup_jour_semaine, null)
+
+        // Créer le popup avec AlertDialog
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setTitle("Choisissez les jours")
+
+        val dialog = dialogBuilder.create()
+
+        // Initialiser les CheckBoxes et le bouton "Valider"
+        val checkLundi = dialogView.findViewById<CheckBox>(R.id.checkbox_lundi)
+        val checkMardi = dialogView.findViewById<CheckBox>(R.id.checkbox_mardi)
+        val checkMercredi = dialogView.findViewById<CheckBox>(R.id.checkbox_mercredi)
+        val checkJeudi = dialogView.findViewById<CheckBox>(R.id.checkbox_jeudi)
+        val checkVendredi = dialogView.findViewById<CheckBox>(R.id.checkbox_vendredi)
+        val checkSamedi = dialogView.findViewById<CheckBox>(R.id.checkbox_samedi)
+        val checkDimanche = dialogView.findViewById<CheckBox>(R.id.checkbox_dimanche)
+        val buttonValider = dialogView.findViewById<Button>(R.id.button_valider)
+
+        buttonValider.setOnClickListener {
+            // Récupérer les jours sélectionnés
+            val selectedDays = mutableListOf<String>()
+            if (checkLundi.isChecked) selectedDays.add("Lundi")
+            if (checkMardi.isChecked) selectedDays.add("Mardi")
+            if (checkMercredi.isChecked) selectedDays.add("Mercredi")
+            if (checkJeudi.isChecked) selectedDays.add("Jeudi")
+            if (checkVendredi.isChecked) selectedDays.add("Vendredi")
+            if (checkSamedi.isChecked) selectedDays.add("Samedi")
+            if (checkDimanche.isChecked) selectedDays.add("Dimanche")
+
+            // Fermer le dialog après la sélection
+            dialog.dismiss()
+
+            // Afficher un Toast avec les jours sélectionnés
+            Toast.makeText(context, "Jours sélectionnés : ${selectedDays.joinToString()}", Toast.LENGTH_SHORT).show()
+        }
+
+        // Afficher le popup
+        dialog.show()
     }
 }

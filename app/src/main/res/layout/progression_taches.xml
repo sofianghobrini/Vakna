@@ -26,17 +26,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Tâche : (Celui qui est sélectionné)" />
-
+                android:text="@string/task_title_placeholder" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:layout_margin="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="#BDBDBD" /> <!-- Couleur de la barre -->
+            android:background="#BDBDBD" />
 
         <LinearLayout
             android:id="@+id/infoTaches"
@@ -56,7 +53,7 @@
                     android:layout_height="35dp"
                     android:layout_gravity="center|start"
                     android:gravity="center"
-                    android:text="Nom :" />
+                    android:text="@string/task_name" />
 
                 <TextView
                     android:id="@+id/valNom"
@@ -79,7 +76,7 @@
                     android:layout_height="37dp"
                     android:layout_gravity="center|start"
                     android:gravity="center"
-                    android:text="Tache:" />
+                    android:text="@string/task_type" />
 
                 <TextView
                     android:id="@+id/valTypeTache"
@@ -95,7 +92,6 @@
                     android:layout_height="83dp"
                     android:layout_weight="1"
                     tools:src="@tools:sample/avatars" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -110,7 +106,7 @@
                     android:layout_height="37dp"
                     android:layout_gravity="center|start"
                     android:gravity="center"
-                    android:text="Date de Creation" />
+                    android:text="@string/creation_date" />
 
                 <TextView
                     android:id="@+id/valDateCrea"
@@ -119,9 +115,7 @@
                     android:layout_gravity="center|start"
                     android:gravity="center"
                     android:text="TextView" />
-
             </LinearLayout>
-
         </LinearLayout>
 
         <View
@@ -140,7 +134,7 @@
                 android:id="@+id/progressionTache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Progression:" />
+                android:text="@string/task_progress" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -151,7 +145,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="50dp"
                 android:indeterminateBehavior="repeat"
-
                 android:indeterminateDrawable="@color/green"
                 android:indeterminateOnly="false"
                 android:progressDrawable="@android:drawable/progress_horizontal" />
@@ -162,16 +155,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:text="Terminer la Tâche" />
+                android:text="@string/complete_task_button" />
 
             <Button
                 android:id="@+id/retourListeTache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableBottom="@drawable/abc_vector_test" />
-
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
