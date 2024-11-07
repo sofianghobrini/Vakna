@@ -1,13 +1,7 @@
-package com.app.vakna
+package com.app.vakna.modele
 
 import android.content.Context
-import android.util.Log
 import androidx.test.core.app.ApplicationProvider
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.ObjetObtenu
-import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
 import org.junit.After

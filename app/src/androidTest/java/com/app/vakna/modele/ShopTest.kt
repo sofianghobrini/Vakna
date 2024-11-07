@@ -1,14 +1,11 @@
-package com.app.vakna
+package com.app.vakna.modele
 
 import androidx.test.core.app.ApplicationProvider
-import com.app.vakna.modele.*
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 import com.app.vakna.modele.dao.CompagnonDAO
 import org.junit.Before
-import org.junit.After
 import org.junit.Test
-import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.assertNotNull

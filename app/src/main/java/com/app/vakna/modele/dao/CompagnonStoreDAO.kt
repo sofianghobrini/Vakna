@@ -1,18 +1,18 @@
 package com.app.vakna.modele.dao
 
 import android.content.Context
-import com.app.vakna.modele.CompanionStore
+import com.app.vakna.modele.CompagnonStore
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 
-class CompagnonStoreDAO(private val contexte: Context) : DAO<CompanionStore, Int> {
+class CompagnonStoreDAO(private val contexte: Context) : DAO<CompagnonStore, Int> {
 
     // Initialisation de l'objet Gson avec des adaptateurs personnalisés pour les objets CompanionStore
     private val gson = GsonBuilder()
         .setPrettyPrinting()
-        .registerTypeAdapter(CompanionStore::class.java, CompagnonStoreToJson())
-        .registerTypeAdapter(CompanionStore::class.java, JsonToCompagnonStore())
+        .registerTypeAdapter(CompagnonStore::class.java, CompagnonStoreToJson())
+        .registerTypeAdapter(CompagnonStore::class.java, JsonToCompagnonStore())
         .create()
 
     // Gestion de l'accès aux fichiers JSON
@@ -27,38 +27,33 @@ class CompagnonStoreDAO(private val contexte: Context) : DAO<CompanionStore, Int
     }
 
     // Récupérer tous les articles du magasin de compagnons depuis le fichier JSON
-    override fun obtenirTous(): List<CompanionStore> {
+    override fun obtenirTous(): List<CompagnonStore> {
         verifierExistence() // Vérifie l'existence du fichier, sinon le crée
 
         val jsonString = accesJson.lireFichierJson()
         val companionsJsonArray = gson.fromJson(jsonString, JsonElement::class.java)
             .asJsonObject.getAsJsonArray("companions_store")
 
-        val typeCompanionStoreList = object : TypeToken<List<CompanionStore>>() {}.type
-        return gson.fromJson(companionsJsonArray, typeCompanionStoreList)
+        val typeCompagnonStoreList = object : TypeToken<List<CompagnonStore>>() {}.type
+        return gson.fromJson(companionsJsonArray, typeCompagnonStoreList)
     }
 
     // Récupérer un article du magasin de compagnons par ID
-    override fun obtenirParId(id: Int): CompanionStore? {
+    override fun obtenirParId(id: Int): CompagnonStore? {
         return obtenirTous().find { it.id == id }
     }
 
     // Insérer un nouvel article dans le magasin de compagnons dans le fichier JSON
-    override fun inserer(entite: CompanionStore): Boolean {
+    override fun inserer(entite: CompagnonStore): Boolean {
         verifierExistence() // Vérifie l'existence du fichier
 
         val jsonString = accesJson.lireFichierJson()
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val companionsJsonArray = objetJson.getAsJsonArray("companions_store")
 
-        val typeCompanionStoreList = object : TypeToken<MutableList<CompanionStore>>() {}.type
-        val listeCompanions: MutableList<CompanionStore> = gson.fromJson(companionsJsonArray, typeCompanionStoreList)
+        val typeCompagnonStoreList = object : TypeToken<MutableList<CompagnonStore>>() {}.type
+        val listeCompanions: MutableList<CompagnonStore> = gson.fromJson(companionsJsonArray, typeCompagnonStoreList)
             ?: mutableListOf()
-
-        // Vérifie qu'il n'existe pas déjà un compagnon avec le même nom
-        if (listeCompanions.any { it.nom == entite.nom }) {
-            return false
-        }
 
         // Génère un ID unique pour le nouvel article du magasin de compagnons
         val nouvelId = (listeCompanions.maxOfOrNull { it.id } ?: 0) + 1
@@ -73,15 +68,15 @@ class CompagnonStoreDAO(private val contexte: Context) : DAO<CompanionStore, Int
     }
 
     // Modifier un article existant dans le magasin de compagnons dans le fichier JSON
-    override fun modifier(id: Int, entite: CompanionStore): Boolean {
+    override fun modifier(id: Int, entite: CompagnonStore): Boolean {
         verifierExistence() // Vérifie l'existence du fichier
 
         val jsonString = accesJson.lireFichierJson()
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val companionsJsonArray = objetJson.getAsJsonArray("companions_store")
 
-        val typeCompanionStoreList = object : TypeToken<MutableList<CompanionStore>>() {}.type
-        val listeCompanions: MutableList<CompanionStore> = gson.fromJson(companionsJsonArray, typeCompanionStoreList)
+        val typeCompagnonStoreList = object : TypeToken<MutableList<CompagnonStore>>() {}.type
+        val listeCompanions: MutableList<CompagnonStore> = gson.fromJson(companionsJsonArray, typeCompagnonStoreList)
             ?: mutableListOf()
 
         // Trouver l'index de l'article du magasin de compagnons à modifier
@@ -107,8 +102,8 @@ class CompagnonStoreDAO(private val contexte: Context) : DAO<CompanionStore, Int
         val objetJson = gson.fromJson(jsonString, JsonElement::class.java).asJsonObject
         val companionsJsonArray = objetJson.getAsJsonArray("companions_store")
 
-        val typeCompanionStoreList = object : TypeToken<MutableList<CompanionStore>>() {}.type
-        val listeCompanions: MutableList<CompanionStore> = gson.fromJson(companionsJsonArray, typeCompanionStoreList)
+        val typeCompagnonStoreList = object : TypeToken<MutableList<CompagnonStore>>() {}.type
+        val listeCompanions: MutableList<CompagnonStore> = gson.fromJson(companionsJsonArray, typeCompagnonStoreList)
             ?: mutableListOf()
 
         // Trouver l'article du magasin de compagnons à supprimer
