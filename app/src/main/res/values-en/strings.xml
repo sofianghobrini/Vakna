@@ -1,0 +1,121 @@
+<resources>
+    <string name="app_name">Vakna</string>
+    <string name="title_taches">Tasks</string>
+    <string name="title_ajouter">Add</string>
+    <string name="title_magasin">Store</string>
+    <string name="title_compagnon">My pets</string>
+    <string name="edit_name">Edit Name</string>
+    <string-array name="typeTacheExemple">
+    <item>PERSONNELLE</item>
+    <item>PROFESSIONNELLE</item>
+    <item>PROJET</item>
+    <item>ETUDES</item>
+    <item>SPORT</item>
+    <item>VIEQUO</item>
+    <item>AUTRE</item>
+</string-array>
+
+    <!-- New type strings -->
+    <string name="type_personnelle">Personnelle</string>
+    <string name="type_professionnelle">Professionnelle</string>
+    <string name="type_projet">Projet</string>
+    <string name="type_etudes">Études</string>
+    <string name="type_sport">Sport</string>
+    <string name="type_viequo">Vie Quotidienne</string>
+    <string name="type_autre">Autre</string>
+
+    <string name="create_task_button">Create Task</string>
+    <string name="cancel_task_creation_button">Cancel</string>
+    <string name="task_name_error">Task name is required</string>
+    <string name="frequency_error">Please select a frequency</string>
+    <string name="importance_error">Please select an importance level</string>
+    <string name="navigate_to_tasks">Tasks</string>
+    <string name="title_add_task">Add Task</string>
+    <string name="task_name_hint">Enter task name</string>
+    <string name="new_name_hint">New Name</string>
+    <string name="edit_name_dialog_title">Edit Your Companion\'s Name</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="level_text">Lvl. %1$d</string>
+    <string name="humeur_text">%1$d/100</string>
+    <string name="faim_text">%1$d/100</string>
+    <string name="compagnon_cree_succes">Companion successfully created!</string>
+    <string name="compagnon_existe_erreur">Error: A companion with this name already exists</string>
+    <string name="objet_inconnu">Unknown Object</string>
+    <string name="niveau_format">Level: %1$d</string>
+    <string name="cout_format">Cost: %1$d</string>
+    <string name="description_non_disponible">Description unavailable</string>
+    <string name="nombre_de_coins">Coins: %1$d</string>
+    <string name="cout_total_format">Total Cost: %1$d</string>
+    <string name="modifier_task_title">Edit Task &quot;%1$s&quot;</string>
+    <string name="task_unknown">Unknown Task</string>
+    <string name="task_name_required">Task name is required</string>
+    <string name="task_edit_success">Task successfully edited</string>
+    <string name="task_edit_failed">Failed to edit task</string>
+    <string name="edit_task_button">Edit</string>
+    <string name="back_button">Back</string>
+    <string name="title_create_companion">Give Your Companion a Name</string>
+    <string name="label_companion_name">Companion Name:</string>
+    <string name="hint_companion_name">e.g., Veolia the dragon</string>
+    <string name="manage_tasks_title">Manage Tasks</string>
+    <string name="title_modifier_tache">Edit Task &quot;{task name here}&quot;</string>
+    <string name="label_task_name">Task Name:</string>
+    <string name="hint_task_name">e.g., Do the dishes</string>
+    <string name="label_task_type">Task Type:</string>
+    <string name="label_task_frequency">Task Frequency:</string>
+    <string name="radio_daily">Daily</string>
+    <string name="radio_weekly">Weekly</string>
+    <string name="radio_monthly">Monthly</string>
+    <string name="error_task_frequency">Please select a frequency</string>
+    <string name="label_task_importance">Task Importance:</string>
+    <string name="radio_low">Low</string>
+    <string name="radio_medium">Medium</string>
+    <string name="radio_high">High</string>
+    <string name="error_task_importance">Please select an importance level</string>
+    <string name="dialog_title_archive">Archive Task?</string>
+    <string name="dialog_text_warning">Are you sure you want to archive task %1$s? You won\'t be able to reactivate this task! However, you can still view it in the archive page.</string>
+    <string name="button_archive">Archive</string>
+    <string name="dialog_title_finish_task">Have You Finished This Task?</string>
+    <string name="dialog_text_confirm_finish">If you confirm that you have indeed finished the task %1$s.</string>
+    <string name="button_finish">Finish</string>
+    <string name="dialog_text_work_quantity">How much work do you think you\'ve done?</string>
+    <string name="button_low">Low</string>
+    <string name="button_medium">Medium</string>
+    <string name="button_high">High</string>
+    <string name="dragon_name">Lucy the dragon</string>
+    <string name="tab_description">Tab navigation for Toys and Food</string>
+    <string name="grid_view_items">Items available in the selected category</string>
+    <string name="store_title">Store</string>
+    <string name="manage_projects">Manage Projects</string>
+    <string name="add_project">Add Project</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_projects">Projects</string>
+    <string name="manage_tasks">Manage Tasks</string>
+    <string name="add_task">Add Task</string>
+    <string name="daily_tasks">Daily</string>
+    <string name="weekly_tasks">Weekly</string>
+    <string name="monthly_tasks">Monthly</string>
+    <string name="popup_store_title">Name</string>
+    <string name="popup_store_question">You are out of {OBJECT NAME}, would you like to buy more?</string>
+    <string name="store_button">Store</string>
+    <string name="popup_usage_title">Name</string>
+    <string name="popup_usage_question">How many of {OBJECT NAME} would you like to use?</string>
+    <string name="use_button">Use</string>
+    <string name="task_title_placeholder">Task: (The selected one)</string>
+    <string name="task_name">Name:</string>
+    <string name="task_type">Task:</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="task_progress">Progress:</string>
+    <string name="complete_task_button">Complete Task</string>
+    <string name="settings">Settings</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="select_language">Select the language for the app interface.</string>
+    <string name="english">English</string>
+    <string name="french">French</string>
+    <string name="theme">Theme</string>
+    <string name="theme_description">Switch between light and dark themes for a better viewing experience.</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="notifications">Notifications</string>
+    <string name="notifications_description">Enable or disable notifications for app updates and reminders.</string>
+    <string name="enable_notifications">Enable Notifications</string>
+</resources>
