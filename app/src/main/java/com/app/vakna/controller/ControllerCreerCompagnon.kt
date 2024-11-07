@@ -37,19 +37,20 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val refugeDAO = RefugeDAO(context)
     private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
+    private var shopCompagnons = ShopCompagnons(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
     init {
 
-        val dragon = CompagnonStore(1, "test1", "Dragon", 750)
-        val lapin = CompagnonStore(2, "test2", "Lapin", 450)
-        val chat = CompagnonStore(3, "test3", "Chat", 500)
-        val licorne = CompagnonStore(4, "test4", "Licorne", 600)
-        val serpent = CompagnonStore(5, "test5", "Serpent", 650)
-        val ecureuil = CompagnonStore(6, "test6", "Ecureuil", 400)
+        val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
+        val lapin = CompagnonStore(2, "Lapin", "Lapin", 450)
+        val chat = CompagnonStore(3, "Chat", "Chat", 500)
+        val licorne = CompagnonStore(4, "Licorne", "Licorne", 600)
+        val serpent = CompagnonStore(5, "Serpent", "Serpent", 650)
+        val ecureuil = CompagnonStore(6, "Ecureuil", "Ecureuil", 400)
         val compagnonsList = listOf(dragon, lapin, chat, licorne, serpent, ecureuil)
 
         compagnonsList.forEach {
-            compagnonStoreDAO.inserer(it)
+            shopCompagnons.ajouterCompagnon(it)
         }
 
         val especeList = listOf("Dragon", "Lapin", "Chat", "Licorne", "Serpent", "Ecureuil")
@@ -107,12 +108,6 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-
-        // Charger le GIF du dragon à l'aide de Glide
-        Glide.with(binding.root)
-            .asGif()
-            .load(gestionnaireCompagnon.obtenirCompagnon("Dragon"))
-            .into(binding.dragonGif)
 
         // Désactiver le bouton de confirmation au début
         binding.boutonCreerCompagnon.isEnabled = false
@@ -193,13 +188,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
      */
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
-            "Dragon" -> gestionnaireCompagnon.obtenirCompagnon("Dragon")
-            "Lapin" -> gestionnaireCompagnon.obtenirCompagnon("Lapin")
-            "Chat" -> gestionnaireCompagnon.obtenirCompagnon("Chat")
-            "Licorne" -> gestionnaireCompagnon.obtenirCompagnon("Licorne")
-            "Serpent" -> gestionnaireCompagnon.obtenirCompagnon("Serpent")
-            "Ecureuil" -> gestionnaireCompagnon.obtenirCompagnon("Ecureuil")
-            else -> gestionnaireCompagnon.obtenirCompagnon("Dragon")
+            "Dragon" -> shopCompagnons.getCompagnon("Dragon")?.apparenceDefaut()
+            "Lapin" -> shopCompagnons.getCompagnon("Lapin")?.apparenceDefaut()
+            "Chat" -> shopCompagnons.getCompagnon("Chat")?.apparenceDefaut()
+            "Licorne" -> shopCompagnons.getCompagnon("Licorne")?.apparenceDefaut()
+            "Serpent" -> shopCompagnons.getCompagnon("Serpent")?.apparenceDefaut()
+            "Ecureuil" -> shopCompagnons.getCompagnon("Ecureuil")?.apparenceDefaut()
+            else -> shopCompagnons.getCompagnon("Dragon")?.apparenceDefaut()
         }
         Glide.with(context)
             .load(imageRes)

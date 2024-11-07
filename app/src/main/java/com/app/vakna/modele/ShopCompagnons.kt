@@ -30,6 +30,16 @@ class ShopCompagnons (
         return compagnonMagasin.find { it.espece == espece }
     }
 
+    fun ajouterCompagnon(compagnon: CompagnonStore): Boolean {
+        if (compagnon.nom.isBlank()) {
+            throw IllegalArgumentException("Le nom du compagnon ne peut pas être vide")
+        }
+        if (!compagnonMagasin.add(compagnon)) {
+            throw IllegalArgumentException("Une tâche avec le nom '${compagnon.nom}' existe déjà")
+        }
+        return compagnonStoreDAO.inserer(compagnon)
+    }
+
     fun acheterCompagnon(compagnonId: Int, compagnonNom: String): Boolean {
         val compagnonStore = compagnonStoreDAO.obtenirParId(compagnonId)
             ?: return false

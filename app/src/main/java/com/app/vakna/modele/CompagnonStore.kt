@@ -14,6 +14,13 @@ class CompagnonStore(
         return GridData(0, espece, prix)
     }
 
+    // Méthode pour obtenir le fichier ou est stocké l'apparence par défaut du compagnon
+    fun apparenceDefaut(): String {
+        var image = "file:///android_asset/compagnons/"
+        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux.gif"
+        return image
+    }
+
     // Overriding the toString method to display companion's information in the store
     override fun toString(): String {
         return "$nom ($espece) - Price: $$prix"
