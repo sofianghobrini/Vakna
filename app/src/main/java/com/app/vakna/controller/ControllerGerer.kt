@@ -48,6 +48,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
             GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches())
 
         val dataTrier = data.filter { !it.estTermine || !it.estArchivee }
+            .filter { !it.estArchivee }
             .sortedWith(compareByDescending<ListData>
             {
                 when (it.importance) {
