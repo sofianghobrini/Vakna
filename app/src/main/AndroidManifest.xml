@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
+        android:name=".VaknaApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -48,6 +49,9 @@
         <activity android:name=".DetailsCompagnonActivity"
             android:screenOrientation="portrait"
             android:label="Détails compagnon" />
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:label="Settings" />
         <service
             android:name=".notifications.NotificationService"
             android:enabled="true"
