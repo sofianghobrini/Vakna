@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.PopupWindow
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
@@ -25,6 +27,7 @@ import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.ui.compagnon.CompagnonFragment
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -193,10 +196,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
                     boutonMagasin.setOnClickListener {
                         if (context is MainActivity) {
-                            val intent = Intent(context, MainActivity::class.java).apply {
-                                putExtra("navigateTo", "Magasin")
-                            }
-                            context.startActivity(intent)
+                            val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
+                            navController.navigate(R.id.navigation_notifications)
                         }
                         popupMagasinWindow.dismiss()
                     }
@@ -328,10 +329,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     buttonText = "Magasin",
                     buttonAction = {
                         if (context is MainActivity) {
-                            val intent = Intent(context, MainActivity::class.java).apply {
-                                putExtra("navigateTo", "Magasin")
-                            }
-                            context.startActivity(intent)
+                            val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
+                            navController.navigate(R.id.navigation_notifications)
                         }
                     }
                 )

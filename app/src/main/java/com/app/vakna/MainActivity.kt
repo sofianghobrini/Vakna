@@ -94,9 +94,26 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_taches -> {
+                    navController.navigate(R.id.navigation_taches)
+                    true
+                }
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+                R.id.navigation_notifications -> {
+                    navController.navigate(R.id.navigation_notifications)
+                    true
+                }
+                else -> false
+            }
+        }
 //        scheduleNotification(this)
 
-        val navigateTo = intent.getStringExtra("navigateTo")
+//        val navigateTo = intent.getStringExtra("navigateTo")
 //        if (navigateTo == "CompagnonFragment") {
 //            supportFragmentManager.beginTransaction()
 //                .replace(R.id.compagnonContainer, CompagnonFragment())
