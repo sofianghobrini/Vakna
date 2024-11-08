@@ -114,6 +114,12 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         compagnonsSup = (compagnons - compagnon).toTypedArray()
 
+        if (compagnonsSup.isEmpty()) {
+            binding.switchCompagnon1.setOnClickListener {
+                showCompagnonPopUp(it)
+            }
+        }
+
         var iteration = 0
         compagnonsSup.forEach {
             val switchBoutons = listOf(
@@ -169,45 +175,49 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 boutonNext.visibility = View.VISIBLE
 
                 boutonNext.setOnClickListener {view ->
-                    val popupMagasinView =
-                        LayoutInflater.from(context).inflate(R.layout.popup_acheter_compagnon, null)
-
-                    val popupMagasinWindow = PopupWindow(
-                        popupMagasinView,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-
-                    popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-                    val popupWidth = popupMagasinView.measuredWidth
-                    val popupHeight = popupMagasinView.measuredHeight
-
-                    val location = IntArray(2)
-                    view.getLocationOnScreen(location)
-
-                    val offsetX = location[0] + view.width
-                    val offsetY = location[1] - (popupHeight / 2) + (view.height / 2)
-
-                    popupMagasinWindow.isOutsideTouchable = true
-                    popupMagasinWindow.isFocusable = true
-
-                    popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
-
-                    val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
-                    boutonMagasin.setOnClickListener {
-                        if (context is MainActivity) {
-                            val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                            navController.navigate(R.id.navigation_notifications)
-                        }
-                        popupMagasinWindow.dismiss()
-                    }
-
-                    popupMagasinView.setOnClickListener {
-                        popupMagasinWindow.dismiss()
-                    }
+                    showCompagnonPopUp(view)
                 }
             }
             iteration++
+        }
+    }
+
+    private fun showCompagnonPopUp(view: View) {
+        val popupMagasinView =
+            LayoutInflater.from(context).inflate(R.layout.popup_acheter_compagnon, null)
+
+        val popupMagasinWindow = PopupWindow(
+            popupMagasinView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        val popupWidth = popupMagasinView.measuredWidth
+        val popupHeight = popupMagasinView.measuredHeight
+
+        val location = IntArray(2)
+        view.getLocationOnScreen(location)
+
+        val offsetX = location[0] + view.width
+        val offsetY = location[1] - (popupHeight / 2) + (view.height / 2)
+
+        popupMagasinWindow.isOutsideTouchable = true
+        popupMagasinWindow.isFocusable = true
+
+        popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
+
+        val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
+        boutonMagasin.setOnClickListener {
+            if (context is MainActivity) {
+                val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
+                navController.navigate(R.id.navigation_notifications)
+            }
+            popupMagasinWindow.dismiss()
+        }
+
+        popupMagasinView.setOnClickListener {
+            popupMagasinWindow.dismiss()
         }
     }
 
