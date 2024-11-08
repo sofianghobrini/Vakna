@@ -14,6 +14,8 @@ import android.widget.PopupWindow
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
+import com.app.vakna.adapters.PlaceholderAdapter
+import com.app.vakna.adapters.PlaceholderData
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.GestionnaireDeCompagnons
@@ -297,7 +299,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
          * @param items La liste d'items à afficher dans le GridView.
          */
         fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
-            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(binding.root.context))
+            val context = binding.root.context
+            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
             val compagnons = gestionnaire.obtenirCompagnons()
             var compagnonGrid = gestionnaire.obtenirActif()
             if (compagnonGrid == null) {
@@ -311,12 +314,43 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 binding.progressFaim.progress = it.faim
             }
 
-            val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+            if(items.isEmpty()) {
 
-            val gridItems = Inventaire.setToGridDataArray(sortedItems)
+                binding.gridViewItems.numColumns = 1
 
-            val adapter = GridConsommableAdapterInventaire(binding, gridItems)
-            binding.gridViewItems.adapter = adapter
+                val placeholderMessage = when (type) {
+                    TypeObjet.JOUET -> "Vous n'avez aucun jouet disponible! Allez au magasin pour en acheter."
+                    TypeObjet.NOURRITURE -> "Vous n'avez aucune nourriture disponible! Allez au magasin pour en acheter."
+                }
+
+                val placeholderItem = PlaceholderData(
+                    message = placeholderMessage,
+                    buttonText = "Magasin",
+                    buttonAction = {
+                        if (context is MainActivity) {
+                            val intent = Intent(context, MainActivity::class.java).apply {
+                                putExtra("navigateTo", "Magasin")
+                            }
+                            context.startActivity(intent)
+                        }
+                    }
+                )
+
+                val gridItems = listOf(placeholderItem)
+
+                val adapter = PlaceholderAdapter(binding, gridItems)
+                binding.gridViewItems.adapter = adapter
+            } else {
+
+                binding.gridViewItems.numColumns = 2
+
+                val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+
+                val gridItems = Inventaire.setToGridDataArray(sortedItems)
+
+                val adapter = GridConsommableAdapterInventaire(binding, gridItems)
+                binding.gridViewItems.adapter = adapter
+            }
         }
     }
 }
