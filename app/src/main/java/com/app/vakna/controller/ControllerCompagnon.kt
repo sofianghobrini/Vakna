@@ -88,7 +88,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
 
         distinctTypesList.forEach {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.name))
+            val tabTitle = getTabTitle(it)
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
         }
 
         val items = inventaire.getObjetsParType(distinctTypesList.first())
@@ -101,7 +102,11 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 val selectedTypeName = tab?.text.toString()
 
-                val selectedType = TypeObjet.valueOf(selectedTypeName)
+                val selectedType = when (selectedTypeName) {
+                    context.getString(R.string.tab_toys) -> TypeObjet.JOUET
+                    context.getString(R.string.tab_food) -> TypeObjet.NOURRITURE
+                    else -> TypeObjet.JOUET
+                }
 
                 val filteredItems = inventaire.getObjetsParType(selectedType)
 
@@ -179,6 +184,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
             }
             iteration++
+        }
+    }
+
+    private fun getTabTitle(type: TypeObjet): String {
+        return when (type) {
+            TypeObjet.JOUET -> context.getString(R.string.tab_toys)
+            TypeObjet.NOURRITURE -> context.getString(R.string.tab_food)
+            else -> type.name
         }
     }
 

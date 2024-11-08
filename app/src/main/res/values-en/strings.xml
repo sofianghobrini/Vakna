@@ -150,4 +150,7 @@
     <string name="companion_species">Companion species:</string>
     <string name="message_empty_inventory_toys">You don\'t have any toys! Go to the store to buy some.</string>
     <string name="message_empty_inventory_food">You don\'t have any food! Go to the store to buy some.</string>
+    <string name="tab_toys">Toys</string>
+    <string name="tab_food">Food</string>
+    <string name="tab_companions">Companions</string>
 </resources>

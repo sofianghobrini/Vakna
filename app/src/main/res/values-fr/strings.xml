@@ -152,4 +152,7 @@
     <string name="date_already_selected">Date déjà sélectionnée</string>
     <string name="product_cost">Cout: %1$s</string>
     <string name="companion_species">Espece du compagnon:</string>
+    <string name="tab_toys">Jouet</string>
+    <string name="tab_food">Nourriture</string>
+    <string name="tab_companions">Compagnons</string>
 </resources>
