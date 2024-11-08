@@ -14,6 +14,7 @@ import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.dao.InventaireDAO
+import com.bumptech.glide.Glide
 
 class ControllerDetailsObjet(
     private val binding: ActivityDetailsObjetBinding,
@@ -30,6 +31,9 @@ class ControllerDetailsObjet(
         afficherNombreDeCoins()
 
         binding.texteTitreDetails.text = objet?.getNom() ?: context.getString(R.string.objet_inconnu)
+        Glide.with(context)
+            .load(objet?.getImageUrl())
+            .into(binding.imageObjet)
         binding.texteNiveau.text = context.getString(R.string.niveau_format, objet?.getNiveau())
         binding.texteCout.text = context.getString(R.string.cout_format, objet?.getPrix())
         binding.texteDescription.text = objet?.getDetails() ?: context.getString(R.string.description_non_disponible)

@@ -15,6 +15,7 @@ import com.app.vakna.DetailsCompagnonActivity
 import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
+import com.bumptech.glide.Glide
 
 open class GridCompagnonsAdapter (
     private val context: Context,
@@ -38,7 +39,10 @@ open class GridCompagnonsAdapter (
         val coutTextView = view.findViewById<TextView>(R.id.itemCout)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
 
-        imageView.setImageResource(item.image)
+        Glide.with(context)
+            .asGif()
+            .load(item.image)
+            .into(imageView)
         nomTextView.text = item.nom
         coutTextView.text = item.cout.toString()
 

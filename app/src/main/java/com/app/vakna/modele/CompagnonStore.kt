@@ -7,11 +7,12 @@ class CompagnonStore(
     var id: Int,           // Unique identifier for the companion in the store
     var nom: String,       // Name of the companion
     var espece: String,    // Species of the companion (e.g., "Dragon")
-    var prix: Int       // Price of the companion in the store
+    var prix: Int,       // Price of the companion in the store
+
 ) {
 
     open fun toGridData(): GridData {
-        return GridData(0, espece, prix)
+        return GridData(apparenceDefaut(), espece, prix)
     }
 
     // Méthode pour obtenir le fichier ou est stocké l'apparence par défaut du compagnon
