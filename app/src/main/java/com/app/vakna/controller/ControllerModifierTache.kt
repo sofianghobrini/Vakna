@@ -69,7 +69,7 @@ class ControllerModifierTache(
         }
 
         val radioGroup = binding.contenuInclude.radioFrequenceTache
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+        radioGroup.setOnCheckedChangeListener{ _, checkedId ->
             when (checkedId) {
                 R.id.radioHebdomadaire->afficherPopUp_semaine()
                 R.id.radioMensuel->afficherPopUp_mensuel()

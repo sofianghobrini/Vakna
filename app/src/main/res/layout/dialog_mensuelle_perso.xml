@@ -10,7 +10,7 @@
         android:layout_width="500dp"
         android:layout_height="435dp"
         android:datePickerMode="calendar"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
 
 
     <LinearLayout
@@ -31,7 +31,7 @@
         android:backgroundTint="#14e1bc"
         android:text="Ajouter"
         tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="440dp" />
+        tools:layout_editor_absoluteY="440dp"/>
 
     <Button
         android:id="@+id/confirmer_date"
@@ -41,7 +41,7 @@
         android:backgroundTint="#2aee0b"
         android:text="Confirmer"
         tools:layout_editor_absoluteX="180dp"
-        tools:layout_editor_absoluteY="440dp" />
+        tools:layout_editor_absoluteY="440dp"/>
 
     </LinearLayout>
 

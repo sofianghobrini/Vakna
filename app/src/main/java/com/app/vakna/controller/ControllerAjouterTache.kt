@@ -220,7 +220,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             .setView(dialogView)
             .setTitle("Choisissez les dates")
 
-        val dialog = dialogBuilder.create()
+        val dialog=dialogBuilder.create()
 
         // Référencer le DatePicker et le bouton d'ajout
         val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
