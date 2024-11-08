@@ -148,5 +148,6 @@
     <string name="popup_title_choose_dates">Choisissez les dates</string>
     <string name="date_added">Date ajoutée : %1$s</string>
     <string name="date_already_selected">Date déjà sélectionnée</string>
-
+    <string name="product_cost">Cout: %1$s</string>
+    <string name="companion_species">Espece du compagnon:</string>
 </resources>

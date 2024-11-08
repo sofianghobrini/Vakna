@@ -90,7 +90,8 @@
         app:tabTextColor="@color/gray"
         app:tabSelectedTextColor="?attr/colorPrimary"
         app:tabIndicatorColor="?attr/colorPrimary"
-        app:tabBackground="?android:attr/textColorPrimaryInverse"/>
+        app:tabBackground="?android:attr/textColorPrimaryInverse"
+        android:background= "?android:attr/textColorPrimaryInverse"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

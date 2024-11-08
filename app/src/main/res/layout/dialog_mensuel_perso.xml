@@ -29,9 +29,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:backgroundTint="#14e1bc"
-            android:text="Ajouter"
+            android:text="@string/cancel"
             tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="440dp"/>
+            tools:layout_editor_absoluteY="440dp" />
 
         <Button
             android:id="@+id/confirmer_date"
@@ -39,9 +39,9 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:backgroundTint="#2aee0b"
-            android:text="Confirmer"
+            android:text="@string/confirm"
             tools:layout_editor_absoluteX="180dp"
-            tools:layout_editor_absoluteY="440dp"/>
+            tools:layout_editor_absoluteY="440dp" />
 
     </LinearLayout>
 
