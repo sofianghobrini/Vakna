@@ -330,8 +330,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 binding.gridViewItems.numColumns = 1
 
                 val placeholderMessage = when (type) {
-                    TypeObjet.JOUET -> "Vous n'avez aucun jouet disponible! Allez au magasin pour en acheter."
-                    TypeObjet.NOURRITURE -> "Vous n'avez aucune nourriture disponible! Allez au magasin pour en acheter."
+                    TypeObjet.JOUET -> context.getString(R.string.message_empty_inventory_toys)
+                    TypeObjet.NOURRITURE -> context.getString(R.string.message_empty_inventory_food)
                 }
 
                 val placeholderItem = PlaceholderData(
