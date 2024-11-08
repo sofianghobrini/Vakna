@@ -100,6 +100,8 @@
     <string name="popup_store_question">Vous n\'avez plus de {NOM OBJET}, voulez-vous en acheter plus?</string>
     <string name="popup_store_question_compagnon">Vous pouvez avoir un compagnon suplémentaire, \n voulez vous aller au store pour en acheter un?</string>
     <string name="store_button">Magasin</string>
+    <string name="message_empty_inventory_toys">Vous n\'avez aucun jouet disponible! Allez au magasin pour en acheter.</string>
+    <string name="message_empty_inventory_food">Vous n\'avez aucune nourriture disponible! Allez au magasin pour en acheter.</string>
     <string name="popup_usage_title">Nom</string>
     <string name="popup_usage_question">Combien voulez-vous utiliser de {NOM OBJET}.</string>
     <string name="use_button">Utiliser</string>

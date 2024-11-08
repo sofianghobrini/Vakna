@@ -336,7 +336,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 val placeholderItem = PlaceholderData(
                     message = placeholderMessage,
-                    buttonText = "Magasin",
+                    buttonText = context.getString(R.string.store_title),
                     buttonAction = {
                         if (context is MainActivity) {
                             val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
