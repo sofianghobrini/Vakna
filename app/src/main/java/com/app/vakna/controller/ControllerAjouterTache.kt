@@ -176,7 +176,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("Choisissez les jours")
+            .setTitle(context.getString(R.string.popup_title_select_days))
 
         val dialog = dialogBuilder.create()
 
@@ -193,13 +193,13 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         buttonValider.setOnClickListener {
             // Récupérer les jours sélectionnés
             val selectedDays = mutableListOf<String>()
-            if (checkLundi.isChecked) selectedDays.add("Lundi")
-            if (checkMardi.isChecked) selectedDays.add("Mardi")
-            if (checkMercredi.isChecked) selectedDays.add("Mercredi")
-            if (checkJeudi.isChecked) selectedDays.add("Jeudi")
-            if (checkVendredi.isChecked) selectedDays.add("Vendredi")
-            if (checkSamedi.isChecked) selectedDays.add("Samedi")
-            if (checkDimanche.isChecked) selectedDays.add("Dimanche")
+            if (checkLundi.isChecked) selectedDays.add(context.getString(R.string.monday))
+            if (checkMardi.isChecked) selectedDays.add(context.getString(R.string.tuesday))
+            if (checkMercredi.isChecked) selectedDays.add(context.getString(R.string.wednesday))
+            if (checkJeudi.isChecked) selectedDays.add(context.getString(R.string.thursday))
+            if (checkVendredi.isChecked) selectedDays.add(context.getString(R.string.friday))
+            if (checkSamedi.isChecked) selectedDays.add(context.getString(R.string.saturday))
+            if (checkDimanche.isChecked) selectedDays.add(context.getString(R.string.sunday))
 
             // Fermer le dialog après la sélection
             dialog.dismiss()
@@ -212,15 +212,15 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         dialog.show()
     }
 
-    private fun afficherPopUp_mensuel(){
+    private fun afficherPopUp_mensuel() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuel_perso, null)
 
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("Choisissez les dates")
+            .setTitle(context.getString(R.string.popup_title_choose_dates))
 
-        val dialog=dialogBuilder.create()
+        val dialog = dialogBuilder.create()
 
         // Référencer le DatePicker et le bouton d'ajout
         val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
@@ -240,9 +240,9 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             // Ajouter la date à la liste si elle n'est pas déjà sélectionnée
             if (!selectedDates.contains(formattedDate)) {
                 selectedDates.add(formattedDate)
-                Toast.makeText(context, "Date ajoutée : $formattedDate", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.date_added, formattedDate), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Date déjà sélectionnée", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.date_already_selected), Toast.LENGTH_SHORT).show()
             }
         }
 
