@@ -146,7 +146,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     /**
      * Fonction privée pour créer un nouveau compagnon
      */
-    private fun creerCompagnon() {
+    private fun creerCompagnon()  {
         val context = binding.root.context
         val nomCompagnon = binding.inputNomCompagnon.text.toString().trim()
         val nomEspece = binding.EspeceSelect.selectedItem.toString()

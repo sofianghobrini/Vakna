@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.content.Context
 import android.content.Intent
+import android.text.InputFilter
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -218,7 +219,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val editText = EditText(context).apply {
             hint = context.getString(R.string.new_name_hint)
             inputType = android.text.InputType.TYPE_CLASS_TEXT
-            filters = arrayOf(android.text.InputFilter.LengthFilter(50))
+            filters = arrayOf(android.text.InputFilter.LengthFilter(16))
             compagnon.let {
                 setText(it.nom)  // Pré-remplir avec le nom actuel du compagnon
             }
