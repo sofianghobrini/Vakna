@@ -63,14 +63,14 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         val jouetsItems = listOf(jouet1, jouet2, jouet3, jouet4, jouet5)
 
-        val kebab    = Objet(10, "Kebab"   , 8 , 10, TypeObjet.NOURRITURE, "Le cholestérole est mon meilleur ami", "file:///android_asset/nourriture/nourriture_kebab.png")
-        val pizza    = Objet(11, "Pizza"   , 12, 15, TypeObjet.NOURRITURE, "Un pizza dé la mama, prego.", "file:///android_asset/nourriture/nourriture_pizza.png")
-        val burger   = Objet(12, "Burger"  , 10, 8 , TypeObjet.NOURRITURE, "Can I get some burger ? With some peanut butter.", "file:///android_asset/nourriture/nourriture_burger.png")
-        val sandwich = Objet(13, "Sandwich", 7 , 5 , TypeObjet.NOURRITURE, "L'une des nourritures les plus saine de ce jeu.", "file:///android_asset/nourriture/nourriture_sandwich.png")
-        val salade   = Objet(14, "Salade"  , 6 , 4 , TypeObjet.NOURRITURE, "Sérieusement vous voulez manger du vert ?", "file:///android_asset/nourriture/nourriture_salade.png")
-        val pasta    = Objet(15, "Pasta"   , 11, 9 , TypeObjet.NOURRITURE, "Mamamia c'est la pasta dé la pizza !", "file:///android_asset/nourriture/nourriture_pasta.png")
-        val sushi    = Objet(16, "Sushi"   , 14, 13, TypeObjet.NOURRITURE, "Non on ne va faire de blague raciste ... quoique ...", "file:///android_asset/nourriture/nourriture_sushi.png")
-        val steak    = Objet(17, "Steak"   , 20, 18, TypeObjet.NOURRITURE, "De la viande à l'état pure (c'est quand même mieux que la salade)", "file:///android_asset/nourriture/nourriture_steak.png")
+        val kebab    = Objet(10, "Kebab"   , 8 , 10, TypeObjet.NOURRITURE, "Le cholestérole est mon meilleur ami", "file:///android_asset/nourritures/nourriture_kebab.png")
+        val pizza    = Objet(11, "Pizza"   , 12, 15, TypeObjet.NOURRITURE, "Un pizza dé la mama, prego.", "file:///android_asset/nourritures/nourriture_pizza.png")
+        val burger   = Objet(12, "Burger"  , 10, 8 , TypeObjet.NOURRITURE, "Can I get some burger ? With some peanut butter.", "file:///android_asset/nourritures/nourriture_plumberger.png")
+        val sandwich = Objet(13, "Sandwich", 7 , 5 , TypeObjet.NOURRITURE, "L'une des nourritures les plus saine de ce jeu.", "file:///android_asset/nourritures/nourriture_sandwich.png")
+        val salade   = Objet(14, "Salade"  , 6 , 4 , TypeObjet.NOURRITURE, "Sérieusement vous voulez manger du vert ?", "file:///android_asset/nourritures/nourriture_salade.png")
+        val pasta    = Objet(15, "Pasta"   , 11, 9 , TypeObjet.NOURRITURE, "Mamamia c'est la pasta dé la pizza !", "file:///android_asset/nourritures/nourriture_pasta.png")
+        val sushi    = Objet(16, "Sushi"   , 14, 13, TypeObjet.NOURRITURE, "Non on ne va faire de blague raciste ... quoique ...", "file:///android_asset/nourritures/nourriture_sushi.png")
+        val steak    = Objet(17, "Steak"   , 20, 18, TypeObjet.NOURRITURE, "De la viande à l'état pure (c'est quand même mieux que la salade)", "file:///android_asset/nourritures/nourriture_steak.png")
         val nourritureItems = listOf(kebab, pizza, burger, sandwich, salade, pasta, sushi, steak)
 
         val allItems = jouetsItems + nourritureItems
