@@ -146,6 +146,8 @@
     <string name="popup_title_choose_dates">Choose the dates</string>
     <string name="date_added">Date added: %1$s</string>
     <string name="date_already_selected">Date already selected</string>
+    <string name="product_cost">Cout: %1$s</string>
+    <string name="companion_species">Companion species:</string>
     <string name="message_empty_inventory_toys">You don\'t have any toys! Go to the store to buy some.</string>
     <string name="message_empty_inventory_food">You don\'t have any food! Go to the store to buy some.</string>
 </resources>
