@@ -1,15 +1,16 @@
 package com.app.vakna.modele
 
 import com.app.vakna.adapters.GridData
+import com.google.gson.annotations.SerializedName
 
 open class Objet(
-    private var id: Int,
-    private var nom: String,
-    private var prix: Int,
-    private var niveau: Int,
-    private var type: TypeObjet,
-    private var detail: String,
-    private var imageUrl: String
+    @SerializedName("id") private var id: Int,
+    @SerializedName("nom") private var nom: String,
+    @SerializedName("prix") private var prix: Int,
+    @SerializedName("niveau") private var niveau: Int,
+    @SerializedName("type") private var type: TypeObjet,
+    @SerializedName("detail") private var detail: String,
+    @SerializedName("imageUrl") private var imageUrl: String
 ) {
 
     init {
@@ -77,6 +78,10 @@ open class Objet(
     }
     fun getImageUrl(): String {
         return imageUrl
+    }
+
+    override fun toString(): String {
+        return "$id $nom ($type) : $prix pièces, niveau = $niveau, $detail, url = $imageUrl"
     }
 
 }
