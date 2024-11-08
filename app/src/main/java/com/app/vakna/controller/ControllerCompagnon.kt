@@ -45,6 +45,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
+        inventaire.ajouterPieces(500)
 
         setUpView()
 
@@ -64,16 +65,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             compagnon = gestionnaire.obtenirActif()!!
         }
 
-        // Mettre à jour l'affichage du nom et du niveau du compagnon
         compagnon.let {
             binding.dragonName.text = it.nom
-            updateLevelAndProgress(it) // Mise à jour du niveau et progression XP
+            updateLevelAndProgress(it)
         }
 
         updateRefuge(binding)
         updateHumeurCompagnon(binding, compagnon)
 
-        // Mettre à jour les progress bar
         compagnon.let {
             binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             binding.progressHumeur.progress = it.humeur
@@ -88,7 +87,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         val items = inventaire.getObjetsParType(distinctTypesList.first())
-        setupGridView(items, binding)
+        setupGridView(items, distinctTypesList.first(), binding)
 
         // Gérer la sélection d'onglets (Jouets / Nourriture)
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -101,7 +100,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 val filteredItems = inventaire.getObjetsParType(selectedType)
 
-                setupGridView(filteredItems, binding)
+                setupGridView(filteredItems, selectedType, binding)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -128,7 +127,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .load(appearancePath)
                 .into(bouton)
             val id = iteration
-            Log.e("test", "iteration:" + iteration.toString())
             bouton.setOnClickListener { view ->
                 val appearancePathNew = compagnon.apparenceDefaut()
 
@@ -136,7 +134,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     .asGif()
                     .load(appearancePathNew)
                     .into(bouton)
-                Log.e("test", "id:" + id.toString())
 
                 val newCompagnon = compagnonsSup[id]
                 compagnonsSup[id] = compagnon
@@ -159,7 +156,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
 
                 val items = inventaire.getObjetsParType(distinctTypesList.first())
-                setupGridView(items, binding)
+                setupGridView(items, distinctTypesList.first(), binding)
             }
 
             if(iteration + 1 <= 4) {
@@ -263,8 +260,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
-            var compagnons = gestionnaire.obtenirCompagnons()
-            var compagnonUpd = compagnons.first()
+            val compagnons = gestionnaire.obtenirCompagnons()
+            val compagnonUpd: Compagnon
             if (gestionnaire.obtenirActif() == null) {
                 compagnonUpd = compagnons.first()
                 gestionnaire.setActif(compagnon.id)
@@ -299,13 +296,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
          * @param items La liste d'items à afficher dans le GridView.
          */
-        fun setupGridView(items: List<ObjetObtenu>, binding: FragmentCompagnonBinding) {
+        fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
             val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(binding.root.context))
             val compagnons = gestionnaire.obtenirCompagnons()
             var compagnonGrid = gestionnaire.obtenirActif()
             if (compagnonGrid == null) {
                 compagnonGrid = compagnons.first()
             }
+
             compagnonGrid.let {
                 binding.texteHumeur.text = binding.root.context.getString(R.string.humeur_text, it.humeur)
                 binding.progressHumeur.progress = it.humeur

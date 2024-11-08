@@ -20,7 +20,7 @@ open class Objet(
     }
 
     open fun toGridData(): GridConsommableData {
-        return GridConsommableData(0, getNom(), getNiveau(), getPrix())
+        return GridConsommableData(getImageUrl(), getNom(), getNiveau(), getPrix())
     }
 
     fun getId(): Int {

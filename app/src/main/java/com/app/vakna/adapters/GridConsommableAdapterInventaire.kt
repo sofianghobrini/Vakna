@@ -18,6 +18,7 @@ import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.dao.CompagnonDAO
+import com.bumptech.glide.Glide
 
 class GridConsommableAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
@@ -37,7 +38,9 @@ class GridConsommableAdapterInventaire(
         val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val qteTextView = view.findViewById<TextView>(R.id.itemQuantite)
 
-        imageView.setImageResource(item.image)
+        Glide.with(context)
+            .load(item.image)
+            .into(imageView)
         nomTextView.text = item.nom
         niveauTextView.text = item.niveau.toString()
         qteTextView.text = "${item.qte}x"
@@ -144,7 +147,7 @@ class GridConsommableAdapterInventaire(
             val updatedItems = type?.let { it1 -> inventaire.getObjetsParType(it1) }
             items.clear()
 
-            ControllerCompagnon.setupGridView(updatedItems!!, binding)
+            ControllerCompagnon.setupGridView(updatedItems!!, type, binding)
             val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
             val compagnons = gestionnaire.obtenirCompagnons()
             var compagnon = gestionnaire.obtenirActif()
