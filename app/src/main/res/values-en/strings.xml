@@ -143,4 +143,7 @@
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
     <string name="validate">Validate</string>
+    <string name="popup_title_choose_dates">Choose the dates</string>
+    <string name="date_added">Date added: %1$s</string>
+    <string name="date_already_selected">Date already selected</string>
 </resources>
