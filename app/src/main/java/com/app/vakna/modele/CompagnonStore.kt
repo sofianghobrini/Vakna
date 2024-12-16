@@ -1,6 +1,5 @@
 package com.app.vakna.modele
 
-import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.adapters.GridData
 
 class CompagnonStore(
@@ -11,7 +10,7 @@ class CompagnonStore(
 
 ) {
 
-    open fun toGridData(): GridData {
+    fun toGridData(): GridData {
         return GridData(apparenceDefaut(), espece, prix)
     }
 

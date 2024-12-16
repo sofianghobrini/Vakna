@@ -1,14 +1,11 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import android.util.Log
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
-import kotlin.properties.Delegates
 
 class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
@@ -89,7 +86,7 @@ class GestionnaireDeTaches(context: Context) {
             val modifImportance = tache.importance.ordinal + 1
             val modifFrequence = tache.frequence.ordinal + 1
             val refuge = gestionnaireDeRefuge.getRefugeParId(idRefuge)
-            gestionnaireDeRefuge.getRefuges().forEach() {println("Tous les refuges" + it.getNom())}
+            gestionnaireDeRefuge.getRefuges().forEach {println("Tous les refuges" + it.getNom())}
             println("Nom du refuge" + refuge?.getNom())
             gestionnaireCompagnons.modifierHumeur(idCompagnon, (modifImportance * modifFrequence * 3 * refuge!!.getModifHumeur()).toInt())
             gestionnaireCompagnons.gagnerXp(idCompagnon, (modifImportance * modifFrequence * 3 * refuge.getModifXp()).toInt())
