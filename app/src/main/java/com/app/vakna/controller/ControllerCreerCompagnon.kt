@@ -17,6 +17,7 @@ import com.app.vakna.modele.CompagnonStore
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.TypeObjet
@@ -25,6 +26,7 @@ import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.ObjetDAO
 import com.app.vakna.modele.dao.RefugeDAO
 import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 /**
  * Contrôleur pour gérer la création d'un nouveau compagnon
@@ -159,6 +161,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             humeur = 50,
             xp = 0,
             espece = nomEspece,
+            personnalite =personnalite_compagnon(),
             actif = true
         )
 
@@ -177,6 +180,17 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         }
     }
 
+    fun personnalite_compagnon () : Personnalite{
+        val nbrAlea = Random.nextInt(1, 6)
+        return when(nbrAlea){
+            1->Personnalite.CALME
+            2->Personnalite.GRINCHEUX
+            3->Personnalite.GOURMAND
+            4->Personnalite.CUPIDE
+            5->Personnalite.JOUEUR
+            else->Personnalite.AVARD
+        }
+    }
 
     /**
      * Fonction privée pour affiche le visuel du campagnon

@@ -1,5 +1,6 @@
 package com.app.vakna.modele
 
+import kotlin.random.Random
 
 class Compagnon(
     var id: Int,                // Identifiant unique du compagnon
@@ -8,6 +9,7 @@ class Compagnon(
     var humeur: Int = 50,       // Niveau d'humeur (valeur par défaut = 50)
     var xp: Int = 0,            // Expérience (XP) du compagnon (par défaut = 0)
     var espece: String,         // Espèce du compagnon (par exemple, "Dragon")
+    var personnalite: Personnalite, //La personnalite du Compagon (sa personnalité est aléatoire)
     var actif: Boolean          // Indicateur si le compagnon est sélectionné
 ) {
 
@@ -51,7 +53,7 @@ class Compagnon(
 
     // Redéfinition de la méthode toString pour afficher les informations du compagnon
     override fun toString(): String {
-        return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()})"
+        return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()}), $personnalite"
     }
 
     // Méthode equals pour comparer 2 compagnons, renvoie faux s'ils sont différents par ID
