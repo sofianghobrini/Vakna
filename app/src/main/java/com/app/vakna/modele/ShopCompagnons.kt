@@ -6,6 +6,7 @@ import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO
+import kotlin.random.Random
 
 class ShopCompagnons (
     private val context: Context
@@ -67,6 +68,7 @@ class ShopCompagnons (
             humeur = 50,
             xp = 0,
             espece = compagnonStore.espece,
+            personnalite = personnalite_compagnon(),
             actif = false
         )
 
@@ -84,4 +86,15 @@ class ShopCompagnons (
             return list
         }
     }
-}
+
+    fun personnalite_compagnon () : Personnalite{
+        val nbrAlea = Random.nextInt(1, 6)
+        return when(nbrAlea){
+            1->Personnalite.CALME
+            2->Personnalite.GRINCHEUX
+            3->Personnalite.GOURMAND
+            4->Personnalite.CUPIDE
+            5->Personnalite.JOUEUR
+            else->Personnalite.AVARD
+        }
+    }
