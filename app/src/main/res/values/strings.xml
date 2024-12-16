@@ -114,7 +114,7 @@
     <string name="settings">Paramètres</string>
     <string name="choose_language">Choisir la langue</string>
     <string name="select_language">Sélectionnez la langue pour l\'interface de l\'application.</string>
-    <string name="english">Anglais</string>
+    <string name="english">English</string>
     <string name="french">Français</string>
     <string name="theme">Thème</string>
     <string name="theme_description">Alternez entre les thèmes clair et sombre pour une meilleure expérience visuelle.</string>
@@ -152,4 +152,8 @@
     <string name="date_already_selected">Date déjà sélectionnée</string>
     <string name="product_cost">Cout: %1$s</string>
     <string name="companion_species">Espece du compagnon:</string>
+    <string name="tab_toys">Jouet</string>
+    <string name="tab_food">Nourriture</string>
+    <string name="tab_companions">Compagnons</string>
+
 </resources>

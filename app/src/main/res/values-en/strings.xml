@@ -111,7 +111,7 @@
     <string name="choose_language">Choose Language</string>
     <string name="select_language">Select the language for the app interface.</string>
     <string name="english">English</string>
-    <string name="french">French</string>
+    <string name="french">Français</string>
     <string name="theme">Theme</string>
     <string name="theme_description">Switch between light and dark themes for a better viewing experience.</string>
     <string name="dark_mode">Dark Mode</string>
@@ -150,4 +150,7 @@
     <string name="companion_species">Companion species:</string>
     <string name="message_empty_inventory_toys">You don\'t have any toys! Go to the store to buy some.</string>
     <string name="message_empty_inventory_food">You don\'t have any food! Go to the store to buy some.</string>
+    <string name="tab_toys">Toys</string>
+    <string name="tab_food">Food</string>
+    <string name="tab_companions">Companions</string>
 </resources>

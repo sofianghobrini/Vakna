@@ -3,6 +3,8 @@ package com.app.vakna.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -42,27 +44,40 @@ class ListAdapterProgress(
         holder.listName.text = listData.name
         holder.listType.text = listData.type
 
+        val grayScaleMatrix = ColorMatrix().apply { setSaturation(0f) }
+        val grayScaleFilter = ColorMatrixColorFilter(grayScaleMatrix)
+
         when (listData.importance) {
             "ELEVEE" -> {
                 holder.flameGreen.alpha = 0.3f
+                holder.flameGreen.colorFilter = grayScaleFilter
                 holder.flameOrange.alpha = 0.3f
+                holder.flameOrange.colorFilter = grayScaleFilter
                 holder.flameRed.alpha = 1.0f  // Affiche la flamme rouge
+
             }
             "MOYENNE" -> {
                 holder.flameGreen.alpha = 0.3f
+                holder.flameGreen.colorFilter = grayScaleFilter
                 holder.flameOrange.alpha = 1.0f  // Affiche la flamme orange
                 holder.flameRed.alpha = 0.3f
+                holder.flameRed.colorFilter = grayScaleFilter
             }
             "FAIBLE" -> {
                 holder.flameGreen.alpha = 1.0f  // Affiche la flamme verte
                 holder.flameOrange.alpha = 0.3f
+                holder.flameOrange.colorFilter = grayScaleFilter
                 holder.flameRed.alpha = 0.3f
+                holder.flameRed.colorFilter = grayScaleFilter
             }
             else -> {
-                // Si `importance` n'est pas défini, toutes les flammes sont en transparence
+                // Si `importance` n'est pas défini, toutes les flammes sont en transparence et noir et blanc
                 holder.flameGreen.alpha = 0.3f
+                holder.flameGreen.colorFilter = grayScaleFilter
                 holder.flameOrange.alpha = 0.3f
+                holder.flameOrange.colorFilter = grayScaleFilter
                 holder.flameRed.alpha = 0.3f
+                holder.flameRed.colorFilter = grayScaleFilter
             }
         }
 
