@@ -12,6 +12,9 @@ import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.InventaireDAO
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ControllerMagasin(private val binding: FragmentMagasinBinding) {
@@ -34,6 +37,16 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         binding.switchMagasinConsom.setOnClickListener {
             setupShopTabs()
+        }
+
+        binding.buttonRefresh.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val objetsShop = shop.getObjetsEnLigne()
+
+                CoroutineScope((Dispatchers.Main)).launch {
+                    setupGridView(objetsShop)
+                }
+            }
         }
 
     }

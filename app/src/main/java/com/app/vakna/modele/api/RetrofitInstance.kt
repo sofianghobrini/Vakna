@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "http://localhost/vakna_api/"
+    private const val BASE_URL = "https://vakna.boulbicorp.fr/"
 
     private val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Objet::class.java, JsonToObjet())      // Votre Serializer

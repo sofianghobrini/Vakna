@@ -1,6 +1,11 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.util.Log
+import com.app.vakna.adapters.GridData
+import com.app.vakna.modele.api.RetrofitInstance
+import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
@@ -30,6 +35,15 @@ class Shop(
     // Méthode pour obtenir tous les objets
     fun getObjets(): List<Objet> {
         return objetMagasin
+    }
+
+    suspend fun getObjetsEnLigne(): List<Objet> {
+        try {
+            return RetrofitInstance.apiService.obtenirObjets()
+        } catch (e: Exception) {
+            Log.d("test", "Erreur : $e")
+            return emptyList()
+        }
     }
 
     // Méthode pour acheter une certaine quantité d'un objet
