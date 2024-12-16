@@ -50,14 +50,18 @@ class Compagnon(
     }
 
     fun personnalite_compagnon () : Personnalite{
-        val nbrAlea = Random.nextInt(1, 6)
+        val nbrAlea = Random.nextInt(1, 10)
         return when(nbrAlea){
             1->Personnalite.CALME
             2->Personnalite.GRINCHEUX
             3->Personnalite.GOURMAND
             4->Personnalite.CUPIDE
             5->Personnalite.JOUEUR
-            else->Personnalite.AVARD
+            6->Personnalite.GENTIL
+            7->Personnalite.RACISTE
+            8->Personnalite.JOYEUX
+            9->Personnalite.RADIN
+            else->Personnalite.AVARE
         }
     }
 
