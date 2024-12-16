@@ -98,3 +98,4 @@ class ShopCompagnons (
             else->Personnalite.AVARD
         }
     }
+}
