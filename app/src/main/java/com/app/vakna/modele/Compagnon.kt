@@ -58,7 +58,7 @@ class Compagnon(
             4->Personnalite.CUPIDE
             5->Personnalite.JOUEUR
             6->Personnalite.GENTIL
-            7->Personnalite.RACISTE
+            7->Personnalite.TRAVAILLEUR
             8->Personnalite.JOYEUX
             9->Personnalite.RADIN
             else->Personnalite.AVARE
