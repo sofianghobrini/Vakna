@@ -15,6 +15,17 @@ class ShopCompagnons (
     private var compagnonMagasin = mutableListOf<CompagnonStore>()
     private val inventaire = Inventaire(context)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
+    // Créer une instance temporaire pour appeler la méthode personnalite_compagnon
+    private val compagnonTemporaire = Compagnon(
+        id = 0,
+        nom = "Tp",
+        faim = 50,
+        humeur = 50,
+        xp = 0,
+        espece = "Dragon",
+        personnalite = Personnalite.CALME, // Initialisation temporaire
+        actif = true
+    )
 
     init {
         compagnonStoreDAO.obtenirTous().forEach { compagnonMagasin.add(it) }
@@ -68,7 +79,7 @@ class ShopCompagnons (
             humeur = 50,
             xp = 0,
             espece = compagnonStore.espece,
-            personnalite = personnalite_compagnon(),
+            personnalite = compagnonTemporaire.personnalite_compagnon(),
             actif = false
         )
 
@@ -84,18 +95,6 @@ class ShopCompagnons (
                 list.add(listData)
             }
             return list
-        }
-    }
-
-    fun personnalite_compagnon () : Personnalite{
-        val nbrAlea = Random.nextInt(1, 6)
-        return when(nbrAlea){
-            1->Personnalite.CALME
-            2->Personnalite.GRINCHEUX
-            3->Personnalite.GOURMAND
-            4->Personnalite.CUPIDE
-            5->Personnalite.JOUEUR
-            else->Personnalite.AVARD
         }
     }
 }

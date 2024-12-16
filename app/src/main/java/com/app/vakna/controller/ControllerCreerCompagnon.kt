@@ -41,6 +41,17 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var shopCompagnons = ShopCompagnons(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
+    // Créer une instance temporaire pour appeler la méthode personnalite_compagnon
+    private val compagnonTemporaire = Compagnon(
+        id = 0,
+        nom = "Tp",
+        faim = 50,
+        humeur = 50,
+        xp = 0,
+        espece = "Dragon",
+        personnalite = Personnalite.CALME, // Initialisation temporaire
+        actif = true
+    )
     init {
 
         val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
@@ -161,7 +172,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             humeur = 50,
             xp = 0,
             espece = nomEspece,
-            personnalite =personnalite_compagnon(),
+            personnalite =compagnonTemporaire.personnalite_compagnon(),
             actif = true
         )
 
@@ -180,17 +191,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         }
     }
 
-    fun personnalite_compagnon () : Personnalite{
-        val nbrAlea = Random.nextInt(1, 6)
-        return when(nbrAlea){
-            1->Personnalite.CALME
-            2->Personnalite.GRINCHEUX
-            3->Personnalite.GOURMAND
-            4->Personnalite.CUPIDE
-            5->Personnalite.JOUEUR
-            else->Personnalite.AVARD
-        }
-    }
+
 
     /**
      * Fonction privée pour affiche le visuel du campagnon

@@ -51,6 +51,18 @@ class Compagnon(
         return humeurImage
     }
 
+    fun personnalite_compagnon () : Personnalite{
+        val nbrAlea = Random.nextInt(1, 6)
+        return when(nbrAlea){
+            1->Personnalite.CALME
+            2->Personnalite.GRINCHEUX
+            3->Personnalite.GOURMAND
+            4->Personnalite.CUPIDE
+            5->Personnalite.JOUEUR
+            else->Personnalite.AVARD
+        }
+    }
+
     // Redéfinition de la méthode toString pour afficher les informations du compagnon
     override fun toString(): String {
         return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()}), $personnalite"
