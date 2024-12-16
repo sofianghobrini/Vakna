@@ -1,10 +1,13 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.util.Log
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.properties.Delegates
 
 class GestionnaireDeTaches(context: Context) {
@@ -51,6 +54,7 @@ class GestionnaireDeTaches(context: Context) {
             tache.importance = nouvelleTache.importance
             tache.type = nouvelleTache.type
             tache.derniereValidation = nouvelleTache.derniereValidation
+            tache.prochaineValidation = nouvelleTache.prochaineValidation
             tache.estTerminee = nouvelleTache.estTerminee
             return tacheDAO.modifier(nom, nouvelleTache)
         } else {
@@ -113,28 +117,27 @@ class GestionnaireDeTaches(context: Context) {
     }
 
     fun verifierTacheNonAccomplies(): Boolean {
-        val dateActuelle = LocalDate.now()
+        val dateActuelle = LocalDateTime.now()
         tacheDAO.obtenirTous().forEach {
             if (!it.estArchivee) {
                 when (it.frequence) {
                     Frequence.QUOTIDIENNE -> {
-                        if (it.derniereValidation!!.plusDays(1).isBefore(dateActuelle) || it.derniereValidation!!.plusDays(1).isEqual(dateActuelle)) {
+                        while(dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(it.prochaineValidation)) {
                             when (it.estTerminee) {
                                 true -> {
                                     it.estTerminee = false
-                                    it.derniereValidation = it.derniereValidation!!.plusDays(1)
                                     modifierTache(it.nom, it)
                                 }
                                 false -> {
-                                    it.derniereValidation = it.derniereValidation!!.plusDays(1)
                                     gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
                                 }
                             }
+                            it.prochaineValidation = it.prochaineValidation!!.plusDays(1)
+                            modifierTache(it.nom, it)
                         }
                     }
-
                     Frequence.HEBDOMADAIRE -> {
-                        if (it.derniereValidation!!.plusWeeks(1).isBefore(dateActuelle) || it.derniereValidation!!.plusWeeks(1).isEqual(dateActuelle)) {
+                        while(dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(it.prochaineValidation)) {
                             when (it.estTerminee) {
                                 true -> {
                                     it.estTerminee = false
@@ -146,11 +149,12 @@ class GestionnaireDeTaches(context: Context) {
                                     gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
                                 }
                             }
+                            it.prochaineValidation = it.prochaineValidation!!.plusWeeks(1)
+                            modifierTache(it.nom, it)
                         }
                     }
-
                     Frequence.MENSUELLE -> {
-                        if (it.derniereValidation!!.plusMonths(1).isBefore(dateActuelle) || it.derniereValidation!!.plusMonths(1).isEqual(dateActuelle)) {
+                        while(dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(it.prochaineValidation)) {
                             when (it.estTerminee) {
                                 true -> {
                                     it.estTerminee = false
@@ -162,6 +166,8 @@ class GestionnaireDeTaches(context: Context) {
                                     gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
                                 }
                             }
+                            it.prochaineValidation = it.prochaineValidation!!.plusMonths(1)
+                            modifierTache(it.nom, it)
                         }
                     }
                 }

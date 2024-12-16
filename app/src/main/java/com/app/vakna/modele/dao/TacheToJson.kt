@@ -23,6 +23,7 @@ class TacheToJson : JsonSerializer<Tache> {
         objetJson.addProperty("estTerminee", src.estTerminee)
         objetJson.addProperty("estArchivee", src.estArchivee)
         objetJson.addProperty("derniereValidation", src.derniereValidation.toString())
+        objetJson.addProperty("prochaineValidation", src.prochaineValidation.toString())
 
         return objetJson
     }

@@ -1,6 +1,5 @@
 package com.app.vakna.controller
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.view.LayoutInflater
@@ -151,9 +150,20 @@ class ControllerModifierTache(
         val importanceTache = recupererImportanceTache()
         val frequenceTache = recupererFrequenceTache()
         val derniereValidation = LocalDate.now()
+        val prochaineValidation = when(recupererFrequenceTache()) {
+            Frequence.QUOTIDIENNE -> {
+                LocalDate.now().plusDays(1).atStartOfDay()
+            }
+            Frequence.HEBDOMADAIRE -> {
+                LocalDate.now().plusWeeks(1).atStartOfDay()
+            }
+            Frequence.MENSUELLE -> {
+                LocalDate.now().plusMonths(1).atStartOfDay()
+            }
+        }
         val estTermine = tacheOriginel.estTerminee
 
-        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, estTermine)
+        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, prochaineValidation, estTermine)
         val gestionnaireDeTaches = GestionnaireDeTaches(context)
 
         val resultat = gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
