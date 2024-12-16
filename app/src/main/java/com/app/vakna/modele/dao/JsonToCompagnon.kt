@@ -1,6 +1,8 @@
 package com.app.vakna.modele.dao
 
 import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.Frequence
+import com.app.vakna.modele.Personnalite
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -20,9 +22,10 @@ class JsonToCompagnon : JsonDeserializer<Compagnon> {
         val faim = objetJson.get("faim").asInt
         val humeur = objetJson.get("humeur").asInt
         val xp = objetJson.get("xp").asInt
+        val personnalite = Personnalite.valueOf(objetJson.get("personnalite").asString)
         val espece = objetJson.get("espece").asString
         val actif = objetJson.get("actif").asBoolean
 
-        return Compagnon(id, nom, faim, humeur, xp, espece, actif)
+        return Compagnon(id, nom, faim, humeur, xp, espece, personnalite, actif)
     }
 }

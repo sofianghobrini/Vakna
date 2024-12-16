@@ -17,6 +17,7 @@ import com.app.vakna.modele.CompagnonStore
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.TypeObjet
@@ -25,6 +26,7 @@ import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.ObjetDAO
 import com.app.vakna.modele.dao.RefugeDAO
 import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 /**
  * Contrôleur pour gérer la création d'un nouveau compagnon
@@ -39,8 +41,18 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var shopCompagnons = ShopCompagnons(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
+    // Créer une instance temporaire pour appeler la méthode personnalite_compagnon
+    private val compagnonTemporaire = Compagnon(
+        id = 0,
+        nom = "Tp",
+        faim = 50,
+        humeur = 50,
+        xp = 0,
+        espece = "Dragon",
+        personnalite = Personnalite.CALME, // Initialisation temporaire
+        actif = true
+    )
     init {
-
         val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
         val lapin = CompagnonStore(2, "Lapin", "Lapin", 450)
         val chat = CompagnonStore(3, "Chat", "Chat", 500)
@@ -55,7 +67,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         val especeList = listOf("Dragon", "Lapin", "Chat", "Licorne", "Serpent", "Ecureuil")
 
-        val jouet1  = Objet(0, "Bateau" , 15, 5 , TypeObjet.JOUET, "Attention à ne pas imiter le Titanic ...", "file:///android_asset/jouets/jouet_bateau.png")
+        val jouet1  = Objet(0, "Bateau" , 15 , 5 , TypeObjet.JOUET, "Attention à ne pas imiter le Titanic ...", "file:///android_asset/jouets/jouet_bateau.png")
         val jouet2  = Objet(1, "Dinosaure" , 20, 6 , TypeObjet.JOUET, "Grrr ! Je suis le roi méchants !", "file:///android_asset/jouets/jouet_dinosaure.png")
         val jouet3  = Objet(2, "Ourson" , 25, 7 , TypeObjet.JOUET, "Câlins gratuits !", "file:///android_asset/jouets/jouet_ourson.png")
         val jouet4  = Objet(3, "Robot" , 30, 8 , TypeObjet.JOUET, "Bip bip bop skibidi bop", "file:///android_asset/jouets/jouet_robot.png")
@@ -159,6 +171,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             humeur = 50,
             xp = 0,
             espece = nomEspece,
+            personnalite =compagnonTemporaire.personnalite_compagnon(),
             actif = true
         )
 
@@ -176,6 +189,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             dernierId -= 1
         }
     }
+
 
 
     /**

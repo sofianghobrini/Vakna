@@ -44,7 +44,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     }
 
     fun obtenirActif(): Compagnon? {
-        return obtenirCompagnons().find { it.actif == true }
+        return obtenirCompagnons().find { it.actif }
     }
 
     fun modifierCompagnon(id: Int, nouveauCompagnon: Compagnon): Boolean {
@@ -55,6 +55,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
             compagnon.humeur = nouveauCompagnon.humeur
             compagnon.xp = nouveauCompagnon.xp
             compagnon.espece = nouveauCompagnon.espece
+            compagnon.personnalite = nouveauCompagnon.personnalite
 
             return dao.modifier(id, nouveauCompagnon)
         } else {
@@ -94,7 +95,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     // Méthode pour ajouter de l'expérience (XP) au compagnon
     fun gagnerXp(id: Int, montant: Int) {
         val compagnon = setDeCompagnons.find { it.id == id }?: return
-        compagnon.xp += montant
+        val facteurXp = compagnon.personnalite.facteurXp
+        compagnon.xp += (montant * facteurXp).toInt()
         dao.modifier(id, compagnon)
     }
 
@@ -112,7 +114,8 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     }
     
     fun baisserNivFaim(id: Int, lastLaunch: Long?) {
-        setDeCompagnons.find { it.id == id }?: return
+        val compagnon = setDeCompagnons.find { it.id == id } ?: return
+        val facteurFaim = compagnon.personnalite.facteurFaim // Récupérer le facteur faim
         if(lastLaunch != null) {
             val currentTime = System.currentTimeMillis()
             val elapsedTime = currentTime - lastLaunch
@@ -126,14 +129,15 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
             override fun run() {
                 setDeCompagnons.removeAll {true}
                 dao.obtenirTous().forEach { setDeCompagnons.add(it) }
-                modifierFaim(id, -1)
+                modifierFaim(id, (-1 * facteurFaim).toInt())
                 handler.postDelayed(this, intervalleFaim)
             }
         }
         handler.postDelayed(faimRunnable, intervalleFaim)
     }
     fun baisserNivHumeur(id: Int, lastLaunch: Long?){
-        setDeCompagnons.find { it.id == id } ?: return
+        val compagnon = setDeCompagnons.find { it.id == id } ?: return
+        val facteurHumeur = compagnon.personnalite.facteurHumeur // Récupérer le facteur humeur
 
         if(lastLaunch != null) {
             val currentTime = System.currentTimeMillis()
@@ -143,15 +147,18 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
             pointsToReduce = if(pointsToReduce > 100) 100 else pointsToReduce
             modifierHumeur(id, -pointsToReduce)
         }
-
         val bonheurRunnable = object : Runnable {
             override fun run() {
                 setDeCompagnons.removeAll {true}
                 dao.obtenirTous().forEach { setDeCompagnons.add(it) }
-                modifierHumeur(id, -1)
+                modifierHumeur(id, (-1 * facteurHumeur).toInt())
                 handler.postDelayed(this, intervalleBonheur)
             }
         }
         handler.postDelayed(bonheurRunnable, intervalleBonheur)
+    }
+
+    fun obtenirFacteurPersonnalite(){
+
     }
 }
