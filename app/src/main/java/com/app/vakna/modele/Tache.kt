@@ -2,6 +2,7 @@ package com.app.vakna.modele
 
 import com.app.vakna.adapters.ListData
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class Tache(
     var nom: String,
@@ -9,6 +10,7 @@ class Tache(
     var importance: Importance,
     var type: TypeTache,
     var derniereValidation: LocalDate? = null,
+    var prochaineValidation: LocalDateTime? = null,
     var estTerminee: Boolean = false,
     var estArchivee: Boolean = false
 ) {

@@ -30,9 +30,7 @@ class Compagnon(
         var humeurImage = "file:///android_asset/compagnons/"
 
         humeurImage += espece.lowercase() + "/" + espece.lowercase() + "_"
-
-        var humeurComp = 0
-        humeurComp = if (humeur < faim) {
+        val humeurComp: Int = if (humeur < faim) {
             humeur
         } else {
             faim

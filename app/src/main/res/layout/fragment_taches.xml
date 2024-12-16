@@ -40,16 +40,6 @@
                     android:textColor="@color/black"
                     android:textSize="30sp" />
 
-                <TextView
-                    android:id="@+id/texteTitreGoProjets"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/title_projects"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-
             </LinearLayout>
 
             <TextView
@@ -57,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="@string/daily_tasks"
+                android:text="Journalier"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -169,16 +159,15 @@
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
-        android:layout_width="202dp"
-        android:layout_height="77dp"
+        android:layout_width="137dp"
+        android:layout_height="80dp"
         android:layout_margin="16dp"
         android:background="@drawable/floater_border"
         android:elevation="8dp"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
             android:id="@+id/boutonAjouterTache"
@@ -200,17 +189,6 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/gerer_icon"
-            tools:ignore="ContentDescription" />
-
-        <ImageButton
-            android:id="@+id/boutonSettings"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center|end"
-            android:layout_margin="2dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/settings_icon"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 

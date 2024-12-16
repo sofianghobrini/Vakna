@@ -2,7 +2,6 @@ package com.app.vakna.modele
 
 import android.content.Context
 import android.widget.Toast
-import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO

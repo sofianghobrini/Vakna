@@ -9,6 +9,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 /** Permet de convertir une entrée JSON en objet Tache */
 class JsonToTache : JsonDeserializer<Tache> {
@@ -24,9 +25,10 @@ class JsonToTache : JsonDeserializer<Tache> {
         val importance = Importance.valueOf(objetJson.get("importance").asString)
         val type = TypeTache.valueOf(objetJson.get("type").asString)
         val derniereValidation = LocalDate.parse(objetJson.get("derniereValidation").asString)
+        val prochaineValidation = LocalDateTime.parse(objetJson.get("prochaineValidation").asString)
         val estTerminee = objetJson.get("estTerminee").asBoolean
         val estArchivee = objetJson.get("estArchivee").asBoolean
 
-        return Tache(nom, frequence, importance, type, derniereValidation, estTerminee, estArchivee)
+        return Tache(nom, frequence, importance, type, derniereValidation, prochaineValidation, estTerminee, estArchivee)
     }
 }
