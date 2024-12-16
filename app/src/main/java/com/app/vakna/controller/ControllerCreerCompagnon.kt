@@ -53,7 +53,6 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         actif = true
     )
     init {
-
         val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
         val lapin = CompagnonStore(2, "Lapin", "Lapin", 450)
         val chat = CompagnonStore(3, "Chat", "Chat", 500)
