@@ -297,8 +297,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val fichierApparence = compagnonUpd.apparence()
             println(fichierApparence)
 
-
-            // Charger et afficher un GIF via Glide
             Glide.with(context)
                 .asGif()
                 .load(fichierApparence)

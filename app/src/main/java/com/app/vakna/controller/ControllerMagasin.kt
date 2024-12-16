@@ -3,11 +3,16 @@ package com.app.vakna.controller
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridCompagnonsAdapter
+import com.app.vakna.adapters.GridRefugesAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.CompagnonStore
+import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.Refuge
+import com.app.vakna.modele.RefugeStore
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.ShopCompagnons
+import com.app.vakna.modele.ShopRefuge
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.InventaireDAO
@@ -19,8 +24,10 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private val context = binding.root.context
     private val inventaireDAO = InventaireDAO(context)
     private val shopCompagnons = ShopCompagnons(context)
+    private val shopRefuge = ShopRefuge(context)
     private val shop = Shop(context)
     private val listCompagnons = shopCompagnons.getCompagnons()
+    private val listRefugesStore = shopRefuge.getRefugesStore().toList()
 
     init {
 
@@ -86,15 +93,34 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private fun setupCompagnonTab() {
         binding.tabLayout.removeAllTabs()
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_companions))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Refuges"))
 
         setupGridViewCompagnons(listCompagnons)
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                val selectedTypeName = tab?.text.toString()
+
+                when (selectedTypeName) {
+                    context.getString(R.string.tab_companions) -> {
+                        setupGridViewCompagnons(listCompagnons)
+                    }
+
+//                    "Refuges" -> {
+//                        setupGridViewRefuges(listRefugesStore)
+//                    }
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     private fun getTabTitle(type: TypeObjet): String {
         return when (type) {
             TypeObjet.JOUET -> context.getString(R.string.tab_toys)
             TypeObjet.NOURRITURE -> context.getString(R.string.tab_food)
-            else -> type.name
         }
     }
 
@@ -114,6 +140,14 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         val adapter = GridCompagnonsAdapter(context, gridCompagnons)
         binding.gridViewItems.adapter = adapter
     }
+
+//    private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
+//        val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
+//
+//        val gridRefuge = ShopRefuge.setToGridRefugeDataArray(sortedRefuge)
+//        val adapter = GridRefugesAdapter(context, gridRefuge)
+//        binding.gridViewItems.adapter = adapter
+//    }
 
     private fun afficherNombreDeCoins() {
         val nombreDeCoins = inventaireDAO.obtenirPieces()
