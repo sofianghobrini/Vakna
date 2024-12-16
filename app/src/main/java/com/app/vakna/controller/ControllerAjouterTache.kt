@@ -164,7 +164,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             derniereValidation = LocalDate.now(),
             prochaineValidation = when(recupererFrequenceTache()) {
                 Frequence.QUOTIDIENNE -> {
-                    LocalDateTime.now()
+                    LocalDate.now().plusDays(1).atStartOfDay()
                 }
                 Frequence.HEBDOMADAIRE -> {
                     LocalDate.now().plusWeeks(1).atStartOfDay()
