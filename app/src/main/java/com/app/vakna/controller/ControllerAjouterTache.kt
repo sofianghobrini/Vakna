@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.DatePicker
-import android.widget.RadioGroup
 import android.widget.Toast
 import com.app.vakna.AjouterActivity
 import com.app.vakna.MainActivity
@@ -16,6 +15,7 @@ import com.app.vakna.R
 import com.app.vakna.databinding.ActivityAjouterBinding
 import com.app.vakna.modele.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 /**
  * Contrôleur pour la gestion de l'ajout de tâches.
@@ -162,6 +162,17 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             importance = recupererImportanceTache(),
             type = recupererTypeTache(),
             derniereValidation = LocalDate.now(),
+            prochaineValidation = when(recupererFrequenceTache()) {
+                Frequence.QUOTIDIENNE -> {
+                    LocalDateTime.now()
+                }
+                Frequence.HEBDOMADAIRE -> {
+                    LocalDate.now().plusWeeks(1).atStartOfDay()
+                }
+                Frequence.MENSUELLE -> {
+                    LocalDate.now().plusMonths(1).atStartOfDay()
+                }
+            },
             estTerminee = false
         )
 
