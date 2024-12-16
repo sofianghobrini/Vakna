@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.AjouterActivity
 import com.app.vakna.GererActivity
 import com.app.vakna.MainActivity
-import com.app.vakna.ProjetsActivity
 import com.app.vakna.R
 import com.app.vakna.SettingsActivity
 import com.app.vakna.adapters.ListAdapterProgress

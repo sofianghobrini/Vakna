@@ -190,6 +190,16 @@
             android:scaleType="fitCenter"
             android:src="@drawable/gerer_icon"
             tools:ignore="ContentDescription" />
+        <ImageButton
+            android:id="@+id/boutonSettings"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center|end"
+            android:layout_margin="2dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/settings_icon"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
 

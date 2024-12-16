@@ -209,6 +209,7 @@
         app:tabBackground="?android:attr/textColorPrimaryInverse"/>
 
     <!-- GridView for displaying items -->
+
     <GridView
         android:id="@+id/grid_view_items"
         android:layout_width="0dp"
@@ -223,6 +224,8 @@
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+    </GridView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
