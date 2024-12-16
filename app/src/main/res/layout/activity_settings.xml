@@ -57,15 +57,19 @@
                     android:layout_height="wrap_content"
                     android:text="@string/english"
                     android:buttonTint="@color/gray"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_flag_uk"
+                    android:drawablePadding="8dp" />
 
                 <RadioButton
                     android:id="@+id/radioFrench"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="@string/french"
                     android:buttonTint="@color/gray"
+                    android:drawableStart="@drawable/ic_flag_france"
+                    android:drawablePadding="8dp"
+                    android:text="@string/french"
                     android:textColor="@color/black" />
             </RadioGroup>
         </LinearLayout>

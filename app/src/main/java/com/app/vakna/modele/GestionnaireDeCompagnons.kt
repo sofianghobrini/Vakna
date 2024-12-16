@@ -24,6 +24,29 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         return dao.inserer(compagnon)
     }
 
+    fun setActif(id: Int) {
+        val compagnonOld = obtenirActif()!!
+        compagnonOld.actif = false
+        val compagnonNew = obtenirCompagnon(id)!!
+        compagnonNew.actif = true
+        dao.modifier(compagnonOld.id, compagnonOld)
+        dao.modifier(id, compagnonNew)
+    }
+
+    fun abandonnerCompagnon(compagnon: Compagnon): Int{
+        if(!setDeCompagnons.contains(compagnon)){
+            throw IllegalArgumentException("Le compagnon n'existe pas")
+        }
+        val pieces = compagnon.niveau()*100
+        setDeCompagnons.remove(compagnon)
+        dao.supprimer(compagnon.id)
+        return pieces
+    }
+
+    fun obtenirActif(): Compagnon? {
+        return obtenirCompagnons().find { it.actif == true }
+    }
+
     fun modifierCompagnon(id: Int, nouveauCompagnon: Compagnon): Boolean {
         val compagnon = setDeCompagnons.find { it.id == id }
         if (compagnon != null) {

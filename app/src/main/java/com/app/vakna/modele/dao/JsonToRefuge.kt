@@ -17,10 +17,10 @@ class JsonToRefuge : JsonDeserializer<Refuge> {
 
         val id = refugeJson.get("id").asInt
         val nom = refugeJson.get("nom").asString
-        val modifFaim = refugeJson.get("modifFaim").asInt
-        val modifHumeur = refugeJson.get("modifHumeur").asInt
-        val modifXp = refugeJson.get("modifXp").asInt
-        val modifPieces = refugeJson.get("modifPieces").asInt
+        val modifFaim = refugeJson.get("modifFaim").asFloat
+        val modifHumeur = refugeJson.get("modifHumeur").asFloat
+        val modifXp = refugeJson.get("modifXp").asFloat
+        val modifPieces = refugeJson.get("modifPieces").asFloat
 
         return Refuge(id, nom, modifFaim, modifHumeur, modifXp, modifPieces)
     }

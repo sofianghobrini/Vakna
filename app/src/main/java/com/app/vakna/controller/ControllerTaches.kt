@@ -10,6 +10,7 @@ import com.app.vakna.GererActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.ProjetsActivity
 import com.app.vakna.R
+import com.app.vakna.SettingsActivity
 import com.app.vakna.adapters.ListAdapterProgress
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
@@ -42,6 +43,14 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         binding.boutonGererTache.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, GererActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
+
+        // Bouton pour accéder à paramètres
+        binding.boutonSettings.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, SettingsActivity::class.java)
                 context.startActivity(intent)
             }
         }
@@ -98,7 +107,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
      * Méthode pour ajouter des séparateurs dans les RecyclerViews
      * @param listeTaches : RecyclerView - Le RecyclerView auquel ajouter les séparateurs
      */
-    private fun addDividers(listeTaches: RecyclerView) {
+    private fun addDividers(listeTaches: RecyclerView){
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listeTaches.layoutManager = layoutManager
 

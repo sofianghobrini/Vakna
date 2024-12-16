@@ -5,13 +5,14 @@ import com.app.vakna.modele.dao.RefugeDAO
 
 class GestionnaireDeRefuge(contexte: Context) {
     private var refugeDAO = RefugeDAO(contexte)
-    private var refuges = mutableListOf<Refuge>()
+    private var refuges = mutableSetOf<Refuge>()
 
     init {
         refugeDAO.obtenirTous().forEach { refuges.add(it) }
     }
 
-    fun getRefuges(): List<Refuge> {
+    fun getRefuges(): Set<Refuge> {
+        refugeDAO.obtenirTous().forEach { refuges.add(it) }
         return refuges
     }
 
@@ -23,9 +24,13 @@ class GestionnaireDeRefuge(contexte: Context) {
         return refuges.find { it.getId() == id }
     }
 
-    fun ajouterRefuge(refuge: Refuge) {
-        assert(getRefugeParId(refuge.getId()) == null) { "Il ne peut y avoir deux fois le meme refuge" }
-        refuges.add(refuge)
-        refugeDAO.inserer(refuge)
+    fun ajouterRefuge(refuge: Refuge): Boolean {
+        if (refuge.getNom().isBlank()) {
+            throw IllegalArgumentException("Le nom du refuge ne peut pas être vide")
+        }
+        if (!refuges.add(refuge)) {
+            throw IllegalArgumentException("Un Refuge avec le nom '${refuge.getNom()}' existe déjà")
+        }
+        return refugeDAO.inserer(refuge)
     }
 }

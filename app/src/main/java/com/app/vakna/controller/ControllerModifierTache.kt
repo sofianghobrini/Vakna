@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.Spinner
@@ -34,7 +35,7 @@ class ControllerModifierTache(
     private val context = binding.root.context
     private var tacheOriginel: Tache
 
-    init {
+    init{
         val taskName = intent.getStringExtra("NOM_TACHE") ?: context.getString(R.string.task_unknown)
 
         val gestionnaire = GestionnaireDeTaches(binding.root.context)
@@ -66,10 +67,12 @@ class ControllerModifierTache(
                 context.finish()
             }
         }
+
         val radioGroup = binding.contenuInclude.radioFrequenceTache
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == R.id.radioHebdomadaire) {
-                afficherPopUp()
+        radioGroup.setOnCheckedChangeListener{ _, checkedId ->
+            when (checkedId) {
+                R.id.radioHebdomadaire->afficherPopUp_semaine()
+                R.id.radioMensuel->afficherPopUp_mensuel()
             }
         }
     }
@@ -161,14 +164,14 @@ class ControllerModifierTache(
             Toast.makeText(context, context.getString(R.string.task_edit_failed), Toast.LENGTH_SHORT).show()
         }
     }
-    private fun afficherPopUp() {
+    private fun afficherPopUp_semaine() {
         // Charger le layout personnalisé pour le popup
         val dialogView = LayoutInflater.from(context).inflate(R.layout.popup_jour_semaine, null)
 
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("Choisissez les jours")
+            .setTitle(context.getString(R.string.popup_title_select_days))
 
         val dialog = dialogBuilder.create()
 
@@ -185,19 +188,62 @@ class ControllerModifierTache(
         buttonValider.setOnClickListener {
             // Récupérer les jours sélectionnés
             val selectedDays = mutableListOf<String>()
-            if (checkLundi.isChecked) selectedDays.add("Lundi")
-            if (checkMardi.isChecked) selectedDays.add("Mardi")
-            if (checkMercredi.isChecked) selectedDays.add("Mercredi")
-            if (checkJeudi.isChecked) selectedDays.add("Jeudi")
-            if (checkVendredi.isChecked) selectedDays.add("Vendredi")
-            if (checkSamedi.isChecked) selectedDays.add("Samedi")
-            if (checkDimanche.isChecked) selectedDays.add("Dimanche")
+            if (checkLundi.isChecked) selectedDays.add(context.getString(R.string.monday))
+            if (checkMardi.isChecked) selectedDays.add(context.getString(R.string.tuesday))
+            if (checkMercredi.isChecked) selectedDays.add(context.getString(R.string.wednesday))
+            if (checkJeudi.isChecked) selectedDays.add(context.getString(R.string.thursday))
+            if (checkVendredi.isChecked) selectedDays.add(context.getString(R.string.friday))
+            if (checkSamedi.isChecked) selectedDays.add(context.getString(R.string.saturday))
+            if (checkDimanche.isChecked) selectedDays.add(context.getString(R.string.sunday))
 
             // Fermer le dialog après la sélection
             dialog.dismiss()
 
             // Afficher un Toast avec les jours sélectionnés
-            Toast.makeText(context, "Jours sélectionnés : ${selectedDays.joinToString()}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.popup_selected_days, selectedDays.joinToString()), Toast.LENGTH_SHORT).show()
+        }
+
+        // Afficher le popup
+        dialog.show()
+    }
+
+    private fun afficherPopUp_mensuel() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuel_perso, null)
+
+        // Créer le popup avec AlertDialog
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setTitle(context.getString(R.string.popup_title_choose_dates))
+
+        val dialog = dialogBuilder.create()
+
+        // Référencer le DatePicker et le bouton d'ajout
+        val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
+        val buttonAjouterDate = dialogView.findViewById<Button>(R.id.button_date)
+        val buttonConfirmDate = dialogView.findViewById<Button>(R.id.confirmer_date)
+        val selectedDates = mutableListOf<String>()
+
+        // Gestion de l'ajout de la date sélectionnée
+        buttonAjouterDate.setOnClickListener {
+            val day = datePicker.dayOfMonth
+            val month = datePicker.month + 1 // Les mois commencent à 0
+            val year = datePicker.year
+
+            // Formater la date (par exemple, en "dd-MM-yyyy")
+            val formattedDate = String.format("%02d-%02d-%04d", day, month, year)
+
+            // Ajouter la date à la liste si elle n'est pas déjà sélectionnée
+            if (!selectedDates.contains(formattedDate)) {
+                selectedDates.add(formattedDate)
+                Toast.makeText(context, context.getString(R.string.date_added, formattedDate), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, context.getString(R.string.date_already_selected), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Bouton de confirmation pour finaliser la sélection
+        buttonConfirmDate.setOnClickListener {
+            dialog.dismiss()
         }
 
         // Afficher le popup

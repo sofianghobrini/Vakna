@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +27,7 @@ import com.app.vakna.notifications.NotificationReceiver
 
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.ui.compagnon.CompagnonFragment
+import com.app.vakna.ui.magasin.MagasinFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private var compagnon: Compagnon? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySavedTheme()
         super.onCreate(savedInstanceState)
 
         sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
@@ -64,7 +67,10 @@ class MainActivity : AppCompatActivity() {
             accesJson.ecrireFichierJson("""{"taches": []}""")
         }
 
-        compagnon = gestionnaire.obtenirCompagnons().first()
+        compagnon = gestionnaire.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaire.obtenirCompagnons().first()
+        }
 
         val lastLaunchTime = getLastLaunchTime()
 
@@ -90,14 +96,36 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_taches -> {
+                    navController.navigate(R.id.navigation_taches)
+                    true
+                }
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+                R.id.navigation_notifications -> {
+                    navController.navigate(R.id.navigation_notifications)
+                    true
+                }
+                else -> false
+            }
+        }
 //        scheduleNotification(this)
 
-        val navigateTo = intent.getStringExtra("navigateTo")
-        if (navigateTo == "CompagnonFragment") {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.compagnon_container, CompagnonFragment())
-                .commit()
-        }
+//        val navigateTo = intent.getStringExtra("navigateTo")
+//        if (navigateTo == "CompagnonFragment") {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.compagnonContainer, CompagnonFragment())
+//                .commit()
+//        }
+//        if (navigateTo == "Magasin") {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.magasinContainer, MagasinFragment())
+//                .commit()
+//        }
     }
 
     // Inflate the menu for the toolbar
@@ -119,6 +147,14 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun applySavedTheme() {
+        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        val isDarkTheme = sharedPreferences.getBoolean("darkTheme", false)
+        val themeMode = if (isDarkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(themeMode)
+    }
+
 
     override fun onStop () {
         super.onStop()

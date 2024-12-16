@@ -22,6 +22,7 @@ class CompagnonToJson : JsonSerializer<Compagnon> {
         objetJson.addProperty("humeur", src.humeur)
         objetJson.addProperty("xp", src.xp)
         objetJson.addProperty("espece", src.espece)
+        objetJson.addProperty("actif", src.actif)
 
         return objetJson
     }

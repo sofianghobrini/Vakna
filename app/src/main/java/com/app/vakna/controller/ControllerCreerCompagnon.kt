@@ -17,11 +17,13 @@ import com.app.vakna.modele.CompagnonStore
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
+import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.ObjetDAO
+import com.app.vakna.modele.dao.RefugeDAO
 import com.bumptech.glide.Glide
 
 /**
@@ -32,46 +34,43 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
+    private val refugeDAO = RefugeDAO(context)
     private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
+    private var shopCompagnons = ShopCompagnons(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
     init {
 
-        val dragon = CompagnonStore(1, "test1", "Dragon", 750)
-        val lapin = CompagnonStore(2, "test2", "Lapin", 450)
-        val chat = CompagnonStore(3, "test3", "Chat", 500)
-        val licorne = CompagnonStore(4, "test4", "Licorne", 600)
-        val serpent = CompagnonStore(5, "test5", "Serpent", 650)
-        val ecureuil = CompagnonStore(6, "test6", "Ecureuil", 400)
+        val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
+        val lapin = CompagnonStore(2, "Lapin", "Lapin", 450)
+        val chat = CompagnonStore(3, "Chat", "Chat", 500)
+        val licorne = CompagnonStore(4, "Licorne", "Licorne", 600)
+        val serpent = CompagnonStore(5, "Serpent", "Serpent", 650)
+        val ecureuil = CompagnonStore(6, "Ecureuil", "Ecureuil", 400)
         val compagnonsList = listOf(dragon, lapin, chat, licorne, serpent, ecureuil)
 
         compagnonsList.forEach {
-            compagnonStoreDAO.inserer(it)
+            shopCompagnons.ajouterCompagnon(it)
         }
 
         val especeList = listOf("Dragon", "Lapin", "Chat", "Licorne", "Serpent", "Ecureuil")
 
-        val jouet1 = Objet(0, "Jouet 1", 15, 5, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet2 = Objet(1, "Jouet 2", 20, 6, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet3 = Objet(2, "Jouet 3", 25, 7, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet4 = Objet(3, "Jouet 4", 30, 8, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet5 = Objet(4, "Jouet 5", 35, 9, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet6 = Objet(5, "Jouet 6", 40, 10, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet7 = Objet(6, "Jouet 7", 45, 11, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet8 = Objet(7, "Jouet 8", 50, 12, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet9 = Objet(8, "Jouet 9", 55, 13, TypeObjet.JOUET, "jouet", "placeholder")
-        val jouet10 = Objet(9, "Jouet 10", 60, 14, TypeObjet.JOUET, "jouet", "placeholder")
+        val jouet1  = Objet(0, "Bateau" , 15, 5 , TypeObjet.JOUET, "Attention à ne pas imiter le Titanic ...", "file:///android_asset/jouets/jouet_bateau.png")
+        val jouet2  = Objet(1, "Dinosaure" , 20, 6 , TypeObjet.JOUET, "Grrr ! Je suis le roi méchants !", "file:///android_asset/jouets/jouet_dinosaure.png")
+        val jouet3  = Objet(2, "Ourson" , 25, 7 , TypeObjet.JOUET, "Câlins gratuits !", "file:///android_asset/jouets/jouet_ourson.png")
+        val jouet4  = Objet(3, "Robot" , 30, 8 , TypeObjet.JOUET, "Bip bip bop skibidi bop", "file:///android_asset/jouets/jouet_robot.png")
+        val jouet5  = Objet(4, "Voiture" , 35, 9 , TypeObjet.JOUET, "Vrouuuuum, vrouuuuum!", "file:///android_asset/jouets/jouet_voiture.png")
 
-        val jouetsItems = listOf(jouet1, jouet2, jouet3, jouet4, jouet5, jouet6, jouet7, jouet8, jouet9, jouet10)
+        val jouetsItems = listOf(jouet1, jouet2, jouet3, jouet4, jouet5)
 
-        val kebab = Objet(10, "Kebab", 8, 10, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val pizza = Objet(11, "Pizza", 12, 15, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val burger = Objet(12, "Burger", 10, 8, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val sandwich = Objet(13, "Sandwich", 7, 5, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val salade = Objet(14, "Salade", 6, 4, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val pasta = Objet(15, "Pasta", 11, 9, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val sushi = Objet(16, "Sushi", 14, 13, TypeObjet.NOURRITURE, "nourriture", "placeholder")
-        val steak = Objet(17, "Steak", 20, 18, TypeObjet.NOURRITURE, "nourriture", "placeholder")
+        val kebab    = Objet(10, "Kebab"   , 8 , 10, TypeObjet.NOURRITURE, "Le cholestérole est mon meilleur ami", "file:///android_asset/nourritures/nourriture_kebab.png")
+        val pizza    = Objet(11, "Pizza"   , 12, 15, TypeObjet.NOURRITURE, "Un pizza dé la mama, prego.", "file:///android_asset/nourritures/nourriture_pizza.png")
+        val burger   = Objet(12, "Burger"  , 10, 8 , TypeObjet.NOURRITURE, "Can I get some burger ? With some peanut butter.", "file:///android_asset/nourritures/nourriture_plumberger.png")
+        val sandwich = Objet(13, "Sandwich", 7 , 5 , TypeObjet.NOURRITURE, "L'une des nourritures les plus saine de ce jeu.", "file:///android_asset/nourritures/nourriture_sandwich.png")
+        val salade   = Objet(14, "Salade"  , 6 , 4 , TypeObjet.NOURRITURE, "Sérieusement vous voulez manger du vert ?", "file:///android_asset/nourritures/nourriture_salade.png")
+        val pasta    = Objet(15, "Pasta"   , 11, 9 , TypeObjet.NOURRITURE, "Mamamia c'est la pasta dé la pizza !", "file:///android_asset/nourritures/nourriture_pasta.png")
+        val sushi    = Objet(16, "Sushi"   , 14, 13, TypeObjet.NOURRITURE, "Non on ne va faire de blague raciste ... quoique ...", "file:///android_asset/nourritures/nourriture_sushi.png")
+        val steak    = Objet(17, "Steak"   , 20, 18, TypeObjet.NOURRITURE, "De la viande à l'état pure (c'est quand même mieux que la salade)", "file:///android_asset/nourritures/nourriture_steak.png")
         val nourritureItems = listOf(kebab, pizza, burger, sandwich, salade, pasta, sushi, steak)
 
         val allItems = jouetsItems + nourritureItems
@@ -79,6 +78,15 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         allItems.forEach {
             shopDAO.inserer(it)
         }
+
+        val refuge1 = Refuge(1, "Tresor", 1.0f, 1.0f, 1.0f, 1.5f)
+        val refuge2 = Refuge(2, "Cantine", 1.5f, 1.0f, 1.0f, 1.0f)
+        val refuges = listOf(refuge1, refuge2)
+
+        refuges.forEach {
+            refugeDAO.inserer(it)
+        }
+
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, especeList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.EspeceSelect.adapter = adapter
@@ -95,12 +103,6 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
-
-        // Charger le GIF du dragon à l'aide de Glide
-        Glide.with(binding.root)
-            .asGif()
-            .load(gestionnaireCompagnon.obtenirCompagnon("Dragon"))
-            .into(binding.dragonGif)
 
         // Désactiver le bouton de confirmation au début
         binding.boutonCreerCompagnon.isEnabled = false
@@ -144,7 +146,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     /**
      * Fonction privée pour créer un nouveau compagnon
      */
-    private fun creerCompagnon() {
+    private fun creerCompagnon()  {
         val context = binding.root.context
         val nomCompagnon = binding.inputNomCompagnon.text.toString().trim()
         val nomEspece = binding.EspeceSelect.selectedItem.toString()
@@ -156,7 +158,8 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             faim = 50,
             humeur = 50,
             xp = 0,
-            espece = nomEspece
+            espece = nomEspece,
+            actif = true
         )
 
         // Instancier le DAO pour manipuler les données du compagnon dans la base
@@ -180,13 +183,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
      */
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
-            "Dragon" -> gestionnaireCompagnon.obtenirCompagnon("Dragon")
-            "Lapin" -> gestionnaireCompagnon.obtenirCompagnon("Lapin")
-            "Chat" -> gestionnaireCompagnon.obtenirCompagnon("Chat")
-            "Licorne" -> gestionnaireCompagnon.obtenirCompagnon("Licorne")
-            "Serpent" -> gestionnaireCompagnon.obtenirCompagnon("Serpent")
-            "Ecureuil" -> gestionnaireCompagnon.obtenirCompagnon("Ecureuil")
-            else -> gestionnaireCompagnon.obtenirCompagnon("Dragon")
+            "Dragon" -> shopCompagnons.getCompagnon("Dragon")?.apparenceDefaut()
+            "Lapin" -> shopCompagnons.getCompagnon("Lapin")?.apparenceDefaut()
+            "Chat" -> shopCompagnons.getCompagnon("Chat")?.apparenceDefaut()
+            "Licorne" -> shopCompagnons.getCompagnon("Licorne")?.apparenceDefaut()
+            "Serpent" -> shopCompagnons.getCompagnon("Serpent")?.apparenceDefaut()
+            "Ecureuil" -> shopCompagnons.getCompagnon("Ecureuil")?.apparenceDefaut()
+            else -> shopCompagnons.getCompagnon("Dragon")?.apparenceDefaut()
         }
         Glide.with(context)
             .load(imageRes)

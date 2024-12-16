@@ -1,5 +1,6 @@
 package com.app.vakna.controller
 
+import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridCompagnonsAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
@@ -40,8 +41,10 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private fun setupShopTabs() {
         binding.tabLayout.removeAllTabs()
         val distinctTypeList = shop.getObjets().map { it.getType() }.distinct()
+
         distinctTypeList.forEach {
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.name))
+            val tabTitle = getTabTitle(it)
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
         }
 
         val initialItems = shop.getObjetsParType(distinctTypeList.first())
@@ -51,15 +54,26 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val selectedTypeName = tab?.text.toString()
 
-                if (selectedTypeName == "Compagnons") {
-                    setupGridViewCompagnons(listCompagnons)
-                } else {
-                    try {
-                        val selectedType = TypeObjet.valueOf(selectedTypeName)
+                when (selectedTypeName) {
+                    context.getString(R.string.tab_companions) -> setupGridViewCompagnons(listCompagnons)
+                    context.getString(R.string.tab_toys) -> {
+                        val selectedType = TypeObjet.JOUET
                         val filteredItems = shop.getObjetsParType(selectedType)
                         setupGridView(filteredItems)
-                    } catch (e: IllegalArgumentException) {
-                        e.printStackTrace()
+                    }
+                    context.getString(R.string.tab_food) -> {
+                        val selectedType = TypeObjet.NOURRITURE
+                        val filteredItems = shop.getObjetsParType(selectedType)
+                        setupGridView(filteredItems)
+                    }
+                    else -> {
+                        try {
+                            val selectedType = TypeObjet.valueOf(selectedTypeName)
+                            val filteredItems = shop.getObjetsParType(selectedType)
+                            setupGridView(filteredItems)
+                        } catch (e: IllegalArgumentException) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
@@ -71,9 +85,17 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun setupCompagnonTab() {
         binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Compagnons"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_companions))
 
         setupGridViewCompagnons(listCompagnons)
+    }
+
+    private fun getTabTitle(type: TypeObjet): String {
+        return when (type) {
+            TypeObjet.JOUET -> context.getString(R.string.tab_toys)
+            TypeObjet.NOURRITURE -> context.getString(R.string.tab_food)
+            else -> type.name
+        }
     }
 
     private fun setupGridView(items: List<Objet>) {

@@ -1,13 +1,14 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.widget.Toast
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 
 class ShopCompagnons (
-    context: Context
+    private val context: Context
 ) {
     private val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var compagnonMagasin = mutableListOf<CompagnonStore>()
@@ -30,11 +31,26 @@ class ShopCompagnons (
         return compagnonMagasin.find { it.espece == espece }
     }
 
+    fun ajouterCompagnon(compagnon: CompagnonStore): Boolean {
+        if (compagnon.nom.isBlank()) {
+            throw IllegalArgumentException("Le nom du compagnon ne peut pas être vide")
+        }
+        if (!compagnonMagasin.add(compagnon)) {
+            throw IllegalArgumentException("Une tâche avec le nom '${compagnon.nom}' existe déjà")
+        }
+        return compagnonStoreDAO.inserer(compagnon)
+    }
+
     fun acheterCompagnon(compagnonId: Int, compagnonNom: String): Boolean {
         val compagnonStore = compagnonStoreDAO.obtenirParId(compagnonId)
             ?: return false
 
         if (inventaire.getPieces() < compagnonStore.prix) {
+            return false
+        }
+
+        if (gestionnaireCompagnons.obtenirCompagnons().count() >= 6) {
+            Toast.makeText(context, "Vous avez atteint la limite de compagnons", Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -50,7 +66,8 @@ class ShopCompagnons (
             faim = 50,
             humeur = 50,
             xp = 0,
-            espece = compagnonStore.espece
+            espece = compagnonStore.espece,
+            actif = false
         )
 
         gestionnaireCompagnons.ajouterCompagnon(nouveauCompagnon)

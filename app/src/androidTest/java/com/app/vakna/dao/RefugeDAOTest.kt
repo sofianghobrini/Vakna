@@ -46,8 +46,8 @@ class RefugeDAOTest {
 
     @Test
     fun testObtenirTousMultiple() {
-        val refuge1 = Refuge(1, "Dragon", 1, 1, 1, 1)
-        val refuge2 = Refuge(2, "Lapin", 1, 1, 1, 1)
+        val refuge1 = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
+        val refuge2 = Refuge(2, "Lapin", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge1)
         dao.inserer(refuge2)
         assertEquals(dao.obtenirTous().size, 2)
@@ -55,7 +55,7 @@ class RefugeDAOTest {
 
     @Test
     fun testInserer() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         assertTrue(dao.inserer(refuge))
         val refuges = dao.obtenirTous()
         assertEquals(1, refuges.size)
@@ -64,7 +64,7 @@ class RefugeDAOTest {
 
     @Test
     fun testInsererRefugeExistant() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         assertTrue(dao.inserer(refuge))
         assertFalse(dao.inserer(refuge))
         val refuges = dao.obtenirTous()
@@ -73,38 +73,38 @@ class RefugeDAOTest {
 
     @Test
     fun testObtenirParId() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge)
         assertEquals(dao.obtenirParId(1), refuge)
     }
 
     @Test
     fun testObtenirParIdNonExistant() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge)
         assertNull(dao.obtenirParId(3))
     }
 
     @Test
     fun testModifier() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge)
-        val nouveauRefuge = Refuge(1, "Tigre", 1, 1, 1, 1)
+        val nouveauRefuge = Refuge(1, "Tigre", 1.0f, 1.0f, 1.0f, 1.0f)
         assertTrue(dao.modifier(1, nouveauRefuge))
         assertEquals(dao.obtenirParId(1), nouveauRefuge)
     }
 
     @Test
     fun testModifierRefugeInnexistant() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge)
-        val nouveauRefuge = Refuge(2, "Tigre", 1, 1, 1, 1)
+        val nouveauRefuge = Refuge(2, "Tigre", 1.0f, 1.0f, 1.0f, 1.0f)
         assertFalse(dao.modifier(2, nouveauRefuge))
     }
 
     @Test
     fun testSupprimer() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge)
         assertTrue(dao.supprimer(1))
         assertTrue(dao.obtenirTous().isEmpty())
@@ -112,7 +112,7 @@ class RefugeDAOTest {
 
     @Test
     fun testSupprimerRefugeInnexistant() {
-        val refuge = Refuge(1, "Dragon", 1, 1, 1, 1)
+        val refuge = Refuge(1, "Dragon", 1.0f, 1.0f, 1.0f, 1.0f)
         dao.inserer(refuge)
         assertFalse(dao.supprimer(2))
         assertEquals(dao.obtenirTous().size, 1)

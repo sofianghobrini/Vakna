@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/compagnon_container"
+    android:id="@+id/compagnonContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.compagnon.CompagnonFragment">
@@ -62,7 +62,7 @@
         android:orientation="vertical"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toStartOf="@id/dragon_gif"
+        app:layout_constraintEnd_toStartOf="@id/compagnon_slot"
         app:layout_constraintTop_toBottomOf="@id/progress_bar_level">
 
         <ImageButton
@@ -125,15 +125,26 @@
 
     </LinearLayout>
 
-    <!-- Dragon GIF -->
-    <ImageView
-        android:id="@+id/dragon_gif"
-        android:layout_width="250dp"
+    <FrameLayout
+        android:id="@+id/compagnon_slot"
+        android:layout_width="264dp"
         android:layout_height="264dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progress_bar_level" />
+        app:layout_constraintTop_toBottomOf="@id/progress_bar_level">
+        <!-- Refuge -->
+        <ImageView
+            android:id="@+id/refuge"
+            android:layout_width="264dp"
+            android:layout_height="264dp" />
+        <!-- Compagnon GIF -->
+        <ImageView
+            android:id="@+id/dragon_gif"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="bottom|center_horizontal" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/texteHumeur"
@@ -152,9 +163,10 @@
         android:max="100"
         android:progress="50"
         android:progressTint="@color/progressHumeur"
+        android:progressBackgroundTint="@color/grisClair"
         style="@style/Widget.ProgressBar.Vertical"
-        app:layout_constraintTop_toTopOf="@id/dragon_gif"
-        app:layout_constraintStart_toEndOf="@id/dragon_gif"
+        app:layout_constraintTop_toTopOf="@id/compagnon_slot"
+        app:layout_constraintStart_toEndOf="@id/compagnon_slot"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -175,9 +187,10 @@
         android:max="100"
         android:progress="50"
         android:progressTint="@color/progressFaim"
+        android:progressBackgroundTint="@color/grisClair"
         style="@style/Widget.ProgressBar.Vertical"
         app:layout_constraintTop_toBottomOf="@id/progress_humeur"
-        app:layout_constraintStart_toEndOf="@id/dragon_gif"
+        app:layout_constraintStart_toEndOf="@id/compagnon_slot"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Jouets and Nourriture Tabs -->
@@ -186,11 +199,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:contentDescription="@string/tab_description"
-        app:layout_constraintTop_toBottomOf="@id/dragon_gif"
+        app:layout_constraintTop_toBottomOf="@id/compagnon_slot"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:background="@color/white" />
+        app:tabTextColor="@color/gray"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabBackground="?android:attr/textColorPrimaryInverse"/>
 
     <!-- GridView for displaying items -->
     <GridView

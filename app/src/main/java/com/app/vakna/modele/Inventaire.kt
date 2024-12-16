@@ -44,10 +44,15 @@ class Inventaire(contexte: Context) {
     private fun utiliserObjet(objet: ObjetObtenu) {
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+        }
+       val idCompagnon = compagnon.id
         if (objet.getType() == TypeObjet.JOUET) {
-            gestionnaireCompagnons.modifierHumeur(1, niveau)
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, niveau)
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
-            gestionnaireCompagnons.modifierFaim(1, niveau)
+            gestionnaireCompagnons.modifierFaim(idCompagnon, niveau)
         }
         objet.updateQuantite(-1)
     }
