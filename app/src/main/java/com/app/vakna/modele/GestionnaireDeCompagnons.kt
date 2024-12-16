@@ -44,7 +44,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     }
 
     fun obtenirActif(): Compagnon? {
-        return obtenirCompagnons().find { it.actif == true }
+        return obtenirCompagnons().find { it.actif }
     }
 
     fun modifierCompagnon(id: Int, nouveauCompagnon: Compagnon): Boolean {
