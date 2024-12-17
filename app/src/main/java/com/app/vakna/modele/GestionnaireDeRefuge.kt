@@ -24,6 +24,23 @@ class GestionnaireDeRefuge(contexte: Context) {
         return refuges.find { it.getId() == id }
     }
 
+    fun getActif(): Refuge? {
+        return refuges.find { it.getActif() == true }
+    }
+
+    fun setActif(id: Int) {
+        val refuge = getRefugeParId(id)
+        val actifActuel = getActif()
+        actifActuel?.let {
+            it.setActif(false)
+            refugeDAO.modifier(it.getId(), it)
+        }
+        refuge?.let {
+            it.setActif(true)
+            refugeDAO.modifier(it.getId(), it)
+        }
+    }
+
     fun ajouterRefuge(refuge: Refuge): Boolean {
         if (refuge.getNom().isBlank()) {
             throw IllegalArgumentException("Le nom du refuge ne peut pas être vide")

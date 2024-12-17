@@ -21,7 +21,8 @@ class JsonToRefuge : JsonDeserializer<Refuge> {
         val modifHumeur = refugeJson.get("modifHumeur").asFloat
         val modifXp = refugeJson.get("modifXp").asFloat
         val modifPieces = refugeJson.get("modifPieces").asFloat
+        val actif = refugeJson.get("actif").asBoolean
 
-        return Refuge(id, nom, modifFaim, modifHumeur, modifXp, modifPieces)
+        return Refuge(id, nom, modifFaim, modifHumeur, modifXp, modifPieces, actif)
     }
 }

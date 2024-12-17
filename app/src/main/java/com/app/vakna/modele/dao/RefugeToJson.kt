@@ -22,6 +22,7 @@ class RefugeToJson : JsonSerializer<Refuge> {
         refugeJson.addProperty("modifHumeur", src.getModifHumeur())
         refugeJson.addProperty("modifXp", src.getModifXp())
         refugeJson.addProperty("modifPieces", src.getModifPieces())
+        refugeJson.addProperty("actif", src.getActif())
 
         return refugeJson
     }
