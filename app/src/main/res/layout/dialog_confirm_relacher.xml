@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialogTitreRelacherCompagnon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:scaleType="center"
+        android:text="@string/title_release"
+        android:textSize="30dp"
+        android:textColor="@color/couleurTitre"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:id="@+id/dialogTextWarning"
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/release_compagnon"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp" />
+
+    <LinearLayout
+        android:layout_width="314dp"
+        android:layout_height="92dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/boutonRelacher"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/red"
+            android:text="@string/goodbye_myfriend" />
+
+        <Button
+            android:id="@+id/boutonAnnuler"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/gray"
+            android:text="@string/refus_relacher" />
+
+    </LinearLayout>
+</LinearLayout>

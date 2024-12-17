@@ -1,5 +1,6 @@
 package com.app.vakna.controller
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -105,6 +106,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val items = inventaire.getObjetsParType(distinctTypesList.first())
         setupGridView(items, distinctTypesList.first(), binding)
 
+        binding.freeCompagnonButton.setOnClickListener{
+            view -> showDialogRelease()
+        }
+
         // Gérer la sélection d'onglets (Jouets / Nourriture)
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -196,6 +201,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
             }
             iteration++
+
         }
 
         val refuges = gestionnaireRefuge.getRefuges()
@@ -400,6 +406,37 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    fun showDialogRelease(){
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_confirm_relacher, null)
+
+        // Créer le popup avec AlertDialog
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setTitle(context.getString(R.string.release_compagnon))
+
+        val dialog = dialogBuilder.create()
+
+        val buttonAnnuler = dialogView.findViewById<Button>(R.id.boutonAnnuler)
+        val buttonValider = dialogView.findViewById<Button>(R.id.boutonRelacher)
+
+        buttonValider.setOnClickListener{
+
+            gestionnaire.relacherCompagnon(compagnon, compagnon.id)
+            val compagnonsRestants = gestionnaire.obtenirCompagnons()
+            if (compagnonsRestants.isNotEmpty()) {
+                compagnon = compagnonsRestants.first()
+                gestionnaire.setActif(compagnon.id)
+            }
+
+            dialog.dismiss()
+        }
+
+        buttonAnnuler.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     /**
