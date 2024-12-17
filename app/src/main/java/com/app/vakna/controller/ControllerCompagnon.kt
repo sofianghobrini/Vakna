@@ -30,6 +30,7 @@ import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.ObjetObtenu
+import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
@@ -82,7 +83,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             updateLevelAndProgress(it)
         }
 
+        updateRefuge(binding)
         updateHumeurCompagnon(binding, compagnon)
+        showPersonnalite(gestionnaire, binding.root, compagnon.id)
 
         compagnon.let {
             binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
@@ -176,6 +179,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     binding.texteFaim.text = context.getString(R.string.faim_text, comp.faim)
                     binding.progressFaim.progress = comp.faim
                 }
+
+                showPersonnalite(gestionnaire, binding.root, compagnon.id)
 
                 val items = inventaire.getObjetsParType(distinctTypesList.first())
                 setupGridView(items, distinctTypesList.first(), binding)
@@ -432,9 +437,28 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val refuge = if (refuges.isNotEmpty()) refuges.first() else null
             val fichierApparence = refuge?.apparence()
 
+            // Charger et afficher un GIF via Glide
             Glide.with(context)
                 .load(fichierApparence)
                 .into(binding.refuge)
+        }
+
+        fun showPersonnalite( gestionnaireCompagnons : GestionnaireDeCompagnons, view: View, id : Int) {
+            val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
+            var typePersonnalite = when(compagnon!!.personnalite) {
+                Personnalite.GOURMAND -> "Gourmand"
+                Personnalite.JOUEUR -> "Joueur"
+                Personnalite.CALME -> "Calme"
+                Personnalite.CUPIDE -> "Cupide"
+                Personnalite.AVARE -> "Avare"
+                Personnalite.GRINCHEUX -> "Grincheux"
+                Personnalite.RADIN -> "Radin"
+                Personnalite.GENTIL -> "Gentil"
+                Personnalite.JOYEUX -> "Joyeux"
+                Personnalite.TRAVAILLEUR -> "Travailleur"
+            }
+            val personnaliteTextView = view?.findViewById<TextView>(R.id.personnalite)
+            personnaliteTextView?.text = typePersonnalite // Affiche uniquement le nom
         }
 
         /**

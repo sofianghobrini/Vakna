@@ -50,8 +50,16 @@ class Inventaire(contexte: Context) {
         }
        val idCompagnon = compagnon.id
         if (objet.getType() == TypeObjet.JOUET) {
-            gestionnaireCompagnons.modifierHumeur(idCompagnon, niveau)
+            if(compagnon.personnalite == Personnalite.JOUEUR){
+                gestionnaireCompagnons.modifierHumeur(idCompagnon, (niveau * compagnon.personnalite.facteurHumeur).toInt() )
+            }
+            else{
+                gestionnaireCompagnons.modifierHumeur(idCompagnon, niveau)
+            }
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
+            if(compagnon.personnalite == Personnalite.GOURMAND){
+                gestionnaireCompagnons.modifierHumeur(idCompagnon, (niveau * 0.6).toInt())
+            }
             gestionnaireCompagnons.modifierFaim(idCompagnon, niveau)
         }
         objet.updateQuantite(-1)

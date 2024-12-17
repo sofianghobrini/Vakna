@@ -33,7 +33,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         dao.modifier(id, compagnonNew)
     }
 
-    fun abandonnerCompagnon(compagnon: Compagnon): Int{
+    fun relacherCompagnon(compagnon: Compagnon): Int{
         if(!setDeCompagnons.contains(compagnon)){
             throw IllegalArgumentException("Le compagnon n'existe pas")
         }

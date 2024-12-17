@@ -21,7 +21,8 @@ class Compagnon(
     // Méthode pour obtenir le fichier ou est stocké l'apparence par défaut du compagnon
     fun apparenceDefaut(): String {
         var image = "file:///android_asset/compagnons/"
-        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux.gif"
+        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux_1.gif"
+
         return image
     }
 
@@ -37,32 +38,20 @@ class Compagnon(
         }
 
         humeurImage += if (humeurComp > 60) {
-            "heureux"
+            "heureux_"
         } else if (humeurComp > 30) {
-            "moyen"
+            "moyen_"
         } else if (humeurComp > 0) {
-            "enerve"
+            "enerve_"
         } else {
-            "triste"
+            "triste_"
         }
-        humeurImage +=".gif"
+        humeurImage += niveau().toString() + ".gif"
         return humeurImage
     }
 
-    fun personnalite_compagnon () : Personnalite{
-        val nbrAlea = Random.nextInt(1, 10)
-        return when(nbrAlea){
-            1->Personnalite.CALME
-            2->Personnalite.GRINCHEUX
-            3->Personnalite.GOURMAND
-            4->Personnalite.CUPIDE
-            5->Personnalite.JOUEUR
-            6->Personnalite.GENTIL
-            7->Personnalite.TRAVAILLEUR
-            8->Personnalite.JOYEUX
-            9->Personnalite.RADIN
-            else->Personnalite.AVARE
-        }
+    fun personnalite_compagnon(): Personnalite {
+        return Personnalite.values().random()
     }
 
     // Redéfinition de la méthode toString pour afficher les informations du compagnon

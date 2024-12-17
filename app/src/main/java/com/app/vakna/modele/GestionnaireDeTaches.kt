@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
+    private val setDeCompagnons = mutableSetOf<Compagnon>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var gestionnaireDeRefuge = GestionnaireDeRefuge(context)
     private var idCompagnon: Int = 1
@@ -90,10 +91,52 @@ class GestionnaireDeTaches(context: Context) {
             println("Nom du refuge" + refuge?.getNom())
             gestionnaireCompagnons.modifierHumeur(idCompagnon, (modifImportance * modifFrequence * 3 * refuge!!.getModifHumeur()).toInt())
             gestionnaireCompagnons.gagnerXp(idCompagnon, (modifImportance * modifFrequence * 3 * refuge.getModifXp()).toInt())
+            val compagnon = gestionnaireCompagnons.obtenirCompagnon(idCompagnon)
+            var facteurPersonalite = when(compagnon!!.personnalite) {
+                Personnalite.GOURMAND -> compagnon.personnalite.facteurPiece
+                Personnalite.JOUEUR -> compagnon.personnalite.facteurPiece
+                Personnalite.CALME -> compagnon.personnalite.facteurPiece
+                Personnalite.CUPIDE -> compagnon.personnalite.facteurPiece
+                Personnalite.AVARE -> compagnon.personnalite.facteurPiece
+                Personnalite.GRINCHEUX -> compagnon.personnalite.facteurPiece
+                Personnalite.RADIN -> compagnon.personnalite.facteurPiece
+                Personnalite.GENTIL -> compagnon.personnalite.facteurPiece
+                Personnalite.JOYEUX -> compagnon.personnalite.facteurPiece
+                Personnalite.TRAVAILLEUR -> compagnon.personnalite.facteurPiece
+            }
             when (tache.frequence) {
-                Frequence.QUOTIDIENNE -> inventaire.ajouterPieces((modifImportance * 3 * refuge.getModifPieces()).toInt())
-                Frequence.HEBDOMADAIRE -> inventaire.ajouterPieces((modifImportance * 16 * refuge.getModifPieces()).toInt())
-                Frequence.MENSUELLE -> inventaire.ajouterPieces((modifImportance * 42 * refuge.getModifPieces()).toInt())
+                Frequence.QUOTIDIENNE -> {
+                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                        inventaire.ajouterPieces((((modifImportance * 3 * refuge.getModifPieces())* facteurPersonalite)*0.9).toInt())
+                        gestionnaireCompagnons.modifierHumeur(compagnon.id, 2)
+                    }
+                    else
+                    {
+                        inventaire.ajouterPieces(((modifImportance * 3 * refuge.getModifPieces())* facteurPersonalite).toInt())
+                    }
+                }
+                Frequence.HEBDOMADAIRE ->{
+                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                        inventaire.ajouterPieces((((modifImportance * 16 * refuge.getModifPieces())*facteurPersonalite)*0.8).toInt())
+                        gestionnaireCompagnons.modifierHumeur(compagnon.id, 4)
+                    }
+                    else
+                    {
+                        inventaire.ajouterPieces(((modifImportance * 16 * refuge.getModifPieces())*facteurPersonalite).toInt())
+                    }
+                }
+
+                Frequence.MENSUELLE ->{
+                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                        inventaire.ajouterPieces((((modifImportance * 42 * refuge.getModifPieces())*facteurPersonalite)*0.72).toInt())
+                        gestionnaireCompagnons.modifierHumeur(compagnon.id, 7)
+                    }
+                    else
+                    {
+                        inventaire.ajouterPieces(((modifImportance * 42 * refuge.getModifPieces())*facteurPersonalite).toInt())
+                    }
+                }
+
             }
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")

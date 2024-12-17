@@ -11,8 +11,11 @@ import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Shop
+import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 
@@ -24,6 +27,7 @@ class ControllerDetailsObjet(
     val context = binding.root.context
     val shop = Shop(context)
     val inventaireDAO = InventaireDAO(context)
+    val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
 
     init {
         val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
@@ -118,6 +122,18 @@ class ControllerDetailsObjet(
 
     private fun achat(nom: String, quantite: Int) {
         shop.acheter(nom, quantite)
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+        }
+        if(compagnon.personnalite == Personnalite.AVARE){
+            when(getPrixTotal()){
+                in 10..90->gestionnaireCompagnons.modifierHumeur(compagnon.id, -2)
+                in 90..300->gestionnaireCompagnons.modifierHumeur(compagnon.id, -3)
+                in 300..1000->gestionnaireCompagnons.modifierHumeur(compagnon.id, -4)
+                else -> gestionnaireCompagnons.modifierHumeur(compagnon.id, -8)
+            }
+        }
     }
 
     private fun prixTotal() {
@@ -126,6 +142,13 @@ class ControllerDetailsObjet(
         val objet = shop.getObjet(name)
         val prixTotal = (objet?.getPrix() ?: 0) * quantite
         binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
+    }
+
+    private fun getPrixTotal() : Int {
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
+        val objet = shop.getObjet(name)
+        return (objet?.getPrix() ?: 0) * quantite
     }
 
     private fun reduirePrix() {
