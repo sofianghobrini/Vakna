@@ -17,7 +17,7 @@ class CompagnonStore(
     // Méthode pour obtenir le fichier ou est stocké l'apparence par défaut du compagnon
     fun apparenceDefaut(): String {
         var image = "file:///android_asset/compagnons/"
-        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux.gif"
+        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux_1.gif"
         return image
     }
 
