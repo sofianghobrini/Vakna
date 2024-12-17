@@ -31,6 +31,7 @@ import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.ObjetObtenu
 import com.app.vakna.modele.Personnalite
+import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
@@ -198,7 +199,18 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         val refuges = gestionnaireRefuge.getRefuges()
+        val refuge = gestionnaireRefuge.getActif()
 
+        refuge?.let {
+            Glide.with(context)
+                .load(refuge.apparence())
+                .into(binding.refuge)
+        } ?: {
+            if(refuges.isNotEmpty()) {
+                val nouveauActif = refuges.first()
+                gestionnaireRefuge.setActif(nouveauActif.getId())
+            }
+        }
         when {
             refuges.isEmpty() -> {
                 binding.switchRefuge.setOnClickListener {
@@ -206,19 +218,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
             }
             refuges.size == 1 -> {
-                val apparence = refuges.first().apparence()
-                Glide.with(context)
-                    .load(apparence)
-                    .into(binding.refuge)
                 binding.switchRefuge.setOnClickListener {
                     showAcheterRefugeDialog()
                 }
             }
             refuges.size > 1 -> {
-                val apparence = refuges.first().apparence()
-                Glide.with(context)
-                    .load(apparence)
-                    .into(binding.refuge)
+                binding.switchRefuge.setImageResource(R.drawable.changer_refuges)
+                binding.switchRefuge.setPadding(18,18,18,18)
                 binding.switchRefuge.setOnClickListener {
                     showSelectRefugeDialog()
                 }
@@ -288,6 +294,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     fun showAcheterRefugeDialog() {
         val text = TextView(context).apply {
             text = "Les refuges peuvent augmenter le gain d'humeur ou de faim d'un compagnon"
+            gravity = Gravity.CENTER
+            setPadding(8, 32, 8, 16)
         }
 
         MaterialAlertDialogBuilder(context)
@@ -315,7 +323,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val boutonSelect = dialogView.findViewById<Button>(R.id.boutonSelect)
 
         val refuges = gestionnaireRefuge.getRefuges()
-        var selectedRefuge: String? = null
+        var selectedRefuge: Refuge? = null
 
         refuges.forEach { refuge ->
             val imageButton = ImageButton(context).apply {
@@ -329,7 +337,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     .into(this)
 
                 setOnClickListener {
-                    selectedRefuge = refuge.apparence()
+                    selectedRefuge = refuge
                     this.setBackgroundColor(Color.CYAN)
                     horizontalContainer.children.forEach { child ->
                         if (child != this) child.setBackgroundColor(Color.TRANSPARENT)
@@ -350,9 +358,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         boutonSelect.setOnClickListener {
-            selectedRefuge?.let { imagePath ->
+            selectedRefuge?.let {
+                gestionnaireRefuge.setActif(it.getId())
                 Glide.with(context)
-                    .load(imagePath)
+                    .load(it.apparence())
                     .into(binding.refuge)
             }
             dialog.dismiss()

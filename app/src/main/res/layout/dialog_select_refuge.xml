@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sélectionnez un refuge"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal" />
 
@@ -39,12 +39,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Annuler"
+            android:textSize="12sp"
             android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/boutonSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="12sp"
             android:text="Sélectionner" />
     </LinearLayout>
 </LinearLayout>

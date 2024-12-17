@@ -6,7 +6,8 @@ class Refuge(
     private var modifFaim : Float = 1f,         // Modificateur de faim
     private var modifHumeur: Float = 1f,       // Modificateur d'humeur
     private var modifXp: Float = 1f,            // Modificateur d'xp
-    private var modifPieces: Float = 1f         // Modificateur de pieces
+    private var modifPieces: Float = 1f,         // Modificateur de pieces
+    private var actif: Boolean = false
 ) {
     fun getId(): Int {
         return id
@@ -25,6 +26,14 @@ class Refuge(
     }
     fun getModifPieces(): Float {
         return modifPieces
+    }
+
+    fun getActif(): Boolean {
+        return actif
+    }
+
+    fun setActif(actif: Boolean) {
+        this.actif = actif
     }
 
     fun apparence(): String {
