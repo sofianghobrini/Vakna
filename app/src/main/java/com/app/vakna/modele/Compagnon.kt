@@ -49,20 +49,8 @@ class Compagnon(
         return humeurImage
     }
 
-    fun personnalite_compagnon () : Personnalite{
-        val nbrAlea = Random.nextInt(1, 10)
-        return when(nbrAlea){
-            1->Personnalite.CALME
-            2->Personnalite.GRINCHEUX
-            3->Personnalite.GOURMAND
-            4->Personnalite.CUPIDE
-            5->Personnalite.JOUEUR
-            6->Personnalite.GENTIL
-            7->Personnalite.TRAVAILLEUR
-            8->Personnalite.JOYEUX
-            9->Personnalite.RADIN
-            else->Personnalite.AVARE
-        }
+    fun personnalite_compagnon(): Personnalite {
+        return Personnalite.values().random()
     }
 
     // Redéfinition de la méthode toString pour afficher les informations du compagnon
