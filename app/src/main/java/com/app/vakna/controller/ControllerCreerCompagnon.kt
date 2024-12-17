@@ -19,12 +19,14 @@ import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
 import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Refuge
+import com.app.vakna.modele.RefugeStore
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.ObjetDAO
 import com.app.vakna.modele.dao.RefugeDAO
+import com.app.vakna.modele.dao.RefugeStoreDAO
 import com.bumptech.glide.Glide
 import kotlin.random.Random
 
@@ -36,7 +38,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
-    private val refugeDAO = RefugeDAO(context)
+    private val refugeStoreDAO = RefugeStoreDAO(context)
     private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var shopCompagnons = ShopCompagnons(context)
@@ -91,12 +93,12 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             shopDAO.inserer(it)
         }
 
-        val refuge1 = Refuge(1, "Tresor", 1.0f, 1.0f, 1.0f, 1.5f)
-        val refuge2 = Refuge(2, "Cantine", 1.5f, 1.0f, 1.0f, 1.0f)
+        val refuge1 = RefugeStore(1, "Tresor", 1.0f, 1.0f, 1.0f, 1.5f, 325)
+        val refuge2 = RefugeStore(2, "Cantine", 1.5f, 1.0f, 1.0f, 1.0f, 250)
         val refuges = listOf(refuge1, refuge2)
 
         refuges.forEach {
-            refugeDAO.inserer(it)
+            refugeStoreDAO.inserer(it)
         }
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, especeList)

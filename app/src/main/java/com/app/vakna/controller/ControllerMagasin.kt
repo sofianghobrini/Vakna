@@ -119,9 +119,9 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                         setupGridViewCompagnons(listCompagnons)
                     }
 
-//                    "Refuges" -> {
-//                        setupGridViewRefuges(listRefugesStore)
-//                    }
+                    "Refuges" -> {
+                        setupGridViewRefuges(listRefugesStore)
+                    }
                 }
             }
 
@@ -154,13 +154,13 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         binding.gridViewItems.adapter = adapter
     }
 
-//    private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
-//        val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
-//
-//        val gridRefuge = ShopRefuge.setToGridRefugeDataArray(sortedRefuge)
-//        val adapter = GridRefugesAdapter(context, gridRefuge)
-//        binding.gridViewItems.adapter = adapter
-//    }
+    private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
+        val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
+
+        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
+        val adapter = GridRefugesAdapter(context, gridRefuge)
+        binding.gridViewItems.adapter = adapter
+    }
 
     private fun afficherNombreDeCoins() {
         val nombreDeCoins = inventaireDAO.obtenirPieces()

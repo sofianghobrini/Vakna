@@ -1,7 +1,6 @@
 package com.app.vakna.modele
 
 import com.app.vakna.adapters.GridData
-import com.app.vakna.adapters.GridRefugeData
 
 class RefugeStore(
     private var id: Int,                // Identifiant unique de l'environnement
@@ -13,8 +12,8 @@ class RefugeStore(
     private var prix: Int
 ) {
 
-    open fun toGridRefugeData(): GridRefugeData {
-        return GridRefugeData(apparence(), nom, modifFaim, modifHumeur, modifXp, modifPieces, prix)
+    open fun toGridData(): GridData {
+        return GridData(apparence(), nom, prix)
     }
     fun getId(): Int {
         return id

@@ -1,11 +1,7 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import android.widget.Toast
 import com.app.vakna.adapters.GridData
-import com.app.vakna.adapters.GridRefugeData
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.RefugeDAO
 import com.app.vakna.modele.dao.RefugeStoreDAO
 
 class ShopRefuge(context: Context) {
@@ -66,10 +62,10 @@ class ShopRefuge(context: Context) {
     }
 
     companion object {
-        fun setToGridRefugeDataArray(refugesStore: List<RefugeStore>): ArrayList<GridRefugeData> {
-            val list = ArrayList<GridRefugeData>()
+        fun setToGridDataArray(refugesStore: List<RefugeStore>): ArrayList<GridData> {
+            val list = ArrayList<GridData>()
             for (refuge in refugesStore) {
-                val listData = refuge.toGridRefugeData()
+                val listData = refuge.toGridData()
                 list.add(listData)
             }
             return list

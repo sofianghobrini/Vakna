@@ -38,7 +38,6 @@ class GridRefugesAdapter (
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
 
         Glide.with(context)
-            .asGif()
             .load(item.image)
             .into(imageView)
         nomTextView.text = item.nom
