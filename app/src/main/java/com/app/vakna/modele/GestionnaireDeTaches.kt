@@ -226,8 +226,8 @@ class GestionnaireDeTaches(context: Context) {
         return obtenirTaches().filter { it.type == type }.toSet()
     }
 
-    fun obtenirTaches(nom: String): Set<Tache> {
-        return obtenirTaches().filter { it.nom.contains(nom) }.toSet()
+    fun obtenirTache(nom: String): Tache? {
+        return obtenirTaches().find { it.nom.equals(nom) }
     }
 
     fun obtenirTaches(frequence: Frequence): Set<Tache> {

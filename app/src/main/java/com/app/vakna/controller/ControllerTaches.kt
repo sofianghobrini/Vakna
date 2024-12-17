@@ -15,7 +15,6 @@ import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
 import com.app.vakna.modele.Frequence
 import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.ui.Taches.TachesFragment
 
 /**
  * Contrôleur pour gérer l'affichage des tâches (quotidiennes, hebdomadaires et mensuelles)

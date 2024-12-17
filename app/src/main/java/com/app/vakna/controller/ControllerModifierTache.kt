@@ -41,7 +41,7 @@ class ControllerModifierTache(
 
 
         // Récupérer la tâche à partir du gestionnaire
-        tacheOriginel = gestionnaire.obtenirTaches(taskName).first()
+        tacheOriginel = gestionnaire.obtenirTache(taskName)!!
 
         preFillFields(tacheOriginel)
 
@@ -139,10 +139,17 @@ class ControllerModifierTache(
     }
 
     fun modifierTache() {
+        val gestionnaireDeTaches = GestionnaireDeTaches(context)
+
         val nomTache = recupererNomTache()
 
         if (nomTache.isBlank()) {
             Toast.makeText(context, context.getString(R.string.task_name_required), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        gestionnaireDeTaches.obtenirTache(nomTache)?.let {
+            Toast.makeText(context, "Il ne peut pas y avoir deux quêtes avec le même nom", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -164,7 +171,6 @@ class ControllerModifierTache(
         val estTermine = tacheOriginel.estTerminee
 
         val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, prochaineValidation, estTermine)
-        val gestionnaireDeTaches = GestionnaireDeTaches(context)
 
         val resultat = gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
 
