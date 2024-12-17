@@ -1,6 +1,7 @@
 package com.app.vakna.controller
 
 import android.content.Intent
+import android.util.Log
 import com.app.vakna.DetailsCompagnonActivity
 import com.app.vakna.DetailsRefugeActivity
 import com.app.vakna.MainActivity
@@ -39,14 +40,11 @@ class ControllerDetailsRefuge (
         binding.boutonAchat.setOnClickListener {
             shopRefuge.acheterRefuge(refuge.getId())
             if (context is DetailsRefugeActivity) {
-                val sourceFragment = intent.getStringExtra("sourceFragment")
-                if (sourceFragment == "CompagnonFragment") {
-                    val intent = Intent(context, MainActivity::class.java).apply {
-                        intent.putExtra("navigateTo", "CompagnonFragment")
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    context.startActivity(intent)
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    intent.putExtra("navigateTo", "CompagnonFragment")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
+                context.startActivity(intent)
                 context.finish()
             }
         }

@@ -58,6 +58,9 @@ class ShopRefuge(context: Context) {
 
         gestionnaireRefuge.ajouterRefuge(nouveauRefuge)
 
+        refugesStore.remove(refugeStore)
+        refugeStoreDAO.supprimer(refugeId)
+
         return true
     }
 
