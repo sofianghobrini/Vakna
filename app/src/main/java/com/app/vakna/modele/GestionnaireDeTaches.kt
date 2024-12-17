@@ -105,9 +105,38 @@ class GestionnaireDeTaches(context: Context) {
                 Personnalite.TRAVAILLEUR -> compagnon.personnalite.facteurPiece
             }
             when (tache.frequence) {
-                Frequence.QUOTIDIENNE -> inventaire.ajouterPieces(((modifImportance * 3 * refuge.getModifPieces())* facteurPersonalite).toInt())
-                Frequence.HEBDOMADAIRE -> inventaire.ajouterPieces(((modifImportance * 16 * refuge.getModifPieces())*facteurPersonalite).toInt())
-                Frequence.MENSUELLE -> inventaire.ajouterPieces(((modifImportance * 42 * refuge.getModifPieces())*facteurPersonalite).toInt())
+                Frequence.QUOTIDIENNE -> {
+                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                        inventaire.ajouterPieces((((modifImportance * 3 * refuge.getModifPieces())* facteurPersonalite)*0.9).toInt())
+                        gestionnaireCompagnons.modifierHumeur(compagnon.id, 2)
+                    }
+                    else
+                    {
+                        inventaire.ajouterPieces(((modifImportance * 3 * refuge.getModifPieces())* facteurPersonalite).toInt())
+                    }
+                }
+                Frequence.HEBDOMADAIRE ->{
+                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                        inventaire.ajouterPieces((((modifImportance * 16 * refuge.getModifPieces())*facteurPersonalite)*0.8).toInt())
+                        gestionnaireCompagnons.modifierHumeur(compagnon.id, 4)
+                    }
+                    else
+                    {
+                        inventaire.ajouterPieces(((modifImportance * 16 * refuge.getModifPieces())*facteurPersonalite).toInt())
+                    }
+                }
+
+                Frequence.MENSUELLE ->{
+                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                        inventaire.ajouterPieces((((modifImportance * 42 * refuge.getModifPieces())*facteurPersonalite)*0.72).toInt())
+                        gestionnaireCompagnons.modifierHumeur(compagnon.id, 7)
+                    }
+                    else
+                    {
+                        inventaire.ajouterPieces(((modifImportance * 42 * refuge.getModifPieces())*facteurPersonalite).toInt())
+                    }
+                }
+
             }
         } else {
             throw IllegalArgumentException("Tâche avec le nom $nom introuvable")
