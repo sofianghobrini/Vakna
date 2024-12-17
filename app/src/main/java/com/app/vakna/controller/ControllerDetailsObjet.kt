@@ -127,7 +127,12 @@ class ControllerDetailsObjet(
             compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
         }
         if(compagnon.personnalite == Personnalite.AVARE){
-            gestionnaireCompagnons.modifierHumeur(compagnon.id, -4)
+            when(getPrixTotal()){
+                in 10..90->gestionnaireCompagnons.modifierHumeur(compagnon.id, -2)
+                in 90..300->gestionnaireCompagnons.modifierHumeur(compagnon.id, -3)
+                in 300..1000->gestionnaireCompagnons.modifierHumeur(compagnon.id, -4)
+                else -> gestionnaireCompagnons.modifierHumeur(compagnon.id, -8)
+            }
         }
     }
 
@@ -137,6 +142,13 @@ class ControllerDetailsObjet(
         val objet = shop.getObjet(name)
         val prixTotal = (objet?.getPrix() ?: 0) * quantite
         binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
+    }
+
+    private fun getPrixTotal() : Int {
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
+        val objet = shop.getObjet(name)
+        return (objet?.getPrix() ?: 0) * quantite
     }
 
     private fun reduirePrix() {
