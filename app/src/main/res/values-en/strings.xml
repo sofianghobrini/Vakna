@@ -153,4 +153,9 @@
     <string name="tab_toys">Toys</string>
     <string name="tab_food">Food</string>
     <string name="tab_companions">Companions</string>
+    <string name="release_compagnon">Are you able to say goodbye to your partner?</string>
+    <string name="title_release">Release your Compagnon</string>
+    <string name="goodbye_myfriend">"GOODBYE !!! "</string>
+    <string name="refus_relacher">I change my mind T _ T</string>
+
 </resources>

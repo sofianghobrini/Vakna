@@ -155,4 +155,8 @@
     <string name="tab_toys">Jouet</string>
     <string name="tab_food">Nourriture</string>
     <string name="tab_companions">Compagnons</string>
+    <string name="release_compagnon">Etes vous capable de dire adieu votre compagnon</string>
+    <string name="title_release">Relacher votre compagnon</string>
+    <string name="goodbye_myfriend">Bye Bye</string>
+    <string name="refus_relacher">J\'ai change d\'avis T _ T</string>
 </resources>
