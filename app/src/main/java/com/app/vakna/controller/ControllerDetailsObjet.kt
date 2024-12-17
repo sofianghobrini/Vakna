@@ -11,8 +11,11 @@ import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
+import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Shop
+import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 
@@ -24,6 +27,7 @@ class ControllerDetailsObjet(
     val context = binding.root.context
     val shop = Shop(context)
     val inventaireDAO = InventaireDAO(context)
+    val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
 
     init {
         val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
@@ -118,6 +122,13 @@ class ControllerDetailsObjet(
 
     private fun achat(nom: String, quantite: Int) {
         shop.acheter(nom, quantite)
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+        }
+        if(compagnon.personnalite == Personnalite.AVARE){
+            gestionnaireCompagnons.modifierHumeur(compagnon.id, -4)
+        }
     }
 
     private fun prixTotal() {
