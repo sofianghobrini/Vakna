@@ -5,10 +5,6 @@
     <string name="title_magasin">Magasin</string>
     <string name="title_compagnon">Compagnon</string>
     <string name="edit_name">Modifier le nom</string>
-    <string name="release_compagnon">Etes vous capable de dire adieu votre compagnon</string>
-    <string name="title_release">Relacher votre compagnon</string>
-    <string name="goodbye_myfriend">Bye Bye</string>
-    <string name="refus_relacher">J\'ai change d\'avis T _ T</string>
     <string-array name="typeTacheExemple">
         <item>PERSONNELLE</item>
         <item>PROFESSIONNELLE</item>
@@ -159,5 +155,9 @@
     <string name="tab_toys">Jouet</string>
     <string name="tab_food">Nourriture</string>
     <string name="tab_companions">Compagnons</string>
+    <string name="release_compagnon">Message supp</string>
+    <string name="title_release">Relacher</string>
+    <string name="goodbye_myfriend">Adieu mon ami</string>
+    <string name="refus_relacher">Je relache pas mon compagnon</string>
 
 </resources>
