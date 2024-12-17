@@ -60,7 +60,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
-        inventaire.ajouterPieces(500)
+//        inventaire.ajouterPieces(500)
 
         setUpView()
 
@@ -80,6 +80,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             compagnon = gestionnaire.obtenirActif()!!
         }
 
+//        gestionnaire.modifierFaim(compagnon.id, -10)
+
         compagnon.let {
             binding.dragonName.text = it.nom
             updateLevelAndProgress(it)
@@ -92,8 +94,20 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         compagnon.let {
             binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             binding.progressHumeur.progress = it.humeur
-            binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
-            binding.progressFaim.progress = it.faim
+            when {
+                it.faim > 60 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_0)
+                }
+                it.faim > 30 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_1)
+                }
+                it.faim > 0 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_2)
+                }
+                it.faim == 0 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_3)
+                }
+            }
         }
 
         val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
@@ -182,8 +196,20 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 newCompagnon.let { comp ->
                     binding.texteHumeur.text = context.getString(R.string.humeur_text, comp.humeur)
                     binding.progressHumeur.progress = comp.humeur
-                    binding.texteFaim.text = context.getString(R.string.faim_text, comp.faim)
-                    binding.progressFaim.progress = comp.faim
+                    when {
+                        it.faim > 60 -> {
+                            binding.imageFaim.setImageResource(R.drawable.faim_0)
+                        }
+                        it.faim > 30 -> {
+                            binding.imageFaim.setImageResource(R.drawable.faim_1)
+                        }
+                        it.faim > 0 -> {
+                            binding.imageFaim.setImageResource(R.drawable.faim_2)
+                        }
+                        it.faim == 0 -> {
+                            binding.imageFaim.setImageResource(R.drawable.faim_3)
+                        }
+                    }
                 }
 
                 showPersonnalite(gestionnaire, binding.root, compagnon.id)
@@ -523,8 +549,20 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             compagnonGrid.let {
                 binding.texteHumeur.text = binding.root.context.getString(R.string.humeur_text, it.humeur)
                 binding.progressHumeur.progress = it.humeur
-                binding.texteFaim.text = binding.root.context.getString(R.string.faim_text, it.faim)
-                binding.progressFaim.progress = it.faim
+                when {
+                    it.faim > 60 -> {
+                        binding.imageFaim.setImageResource(R.drawable.faim_0)
+                    }
+                    it.faim > 30 -> {
+                        binding.imageFaim.setImageResource(R.drawable.faim_1)
+                    }
+                    it.faim > 0 -> {
+                        binding.imageFaim.setImageResource(R.drawable.faim_2)
+                    }
+                    it.faim == 0 -> {
+                        binding.imageFaim.setImageResource(R.drawable.faim_3)
+                    }
+                }
             }
 
             if(items.isEmpty()) {
