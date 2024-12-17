@@ -5,6 +5,7 @@
     <string name="title_magasin">Magasin</string>
     <string name="title_compagnon">Compagnon</string>
     <string name="edit_name">Modifier le nom</string>
+    <string name="free_compagnon" >Supprimer le compagnon</string>"
     <string-array name="typeTacheExemple">
         <item>PERSONNELLE</item>
         <item>PROFESSIONNELLE</item>

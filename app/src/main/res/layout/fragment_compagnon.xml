@@ -35,6 +35,20 @@
         app:layout_constraintStart_toEndOf="@+id/dragon_name"
         app:layout_constraintTop_toTopOf="@id/dragon_name" />
 
+    <ImageButton
+        android:id="@+id/free_compagnon_button"
+        android:layout_width="30dp"
+        android:layout_height="27dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/free_compagnon"
+        android:src="@drawable/wave"
+        android:tintMode="src_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toEndOf="@+id/edit_name_button"
+        app:layout_constraintTop_toTopOf="@id/edit_name_button"
+        app:tint="@color/red" />
+
     <TextView
         android:id="@+id/dragon_level"
         android:layout_width="wrap_content"
