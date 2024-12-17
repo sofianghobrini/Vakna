@@ -3,6 +3,7 @@ package com.app.vakna.modele
 import com.app.vakna.modele.dao.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 
 class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     private val setDeCompagnons = mutableSetOf<Compagnon>()
@@ -25,20 +26,23 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
     }
 
     fun setActif(id: Int) {
-        val compagnonOld = obtenirActif()!!
-        compagnonOld.actif = false
-        val compagnonNew = obtenirCompagnon(id)!!
-        compagnonNew.actif = true
-        dao.modifier(compagnonOld.id, compagnonOld)
-        dao.modifier(id, compagnonNew)
+         obtenirActif()?.let {
+             it.actif = false
+             dao.modifier(it.id, it)
+        }
+        obtenirCompagnon(id)?.let {
+            it.actif = true
+            dao.modifier(id, it)
+        }
     }
 
-    fun relacherCompagnon(compagnon: Compagnon): Int{
+    fun relacherCompagnon(compagnon: Compagnon, id : Int): Int{
+        val compagnonRecherche = setDeCompagnons.find { it.id == id }
         if(!setDeCompagnons.contains(compagnon)){
             throw IllegalArgumentException("Le compagnon n'existe pas")
         }
         val pieces = compagnon.niveau()*100
-        setDeCompagnons.remove(compagnon)
+        setDeCompagnons.remove(compagnonRecherche)
         dao.supprimer(compagnon.id)
         return pieces
     }
