@@ -15,7 +15,6 @@ import com.app.vakna.R
 import com.app.vakna.databinding.ActivityAjouterBinding
 import com.app.vakna.modele.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 /**
  * Contrôleur pour la gestion de l'ajout de tâches.
@@ -34,7 +33,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Bouton pour confirmer la création de la tâche
         binding.boutonCreerTache.setOnClickListener {
             if (validerFormulaire()) {
-                Log.d("AjoutTache", "Validation réussie")
                 confirmerTache()
 
                 // Naviguer vers l'écran principal après l'ajout de la tâche
@@ -82,6 +80,12 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val nomTacheEditText = binding.contenuInclude.inputNomTache
         if (nomTacheEditText.text.isNullOrEmpty()) {
             nomTacheEditText.error = binding.root.context.getString(R.string.task_name_error)
+            valide = false
+        }
+
+        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
+        gestionnaireDeTaches.obtenirTache(nomTacheEditText.text.toString())?.let {
+            nomTacheEditText.error = "Il ne peut pas y avoir deux quêtes avec le même nom"
             valide = false
         }
 
