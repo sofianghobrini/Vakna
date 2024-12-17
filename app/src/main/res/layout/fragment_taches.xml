@@ -31,14 +31,14 @@
 
                 <TextView
                     android:id="@+id/texteTitreTaches"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/left_rounded_purple"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|top"
                     android:text="@string/title_tasks"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
+                    android:textColor="@color/couleurTitre"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
