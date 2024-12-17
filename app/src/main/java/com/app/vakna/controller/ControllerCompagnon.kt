@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.text.InputFilter
 import android.util.Log
 import android.view.Gravity
@@ -10,7 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.core.view.children
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.app.vakna.MainActivity
@@ -44,6 +50,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     private lateinit var compagnonsSup: Array<Compagnon>
     private var inventaire = Inventaire(context)
     private val shop = Shop(context)
+    private val gestionnaireRefuge = GestionnaireDeRefuge(context)
 
     /**
      * Initialise l'interface utilisateur pour afficher les informations du compagnon.
@@ -75,7 +82,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             updateLevelAndProgress(it)
         }
 
-        updateRefuge(binding)
         updateHumeurCompagnon(binding, compagnon)
 
         compagnon.let {
@@ -185,6 +191,46 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             }
             iteration++
         }
+
+        val refuges = gestionnaireRefuge.getRefuges()
+
+        when {
+            refuges.isEmpty() -> {
+                binding.switchRefuge.setOnClickListener {
+                    showAcheterRefugeDialog()
+                }
+            }
+            refuges.size == 1 -> {
+                val apparence = refuges.first().apparence()
+                Glide.with(context)
+                    .load(apparence)
+                    .into(binding.refuge)
+                binding.switchRefuge.setOnClickListener {
+                    showAcheterRefugeDialog()
+                }
+            }
+            refuges.size > 1 -> {
+                val apparence = refuges.first().apparence()
+                Glide.with(context)
+                    .load(apparence)
+                    .into(binding.refuge)
+                binding.switchRefuge.setOnClickListener {
+                    showSelectRefugeDialog()
+                }
+            }
+        }
+
+        if(refuges.isEmpty()) {
+            binding.switchRefuge.setOnClickListener {
+                showAcheterRefugeDialog()
+            }
+        }
+
+        if(refuges.size == 1) {
+            binding.switchRefuge.setOnClickListener {
+                showAcheterRefugeDialog()
+            }
+        }
     }
 
     private fun getTabTitle(type: TypeObjet): String {
@@ -232,6 +278,82 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         popupMagasinView.setOnClickListener {
             popupMagasinWindow.dismiss()
         }
+    }
+
+    fun showAcheterRefugeDialog() {
+        val text = TextView(context).apply {
+            text = "Les refuges peuvent augmenter le gain d'humeur ou de faim d'un compagnon"
+        }
+
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Vous n'avez aucun Refuges!")
+            .setView(text)
+            .setPositiveButton("Acheter des Refuges") { dialog, _ ->
+                if (context is MainActivity) {
+                    val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
+                    navController.navigate(R.id.navigation_notifications)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    fun showSelectRefugeDialog() {
+        val inflater = LayoutInflater.from(context)
+        val dialogView = inflater.inflate(R.layout.dialog_select_refuge, null)
+
+        val horizontalContainer = dialogView.findViewById<LinearLayout>(R.id.horizontalContainer)
+        val boutonCancel = dialogView.findViewById<Button>(R.id.boutonCancel)
+        val boutonSelect = dialogView.findViewById<Button>(R.id.boutonSelect)
+
+        val refuges = gestionnaireRefuge.getRefuges()
+        var selectedRefuge: String? = null
+
+        refuges.forEach { refuge ->
+            val imageButton = ImageButton(context).apply {
+                layoutParams = ViewGroup.LayoutParams(200, 200)
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                setPadding(8, 8, 8, 8)
+
+
+                Glide.with(context)
+                    .load(refuge.apparence())
+                    .into(this)
+
+                setOnClickListener {
+                    selectedRefuge = refuge.apparence()
+                    this.setBackgroundColor(Color.CYAN)
+                    horizontalContainer.children.forEach { child ->
+                        if (child != this) child.setBackgroundColor(Color.TRANSPARENT)
+                    }
+                }
+            }
+            horizontalContainer.addView(imageButton)
+        }
+
+
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setTitle("")
+            .setView(dialogView)
+            .create()
+
+        boutonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        boutonSelect.setOnClickListener {
+            selectedRefuge?.let { imagePath ->
+                Glide.with(context)
+                    .load(imagePath)
+                    .into(binding.refuge)
+            }
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     /**
@@ -310,7 +432,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val refuge = if (refuges.isNotEmpty()) refuges.first() else null
             val fichierApparence = refuge?.apparence()
 
-            // Charger et afficher un GIF via Glide
             Glide.with(context)
                 .load(fichierApparence)
                 .into(binding.refuge)
