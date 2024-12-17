@@ -21,7 +21,8 @@ class Compagnon(
     // Méthode pour obtenir le fichier ou est stocké l'apparence par défaut du compagnon
     fun apparenceDefaut(): String {
         var image = "file:///android_asset/compagnons/"
-        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux.gif"
+        image += espece.lowercase() + "/" + espece.lowercase() + "_heureux_1.gif"
+
         return image
     }
 
@@ -37,15 +38,15 @@ class Compagnon(
         }
 
         humeurImage += if (humeurComp > 60) {
-            "heureux"
+            "heureux_"
         } else if (humeurComp > 30) {
-            "moyen"
+            "moyen_"
         } else if (humeurComp > 0) {
-            "enerve"
+            "enerve_"
         } else {
-            "triste"
+            "triste_"
         }
-        humeurImage +=".gif"
+        humeurImage += niveau().toString() + ".gif"
         return humeurImage
     }
 
