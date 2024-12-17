@@ -54,6 +54,9 @@
         <activity android:name=".SettingsActivity"
             android:screenOrientation="portrait"
             android:label="Settings" />
+        <activity android:name=".DetailsRefugeActivity"
+            android:screenOrientation="portrait"
+            android:label="Settings" />
         <service
             android:name=".notifications.NotificationService"
             android:enabled="true"

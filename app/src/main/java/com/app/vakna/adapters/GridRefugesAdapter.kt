@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.app.vakna.DetailsCompagnonActivity
+import com.app.vakna.DetailsRefugeActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.bumptech.glide.Glide
@@ -52,8 +53,8 @@ class GridRefugesAdapter (
 
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {
-                val intent = Intent(context, DetailsCompagnonActivity::class.java).apply {
-                    putExtra("ESPECE_COMPAGNON", item.nom)
+                val intent = Intent(context, DetailsRefugeActivity::class.java).apply {
+                    putExtra("NOM_REFUGE", item.nom)
                 }
                 context.startActivity(intent)
             }
