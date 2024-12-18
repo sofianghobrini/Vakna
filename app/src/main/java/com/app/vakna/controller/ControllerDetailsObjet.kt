@@ -27,6 +27,7 @@ class ControllerDetailsObjet(
     val context = binding.root.context
     val shop = Shop(context)
     val inventaireDAO = InventaireDAO(context)
+    val inventaire = Inventaire(context)
     val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
 
     init {
@@ -91,6 +92,10 @@ class ControllerDetailsObjet(
         binding.boutonAchat.setOnClickListener {
             val textQuantite = quantite.text.toString()
             val nbrQuantite = textQuantite.toInt()
+            val objet = shop.getObjet(nomObjet)
+            if (inventaire.getPieces() < objet!!.getPrix()) {
+                Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter cet objet!", Toast.LENGTH_SHORT).show()
+            }
             achat(nomObjet, nbrQuantite)
             if (context is DetailsObjetActivity) {
                 val sourceFragment = intent.getStringExtra("sourceFragment")
