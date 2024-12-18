@@ -257,6 +257,15 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             binding.contenuInclude.labelJoursTache.text = jours
         }
 
+        val boutonDefaut = dialogView.findViewById<Button>(R.id.button_defaut)
+
+        boutonDefaut.setOnClickListener {
+            selectedDays = null
+            dialog.dismiss()
+            binding.contenuInclude.titreJoursTache.visibility = View.GONE
+            binding.contenuInclude.labelJoursTache.visibility = View.GONE
+        }
+
         // Afficher le popup
         dialog.show()
     }
@@ -313,6 +322,15 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
             binding.contenuInclude.labelJoursTache.text = selectedDates
             dialog.dismiss()
+        }
+
+        val boutonDefaut = dialogView.findViewById<Button>(R.id.bouton_defaut)
+
+        boutonDefaut.setOnClickListener {
+            selectedDays = null
+            dialog.dismiss()
+            binding.contenuInclude.titreJoursTache.visibility = View.GONE
+            binding.contenuInclude.labelJoursTache.visibility = View.GONE
         }
 
         // Afficher le popup

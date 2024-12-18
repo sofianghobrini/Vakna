@@ -56,9 +56,27 @@
         android:layout_height="wrap_content"
         android:text="@string/sunday" />
 
-    <Button
-        android:id="@+id/button_valider"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/validate" />
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_valider"
+            android:layout_width="122dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/confirm" />
+
+        <Button
+            android:id="@+id/button_defaut"
+            android:layout_width="122dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="1/semaine" />
+
+    </LinearLayout>
 </LinearLayout>
