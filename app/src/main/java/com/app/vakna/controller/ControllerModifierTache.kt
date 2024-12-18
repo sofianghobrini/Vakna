@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -9,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.EditText
+import android.widget.GridLayout
 import android.widget.Spinner
 import android.widget.Toast
 import com.app.vakna.GererActivity
@@ -254,6 +256,25 @@ class ControllerModifierTache(
 
     private fun afficherPopUp_mensuel() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuel_perso, null)
+        val gridLayout = dialogView.findViewById<GridLayout>(R.id.grid_layout)
+
+        val dayButtons = (1..31).map { day ->
+            Button(context).apply {
+                text = day.toString()
+                setOnClickListener {
+                    if (selectedDays!!.contains(day)) {
+                        selectedDays?.remove(day)
+                        setBackgroundColor(Color.WHITE)
+                    } else {
+                        selectedDays?.add(day)
+                        setBackgroundColor(Color.LTGRAY)
+                    }
+                }
+            }
+        }
+
+        gridLayout.removeAllViews()
+        dayButtons.forEach { gridLayout.addView(it) }
 
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
@@ -263,31 +284,13 @@ class ControllerModifierTache(
         val dialog = dialogBuilder.create()
 
         // Référencer le DatePicker et le bouton d'ajout
-        val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
-        val buttonAjouterDate = dialogView.findViewById<Button>(R.id.button_date)
         val buttonConfirmDate = dialogView.findViewById<Button>(R.id.confirmer_date)
         selectedDays = mutableListOf<Int>()
 
-        // Gestion de l'ajout de la date sélectionnée
-        buttonAjouterDate.setOnClickListener {
-            val day = datePicker.dayOfMonth
-            if (!selectedDays!!.contains(day)) {
-                selectedDays!!.add(day)
-            } else {
-                Toast.makeText(context, "Le jour "+ day +" à déjà était sélectionné" , Toast.LENGTH_SHORT).show()
-            }
-        }
-
         // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            var jours = ""
-            selectedDays?.forEach {
-                jours += "$it, "
-            }
-            jours = jours.subSequence(0, jours.length-2).toString()
-            binding.contenuInclude.labelJoursTache.text = jours
+            val selectedDates = selectedDays?.joinToString(", ")
+            binding.contenuInclude.labelJoursTache.text = selectedDates
             dialog.dismiss()
         }
 
