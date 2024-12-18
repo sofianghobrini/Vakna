@@ -96,7 +96,9 @@
     <string name="weekly_tasks">Weekly</string>
     <string name="monthly_tasks">Monthly</string>
     <string name="popup_store_title">Name</string>
+    <string name="popup_store_title_compagnon">Buy a companion</string>
     <string name="popup_store_question">You are out of {OBJECT NAME}, would you like to buy more?</string>
+    <string name="popup_store_question_compagnon">You can have another companion, \n do you want to go buy one?</string>
     <string name="store_button">Store</string>
     <string name="popup_usage_title">Name</string>
     <string name="popup_usage_question">How many of {OBJECT NAME} would you like to use?</string>
