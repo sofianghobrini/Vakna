@@ -160,4 +160,22 @@
     <string name="goodbye_myfriend">Bye Bye</string>
     <string name="refus_relacher">J\'ai change d\'avis T _ T</string>
     <string name="un_campagnon_restant">Il te reste un compagnon...</string>
+    <string name="personalite_popup_title">Personnalité: %1$s</string>
+    <string name="personalite_popup_message_gourmand">" Ce compagnon adore manger !"</string>
+    <string name="personalite_popup_message_joueur">Ce compagnon aime beaucoup jouer !</string>
+    <string name="personalite_popup_message_calme">Ce compagnon est très paisible et détendu.</string>
+    <string name="personalite_popup_message_avare">" Ce compagnon n'aime pas depenser."</string>
+    <string name="personalite_popup_message_grincheux">" Ce compagnon est souvent de mauvaise humeur."</string>
+    <string name="personalite_popup_message_radin">" Ce compagnon est très économe, parfois trop."</string>
+    <string name="personalite_popup_message_gentil">" Ce compagnon est d'une grande bonté."</string>
+    <string name="personalite_popup_message_joyeux">" Ce compagnon est toujours plein de joie."</string>
+    <string name="personalite_popup_message_travailleur">" Ce compagnon est tres investie."</string>
+    <string name="personalite_popup_message_inconnue">Personnalité inconnue.</string>
+    <string name="j_lundi">Lundi</string>
+    <string name="j_Mardi">Mardi</string>
+    <string name="j_Mercredi">Mercredi</string>
+    <string name="j_Jeudi">Jeudi</string>
+    <string name="j_Vendredi">Vendredi</string>
+    <string name="j_Samedi">Samedi</string>
+    <string name="j_Dimanche">Dimanche</string>
 </resources>
