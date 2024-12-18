@@ -2,12 +2,14 @@ package com.app.vakna.controller
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.app.vakna.DetailsCompagnonActivity
 import com.app.vakna.DetailsRefugeActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsRefugesBinding
 import com.app.vakna.modele.GestionnaireDeRefuge
+import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.ShopRefuge
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
@@ -19,6 +21,7 @@ class ControllerDetailsRefuge (
 
     val context = binding.root.context
     val inventaireDAO = InventaireDAO(context)
+    val inventaire= Inventaire(context)
     val shopRefuge = ShopRefuge(context)
     val gestionnaire = GestionnaireDeRefuge(context)
 
@@ -38,6 +41,9 @@ class ControllerDetailsRefuge (
         binding.texteCout.text = context.getString(R.string.cout_format, refuge.getPrix())
 
         binding.boutonAchat.setOnClickListener {
+            if (inventaire.getPieces() < refuge.getPrix()) {
+                Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter ce refuge!", Toast.LENGTH_SHORT).show()
+            }
             shopRefuge.acheterRefuge(refuge.getId())
             if (context is DetailsRefugeActivity) {
                 val intent = Intent(context, MainActivity::class.java).apply {

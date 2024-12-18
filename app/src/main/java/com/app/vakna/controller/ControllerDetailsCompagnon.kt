@@ -28,6 +28,7 @@ class ControllerDetailsCompagnon(
 
     val context = binding.root.context
     val inventaireDAO = InventaireDAO(context)
+    val inventaire = Inventaire(context)
     val shopCompagnon = ShopCompagnons(context)
     val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
 
@@ -47,7 +48,10 @@ class ControllerDetailsCompagnon(
             if(nomCompagnon.isEmpty()) {
                 binding.inputNomCompagnon.error = "Entrez un nom pour votre compagnon"
             } else {
-                shopCompagnon.acheterCompagnon(compagnon!!.id, nomCompagnon)
+                if (inventaire.getPieces() < compagnon!!.prix) {
+                    Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter ce compagnon!", Toast.LENGTH_SHORT).show()
+                }
+                shopCompagnon.acheterCompagnon(compagnon.id, nomCompagnon)
                 if (context is DetailsCompagnonActivity) {
                     val sourceFragment = intent.getStringExtra("sourceFragment")
                     if (sourceFragment == "CompagnonFragment") {
