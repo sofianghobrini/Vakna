@@ -46,11 +46,14 @@ class ControllerDetailsRefuge (
             }
             shopRefuge.acheterRefuge(refuge.getId())
             if (context is DetailsRefugeActivity) {
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    intent.putExtra("navigateTo", "CompagnonFragment")
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                val sourceFragment = intent.getStringExtra("sourceFragment")
+                if (sourceFragment == "CompagnonFragment") {
+                    val intent = Intent(context, MainActivity::class.java).apply {
+                        intent.putExtra("navigateTo", "CompagnonFragment")
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    context.startActivity(intent)
                 }
-                context.startActivity(intent)
                 context.finish()
             }
         }
