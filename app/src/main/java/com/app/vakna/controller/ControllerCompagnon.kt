@@ -1,5 +1,6 @@
 package com.app.vakna.controller
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -538,6 +539,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(binding.refuge)
         }
 
+        @SuppressLint("StringFormatInvalid")
         fun showPersonnalite(gestionnaireCompagnons: GestionnaireDeCompagnons, view: View, id: Int) {
             val context = view.context
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
@@ -554,19 +556,29 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             }
 
             val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)
-            personnaliteTextView?.text = typePersonnalite // Affiche uniquement le nom
-
-            // Configure le clic pour afficher un popup
+            personnaliteTextView?.text = typePersonnalite +" (?)"// Affiche uniquement le nom
             personnaliteTextView?.setOnClickListener {
+                val message = when (compagnon!!.personnalite) {
+                    Personnalite.GOURMAND -> context.getString(R.string.personalite_popup_message_gourmand, typePersonnalite)
+                    Personnalite.JOUEUR -> context.getString(R.string.personalite_popup_message_joueur, typePersonnalite)
+                    Personnalite.CALME -> context.getString(R.string.personalite_popup_message_calme, typePersonnalite)
+                    Personnalite.AVARE -> context.getString(R.string.personalite_popup_message_avare, typePersonnalite)
+                    Personnalite.GRINCHEUX -> context.getString(R.string.personalite_popup_message_grincheux, typePersonnalite)
+                    Personnalite.RADIN -> context.getString(R.string.personalite_popup_message_radin, typePersonnalite)
+                    Personnalite.GENTIL -> context.getString(R.string.personalite_popup_message_gentil, typePersonnalite)
+                    Personnalite.JOYEUX -> context.getString(R.string.personalite_popup_message_joyeux, typePersonnalite)
+                    Personnalite.TRAVAILLEUR -> context.getString(R.string.personalite_popup_message_travailleur, typePersonnalite)
+                    else -> context.getString(R.string.personalite_popup_message_inconnue)
+                }
                 AlertDialog.Builder(context)
-                    .setTitle(context.getString(R.string.personalite_popup_title)) // Titre du popup
-                    .setMessage(context.getString(R.string.personalite_popup_message, typePersonnalite)) // Message avec la personnalité
+                    .setTitle(context.getString(R.string.personalite_popup_title, typePersonnalite))
+                    .setMessage(message) // Utilise le message défini dans le switch
                     .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                        dialog.dismiss() // Ferme le popup quand l'utilisateur appuie sur OK
+                        dialog.dismiss() // Ferme le popup
                     }
                     .create()
                     .show()
-            }
+        }
         }
 
 
