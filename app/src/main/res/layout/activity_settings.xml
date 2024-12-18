@@ -28,13 +28,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/border"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_language"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="@color/couleurTexte"
                 android:textSize="18sp" />
 
             <TextView
@@ -57,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/english"
                     android:buttonTint="@color/gray"
-                    android:textColor="@color/black"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:drawableStart="@drawable/ic_flag_uk"
                     android:drawablePadding="8dp" />
 
@@ -70,7 +71,7 @@
                     android:drawableStart="@drawable/ic_flag_france"
                     android:drawablePadding="8dp"
                     android:text="@string/french"
-                    android:textColor="@color/black" />
+                    android:textColor="?android:attr/textColorPrimary" />
             </RadioGroup>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -87,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/border"
             android:padding="16dp">
 
             <TextView
@@ -94,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/theme"
                 android:textSize="18sp"
-                android:textColor="?attr/colorPrimary"/>
+                android:textColor="@color/couleurTexte"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +110,7 @@
                 android:id="@+id/themeSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?android:attr/textColorPrimary"
                 android:text="@string/dark_mode"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -124,6 +126,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/border"
             android:padding="16dp">
 
             <TextView
@@ -131,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications"
                 android:textSize="18sp"
-                android:textColor="?attr/colorPrimary"/>
+                android:textColor="@color/couleurTexte"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,7 +148,7 @@
                 android:id="@+id/notificationsSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="?android:attr/textColorPrimary"
                 android:text="@string/enable_notifications"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
