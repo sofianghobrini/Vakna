@@ -24,6 +24,10 @@
     <string name="type_viequo">Vie Quotidienne</string>
     <string name="type_autre">Autre</string>
 
+
+    <string name="personalite_popup_title">Personnalité</string>
+    <string name="personalite_popup_message">Cette personnalité est : %1$s</string>
+
     <string name="create_task_button">Créer une quête</string>
     <string name="cancel_task_creation_button">Annuler</string>
     <string name="task_name_error">Le nom de la quête est obligatoire</string>
@@ -155,9 +159,10 @@
     <string name="tab_toys">Jouet</string>
     <string name="tab_food">Nourriture</string>
     <string name="tab_companions">Compagnons</string>
-    <string name="release_compagnon">Message supp</string>
+    <string name="release_compagnon">Etes vous capable de dire adieux à votre campagnon</string>
     <string name="title_release">Relacher</string>
     <string name="goodbye_myfriend">Adieu mon ami</string>
     <string name="refus_relacher">Je relache pas mon compagnon</string>
+    <string name="un_campagnon_restant">Il te reste un campagnon...</string>
 
 </resources>

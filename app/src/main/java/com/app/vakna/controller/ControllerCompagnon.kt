@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -128,8 +129,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val items = inventaire.getObjetsParType(distinctTypesList.first())
         setupGridView(items, distinctTypesList.first(), binding)
 
+
         binding.freeCompagnonButton.setOnClickListener{
-            view -> showDialogRelease()
+            val campagnonRestant = gestionnaire.obtenirCompagnons()
+            if(campagnonRestant.size > 1) { showDialogRelease() }
+            else {
+                Toast.makeText(context, context.getString(R.string.un_campagnon_restant), Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Gérer la sélection d'onglets (Jouets / Nourriture)
@@ -460,7 +466,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.release_compagnon))
 
         val dialog = dialogBuilder.create()
 
@@ -468,14 +473,12 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val buttonValider = dialogView.findViewById<Button>(R.id.boutonRelacher)
 
         buttonValider.setOnClickListener{
-
-            gestionnaire.relacherCompagnon(compagnon, compagnon.id)
             val compagnonsRestants = gestionnaire.obtenirCompagnons()
+            gestionnaire.relacherCompagnon(compagnon, compagnon.id)
             if (compagnonsRestants.isNotEmpty()) {
                 compagnon = compagnonsRestants.first()
                 gestionnaire.setActif(compagnon.id)
             }
-
             dialog.dismiss()
         }
 
@@ -535,9 +538,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(binding.refuge)
         }
 
-        fun showPersonnalite( gestionnaireCompagnons : GestionnaireDeCompagnons, view: View, id : Int) {
+        fun showPersonnalite(gestionnaireCompagnons: GestionnaireDeCompagnons, view: View, id: Int) {
+            val context = view.context
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
-            var typePersonnalite = when(compagnon!!.personnalite) {
+            val typePersonnalite = when (compagnon!!.personnalite) {
                 Personnalite.GOURMAND -> "Gourmand"
                 Personnalite.JOUEUR -> "Joueur"
                 Personnalite.CALME -> "Calme"
@@ -549,9 +553,23 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 Personnalite.JOYEUX -> "Joyeux"
                 Personnalite.TRAVAILLEUR -> "Travailleur"
             }
-            val personnaliteTextView = view?.findViewById<TextView>(R.id.personnalite)
+
+            val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)
             personnaliteTextView?.text = typePersonnalite // Affiche uniquement le nom
+
+            // Configure le clic pour afficher un popup
+            personnaliteTextView?.setOnClickListener {
+                AlertDialog.Builder(context)
+                    .setTitle(context.getString(R.string.personalite_popup_title)) // Titre du popup
+                    .setMessage(context.getString(R.string.personalite_popup_message, typePersonnalite)) // Message avec la personnalité
+                    .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                        dialog.dismiss() // Ferme le popup quand l'utilisateur appuie sur OK
+                    }
+                    .create()
+                    .show()
+            }
         }
+
 
         /**
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).

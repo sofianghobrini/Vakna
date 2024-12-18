@@ -159,5 +159,6 @@
     <string name="title_release">Release your Compagnon</string>
     <string name="goodbye_myfriend">"GOODBYE !!! "</string>
     <string name="refus_relacher">I change my mind T _ T</string>
+    <string name="un_campagnon_restant">You have one companion left...</string>
 
 </resources>

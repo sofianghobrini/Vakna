@@ -16,18 +16,18 @@
 
     <TextView
         android:id="@+id/dialogTextWarning"
-        android:inputType="textMultiLine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/release_compagnon"
-        android:layout_marginTop="8dp"
+        android:layout_width="318dp"
+        android:layout_height="60dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="4dp"
+        android:gravity="center"
+        android:inputType="textMultiLine"
+        android:text="@string/release_compagnon" />
 
     <LinearLayout
-        android:layout_width="314dp"
-        android:layout_height="92dp"
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
         android:orientation="horizontal">
 
         <Button
