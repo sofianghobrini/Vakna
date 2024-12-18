@@ -3,6 +3,7 @@
     <color name="couleurTexte">#AA55FF</color>
     <color name="tacheTermine">#AA55FF</color>
     <color name="tacheDefaut">#BBBBBB</color>
+    <color name="tacheProgression">#CC77FF</color>
     <color name="progressHumeur">#FFFF22</color>
     <color name="grisClair">#E4E8E7</color>
     <color name="progressFaim">#00AA00</color>

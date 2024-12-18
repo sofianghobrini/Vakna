@@ -58,11 +58,13 @@
                 android:id="@+id/progressTachesJournalier"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
+                android:progressTint="@color/tacheProgression"
+                android:progressBackgroundTint="@color/grisClair"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -94,11 +96,13 @@
                 android:id="@+id/progressTachesHebdomadaire"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
+                android:progressTint="@color/tacheProgression"
+                android:progressBackgroundTint="@color/grisClair"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesHebdomadaire" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -130,10 +134,13 @@
                 android:id="@+id/progressTachesMensuel"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:max="100"
                 android:progress="0"
+                android:progressTint="@color/tacheProgression"
+                android:progressBackgroundTint="@color/grisClair"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesMensuel" />
 
             <androidx.recyclerview.widget.RecyclerView
