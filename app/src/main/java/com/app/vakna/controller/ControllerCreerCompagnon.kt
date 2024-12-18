@@ -38,6 +38,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
+    private val refugeDAO = RefugeDAO(context)
     private val refugeStoreDAO = RefugeStoreDAO(context)
     private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
@@ -93,13 +94,9 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             shopDAO.inserer(it)
         }
 
-        val refuge1 = RefugeStore(1, "Tresor", 1.0f, 1.0f, 1.0f, 1.5f, 325)
-        val refuge2 = RefugeStore(2, "Cantine", 1.5f, 1.0f, 1.0f, 1.0f, 250)
-        val refuges = listOf(refuge1, refuge2)
+        refugeStoreDAO.inserer(RefugeStore(1, "Cantine", 1.5f, 1.0f, 1.0f, 1.0f, 250))
 
-        refuges.forEach {
-            refugeStoreDAO.inserer(it)
-        }
+        refugeDAO.inserer(Refuge(1, "Tresor", 1.0f, 1.0f, 1.0f, 1.5f, true))
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, especeList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
