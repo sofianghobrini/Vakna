@@ -24,6 +24,10 @@
     <string name="type_viequo">Vie Quotidienne</string>
     <string name="type_autre">Autre</string>
 
+
+    <string name="personalite_popup_title">Personnalité</string>
+    <string name="personalite_popup_message">Cette personnalité est : %1$s</string>
+
     <string name="create_task_button">Créer une quête</string>
     <string name="cancel_task_creation_button">Annuler</string>
     <string name="task_name_error">Le nom de la quête est obligatoire</string>

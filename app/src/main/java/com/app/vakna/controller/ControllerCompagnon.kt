@@ -538,9 +538,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(binding.refuge)
         }
 
-        fun showPersonnalite( gestionnaireCompagnons : GestionnaireDeCompagnons, view: View, id : Int) {
+        fun showPersonnalite(gestionnaireCompagnons: GestionnaireDeCompagnons, view: View, id: Int) {
+            val context = view.context
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
-            var typePersonnalite = when(compagnon!!.personnalite) {
+            val typePersonnalite = when (compagnon!!.personnalite) {
                 Personnalite.GOURMAND -> "Gourmand"
                 Personnalite.JOUEUR -> "Joueur"
                 Personnalite.CALME -> "Calme"
@@ -552,9 +553,23 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 Personnalite.JOYEUX -> "Joyeux"
                 Personnalite.TRAVAILLEUR -> "Travailleur"
             }
-            val personnaliteTextView = view?.findViewById<TextView>(R.id.personnalite)
+
+            val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)
             personnaliteTextView?.text = typePersonnalite // Affiche uniquement le nom
+
+            // Configure le clic pour afficher un popup
+            personnaliteTextView?.setOnClickListener {
+                AlertDialog.Builder(context)
+                    .setTitle(context.getString(R.string.personalite_popup_title)) // Titre du popup
+                    .setMessage(context.getString(R.string.personalite_popup_message, typePersonnalite)) // Message avec la personnalité
+                    .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                        dialog.dismiss() // Ferme le popup quand l'utilisateur appuie sur OK
+                    }
+                    .create()
+                    .show()
+            }
         }
+
 
         /**
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
