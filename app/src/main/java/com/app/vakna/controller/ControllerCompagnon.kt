@@ -545,7 +545,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 Personnalite.GOURMAND -> "Gourmand"
                 Personnalite.JOUEUR -> "Joueur"
                 Personnalite.CALME -> "Calme"
-                Personnalite.CUPIDE -> "Cupide"
                 Personnalite.AVARE -> "Avare"
                 Personnalite.GRINCHEUX -> "Grincheux"
                 Personnalite.RADIN -> "Radin"
