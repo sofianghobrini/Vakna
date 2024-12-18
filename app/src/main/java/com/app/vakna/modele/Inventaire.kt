@@ -58,7 +58,7 @@ class Inventaire(contexte: Context) {
             }
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
             if(compagnon.personnalite == Personnalite.GOURMAND){
-                gestionnaireCompagnons.modifierHumeur(idCompagnon, (niveau * 0.6).toInt())
+                gestionnaireCompagnons.modifierHumeur(idCompagnon, (niveau * 1.6).toInt())
             }
             gestionnaireCompagnons.modifierFaim(idCompagnon, niveau)
         }
