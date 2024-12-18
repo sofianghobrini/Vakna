@@ -3,6 +3,7 @@ package com.app.vakna.controller
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -261,13 +262,24 @@ class ControllerModifierTache(
         val dayButtons = (1..31).map { day ->
             Button(context).apply {
                 text = day.toString()
+                setBackgroundColor(resources.getColor(R.color.grisClair, null))
+                val widthInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50f, resources.displayMetrics).toInt()
+                val heightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt()
+                val marginInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics).toInt()
+                layoutParams = GridLayout.LayoutParams().apply {
+                    width = widthInPx
+                    height = heightInPx
+                    setMargins(marginInPx, marginInPx, marginInPx, marginInPx)
+                    setPadding(0,0,0,0)
+                }
+                textSize = 10f
                 setOnClickListener {
                     if (selectedDays!!.contains(day)) {
                         selectedDays?.remove(day)
-                        setBackgroundColor(Color.WHITE)
+                        setBackgroundColor(resources.getColor(R.color.grisClair, null))
                     } else {
                         selectedDays?.add(day)
-                        setBackgroundColor(Color.LTGRAY)
+                        setBackgroundColor(resources.getColor(R.color.tacheTermine, null))
                     }
                 }
             }
@@ -289,7 +301,10 @@ class ControllerModifierTache(
 
         // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
+            selectedDays?.sort()
             val selectedDates = selectedDays?.joinToString(", ")
+            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
             binding.contenuInclude.labelJoursTache.text = selectedDates
             dialog.dismiss()
         }
