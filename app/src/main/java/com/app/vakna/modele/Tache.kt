@@ -9,6 +9,7 @@ class Tache(
     var frequence: Frequence,
     var importance: Importance,
     var type: TypeTache,
+    var jours: List<Int>? = null,
     var derniereValidation: LocalDate? = null,
     var prochaineValidation: LocalDateTime? = null,
     var estTerminee: Boolean = false,
@@ -28,6 +29,6 @@ class Tache(
     }
 
     override fun toString(): String {
-        return "$nom : $frequence $importance $type $derniereValidation " + if (estTerminee) "Finie" else "Pas Finie" + if (estArchivee) " ARCHIVEE" else ""
+        return "$nom : $frequence $jours $importance $type $derniereValidation " + if (estTerminee) "Finie" else "Pas Finie" + if (estArchivee) " ARCHIVEE" else ""
     }
 }

@@ -33,6 +33,7 @@ class ControllerModifierTache(
 
     private val context = binding.root.context
     private var tacheOriginel: Tache
+    private var selectedDays: MutableList<Int>? = null
 
     init{
         val taskName = intent.getStringExtra("NOM_TACHE") ?: context.getString(R.string.task_unknown)
@@ -156,6 +157,7 @@ class ControllerModifierTache(
         val typeTache = recupererTypeTache()
         val importanceTache = recupererImportanceTache()
         val frequenceTache = recupererFrequenceTache()
+        val joursTache = selectedDays
         val derniereValidation = LocalDate.now()
         val prochaineValidation = when(recupererFrequenceTache()) {
             Frequence.QUOTIDIENNE -> {
@@ -170,7 +172,7 @@ class ControllerModifierTache(
         }
         val estTermine = tacheOriginel.estTerminee
 
-        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, derniereValidation, prochaineValidation, estTermine)
+        val tache = Tache(nomTache, frequenceTache, importanceTache, typeTache, joursTache, derniereValidation, prochaineValidation, estTermine)
 
         val resultat = gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
 
@@ -203,20 +205,22 @@ class ControllerModifierTache(
 
         buttonValider.setOnClickListener {
             // Récupérer les jours sélectionnés
-            val selectedDays = mutableListOf<String>()
-            if (checkLundi.isChecked) selectedDays.add(context.getString(R.string.monday))
-            if (checkMardi.isChecked) selectedDays.add(context.getString(R.string.tuesday))
-            if (checkMercredi.isChecked) selectedDays.add(context.getString(R.string.wednesday))
-            if (checkJeudi.isChecked) selectedDays.add(context.getString(R.string.thursday))
-            if (checkVendredi.isChecked) selectedDays.add(context.getString(R.string.friday))
-            if (checkSamedi.isChecked) selectedDays.add(context.getString(R.string.saturday))
-            if (checkDimanche.isChecked) selectedDays.add(context.getString(R.string.sunday))
+            selectedDays = mutableListOf<Int>()
+            selectedDays?.let {
+                if (checkLundi.isChecked) it.add(0)
+                if (checkMardi.isChecked) it.add(1)
+                if (checkMercredi.isChecked) it.add(2)
+                if (checkJeudi.isChecked) it.add(3)
+                if (checkVendredi.isChecked) it.add(4)
+                if (checkSamedi.isChecked) it.add(5)
+                if (checkDimanche.isChecked) it.add(6)
+            }
 
             // Fermer le dialog après la sélection
             dialog.dismiss()
 
             // Afficher un Toast avec les jours sélectionnés
-            Toast.makeText(context, context.getString(R.string.popup_selected_days, selectedDays.joinToString()), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.popup_selected_days, selectedDays?.joinToString()), Toast.LENGTH_SHORT).show()
         }
 
         // Afficher le popup
@@ -237,28 +241,21 @@ class ControllerModifierTache(
         val datePicker = dialogView.findViewById<DatePicker>(R.id.datePicker)
         val buttonAjouterDate = dialogView.findViewById<Button>(R.id.button_date)
         val buttonConfirmDate = dialogView.findViewById<Button>(R.id.confirmer_date)
-        val selectedDates = mutableListOf<String>()
+        selectedDays = mutableListOf<Int>()
 
         // Gestion de l'ajout de la date sélectionnée
         buttonAjouterDate.setOnClickListener {
             val day = datePicker.dayOfMonth
-            val month = datePicker.month + 1 // Les mois commencent à 0
-            val year = datePicker.year
-
-            // Formater la date (par exemple, en "dd-MM-yyyy")
-            val formattedDate = String.format("%02d-%02d-%04d", day, month, year)
-
-            // Ajouter la date à la liste si elle n'est pas déjà sélectionnée
-            if (!selectedDates.contains(formattedDate)) {
-                selectedDates.add(formattedDate)
-                Toast.makeText(context, context.getString(R.string.date_added, formattedDate), Toast.LENGTH_SHORT).show()
+            if (selectedDays!!.contains(day)) {
+                selectedDays!!.add(day)
             } else {
-                Toast.makeText(context, context.getString(R.string.date_already_selected), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Le jour "+ day +" à déjà était sélectionné" , Toast.LENGTH_SHORT).show()
             }
         }
 
         // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
+            Toast.makeText(context, "Jours sélectionnés : ${selectedDays?.joinToString()}", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 

@@ -20,6 +20,9 @@ class TacheToJson : JsonSerializer<Tache> {
         objetJson.addProperty("frequence", src.frequence.name)
         objetJson.addProperty("importance", src.importance.name)
         objetJson.addProperty("type", src.type.name)
+        src.jours?.forEach {
+            objetJson.addProperty("jours", it)
+        }
         objetJson.addProperty("estTerminee", src.estTerminee)
         objetJson.addProperty("estArchivee", src.estArchivee)
         objetJson.addProperty("derniereValidation", src.derniereValidation.toString())
