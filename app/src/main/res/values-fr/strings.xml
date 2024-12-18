@@ -159,4 +159,5 @@
     <string name="title_release">Relacher votre compagnon</string>
     <string name="goodbye_myfriend">Bye Bye</string>
     <string name="refus_relacher">J\'ai change d\'avis T _ T</string>
+    <string name="un_campagnon_restant">Il te reste un compagnon...</string>
 </resources>

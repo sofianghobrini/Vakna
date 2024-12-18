@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -128,8 +129,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val items = inventaire.getObjetsParType(distinctTypesList.first())
         setupGridView(items, distinctTypesList.first(), binding)
 
+
         binding.freeCompagnonButton.setOnClickListener{
-            view -> showDialogRelease()
+            val campagnonRestant = gestionnaire.obtenirCompagnons()
+            if(campagnonRestant.size > 1) { showDialogRelease() }
+            else {
+                Toast.makeText(context, context.getString(R.string.un_campagnon_restant), Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Gérer la sélection d'onglets (Jouets / Nourriture)
@@ -468,14 +474,12 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val buttonValider = dialogView.findViewById<Button>(R.id.boutonRelacher)
 
         buttonValider.setOnClickListener{
-
-            gestionnaire.relacherCompagnon(compagnon, compagnon.id)
             val compagnonsRestants = gestionnaire.obtenirCompagnons()
+            gestionnaire.relacherCompagnon(compagnon, compagnon.id)
             if (compagnonsRestants.isNotEmpty()) {
                 compagnon = compagnonsRestants.first()
                 gestionnaire.setActif(compagnon.id)
             }
-
             dialog.dismiss()
         }
 

@@ -159,5 +159,6 @@
     <string name="title_release">Relacher</string>
     <string name="goodbye_myfriend">Adieu mon ami</string>
     <string name="refus_relacher">Je relache pas mon compagnon</string>
+    <string name="un_campagnon_restant">Il te reste un campagnon...</string>
 
 </resources>
