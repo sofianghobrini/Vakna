@@ -466,7 +466,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.release_compagnon))
 
         val dialog = dialogBuilder.create()
 
