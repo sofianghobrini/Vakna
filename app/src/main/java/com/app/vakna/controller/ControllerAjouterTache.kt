@@ -67,6 +67,8 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             when (checkedId) {
                 R.id.radioQuotidien -> {
                     selectedDays = mutableListOf()
+                    binding.contenuInclude.titreJoursTache.visibility = View.GONE
+                    binding.contenuInclude.labelJoursTache.visibility = View.GONE
                 }
 
                 R.id.radioHebdomadaire -> {
@@ -232,8 +234,22 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             // Fermer le dialog après la sélection
             dialog.dismiss()
 
-            // Afficher un Toast avec les jours sélectionnés
-            Toast.makeText(context, "Jours sélectionnés : ${selectedDays?.joinToString()}", Toast.LENGTH_SHORT).show()
+            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+            var jours = ""
+            selectedDays?.forEach {
+                when(it) {
+                    0 -> jours += "Lundi, "
+                    1 -> jours += "Mardi, "
+                    2 -> jours += "Mercredi, "
+                    3 -> jours += "Jeudi, "
+                    4 -> jours += "Vendredi, "
+                    5 -> jours += "Samedi, "
+                    6 -> jours += "Dimanche, "
+                }
+            }
+            jours = jours.subSequence(0, jours.length-2).toString()
+            binding.contenuInclude.labelJoursTache.text = jours
         }
 
         // Afficher le popup
@@ -268,7 +284,14 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
 
         // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
-            Toast.makeText(context, "Jours sélectionnés : ${selectedDays?.joinToString()}", Toast.LENGTH_SHORT).show()
+            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+            var jours = ""
+            selectedDays?.forEach {
+                jours += "$it, "
+            }
+            jours = jours.subSequence(0, jours.length-2).toString()
+            binding.contenuInclude.labelJoursTache.text = jours
             dialog.dismiss()
         }
 
