@@ -4,6 +4,7 @@ import android.content.Context
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -158,56 +159,144 @@ class GestionnaireDeTaches(context: Context) {
     fun verifierTacheNonAccomplies(): Boolean {
         val dateActuelle = LocalDateTime.now()
         tacheDAO.obtenirTous().forEach {
-            if (!it.estArchivee) {
-                when (it.frequence) {
-                    Frequence.QUOTIDIENNE -> {
-                        while(dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(it.prochaineValidation)) {
-                            when (it.estTerminee) {
-                                true -> {
-                                    it.estTerminee = false
-                                    modifierTache(it.nom, it)
+            if (it.jours == null || it.jours?.isEmpty() == true) {
+                if (!it.estArchivee) {
+                    when (it.frequence) {
+                        Frequence.QUOTIDIENNE -> {
+                            while (dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(
+                                    it.prochaineValidation
+                                )
+                            ) {
+                                when (it.estTerminee) {
+                                    true -> {
+                                        it.estTerminee = false
+                                        modifierTache(it.nom, it)
+                                    }
+
+                                    false -> {
+                                        gestionnaireCompagnons.modifierHumeur(
+                                            idCompagnon,
+                                            -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2
+                                        )
+                                    }
                                 }
-                                false -> {
-                                    gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
-                                }
+                                it.prochaineValidation = it.prochaineValidation!!.plusDays(1)
+                                modifierTache(it.nom, it)
                             }
-                            it.prochaineValidation = it.prochaineValidation!!.plusDays(1)
-                            modifierTache(it.nom, it)
+                        }
+
+                        Frequence.HEBDOMADAIRE -> {
+                            while (dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(
+                                    it.prochaineValidation
+                                )
+                            ) {
+                                when (it.estTerminee) {
+                                    true -> {
+                                        it.estTerminee = false
+                                        modifierTache(it.nom, it)
+                                    }
+
+                                    false -> {
+                                        gestionnaireCompagnons.modifierHumeur(
+                                            idCompagnon,
+                                            -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2
+                                        )
+                                    }
+                                }
+                                it.prochaineValidation = it.prochaineValidation!!.plusWeeks(1)
+                                modifierTache(it.nom, it)
+                            }
+                        }
+
+                        Frequence.MENSUELLE -> {
+                            while (dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(
+                                    it.prochaineValidation
+                                )
+                            ) {
+                                when (it.estTerminee) {
+                                    true -> {
+                                        it.estTerminee = false
+                                        modifierTache(it.nom, it)
+                                    }
+
+                                    false -> {
+                                        gestionnaireCompagnons.modifierHumeur(
+                                            idCompagnon,
+                                            -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2
+                                        )
+                                    }
+                                }
+                                it.prochaineValidation = it.prochaineValidation!!.plusMonths(1)
+                                modifierTache(it.nom, it)
+                            }
                         }
                     }
-                    Frequence.HEBDOMADAIRE -> {
-                        while(dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(it.prochaineValidation)) {
-                            when (it.estTerminee) {
-                                true -> {
-                                    it.estTerminee = false
-                                    it.derniereValidation = it.derniereValidation!!.plusWeeks(1)
-                                    modifierTache(it.nom, it)
+                }
+            } else {
+                if (!it.estArchivee) {
+                    when (it.frequence) {
+                        Frequence.HEBDOMADAIRE -> {
+                            val jours = it.jours?.map { DayOfWeek.of(it) } ?: emptyList()
+                            var prochaineValidation = it.prochaineValidation!!
+
+                            while (!prochaineValidation.isAfter(LocalDateTime.now())) {
+                                jours.forEach { jour ->
+                                    if (prochaineValidation.dayOfWeek == jour) {
+                                        if (dateActuelle.isAfter(prochaineValidation) || dateActuelle.isEqual(prochaineValidation)) {
+                                            when (it.estTerminee) {
+                                                true -> {
+                                                    it.estTerminee = false
+                                                    modifierTache(it.nom, it)
+                                                }
+                                                false -> {
+                                                    gestionnaireCompagnons.modifierHumeur(
+                                                        idCompagnon,
+                                                        -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                false -> {
-                                    it.derniereValidation = it.derniereValidation!!.plusWeeks(1)
-                                    gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
-                                }
+                                do {
+                                    prochaineValidation = prochaineValidation.plusDays(1)
+                                } while (!jours.contains(prochaineValidation.dayOfWeek))
                             }
-                            it.prochaineValidation = it.prochaineValidation!!.plusWeeks(1)
+                            it.prochaineValidation = prochaineValidation
                             modifierTache(it.nom, it)
                         }
-                    }
-                    Frequence.MENSUELLE -> {
-                        while(dateActuelle.isAfter(it.prochaineValidation) || dateActuelle.isEqual(it.prochaineValidation)) {
-                            when (it.estTerminee) {
-                                true -> {
-                                    it.estTerminee = false
-                                    it.derniereValidation = it.derniereValidation!!.plusMonths(1)
-                                    modifierTache(it.nom, it)
+
+                        Frequence.MENSUELLE -> {
+                            val jours = it.jours ?: emptyList()
+                            var prochaineValidation = it.prochaineValidation!!
+
+                            while (!prochaineValidation.isAfter(LocalDateTime.now())) {
+                                jours.forEach { jour ->
+                                    if (prochaineValidation.dayOfMonth == jour) {
+                                        if (dateActuelle.isAfter(prochaineValidation) || dateActuelle.isEqual(prochaineValidation)) {
+                                            when (it.estTerminee) {
+                                                true -> {
+                                                    it.estTerminee = false
+                                                    modifierTache(it.nom, it)
+                                                }
+                                                false -> {
+                                                    gestionnaireCompagnons.modifierHumeur(
+                                                        idCompagnon,
+                                                        -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                                false -> {
-                                    it.derniereValidation = it.derniereValidation!!.plusMonths(1)
-                                    gestionnaireCompagnons.modifierHumeur(idCompagnon, -(it.importance.ordinal + 1) * (it.frequence.ordinal + 1) * 2)
-                                }
+                                do {
+                                    prochaineValidation = prochaineValidation.plusDays(1)
+                                } while (!jours.contains(prochaineValidation.dayOfMonth))
                             }
-                            it.prochaineValidation = it.prochaineValidation!!.plusMonths(1)
+                            it.prochaineValidation = prochaineValidation
                             modifierTache(it.nom, it)
                         }
+                        Frequence.QUOTIDIENNE -> throw IllegalArgumentException("Freq quotidienne avec des jours assigné")
                     }
                 }
             }

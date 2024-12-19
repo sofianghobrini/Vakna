@@ -26,6 +26,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.app.vakna.MainActivity
 import com.app.vakna.R
+import com.app.vakna.SettingsActivity
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.adapters.PlaceholderAdapter
 import com.app.vakna.adapters.PlaceholderData
@@ -69,6 +70,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         binding.editNameButton.setOnClickListener {
             showEditNameDialog()
         }
+
+        binding.boutonSettings.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, SettingsActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
     }
 
     private fun setUpView() {
@@ -106,6 +114,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                 }
             }
+            binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
             when {
                 it.faim > 60 -> {
                     binding.imageFaim.setImageResource(R.drawable.faim_0)
@@ -120,6 +129,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     binding.imageFaim.setImageResource(R.drawable.faim_3)
                 }
             }
+            binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
         }
 
         val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
@@ -225,6 +235,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                             binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                         }
                     }
+                    binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
                     when {
                         it.faim > 60 -> {
                             binding.imageFaim.setImageResource(R.drawable.faim_0)
@@ -239,6 +250,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                             binding.imageFaim.setImageResource(R.drawable.faim_3)
                         }
                     }
+                    binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
                 }
 
                 showPersonnalite(gestionnaire, binding.root, compagnon.id)
@@ -622,6 +634,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                         binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                     }
                 }
+                binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
                 when {
                     it.faim > 60 -> {
                         binding.imageFaim.setImageResource(R.drawable.faim_0)
@@ -636,6 +649,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                         binding.imageFaim.setImageResource(R.drawable.faim_3)
                     }
                 }
+                binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
             }
 
             if(items.isEmpty()) {

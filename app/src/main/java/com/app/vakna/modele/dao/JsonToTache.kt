@@ -24,11 +24,16 @@ class JsonToTache : JsonDeserializer<Tache> {
         val frequence = Frequence.valueOf(objetJson.get("frequence").asString)
         val importance = Importance.valueOf(objetJson.get("importance").asString)
         val type = TypeTache.valueOf(objetJson.get("type").asString)
+        val jours = if (objetJson.get("jours") != null) {
+            listOf(objetJson.get("jours").asInt)
+        } else {
+            null
+        }
         val derniereValidation = LocalDate.parse(objetJson.get("derniereValidation").asString)
         val prochaineValidation = LocalDateTime.parse(objetJson.get("prochaineValidation").asString)
         val estTerminee = objetJson.get("estTerminee").asBoolean
         val estArchivee = objetJson.get("estArchivee").asBoolean
 
-        return Tache(nom, frequence, importance, type, derniereValidation, prochaineValidation, estTerminee, estArchivee)
+        return Tache(nom, frequence, importance, type, jours, derniereValidation, prochaineValidation, estTerminee, estArchivee)
     }
 }
