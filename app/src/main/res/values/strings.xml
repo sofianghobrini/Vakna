@@ -55,19 +55,19 @@
     <string name="edit_task_button">Modifier</string>
     <string name="back_button">Retour</string>
     <string name="title_create_companion">Donnez un nom à votre compagnon</string>
-    <string name="label_companion_name">Nom du compagnon:</string>
+    <string name="label_companion_name">Nom du compagnon :</string>
     <string name="hint_companion_name">ex: Veolia la dragonne</string>
     <string name="manage_tasks_title">Gérer ses quêtes</string>
     <string name="title_modifier_tache">Modifier la quête &quot;{nom tache ici}&quot;</string>
     <string name="label_task_name">Nom de la quête:</string>
-    <string name="hint_task_name">ex: Faire la vaisselle</string>
-    <string name="label_task_type">Type de la quête:</string>
-    <string name="label_task_frequency">Fréquence de la quête:</string>
+    <string name="hint_task_name">ex: faire la vaisselle</string>
+    <string name="label_task_type">Type de la quête :</string>
+    <string name="label_task_frequency">Fréquence de la quête :</string>
     <string name="radio_daily">Quotidienne</string>
     <string name="radio_weekly">Hebdomadaire</string>
     <string name="radio_monthly">Mensuel</string>
     <string name="error_task_frequency">Veuillez sélectionner une fréquence</string>
-    <string name="label_task_importance">Importance de la tâche:</string>
+    <string name="label_task_importance">Importance de la tâche :</string>
     <string name="radio_low">Faible</string>
     <string name="radio_medium">Moyen</string>
     <string name="radio_high">Élevée</string>
@@ -151,7 +151,7 @@
     <string name="date_added">Date ajoutée : %1$s</string>
     <string name="date_already_selected">Date déjà sélectionnée</string>
     <string name="product_cost">Cout: %1$s</string>
-    <string name="companion_species">Espece du compagnon:</string>
+    <string name="companion_species">Espece du compagnon :</string>
     <string name="tab_toys">Jouet</string>
     <string name="tab_food">Nourriture</string>
     <string name="tab_companions">Compagnons</string>
@@ -159,10 +159,10 @@
     <string name="title_release">Relacher</string>
     <string name="goodbye_myfriend">Adieu mon ami</string>
     <string name="refus_relacher">Je relache pas mon compagnon</string>
-    <string name="un_campagnon_restant">Il te reste un campagnon...</string>
+    <string name="un_campagnon_restant">Il te reste un campagnon…</string>
 
 
-    <string name="personalite_popup_title">Personnalité: %1$s</string>
+    <string name="personalite_popup_title">Personnalité : %1$s</string>
     <string name="personalite_popup_message_gourmand"> Ce compagnon adore manger !</string>
     <string name="personalite_popup_message_joueur"> Ce compagnon aime beaucoup jouer !</string>
     <string name="personalite_popup_message_calme"> Ce compagnon est très paisible et détendu.</string>
