@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -19,6 +20,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -351,26 +353,23 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     fun showAcheterRefugeDialog() {
-        val text = TextView(context).apply {
-            text = "Les refuges peuvent augmenter le gain d'humeur ou de faim d'un compagnon"
-            gravity = Gravity.CENTER
-            setPadding(8, 32, 8, 16)
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_refuges)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.findViewById<Button>(R.id.btn_buy).setOnClickListener {
+            if (context is MainActivity) {
+                val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
+                navController.navigate(R.id.navigation_notifications)
+            }
+            dialog.dismiss()
         }
 
-        MaterialAlertDialogBuilder(context)
-            .setTitle("Vous n'avez aucun Refuges!")
-            .setView(text)
-            .setPositiveButton("Acheter des Refuges") { dialog, _ ->
-                if (context is MainActivity) {
-                    val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                    navController.navigate(R.id.navigation_notifications)
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     fun showSelectRefugeDialog() {
