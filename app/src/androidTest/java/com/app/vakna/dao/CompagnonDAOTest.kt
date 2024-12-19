@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.Compagnon
+import com.app.vakna.modele.Personnalite
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -56,7 +57,7 @@ class CompagnonDAOTest {
 
     @Test
     fun testInsertionCompagnon() {
-        val nouveauCompagnon = Compagnon(id = 0, nom = "TestCompagnon", faim = 60, humeur = 70, xp = 20, espece = "Dragon")
+        val nouveauCompagnon = Compagnon(id = 0, nom = "TestCompagnon", faim = 60, humeur = 70, xp = 20, espece = "Dragon", Personnalite.AVARE, true)
 
         // Test insertion of a new compagnon
         val insertionReussie = dao.inserer(nouveauCompagnon)
@@ -113,10 +114,10 @@ class CompagnonDAOTest {
 
         // Add four new compagnons
         val nouveauxCompagnons = listOf(
-            Compagnon(id = 1, nom = "Compagnon1", faim = 50, humeur = 50, xp = 10, espece = "Dragon"),
-            Compagnon(id = 2, nom = "Compagnon2", faim = 60, humeur = 60, xp = 20, espece = "Phoenix"),
-            Compagnon(id = 3, nom = "Compagnon3", faim = 70, humeur = 70, xp = 30, espece = "Griffon"),
-            Compagnon(id = 4, nom = "Compagnon4", faim = 80, humeur = 80, xp = 40, espece = "Licorne")
+            Compagnon(id = 1, nom = "Compagnon1", faim = 50, humeur = 50, xp = 10, espece = "Dragon", Personnalite.GENTIL, true),
+            Compagnon(id = 2, nom = "Compagnon2", faim = 60, humeur = 60, xp = 20, espece = "Phoenix", Personnalite.GENTIL, false),
+            Compagnon(id = 3, nom = "Compagnon3", faim = 70, humeur = 70, xp = 30, espece = "Griffon", Personnalite.GENTIL, false),
+            Compagnon(id = 4, nom = "Compagnon4", faim = 80, humeur = 80, xp = 40, espece = "Licorne", Personnalite.GENTIL, false)
         )
         for (compagnon in nouveauxCompagnons) {
             dao.inserer(compagnon)

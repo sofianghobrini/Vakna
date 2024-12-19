@@ -30,7 +30,7 @@ class ModeleInventaireTest {
         gestionnaireCompagnons = GestionnaireDeCompagnons(compagnonDAO)
         objetObtenu = ObjetObtenu(12345, "Potion", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 100, "url_image")
         inventaire = Inventaire(contexte)
-        compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
+        compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.GENTIL, actif = true)
         inventaire.getGestionnaireC().ajouterCompagnon(compagnon)
 
     }

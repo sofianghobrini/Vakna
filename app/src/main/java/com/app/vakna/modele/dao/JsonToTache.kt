@@ -1,5 +1,7 @@
 package com.app.vakna.modele.dao
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.app.vakna.modele.Frequence
 import com.app.vakna.modele.Importance
 import com.app.vakna.modele.Tache
@@ -13,6 +15,7 @@ import java.time.LocalDateTime
 
 /** Permet de convertir une entrée JSON en objet Tache */
 class JsonToTache : JsonDeserializer<Tache> {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
@@ -29,8 +32,16 @@ class JsonToTache : JsonDeserializer<Tache> {
         } else {
             null
         }
-        val derniereValidation = LocalDate.parse(objetJson.get("derniereValidation").asString)
-        val prochaineValidation = LocalDateTime.parse(objetJson.get("prochaineValidation").asString)
+        val derniereValidation = if (objetJson.get("derniereValidation").asString == "null") {
+            null
+        } else {
+            LocalDate.parse(objetJson.get("derniereValidation").asString)
+        }
+        val prochaineValidation = if (objetJson.get("prochaineValidation").asString == "null") {
+            null
+        } else {
+            LocalDateTime.parse(objetJson.get("prochaineValidation").asString)
+        }
         val estTerminee = objetJson.get("estTerminee").asBoolean
         val estArchivee = objetJson.get("estArchivee").asBoolean
 

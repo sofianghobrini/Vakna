@@ -4,13 +4,13 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.dao.TacheDAO
 import org.junit.Before
-import org.junit.After
 import org.junit.Test
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import org.junit.runner.RunWith
 import java.io.File
 import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -31,7 +31,7 @@ class ModeleTacheTest {
         // Initialize DAO and gestionnaire
         dao = TacheDAO(context)
         gestionnaire = GestionnaireDeTaches(context)
-        compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
+        compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.GENTIL, actif = true)
         gestionnaire.setCompagnon(compagnon.id)
 
         // Initialize file paths and ensure taches.json exists
@@ -44,24 +44,17 @@ class ModeleTacheTest {
 
     @BeforeEach
     fun resetAll(){
-        for(Tache in dao.obtenirTous()){
-            dao.supprimer(Tache.nom)
-        }
-    }
-
-    @After
-    fun tearDown() {
-        // Cleanup after tests if needed (delete or reset file)
-        if (cheminFichier.exists()) {
-            cheminFichier.delete()
+        for(tache in dao.obtenirTous()){
+            dao.supprimer(tache.nom)
         }
     }
 
     @Test
     fun testObtenirTachesParFrequence() {
-        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
-        val tache3 = Tache("Tâche 3", Frequence.QUOTIDIENNE, Importance.ELEVEE, TypeTache.SPORT, LocalDate.now(), false)
+        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tache3 = Tache("Tâche 3", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+
 
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
@@ -79,9 +72,9 @@ class ModeleTacheTest {
 
     @Test
     fun testObtenirTachesParImportance() {
-        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
-        val tache3 = Tache("Tâche 3", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.SPORT, LocalDate.now(), false)
+        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tache3 = Tache("Tâche 3", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
 
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
@@ -98,7 +91,7 @@ class ModeleTacheTest {
     }
     @Test
     fun testAjouterTache() {
-        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         val insertionReussie = gestionnaire.ajouterTache(tache)
         assertTrue(insertionReussie)
         assertEquals(1, gestionnaire.obtenirTaches().size)
@@ -108,28 +101,30 @@ class ModeleTacheTest {
     @Test
     fun testAjouterTacheNomVide() {
         val exception = assertThrows<IllegalArgumentException> {
-            gestionnaire.ajouterTache(Tache("", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false))
+            gestionnaire.ajouterTache(Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false))
         }
         assertEquals("Le nom de la tâche ne peut pas être vide", exception.message)
     }
 
     @Test
     fun testAjouterTacheExistante() {
-        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache)
 
         val exception = assertThrows<IllegalArgumentException> {
-            gestionnaire.ajouterTache(Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false))
+            gestionnaire.ajouterTache(Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false))
         }
         assertEquals("Une tâche avec le nom 'Tâche 1' existe déjà", exception.message)
     }
 
     @Test
     fun testModifierTache() {
-        val tacheInitiale = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tacheInitiale = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tacheInitiale)
 
-        val tacheModifiee = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
+        val tacheModifiee = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false,
+            estArchivee = false
+        )
         val modificationReussie = gestionnaire.modifierTache("Tâche 1", tacheModifiee)
         assertTrue(modificationReussie)
 
@@ -144,14 +139,27 @@ class ModeleTacheTest {
     @Test
     fun testModifierTacheIntrouvable() {
         val exception = assertThrows<IllegalArgumentException> {
-            gestionnaire.modifierTache("Tâche Inexistante", Tache("Tâche Inexistante", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false))
+            gestionnaire.modifierTache(
+                "Tâche Inexistante",
+                Tache(
+                    "Tâche Inexistante",
+                    Frequence.QUOTIDIENNE,
+                    Importance.FAIBLE,
+                    TypeTache.PERSONNELLE,
+                    listOf(1, 2, 3, 4),
+                    null,
+                    LocalDateTime.now().plusDays(1),
+                    false,
+                    estArchivee = false
+                )
+            )
         }
         assertEquals("Tâche avec le nom Tâche Inexistante introuvable", exception.message)
     }
 
     @Test
     fun testSupprimerTache() {
-        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache)
 
         val suppressionReussie = gestionnaire.supprimerTache("Tâche 1")
@@ -161,7 +169,7 @@ class ModeleTacheTest {
 
     @Test
     fun testSupprimerTacheAffecteHumeur() {
-        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache)
         val humeurInitiale = compagnon.humeur
 
@@ -181,7 +189,7 @@ class ModeleTacheTest {
     @Test
     fun testFinirTache() {
         compagnon.humeur = 0
-        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.ELEVEE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache)
         gestionnaire.finirTache("Tâche 1")
         assertTrue(tache.estTerminee)
@@ -203,7 +211,7 @@ class ModeleTacheTest {
     fun testFinirTacheAffecteHumeur(){
         compagnon.humeur = 50
         compagnon.xp = 50
-        val tache = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache)
         val humeurInitiale = compagnon.humeur
         val xpInitiale = compagnon.xp
@@ -214,8 +222,8 @@ class ModeleTacheTest {
 
     @Test
     fun testObtenirTaches() {
-        val tache1 = Tache("Tâche 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
+        val tache1 = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
 
@@ -227,8 +235,8 @@ class ModeleTacheTest {
 
     @Test
     fun testObtenirTachesParType() {
-        val tachePersonnelle = Tache("Tâche Personnelle", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tacheProfessionnelle = Tache("Tâche Professionnelle", Frequence.HEBDOMADAIRE, Importance.MOYENNE, TypeTache.PROFESSIONNELLE, LocalDate.now(), false)
+        val tachePersonnelle = Tache("Tâche Personnelle", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tacheProfessionnelle = Tache("Tâche Professionnelle", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tachePersonnelle)
         gestionnaire.ajouterTache(tacheProfessionnelle)
 
@@ -243,8 +251,8 @@ class ModeleTacheTest {
 
     @Test
     fun testRechercherTache() {
-        val tache1 = Tache("Faire les courses", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
-        val tache2 = Tache("Faire du sport", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now(), false)
+        val tache1 = Tache("Faire", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
+        val tache2 = Tache("Faire du travail", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache1)
         gestionnaire.ajouterTache(tache2)
         val resultat = gestionnaire.rechercherTache("Faire")
@@ -255,7 +263,7 @@ class ModeleTacheTest {
 
     @Test
     fun testChangementDateValidationFinir() {
-        val tache1 = Tache("Se scrum le master", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now().minusDays(1), false)
+        val tache1 = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache1)
         gestionnaire.finirTache("Se scrum le master")
         assertEquals(LocalDate.now(), tache1.derniereValidation)
@@ -263,7 +271,7 @@ class ModeleTacheTest {
 
     @Test
     fun testChangementDateValidationSupprimer() {
-        val tache1 = Tache("Se scrum le master", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, LocalDate.now().minusDays(1), false)
+        val tache1 = Tache("Tâche 1", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         gestionnaire.ajouterTache(tache1)
         gestionnaire.supprimerTache("Se scrum le master")
         assertEquals(LocalDate.now(), tache1.derniereValidation)

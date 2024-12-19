@@ -15,6 +15,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @RunWith(AndroidJUnit4::class)
 class TacheDAOTest {
@@ -91,21 +92,28 @@ class TacheDAOTest {
     @Test
     fun testInsertionTacheAvecNomDuplique() {
         val tache1 = Tache(
-            nom = "TacheDupliquee",
+            nom = "Tache dupliquée",
             frequence = Frequence.QUOTIDIENNE,
-            importance = Importance.MOYENNE,
+            importance = Importance.ELEVEE,
             type = TypeTache.PERSONNELLE,
-            derniereValidation = LocalDate.now(),
-            estTerminee = false
+            jours = listOf(1, 2, 3, 4, 5, 6, 7), // Tous les jours de la semaine
+            derniereValidation = null,
+            prochaineValidation = LocalDateTime.now().plusDays(1),
+            estTerminee = false,
+            estArchivee = false
         )
 
+
         val tache2 = Tache(
-            nom = "TacheDupliquee",
-            frequence = Frequence.HEBDOMADAIRE,
+            nom = "Tache dupliquée",
+            frequence = Frequence.QUOTIDIENNE,
             importance = Importance.ELEVEE,
-            type = TypeTache.PROFESSIONNELLE,
+            type = TypeTache.PERSONNELLE,
+            jours = listOf(1, 2, 3, 4, 5, 6, 7), // Tous les jours de la semaine
             derniereValidation = LocalDate.now(),
-            estTerminee = true
+            prochaineValidation = LocalDateTime.now().plusDays(1),
+            estTerminee = false,
+            estArchivee = false
         )
 
         // Insert the first task

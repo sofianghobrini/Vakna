@@ -1,6 +1,8 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
@@ -11,7 +13,6 @@ import java.time.LocalDateTime
 class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
-    private val setDeCompagnons = mutableSetOf<Compagnon>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
     private var gestionnaireDeRefuge = GestionnaireDeRefuge(context)
     private var idCompagnon: Int = 1
@@ -61,6 +62,7 @@ class GestionnaireDeTaches(context: Context) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun supprimerTache(nom: String): Boolean {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
@@ -93,7 +95,7 @@ class GestionnaireDeTaches(context: Context) {
             gestionnaireCompagnons.modifierHumeur(idCompagnon, (modifImportance * modifFrequence * 3 * refuge!!.getModifHumeur()).toInt())
             gestionnaireCompagnons.gagnerXp(idCompagnon, (modifImportance * modifFrequence * 3 * refuge.getModifXp()).toInt())
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(idCompagnon)
-            var facteurPersonalite = when(compagnon!!.personnalite) {
+            val facteurPersonalite = when(compagnon!!.personnalite) {
                 Personnalite.GOURMAND -> compagnon.personnalite.facteurPiece
                 Personnalite.JOUEUR -> compagnon.personnalite.facteurPiece
                 Personnalite.CALME -> compagnon.personnalite.facteurPiece
@@ -156,6 +158,7 @@ class GestionnaireDeTaches(context: Context) {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun verifierTacheNonAccomplies(): Boolean {
         val dateActuelle = LocalDateTime.now()
         tacheDAO.obtenirTous().forEach {
