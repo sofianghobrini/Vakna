@@ -180,7 +180,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             )
 
             val bouton = switchBoutons[iteration]
-            val appearancePath = it.apparenceDefaut()
+            val appearancePath = it.apparence()
 
             Glide.with(context)
                 .asGif()
@@ -188,7 +188,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(bouton)
             val id = iteration
             bouton.setOnClickListener { view ->
-                val appearancePathNew = compagnon.apparenceDefaut()
+                val appearancePathNew = compagnon.apparence()
 
                 Glide.with(context)
                     .asGif()
