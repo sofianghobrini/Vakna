@@ -26,6 +26,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.app.vakna.MainActivity
 import com.app.vakna.R
+import com.app.vakna.SettingsActivity
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.adapters.PlaceholderAdapter
 import com.app.vakna.adapters.PlaceholderData
@@ -68,6 +69,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         binding.editNameButton.setOnClickListener {
             showEditNameDialog()
+        }
+
+        binding.boutonSettings.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, SettingsActivity::class.java)
+                context.startActivity(intent)
+            }
         }
     }
 
