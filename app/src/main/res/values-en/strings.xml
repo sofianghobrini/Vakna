@@ -16,13 +16,13 @@
 </string-array>
 
     <!-- New type strings -->
-    <string name="type_personnelle">Personnelle</string>
-    <string name="type_professionnelle">Professionnelle</string>
-    <string name="type_projet">Projet</string>
-    <string name="type_etudes">Études</string>
+    <string name="type_personnelle">Personnal</string>
+    <string name="type_professionnelle">Professionnal</string>
+    <string name="type_projet">Project</string>
+    <string name="type_etudes">Studies</string>
     <string name="type_sport">Sport</string>
-    <string name="type_viequo">Vie Quotidienne</string>
-    <string name="type_autre">Autre</string>
+    <string name="type_viequo">Daily life</string>
+    <string name="type_autre">Other</string>
 
     <string name="create_task_button">Create a quest</string>
     <string name="cancel_task_creation_button">Cancel</string>
@@ -33,7 +33,7 @@
     <string name="title_add_task">Add a quest</string>
     <string name="task_name_hint">Enter quest name</string>
     <string name="new_name_hint">New Name</string>
-    <string name="edit_name_dialog_title">Edit Your Companion\'s Name</string>
+    <string name="edit_name_dialog_title">Edit Your companion\'s Name</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="level_text">Lvl. %1$d</string>
@@ -148,35 +148,34 @@
     <string name="popup_title_choose_dates">Choose the dates</string>
     <string name="date_added">Date added: %1$s</string>
     <string name="date_already_selected">Date already selected</string>
-    <string name="product_cost">Cout: %1$s</string>
+    <string name="product_cost">Cost: %1$s</string>
     <string name="companion_species">Companion species:</string>
-    <string name="message_empty_inventory_toys">You don\'t have any toys! Go to the store to buy some.</string>
-    <string name="message_empty_inventory_food">You don\'t have any food! Go to the store to buy some.</string>
+    <string name="message_empty_inventory_toys">You don\'t have any toys! Go to the store to buy some</string>
+    <string name="message_empty_inventory_food">You don\'t have any food! Go to the store to buy some</string>
     <string name="tab_toys">Toys</string>
     <string name="tab_food">Food</string>
     <string name="tab_companions">Companions</string>
     <string name="release_compagnon">Are you able to say goodbye to your partner?</string>
-    <string name="title_release">Release your Compagnon</string>
-    <string name="goodbye_myfriend">"GOODBYE !!! "</string>
+    <string name="title_release">Release your companion</string>
+    <string name="goodbye_myfriend">"Goodbye !"</string>
     <string name="refus_relacher">I change my mind T _ T</string>
-    <string name="un_campagnon_restant">You have one companion left...</string>
-    <string name="personalite_popup_title">Personnalité: %1$s</string>
-    <string name="personalite_popup_message_gourmand">This Companion loves to eat</string>
-    <string name="personalite_popup_message_joueur">This Companion like to play</string>
-    <string name="personalite_popup_message_calme">This Companion is so calm</string>
-    <string name="personalite_popup_message_avare">This Companion don\'t like to spend</string>
-    <string name="personalite_popup_message_grincheux">This Companion is often  bad mood</string>
+    <string name="un_campagnon_restant">You have one companion left.</string>
+    <string name="personalite_popup_title">Personnality: %1$s</string>
+    <string name="personalite_popup_message_gourmand">This companion loves to eat</string>
+    <string name="personalite_popup_message_joueur">This companion likes to play</string>
+    <string name="personalite_popup_message_calme">This companion is so calm</string>
+    <string name="personalite_popup_message_avare">This companion doesn\'t like to spend</string>
+    <string name="personalite_popup_message_grincheux">This companion is often  bad mood</string>
     <string name="personalite_popup_message_radin">This companion is very economical</string>
     <string name="personalite_popup_message_gentil">" This companion is very kind."</string>
     <string name="personalite_popup_message_joyeux">" This companion is always full of joy."</string>
-    <string name="personalite_popup_message_travailleur">This companion is very invested.</string>
-    <string name="personalite_popup_message_inconnue">Unknow personnality</string>
+    <string name="personalite_popup_message_travailleur">This companion is very invested</string>
+    <string name="personalite_popup_message_inconnue">Unknown personnality</string>
     <string name="j_lundi">Monday</string>
     <string name="j_Mardi">Tuesday</string>
     <string name="j_Mercredi">Wednesday</string>
     <string name="j_Jeudi">Thursday</string>
     <string name="j_Vendredi">Friday</string>
     <string name="j_Samedi">Sartuday</string>
-    <string name="j_Dimanche">"Sunday "</string>
-
+    <string name="j_Dimanche">"Sunday"</string>
 </resources>
