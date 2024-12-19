@@ -2,11 +2,9 @@ package com.app.vakna.modele
 
 import android.content.Context
 import android.util.Log
-import com.app.vakna.adapters.GridData
-import com.app.vakna.modele.api.RetrofitInstance
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.adapters.GridConsommableData
+import com.app.vakna.modele.api.RetrofitInstance
+import com.app.vakna.modele.api.XmlObjetsManager
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
@@ -37,9 +35,15 @@ class Shop(
         return objetMagasin
     }
 
-    suspend fun getObjetsEnLigne(): List<Objet> {
+    suspend fun getObjetsEnLigne(context: Context): List<Objet> {
         try {
-            return RetrofitInstance.apiService.obtenirObjets()
+
+            val objets = RetrofitInstance.apiService.obtenirObjets()
+            val objetsManager = XmlObjetsManager(context)
+            objetsManager.creerFichiers()
+            objetsManager.remplirFichiers(objets)
+
+            return objets
         } catch (e: Exception) {
             Log.d("test", "Erreur : $e")
             return emptyList()
@@ -50,7 +54,6 @@ class Shop(
     fun acheter(nom: String, quantite: Int) {
         val objet = getObjet(nom)
         if (objet != null) {
-            val id = objet.getId()
             val totalPrix = objet.getPrix() * quantite
             if (inventaireDAO.obtenirPieces() >= totalPrix) {
                 inventaire.ajouterObjet(objet, quantite)

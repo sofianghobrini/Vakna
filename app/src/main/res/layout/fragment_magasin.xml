@@ -116,14 +116,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-    <Button
-        android:id="@+id/button_refresh"
+    <ImageButton
+        android:id="@+id/buttonRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginTop="14dp"
-        android:text="Rafraichir"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/no_refresh"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

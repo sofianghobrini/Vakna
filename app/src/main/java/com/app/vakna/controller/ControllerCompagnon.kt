@@ -1,6 +1,8 @@
 package com.app.vakna.controller
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -18,6 +20,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -91,16 +94,16 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         compagnon.let {
             when {
                 it.humeur > 60 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_0)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_0)
                 }
                 it.humeur > 30 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_1)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_1)
                 }
                 it.humeur > 0 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_2)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_2)
                 }
                 it.humeur == 0 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_3)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                 }
             }
             when {
@@ -179,7 +182,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             )
 
             val bouton = switchBoutons[iteration]
-            val appearancePath = it.apparenceDefaut()
+            val appearancePath = it.apparence()
 
             Glide.with(context)
                 .asGif()
@@ -187,7 +190,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(bouton)
             val id = iteration
             bouton.setOnClickListener { view ->
-                val appearancePathNew = compagnon.apparenceDefaut()
+                val appearancePathNew = compagnon.apparence()
 
                 Glide.with(context)
                     .asGif()
@@ -210,16 +213,16 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 newCompagnon.let { comp ->
                     when {
                         it.humeur > 60 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_0)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_0)
                         }
                         it.humeur > 30 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_1)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_1)
                         }
                         it.humeur > 0 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_2)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_2)
                         }
                         it.humeur == 0 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_3)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                         }
                     }
                     when {
@@ -350,26 +353,23 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     fun showAcheterRefugeDialog() {
-        val text = TextView(context).apply {
-            text = "Les refuges peuvent augmenter le gain d'humeur ou de faim d'un compagnon"
-            gravity = Gravity.CENTER
-            setPadding(8, 32, 8, 16)
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.dialog_refuges)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialog.findViewById<Button>(R.id.btn_buy).setOnClickListener {
+            if (context is MainActivity) {
+                val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
+                navController.navigate(R.id.navigation_notifications)
+            }
+            dialog.dismiss()
         }
 
-        MaterialAlertDialogBuilder(context)
-            .setTitle("Vous n'avez aucun Refuges!")
-            .setView(text)
-            .setPositiveButton("Acheter des Refuges") { dialog, _ ->
-                if (context is MainActivity) {
-                    val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                    navController.navigate(R.id.navigation_notifications)
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     fun showSelectRefugeDialog() {
@@ -433,31 +433,44 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Le nouveau nom est sauvegardé dans la base de données et mis à jour dans l'interface utilisateur.
      */
     fun showEditNameDialog() {
-        val editText = EditText(context).apply {
-            hint = context.getString(R.string.new_name_hint)
-            inputType = android.text.InputType.TYPE_CLASS_TEXT
-            filters = arrayOf(android.text.InputFilter.LengthFilter(16))
+        // Charger la mise en page personnalisée pour le dialogue
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_modifier_nom, null)
+
+        // Trouver l'EditText dans la mise en page personnalisée
+        val editText = dialogView.findViewById<EditText>(R.id.edit_text_name).apply {
+            hint = context.getString(R.string.new_name_hint) // Définir un indice pour l'entrée de texte
+            inputType = android.text.InputType.TYPE_CLASS_TEXT // Définir le type d'entrée comme texte
+            filters = arrayOf(android.text.InputFilter.LengthFilter(16)) // Limiter la longueur à 16 caractères
             compagnon.let {
-                setText(it.nom)  // Pré-remplir avec le nom actuel du compagnon
+                setText(it.nom)
             }
         }
 
-        MaterialAlertDialogBuilder(context)
-            .setTitle(context.getString(R.string.edit_name_dialog_title))
-            .setView(editText)
-            .setPositiveButton(context.getString(R.string.confirm)) { dialog, _ ->
-                val newName = editText.text.toString()
-                if (newName.isNotEmpty()) {
-                    // Mettre à jour le nom du compagnon dans la base de données
-                    compagnon.let { gestionnaire.modifierNom(it.id, newName) }
-                    binding.dragonName.text = newName
-                }
-                dialog.dismiss()
+        // Trouver les boutons existants dans la mise en page
+        val buttonConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+
+        // Construire et afficher le dialogue
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setView(dialogView) // Définir la vue personnalisée pour le dialogue
+            .create()
+
+        // Configurer le comportement des boutons
+        buttonConfirm.setOnClickListener {
+            val newName = editText.text.toString()
+            if (newName.isNotEmpty()) {
+                // Mettre à jour le nom du compagnon dans la base de données
+                compagnon.let { gestionnaire.modifierNom(it.id, newName) }
+                binding.dragonName.text = newName // Mettre à jour l'affichage du nom dans l'interface utilisateur
             }
-            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+            dialog.dismiss()
+        }
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     fun showDialogRelease(){
@@ -538,6 +551,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .into(binding.refuge)
         }
 
+        @SuppressLint("StringFormatInvalid")
         fun showPersonnalite(gestionnaireCompagnons: GestionnaireDeCompagnons, view: View, id: Int) {
             val context = view.context
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
@@ -545,7 +559,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 Personnalite.GOURMAND -> "Gourmand"
                 Personnalite.JOUEUR -> "Joueur"
                 Personnalite.CALME -> "Calme"
-                Personnalite.CUPIDE -> "Cupide"
                 Personnalite.AVARE -> "Avare"
                 Personnalite.GRINCHEUX -> "Grincheux"
                 Personnalite.RADIN -> "Radin"
@@ -555,19 +568,29 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             }
 
             val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)
-            personnaliteTextView?.text = typePersonnalite // Affiche uniquement le nom
-
-            // Configure le clic pour afficher un popup
+            personnaliteTextView?.text = typePersonnalite +" (?)"// Affiche uniquement le nom
             personnaliteTextView?.setOnClickListener {
+                val message = when (compagnon!!.personnalite) {
+                    Personnalite.GOURMAND -> context.getString(R.string.personalite_popup_message_gourmand, typePersonnalite)
+                    Personnalite.JOUEUR -> context.getString(R.string.personalite_popup_message_joueur, typePersonnalite)
+                    Personnalite.CALME -> context.getString(R.string.personalite_popup_message_calme, typePersonnalite)
+                    Personnalite.AVARE -> context.getString(R.string.personalite_popup_message_avare, typePersonnalite)
+                    Personnalite.GRINCHEUX -> context.getString(R.string.personalite_popup_message_grincheux, typePersonnalite)
+                    Personnalite.RADIN -> context.getString(R.string.personalite_popup_message_radin, typePersonnalite)
+                    Personnalite.GENTIL -> context.getString(R.string.personalite_popup_message_gentil, typePersonnalite)
+                    Personnalite.JOYEUX -> context.getString(R.string.personalite_popup_message_joyeux, typePersonnalite)
+                    Personnalite.TRAVAILLEUR -> context.getString(R.string.personalite_popup_message_travailleur, typePersonnalite)
+                    else -> context.getString(R.string.personalite_popup_message_inconnue)
+                }
                 AlertDialog.Builder(context)
-                    .setTitle(context.getString(R.string.personalite_popup_title)) // Titre du popup
-                    .setMessage(context.getString(R.string.personalite_popup_message, typePersonnalite)) // Message avec la personnalité
+                    .setTitle(context.getString(R.string.personalite_popup_title, typePersonnalite))
+                    .setMessage(message) // Utilise le message défini dans le switch
                     .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                        dialog.dismiss() // Ferme le popup quand l'utilisateur appuie sur OK
+                        dialog.dismiss() // Ferme le popup
                     }
                     .create()
                     .show()
-            }
+        }
         }
 
 
@@ -587,16 +610,16 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             compagnonGrid.let {
                 when {
                     it.humeur > 60 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_0)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_0)
                     }
                     it.humeur > 30 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_1)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_1)
                     }
                     it.humeur > 0 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_2)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_2)
                     }
                     it.humeur == 0 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_3)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                     }
                 }
                 when {

@@ -45,7 +45,7 @@
             android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="@color/purple_500"
             android:text="@string/refus_relacher" />
 
     </LinearLayout>

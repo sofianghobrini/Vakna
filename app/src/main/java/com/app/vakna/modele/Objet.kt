@@ -79,4 +79,7 @@ open class Objet(
         return imageUrl
     }
 
+    override fun toString(): String {
+        return "$id $nom ($type) $prix€ : $detail [niveau=$niveau]"
+    }
 }

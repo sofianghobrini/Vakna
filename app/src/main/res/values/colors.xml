@@ -23,5 +23,5 @@
     <!-- Additional Colors for Dark Mode Compatibility -->
     <color name="cardBackgroundColorDark">#1F1B24</color>  <!-- Dark card background -->
     <color name="colorTitleDark">#BB86FC</color>           <!-- Title color in dark mode -->
-    <color name="colorTextDark">#DDDDDD</color>            <!-- Text color for dark mode -->
+    <color name="colorTextDark">#DDDDDD</color>
 </resources>

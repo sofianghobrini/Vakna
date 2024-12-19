@@ -24,10 +24,6 @@
     <string name="type_viequo">Vie Quotidienne</string>
     <string name="type_autre">Autre</string>
 
-
-    <string name="personalite_popup_title">Personnalité</string>
-    <string name="personalite_popup_message">Cette personnalité est : %1$s</string>
-
     <string name="create_task_button">Créer une quête</string>
     <string name="cancel_task_creation_button">Annuler</string>
     <string name="task_name_error">Le nom de la quête est obligatoire</string>
@@ -59,19 +55,19 @@
     <string name="edit_task_button">Modifier</string>
     <string name="back_button">Retour</string>
     <string name="title_create_companion">Donnez un nom à votre compagnon</string>
-    <string name="label_companion_name">Nom du compagnon:</string>
+    <string name="label_companion_name">Nom du compagnon :</string>
     <string name="hint_companion_name">ex: Veolia la dragonne</string>
     <string name="manage_tasks_title">Gérer ses quêtes</string>
     <string name="title_modifier_tache">Modifier la quête &quot;{nom tache ici}&quot;</string>
     <string name="label_task_name">Nom de la quête:</string>
-    <string name="hint_task_name">ex: Faire la vaisselle</string>
-    <string name="label_task_type">Type de la quête:</string>
-    <string name="label_task_frequency">Fréquence de la quête:</string>
+    <string name="hint_task_name">ex: faire la vaisselle</string>
+    <string name="label_task_type">Type de la quête :</string>
+    <string name="label_task_frequency">Fréquence de la quête :</string>
     <string name="radio_daily">Quotidienne</string>
     <string name="radio_weekly">Hebdomadaire</string>
     <string name="radio_monthly">Mensuel</string>
     <string name="error_task_frequency">Veuillez sélectionner une fréquence</string>
-    <string name="label_task_importance">Importance de la tâche:</string>
+    <string name="label_task_importance">Importance de la tâche :</string>
     <string name="radio_low">Faible</string>
     <string name="radio_medium">Moyen</string>
     <string name="radio_high">Élevée</string>
@@ -155,7 +151,7 @@
     <string name="date_added">Date ajoutée : %1$s</string>
     <string name="date_already_selected">Date déjà sélectionnée</string>
     <string name="product_cost">Cout: %1$s</string>
-    <string name="companion_species">Espece du compagnon:</string>
+    <string name="companion_species">Espece du compagnon :</string>
     <string name="tab_toys">Jouet</string>
     <string name="tab_food">Nourriture</string>
     <string name="tab_companions">Compagnons</string>
@@ -163,6 +159,31 @@
     <string name="title_release">Relacher</string>
     <string name="goodbye_myfriend">Adieu mon ami</string>
     <string name="refus_relacher">Je relache pas mon compagnon</string>
-    <string name="un_campagnon_restant">Il te reste un campagnon...</string>
+    <string name="un_campagnon_restant">Il te reste un campagnon…</string>
+
+
+    <string name="personalite_popup_title">Personnalité : %1$s</string>
+    <string name="personalite_popup_message_gourmand"> Ce compagnon adore manger !</string>
+    <string name="personalite_popup_message_joueur"> Ce compagnon aime beaucoup jouer !</string>
+    <string name="personalite_popup_message_calme"> Ce compagnon est très paisible et détendu.</string>
+    <string name="personalite_popup_message_avare"> Ce compagnon n\'aime pas depenser.</string>
+    <string name="personalite_popup_message_grincheux"> Ce compagnon est souvent de mauvaise humeur.</string>
+    <string name="personalite_popup_message_radin"> Ce compagnon est très économe, parfois trop.</string>
+    <string name="personalite_popup_message_gentil"> Ce compagnon est d\'une grande bonté.</string>
+    <string name="personalite_popup_message_joyeux"> Ce compagnon est toujours plein de joie.</string>
+    <string name="personalite_popup_message_travailleur"> Ce compagnon est tres investie.</string>
+    <string name="personalite_popup_message_inconnue">Personnalité inconnue.</string>
+    <string name="j_lundi">Lundi</string>
+    <string name="j_Mardi">Mardi</string>
+    <string name="j_Mercredi">Mercredi</string>
+    <string name="j_Jeudi">Jeudi</string>
+    <string name="j_Vendredi">Vendredi</string>
+    <string name="j_Samedi">Samedi</string>
+    <string name="j_Dimanche">Dimanche</string>
+
+    <string name="refuge_description">Les refuges peuvent augmenter le gain d\'humeur ou de faim d\'un compagnon</string>
+    <string name="no_refuge_title">Vous n\'avez aucun Refuges!</string>
+    <string name="buy_refuges">Acheter</string>
+
 
 </resources>

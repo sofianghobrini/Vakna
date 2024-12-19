@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="@string/cancel_task_creation_button"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/white"
             android:backgroundTint="?attr/colorError"
             app:cornerRadius="16dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
@@ -67,7 +67,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/confirm"
             android:textColor="?android:attr/textColorPrimaryInverse"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="@color/purple_500"
             app:cornerRadius="16dp"
             style="@style/Widget.MaterialComponents.Button.TextButton" />
     </LinearLayout>
