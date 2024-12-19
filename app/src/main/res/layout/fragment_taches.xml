@@ -10,6 +10,7 @@
     tools:context=".ui.Taches.TachesFragment" >
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +66,7 @@
                 android:progress="0"
                 android:progressTint="@color/tacheProgression"
                 android:progressBackgroundTint="@color/grisClair"
+                android:progressTint="@color/tacheProgression"
                 app:layout_constraintTop_toBottomOf="@id/texteTachesJournalier" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -167,11 +169,32 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/border"
+        android:layout_marginBottom="16dp"
         android:elevation="8dp"
         android:orientation="horizontal"
-        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <ImageButton
+            android:id="@+id/boutonGererTache"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center|start"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/gerer_icon"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutRightBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="8dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -184,17 +207,6 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ajout_icon"
-            tools:ignore="ContentDescription" />
-
-        <ImageButton
-            android:id="@+id/boutonGererTache"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center|end"
-            android:layout_margin="8dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/gerer_icon"
             tools:ignore="ContentDescription" />
 
         <ImageButton
