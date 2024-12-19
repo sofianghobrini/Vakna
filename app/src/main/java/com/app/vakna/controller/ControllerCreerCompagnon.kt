@@ -16,6 +16,7 @@ import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.CompagnonStore
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeRefuge
+import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.Objet
 import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Refuge
@@ -40,6 +41,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val compagnonDAO = CompagnonDAO(context)
     private val refugeDAO = RefugeDAO(context)
     private val refugeStoreDAO = RefugeStoreDAO(context)
+    private val inventaire = Inventaire(context)
     private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var shopCompagnons = ShopCompagnons(context)
@@ -183,6 +185,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         // Afficher un message en fonction du résultat de l'insertion
         if (insertionReussie) {
             Toast.makeText(context, context.getString(R.string.compagnon_cree_succes), Toast.LENGTH_SHORT).show()
+            inventaire.ajouterPieces(300) //Pièce offert des le depart
         } else {
             Toast.makeText(context, context.getString(R.string.compagnon_existe_erreur), Toast.LENGTH_SHORT).show()
             dernierId -= 1
