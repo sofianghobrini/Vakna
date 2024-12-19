@@ -178,4 +178,7 @@
     <string name="j_Vendredi">Friday</string>
     <string name="j_Samedi">Sartuday</string>
     <string name="j_Dimanche">"Sunday"</string>
+    <string name="refuge_description">Shelters can increase the mood or hunger gain of a companion</string>
+    <string name="no_refuge_title">You have no Shelters!</string>
+    <string name="buy_refuges">Buy Shelters</string>
 </resources>
