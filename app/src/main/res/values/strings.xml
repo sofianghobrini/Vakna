@@ -183,7 +183,7 @@
 
     <string name="refuge_description">Les refuges peuvent augmenter le gain d\'humeur ou de faim d\'un compagnon</string>
     <string name="no_refuge_title">Vous n\'avez aucun Refuges!</string>
-    <string name="buy_refuges">Acheter des Refuges</string>
+    <string name="buy_refuges">Acheter</string>
 
 
 </resources>
