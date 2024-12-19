@@ -96,7 +96,6 @@ class GestionnaireDeTaches(context: Context) {
                 Personnalite.GOURMAND -> compagnon.personnalite.facteurPiece
                 Personnalite.JOUEUR -> compagnon.personnalite.facteurPiece
                 Personnalite.CALME -> compagnon.personnalite.facteurPiece
-                Personnalite.CUPIDE -> compagnon.personnalite.facteurPiece
                 Personnalite.AVARE -> compagnon.personnalite.facteurPiece
                 Personnalite.GRINCHEUX -> compagnon.personnalite.facteurPiece
                 Personnalite.RADIN -> compagnon.personnalite.facteurPiece
@@ -106,7 +105,7 @@ class GestionnaireDeTaches(context: Context) {
             }
             when (tache.frequence) {
                 Frequence.QUOTIDIENNE -> {
-                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                    if(compagnon.personnalite == Personnalite.RADIN){
                         inventaire.ajouterPieces((((modifImportance * 3 * refuge.getModifPieces())* facteurPersonalite)*0.9).toInt())
                         gestionnaireCompagnons.modifierHumeur(compagnon.id, 2)
                     }
@@ -116,7 +115,7 @@ class GestionnaireDeTaches(context: Context) {
                     }
                 }
                 Frequence.HEBDOMADAIRE ->{
-                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                    if(compagnon.personnalite == Personnalite.RADIN){
                         inventaire.ajouterPieces((((modifImportance * 16 * refuge.getModifPieces())*facteurPersonalite)*0.8).toInt())
                         gestionnaireCompagnons.modifierHumeur(compagnon.id, 4)
                     }
@@ -127,7 +126,7 @@ class GestionnaireDeTaches(context: Context) {
                 }
 
                 Frequence.MENSUELLE ->{
-                    if(compagnon.personnalite == Personnalite.CUPIDE){
+                    if(compagnon.personnalite == Personnalite.RADIN){
                         inventaire.ajouterPieces((((modifImportance * 42 * refuge.getModifPieces())*facteurPersonalite)*0.72).toInt())
                         gestionnaireCompagnons.modifierHumeur(compagnon.id, 7)
                     }

@@ -92,16 +92,16 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         compagnon.let {
             when {
                 it.humeur > 60 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_0)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_0)
                 }
                 it.humeur > 30 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_1)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_1)
                 }
                 it.humeur > 0 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_2)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_2)
                 }
                 it.humeur == 0 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.faim_3)
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                 }
             }
             when {
@@ -211,16 +211,16 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 newCompagnon.let { comp ->
                     when {
                         it.humeur > 60 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_0)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_0)
                         }
                         it.humeur > 30 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_1)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_1)
                         }
                         it.humeur > 0 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_2)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_2)
                         }
                         it.humeur == 0 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.faim_3)
+                            binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                         }
                     }
                     when {
@@ -547,7 +547,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 Personnalite.GOURMAND -> "Gourmand"
                 Personnalite.JOUEUR -> "Joueur"
                 Personnalite.CALME -> "Calme"
-                Personnalite.CUPIDE -> "Cupide"
                 Personnalite.AVARE -> "Avare"
                 Personnalite.GRINCHEUX -> "Grincheux"
                 Personnalite.RADIN -> "Radin"
@@ -599,16 +598,16 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             compagnonGrid.let {
                 when {
                     it.humeur > 60 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_0)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_0)
                     }
                     it.humeur > 30 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_1)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_1)
                     }
                     it.humeur > 0 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_2)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_2)
                     }
                     it.humeur == 0 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.faim_3)
+                        binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                     }
                 }
                 when {

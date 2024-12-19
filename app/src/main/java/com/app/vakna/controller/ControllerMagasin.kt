@@ -1,20 +1,18 @@
 package com.app.vakna.controller
 
+import android.util.Log
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridCompagnonsAdapter
 import com.app.vakna.adapters.GridRefugesAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.CompagnonStore
-import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Objet
-import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.RefugeStore
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.ShopRefuge
 import com.app.vakna.modele.TypeObjet
-import com.app.vakna.modele.dao.CompagnonStoreDAO
 import com.app.vakna.modele.dao.InventaireDAO
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +46,9 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         binding.buttonRefresh.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                val objetsShop = shop.getObjetsEnLigne()
+                val objetsShop = shop.getObjetsEnLigne(context)
+
+                objetsShop.forEach { Log.d("test", it.toString()) }
 
                 CoroutineScope((Dispatchers.Main)).launch {
                     setupGridView(objetsShop)

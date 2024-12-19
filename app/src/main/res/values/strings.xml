@@ -173,5 +173,12 @@
     <string name="personalite_popup_message_joyeux"> Ce compagnon est toujours plein de joie.</string>
     <string name="personalite_popup_message_travailleur"> Ce compagnon est tres investie.</string>
     <string name="personalite_popup_message_inconnue">Personnalité inconnue.</string>
+    <string name="j_lundi">Lundi</string>
+    <string name="j_Mardi">Mardi</string>
+    <string name="j_Mercredi">Mercredi</string>
+    <string name="j_Jeudi">Jeudi</string>
+    <string name="j_Vendredi">Vendredi</string>
+    <string name="j_Samedi">Samedi</string>
+    <string name="j_Dimanche">Dimanche</string>
 
 </resources>
