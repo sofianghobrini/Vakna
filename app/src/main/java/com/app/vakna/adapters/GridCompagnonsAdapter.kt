@@ -2,7 +2,6 @@ package com.app.vakna.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +11,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.app.vakna.DetailsCompagnonActivity
-import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
+import com.app.vakna.modele.CompagnonStore
 import com.bumptech.glide.Glide
 
-open class GridCompagnonsAdapter (
+open class GridCompagnonsAdapter(
     private val context: Context,
     private val items: ArrayList<GridData>
 ) : BaseAdapter() {
