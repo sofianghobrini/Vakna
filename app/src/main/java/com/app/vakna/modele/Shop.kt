@@ -38,12 +38,13 @@ class Shop(
     suspend fun getObjetsEnLigne(context: Context): List<Objet> {
         try {
 
-            val objets = RetrofitInstance.apiService.obtenirObjets()
+            val nouveauxObjets = RetrofitInstance.apiService.obtenirObjets()
+            objetDAO.remplacerObjets(nouveauxObjets)
             val objetsManager = XmlObjetsManager(context)
             objetsManager.creerFichiers()
-            objetsManager.remplirFichiers(objets)
+            objetsManager.remplirFichiers(nouveauxObjets)
 
-            return objets
+            return nouveauxObjets
         } catch (e: Exception) {
             Log.d("test", "Erreur : $e")
             return emptyList()

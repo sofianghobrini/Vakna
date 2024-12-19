@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.app.vakna.DetailsObjetActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
+import com.app.vakna.modele.Objet
 import com.bumptech.glide.Glide
 
 open class GridConsommableAdapter (
@@ -40,7 +41,9 @@ open class GridConsommableAdapter (
         Glide.with(context)
             .load(item.image)
             .into(imageView)
-        nomTextView.text = item.nom
+
+
+        nomTextView.text = Objet.getNomLocale(item.nom, context)
         niveauTextView.text = item.niveau.toString()
         coutTextView.text = item.cout.toString()
 

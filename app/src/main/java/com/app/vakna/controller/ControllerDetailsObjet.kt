@@ -1,6 +1,5 @@
 package com.app.vakna.controller
 
-import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.InputFilter
@@ -13,6 +12,7 @@ import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.Objet
 import com.app.vakna.modele.Personnalite
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.dao.CompagnonDAO
@@ -35,13 +35,20 @@ class ControllerDetailsObjet(
         val objet = shop.getObjet(nomObjet)
         afficherNombreDeCoins()
 
-        binding.texteTitreDetails.text = objet?.getNom() ?: context.getString(R.string.objet_inconnu)
         Glide.with(context)
             .load(objet?.getImageUrl())
             .into(binding.imageObjet)
+
+        if (objet != null) {
+            binding.texteTitreDetails.text = Objet.getNomLocale(objet.getNom(), context)
+            binding.texteDescription.text = Objet.getNomLocale(objet.getDetails(), context)
+        } else {
+            binding.texteTitreDetails.text = context.getString(R.string.objet_inconnu)
+            binding.texteDescription.text = context.getString(R.string.objet_inconnu)
+        }
+
         binding.texteNiveau.text = context.getString(R.string.niveau_format, objet?.getNiveau())
         binding.texteCout.text = context.getString(R.string.cout_format, objet?.getPrix())
-        binding.texteDescription.text = objet?.getDetails() ?: context.getString(R.string.description_non_disponible)
 
         val boutonDiminuer = binding.boutonDiminuer
         val boutonAugmenter = binding.boutonAugmenter

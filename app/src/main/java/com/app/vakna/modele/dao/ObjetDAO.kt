@@ -108,4 +108,13 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
     fun obtenirParType(type: TypeObjet): List<Objet> {
         return obtenirTous().filter { it.getType() == type }
     }
+
+    fun remplacerObjets(nouveauxObjets: List<Objet>) {
+        for (obj in obtenirTous()) {
+            supprimer(obj.getId())
+        }
+        for (obj in nouveauxObjets) {
+            inserer(obj)
+        }
+    }
 }

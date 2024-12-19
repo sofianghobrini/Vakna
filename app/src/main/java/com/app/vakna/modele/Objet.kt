@@ -1,5 +1,7 @@
 package com.app.vakna.modele
 
+import android.content.Context
+import com.app.vakna.LocaleHelper
 import com.app.vakna.adapters.GridConsommableData
 
 open class Objet(
@@ -81,5 +83,20 @@ open class Objet(
 
     override fun toString(): String {
         return "$id $nom ($type) $prix€ : $detail [niveau=$niveau]"
+    }
+
+    companion object {
+        fun getNomLocale(nom: String, context: Context): String {
+            val match = Regex("(.*)\\[(.*)]").matchEntire(nom)
+            return if (match != null) {
+                if (LocaleHelper.getLanguage(context) == "fr") {
+                    match.groupValues[1]
+                } else {
+                    match.groupValues[2]
+                }
+            } else {
+                nom
+            }
+        }
     }
 }
