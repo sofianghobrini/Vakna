@@ -433,31 +433,44 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Le nouveau nom est sauvegardé dans la base de données et mis à jour dans l'interface utilisateur.
      */
     fun showEditNameDialog() {
-        val editText = EditText(context).apply {
-            hint = context.getString(R.string.new_name_hint)
-            inputType = android.text.InputType.TYPE_CLASS_TEXT
-            filters = arrayOf(android.text.InputFilter.LengthFilter(16))
+        // Charger la mise en page personnalisée pour le dialogue
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_modifier_nom, null)
+
+        // Trouver l'EditText dans la mise en page personnalisée
+        val editText = dialogView.findViewById<EditText>(R.id.edit_text_name).apply {
+            hint = context.getString(R.string.new_name_hint) // Définir un indice pour l'entrée de texte
+            inputType = android.text.InputType.TYPE_CLASS_TEXT // Définir le type d'entrée comme texte
+            filters = arrayOf(android.text.InputFilter.LengthFilter(16)) // Limiter la longueur à 16 caractères
             compagnon.let {
-                setText(it.nom)  // Pré-remplir avec le nom actuel du compagnon
+                setText(it.nom)
             }
         }
 
-        MaterialAlertDialogBuilder(context)
-            .setTitle(context.getString(R.string.edit_name_dialog_title))
-            .setView(editText)
-            .setPositiveButton(context.getString(R.string.confirm)) { dialog, _ ->
-                val newName = editText.text.toString()
-                if (newName.isNotEmpty()) {
-                    // Mettre à jour le nom du compagnon dans la base de données
-                    compagnon.let { gestionnaire.modifierNom(it.id, newName) }
-                    binding.dragonName.text = newName
-                }
-                dialog.dismiss()
+        // Trouver les boutons existants dans la mise en page
+        val buttonConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+
+        // Construire et afficher le dialogue
+        val dialog = MaterialAlertDialogBuilder(context)
+            .setView(dialogView) // Définir la vue personnalisée pour le dialogue
+            .create()
+
+        // Configurer le comportement des boutons
+        buttonConfirm.setOnClickListener {
+            val newName = editText.text.toString()
+            if (newName.isNotEmpty()) {
+                // Mettre à jour le nom du compagnon dans la base de données
+                compagnon.let { gestionnaire.modifierNom(it.id, newName) }
+                binding.dragonName.text = newName // Mettre à jour l'affichage du nom dans l'interface utilisateur
             }
-            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+            dialog.dismiss()
+        }
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     fun showDialogRelease(){
