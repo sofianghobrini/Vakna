@@ -201,7 +201,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Gestionnaire de tâches pour ajouter la nouvelle tâche
         val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
         gestionnaireDeTaches.ajouterTache(tache)
-        Log.i("test", gestionnaireDeTaches.obtenirTache(tache.nom).toString())
     }
     private fun afficherPopUp_semaine() {
         // Charger le layout personnalisé pour le popup
@@ -227,13 +226,13 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         buttonValider.setOnClickListener {
             selectedDays = mutableListOf<Int>()
             selectedDays?.let {
-                if (checkLundi.isChecked) it.add(0)
-                if (checkMardi.isChecked) it.add(1)
-                if (checkMercredi.isChecked) it.add(2)
-                if (checkJeudi.isChecked) it.add(3)
-                if (checkVendredi.isChecked) it.add(4)
-                if (checkSamedi.isChecked) it.add(5)
-                if (checkDimanche.isChecked) it.add(6)
+                if (checkLundi.isChecked) it.add(1)
+                if (checkMardi.isChecked) it.add(2)
+                if (checkMercredi.isChecked) it.add(3)
+                if (checkJeudi.isChecked) it.add(4)
+                if (checkVendredi.isChecked) it.add(5)
+                if (checkSamedi.isChecked) it.add(6)
+                if (checkDimanche.isChecked) it.add(7)
             }
 
             // Fermer le dialog après la sélection
@@ -244,13 +243,13 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             var jours = ""
             selectedDays?.forEach {
                 when(it) {
-                    0 -> jours += "Lundi, "
-                    1 -> jours += "Mardi, "
-                    2 -> jours += "Mercredi, "
-                    3 -> jours += "Jeudi, "
-                    4 -> jours += "Vendredi, "
-                    5 -> jours += "Samedi, "
-                    6 -> jours += "Dimanche, "
+                    1 -> jours += "Lundi, "
+                    2 -> jours += "Mardi, "
+                    3 -> jours += "Mercredi, "
+                    4 -> jours += "Jeudi, "
+                    5 -> jours += "Vendredi, "
+                    6 -> jours += "Samedi, "
+                    7 -> jours += "Dimanche, "
                 }
             }
             jours = jours.subSequence(0, jours.length-2).toString()
