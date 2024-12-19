@@ -1,6 +1,7 @@
 package com.app.vakna.controller
 
 import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridCompagnonsAdapter
@@ -14,7 +15,13 @@ import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.ShopRefuge
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
+import com.app.vakna.ui.magasin.MagasinAdapter
+import com.app.vakna.ui.magasin.magasinCompagnonFragment
+import com.app.vakna.ui.magasin.magasinJouetFragment
+import com.app.vakna.ui.magasin.magasinNourritureFragment
+import com.app.vakna.ui.magasin.magasinRefugeFragment
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -167,4 +174,43 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         val texteNombreCoins = binding.texteNombreCoins
         texteNombreCoins.text = "$nombreDeCoins"
     }
+
+    private fun setupViewSwipeNourritureJouet() {
+        val fragments = listOf(
+            magasinNourritureFragment(),      // Onglet pour la nourriture
+            magasinJouetFragment()       // Onglet pour les jouets
+        )
+
+        val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
+        binding.viewPager.adapter = adapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> context?.getString(R.string.tab_food)
+                2 -> context?.getString(R.string.tab_toys)
+                else -> ""
+            }
+        }.attach()
+    }
+
+    private fun setupViewSwipeCompagnonRefuge() {
+        val fragments = listOf(
+            magasinCompagnonFragment(), // Onglet pour les compagnons
+            magasinRefugeFragment(),    // Onglet pour les refuges
+        )
+
+        val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
+        binding.viewPager.adapter = adapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> context?.getString(R.string.tab_companions)
+                1 -> "Refuges"
+                else -> ""
+            }
+        }.attach()
+    }
+
+
+
 }

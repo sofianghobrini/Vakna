@@ -8,20 +8,20 @@ import androidx.fragment.app.Fragment
 import com.app.vakna.adapters.GridCompagnonsAdapter
 import com.app.vakna.adapters.GridData
 import com.app.vakna.adapters.GridRefugesAdapter
-import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.RefugeStore
 import com.app.vakna.modele.ShopRefuge
 
 class magasinRefugeFragment : Fragment() {
 
-    private lateinit var binding: FragmentCompagnonBinding // Généré avec view binding.
+    private lateinit var binding: FragmentMagasinBinding // Généré avec view binding.
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCompagnonBinding.inflate(inflater, container, false)
+        binding = FragmentMagasinBinding.inflate(inflater, container, false)
         val context = binding.root.context
         val shopRefuge= ShopRefuge(context)
         val listRefuge = shopRefuge.getRefugesStore()
