@@ -1,8 +1,6 @@
 package com.app.vakna.modele
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
@@ -21,11 +19,6 @@ class GestionnaireDeTaches(context: Context) {
 
     init {
         tacheDAO.obtenirTous().forEach { setDeTaches.add(it) }
-        var compagnon = gestionnaireCompagnons.obtenirActif()
-        if(compagnon == null) {
-            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
-        }
-        idCompagnon = compagnon.id
     }
 
     fun setCompagnon(id: Int) {
@@ -62,7 +55,6 @@ class GestionnaireDeTaches(context: Context) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun supprimerTache(nom: String): Boolean {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
@@ -87,12 +79,12 @@ class GestionnaireDeTaches(context: Context) {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             tache.estTerminee = true
+            tache.derniereValidation = LocalDate.now()
             val modifImportance = tache.importance.ordinal + 1
             val modifFrequence = tache.frequence.ordinal + 1
-            val refuge = gestionnaireDeRefuge.getRefugeParId(idRefuge)
+            val refuge = gestionnaireDeRefuge.getRefugeParId(idRefuge) ?: throw IllegalStateException("Refuge avec ID $idRefuge introuvable")
             gestionnaireDeRefuge.getRefuges().forEach {println("Tous les refuges" + it.getNom())}
-            println("Nom du refuge" + refuge?.getNom())
-            gestionnaireCompagnons.modifierHumeur(idCompagnon, (modifImportance * modifFrequence * 3 * refuge!!.getModifHumeur()).toInt())
+            gestionnaireCompagnons.modifierHumeur(idCompagnon, (modifImportance * modifFrequence * 3 * refuge.getModifHumeur()).toInt())
             gestionnaireCompagnons.gagnerXp(idCompagnon, (modifImportance * modifFrequence * 3 * refuge.getModifXp()).toInt())
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(idCompagnon)
             val facteurPersonalite = when(compagnon!!.personnalite) {
@@ -158,7 +150,6 @@ class GestionnaireDeTaches(context: Context) {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun verifierTacheNonAccomplies(): Boolean {
         val dateActuelle = LocalDateTime.now()
         tacheDAO.obtenirTous().forEach {

@@ -6,8 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.text.InputFilter
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +18,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -41,7 +37,6 @@ import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.ui.compagnon.CompagnonFragment
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -50,6 +45,7 @@ import com.google.android.material.tabs.TabLayout
  * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
  * @param binding Le binding associé au fragment compagnon pour accéder aux vues.
  */
+@Suppress("NAME_SHADOWING")
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
