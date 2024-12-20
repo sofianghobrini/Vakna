@@ -10,6 +10,10 @@ import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -208,5 +212,4 @@ class MainActivity : AppCompatActivity() {
             gestionnaire.baisserNivHumeur(id, lastLaunch)
         }
     }
-
 }
