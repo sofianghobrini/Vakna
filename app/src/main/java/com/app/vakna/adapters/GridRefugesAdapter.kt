@@ -51,6 +51,15 @@ class GridRefugesAdapter (
         layoutParams.marginStart = 0
         nomTextView.gravity = Gravity.CENTER
 
+        view.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsRefugeActivity::class.java).apply {
+                    putExtra("NOM_REFUGE", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
+
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, DetailsRefugeActivity::class.java).apply {

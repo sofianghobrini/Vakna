@@ -25,6 +25,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.widget.Toast
 
 
 class ControllerMagasin(private val binding: FragmentMagasinBinding) {
@@ -44,22 +48,28 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         setupShopTabs()
 
         binding.switchMagasinCompagnon.setOnClickListener {
+            binding.switchMagasinCompagnon.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
+            binding.switchMagasinConsom.backgroundTintList = null
             setupCompagnonTab()
         }
 
         binding.switchMagasinConsom.setOnClickListener {
+            binding.switchMagasinConsom.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
+            binding.switchMagasinCompagnon.backgroundTintList = null
             setupShopTabs()
         }
 
         binding.buttonRefresh.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val objetsShop = shop.getObjetsEnLigne(context)
+            if (isInternetAvailable(context)) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val objetsShop = shop.getObjetsEnLigne(context)
 
-                objetsShop.forEach { Log.d("test", it.toString()) }
-
-                CoroutineScope((Dispatchers.Main)).launch {
-                    setupGridView(objetsShop)
+                    CoroutineScope((Dispatchers.Main)).launch {
+                        setupGridView(objetsShop)
+                    }
                 }
+            } else {
+                Toast.makeText(context, context.getString(R.string.pas_connection), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -205,10 +215,22 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> context?.getString(R.string.tab_companions)
-                1 -> "Refuges"
+                1 -> context.getString(R.string.refuges)
                 else -> ""
             }
         }.attach()
+    }
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return when {
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
     }
 
 

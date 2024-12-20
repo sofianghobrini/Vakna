@@ -52,6 +52,15 @@ open class GridCompagnonsAdapter(
         layoutParams.marginStart = 0
         nomTextView.gravity = Gravity.CENTER
 
+        view.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsCompagnonActivity::class.java).apply {
+                    putExtra("ESPECE_COMPAGNON", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
+
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, DetailsCompagnonActivity::class.java).apply {

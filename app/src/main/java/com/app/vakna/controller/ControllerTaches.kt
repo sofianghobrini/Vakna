@@ -27,6 +27,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
 
     // Initialisation du contrôleur et des boutons
     init {
+        gestionnaire.verifierTacheNonAccomplies()
         setupRecyclerView()
 
         // Bouton pour ajouter une nouvelle tâche
@@ -72,8 +73,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
      * @param progressBar : ProgressBar - La barre de progression associée
      */
     private fun createListAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
-        gestionnaire.verifierTacheNonAccomplies()
-        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
+        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence), context)
 
         // Filtrer les tâches non archivées et les trier par statut et importance
         val sortedTasks = taskList

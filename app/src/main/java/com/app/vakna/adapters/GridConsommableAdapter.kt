@@ -44,6 +44,15 @@ open class GridConsommableAdapter (
         niveauTextView.text = item.niveau.toString()
         coutTextView.text = item.cout.toString()
 
+        view.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsObjetActivity::class.java).apply {
+                    putExtra("NOM_OBJET", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
+
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, DetailsObjetActivity::class.java).apply {

@@ -1,5 +1,8 @@
 package com.app.vakna.modele
 
+import android.content.Context
+import android.content.res.Resources
+import com.app.vakna.R
 import com.app.vakna.adapters.ListData
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -15,8 +18,16 @@ class Tache(
     var estTerminee: Boolean = false,
     var estArchivee: Boolean = false
 ) {
-    fun toListData(): ListData {
-        return ListData(nom, type.name, importance.name, 0, estTerminee, estArchivee)
+    fun toListData(context: Context): ListData {
+        val nomType = when(type) {
+            TypeTache.PERSONNELLE -> context.getString(R.string.type_personnelle)
+            TypeTache.PROFESSIONNELLE -> context.getString(R.string.type_professionnelle)
+            TypeTache.PROJET -> context.getString(R.string.type_projet)
+            TypeTache.ETUDES -> context.getString(R.string.type_etudes)
+            TypeTache.SPORT -> context.getString(R.string.type_sport)
+            TypeTache.AUTRE -> context.getString(R.string.type_autre)
+        }
+        return ListData(nom, nomType, importance.name, 0, estTerminee, estArchivee)
     }
 
     override fun equals(other: Any?): Boolean {

@@ -564,15 +564,15 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val context = view.context
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
             val typePersonnalite = when (compagnon!!.personnalite) {
-                Personnalite.GOURMAND -> "Gourmand"
-                Personnalite.JOUEUR -> "Joueur"
-                Personnalite.CALME -> "Calme"
-                Personnalite.AVARE -> "Avare"
-                Personnalite.GRINCHEUX -> "Grincheux"
-                Personnalite.RADIN -> "Radin"
-                Personnalite.GENTIL -> "Gentil"
-                Personnalite.JOYEUX -> "Joyeux"
-                Personnalite.TRAVAILLEUR -> "Travailleur"
+                Personnalite.GOURMAND -> context.getString(R.string.personalite_gourmand)
+                Personnalite.JOUEUR -> context.getString(R.string.personalite_joueur)
+                Personnalite.CALME -> context.getString(R.string.personalite_calme)
+                Personnalite.AVARE -> context.getString(R.string.personalite_avare)
+                Personnalite.GRINCHEUX -> context.getString(R.string.personalite_grincheux)
+                Personnalite.RADIN -> context.getString(R.string.personalite_radin)
+                Personnalite.GENTIL -> context.getString(R.string.personalite_gentil)
+                Personnalite.JOYEUX -> context.getString(R.string.personalite_joyeux)
+                Personnalite.TRAVAILLEUR -> context.getString(R.string.personalite_travailleur)
             }
 
             val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)

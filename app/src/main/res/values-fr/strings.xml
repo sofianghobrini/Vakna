@@ -11,18 +11,16 @@
         <item>PROJET</item>
         <item>ETUDES</item>
         <item>SPORT</item>
-        <item>VIEQUO</item>
         <item>AUTRE</item>
     </string-array>
 
     <!-- New type strings -->
-    <string name="type_personnelle">Personnelle</string>
-    <string name="type_professionnelle">Professionnelle</string>
-    <string name="type_projet">Projet</string>
-    <string name="type_etudes">Études</string>
-    <string name="type_sport">Sport</string>
-    <string name="type_viequo">Vie Quotidienne</string>
-    <string name="type_autre">Autre</string>
+    <string name="type_personnelle">PERSONNELLE</string>
+    <string name="type_professionnelle">PROFESSIONNELLE</string>
+    <string name="type_projet">PROJET</string>
+    <string name="type_etudes">ETUDES</string>
+    <string name="type_sport">SPORT</string>
+    <string name="type_autre">AUTRE</string>
 
     <string name="create_task_button">Créer une quête</string>
     <string name="cancel_task_creation_button">Annuler</string>
@@ -157,19 +155,19 @@
     <string name="tab_companions">Compagnons</string>
     <string name="release_compagnon">Etes vous capable de dire adieu votre compagnon</string>
     <string name="title_release">Relacher votre compagnon</string>
-    <string name="goodbye_myfriend">Bye Bye</string>
-    <string name="refus_relacher">J\'ai change d\'avis T _ T</string>
+    <string name="goodbye_myfriend">Aurevoir</string>
+    <string name="refus_relacher">Non reste!</string>
     <string name="un_campagnon_restant">Il te reste un compagnon...</string>
     <string name="personalite_popup_title">Personnalité: %1$s</string>
-    <string name="personalite_popup_message_gourmand">" Ce compagnon adore manger !"</string>
-    <string name="personalite_popup_message_joueur">Ce compagnon aime beaucoup jouer !</string>
+    <string name="personalite_popup_message_gourmand">" Ce compagnon adore manger!"</string>
+    <string name="personalite_popup_message_joueur">Ce compagnon aime beaucoup jouer!</string>
     <string name="personalite_popup_message_calme">Ce compagnon est très paisible et détendu.</string>
-    <string name="personalite_popup_message_avare">" Ce compagnon n'aime pas depenser."</string>
+    <string name="personalite_popup_message_avare">" Ce compagnon adore l'argent."</string>
     <string name="personalite_popup_message_grincheux">" Ce compagnon est souvent de mauvaise humeur."</string>
     <string name="personalite_popup_message_radin">" Ce compagnon est très économe, parfois trop."</string>
     <string name="personalite_popup_message_gentil">" Ce compagnon est d'une grande bonté."</string>
     <string name="personalite_popup_message_joyeux">" Ce compagnon est toujours plein de joie."</string>
-    <string name="personalite_popup_message_travailleur">" Ce compagnon est tres investie."</string>
+    <string name="personalite_popup_message_travailleur">" Ce compagnon est très investie."</string>
     <string name="personalite_popup_message_inconnue">Personnalité inconnue.</string>
     <string name="j_lundi">Lundi</string>
     <string name="j_Mardi">Mardi</string>
@@ -181,7 +179,20 @@
     <string name="refuge_description">Les refuges peuvent augmenter le gain d\'humeur ou de faim d\'un compagnon</string>
     <string name="no_refuge_title">Vous n\'avez aucun Refuges!</string>
     <string name="buy_refuges">Acheter</string>
+    <string name="defaut_semaine">1/semaine</string>
+    <string name="defaut_mois">1/mois</string>
     <string name="select_refuges">Sélectionnez un refuge</string>
     <string name="select">Sélectionner</string>
+    <string name="personalite_gourmand">Gourmand</string>
+    <string name="personalite_joueur">Joueur</string>
+    <string name="personalite_calme">Calme</string>
+    <string name="personalite_avare">Avare</string>
+    <string name="personalite_grincheux">Grincheux</string>
+    <string name="personalite_radin">Radin</string>
+    <string name="personalite_gentil">Gentil</string>
+    <string name="personalite_joyeux">Joyeux</string>
+    <string name="personalite_travailleur">Travailleur</string>
+    <string name="pas_connection">Pas de connection!</string>
+    <string name="refuges">Refuges</string>
 
 </resources>

@@ -21,8 +21,8 @@
 
         <ImageButton
             android:id="@+id/boutonSettings"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/settings_icon" />
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="Journalier"
+                android:text="@string/daily_tasks"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Mensuel"
+                android:text="@string/monthly_tasks"
                 android:textColor="@color/couleurTexte"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"

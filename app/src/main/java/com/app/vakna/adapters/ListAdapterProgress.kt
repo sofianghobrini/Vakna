@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.app.vakna.R
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.TypeTache
 import com.app.vakna.modele.dao.CompagnonDAO
 
 // Adapter pour la liste de tâches terminées
@@ -43,7 +44,6 @@ class ListAdapterProgress(
         holder.listTypeIcon.setImageResource(listData.icon)
         holder.listName.text = listData.name
         holder.listType.text = listData.type
-
         val grayScaleMatrix = ColorMatrix().apply { setSaturation(0f) }
         val grayScaleFilter = ColorMatrixColorFilter(grayScaleMatrix)
 
