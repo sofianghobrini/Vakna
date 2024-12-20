@@ -60,14 +60,12 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                 CoroutineScope(Dispatchers.IO).launch {
                     val objetsShop = shop.getObjetsEnLigne(context)
 
-                    objetsShop.forEach { Log.d("test", it.toString()) }
-
                     CoroutineScope((Dispatchers.Main)).launch {
                         setupGridView(objetsShop)
                     }
                 }
             } else {
-                Toast.makeText(context, "Pas de connection!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.pas_connection), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -213,7 +211,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> context?.getString(R.string.tab_companions)
-                1 -> "Refuges"
+                1 -> context.getString(R.string.refuges)
                 else -> ""
             }
         }.attach()

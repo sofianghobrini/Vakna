@@ -192,5 +192,7 @@
     <string name="personalite_gentil">Kind</string>
     <string name="personalite_joyeux">Cheerful</string>
     <string name="personalite_travailleur">Hardworking</string>
+    <string name="pas_connection">No connection!</string>
+    <string name="refuges">Shelters</string>
 
 </resources>

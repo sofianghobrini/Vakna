@@ -192,5 +192,7 @@
     <string name="personalite_gentil">Gentil</string>
     <string name="personalite_joyeux">Joyeux</string>
     <string name="personalite_travailleur">Travailleur</string>
+    <string name="pas_connection">Pas de connection!</string>
+    <string name="refuges">Refuges</string>
 
 </resources>
