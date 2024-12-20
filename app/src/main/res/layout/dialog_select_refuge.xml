@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/textColorPrimaryInverse"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -9,9 +10,10 @@
         android:id="@+id/titreDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/selectionnez_refuge_titre"
+        android:text="@string/select_refuges"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:color="?android:attr/textColorPrimary"
         android:layout_gravity="center_horizontal" />
 
     <HorizontalScrollView
@@ -38,16 +40,16 @@
             android:id="@+id/boutonCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/gray"
             android:text="@string/cancel"
-            android:backgroundTint="@color/red"
-            android:textSize="12sp"
-            android:layout_marginEnd="8dp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/boutonSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:text="@string/selectionner_refuge" />
+            android:text="@string/select" />
     </LinearLayout>
 </LinearLayout>

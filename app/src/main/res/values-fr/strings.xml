@@ -181,6 +181,7 @@
     <string name="buy_refuges">Acheter</string>
     <string name="defaut_semaine">1/semaine</string>
     <string name="defaut_mois">1/mois</string>
-    <string name="selectionner_refuge">Sélectionner</string>
-    <string name="selectionnez_refuge_titre">Sélectionnez un refuge</string>
+    <string name="select_refuges">Sélectionnez un refuge</string>
+    <string name="select">Sélectionner</string>
+
 </resources>
