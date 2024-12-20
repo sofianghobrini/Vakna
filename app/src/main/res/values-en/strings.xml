@@ -159,11 +159,11 @@
     <string name="refus_relacher">No stay!</string>
     <string name="un_campagnon_restant">You have one companion left.</string>
     <string name="personalite_popup_title">Personnality : %1$s</string>
-    <string name="personalite_popup_message_gourmand">This companion loves to eat</string>
-    <string name="personalite_popup_message_joueur">This companion likes to play</string>
+    <string name="personalite_popup_message_gourmand">This companion loves to eat!</string>
+    <string name="personalite_popup_message_joueur">This companion likes to play!</string>
     <string name="personalite_popup_message_calme">This companion is so calm</string>
-    <string name="personalite_popup_message_avare">This companion doesn\'t like to spend</string>
-    <string name="personalite_popup_message_grincheux">This companion is often  bad mood</string>
+    <string name="personalite_popup_message_avare">This companion loves money</string>
+    <string name="personalite_popup_message_grincheux">This companion is often in a bad mood</string>
     <string name="personalite_popup_message_radin">This companion is very economical</string>
     <string name="personalite_popup_message_gentil">" This companion is very kind."</string>
     <string name="personalite_popup_message_joyeux">" This companion is always full of joy."</string>
@@ -183,5 +183,14 @@
     <string name="defaut_mois">1/month</string>
     <string name="select_refuges">Select a shelter</string>
     <string name="select">Select</string>
+    <string name="personalite_gourmand">Gluttonous</string>
+    <string name="personalite_joueur">Playful</string>
+    <string name="personalite_calme">Calm</string>
+    <string name="personalite_avare">Greedy</string>
+    <string name="personalite_grincheux">Grumpy</string>
+    <string name="personalite_radin">Stingy</string>
+    <string name="personalite_gentil">Kind</string>
+    <string name="personalite_joyeux">Cheerful</string>
+    <string name="personalite_travailleur">Hardworking</string>
 
 </resources>
