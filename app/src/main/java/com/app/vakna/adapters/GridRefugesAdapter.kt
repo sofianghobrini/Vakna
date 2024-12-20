@@ -60,6 +60,15 @@ class GridRefugesAdapter (
             }
         }
 
+        boutonAchat.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsRefugeActivity::class.java).apply {
+                    putExtra("NOM_REFUGE", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
+
         return view
     }
 }

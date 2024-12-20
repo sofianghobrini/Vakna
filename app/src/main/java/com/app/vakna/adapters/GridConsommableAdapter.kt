@@ -53,6 +53,15 @@ open class GridConsommableAdapter (
             }
         }
 
+        boutonAchat.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsObjetActivity::class.java).apply {
+                    putExtra("NOM_OBJET", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
+
         return view
     }
 }
