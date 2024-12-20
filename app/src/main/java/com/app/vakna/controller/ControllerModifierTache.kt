@@ -2,13 +2,11 @@ package com.app.vakna.controller
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.DatePicker
 import android.widget.RadioGroup
 import android.widget.EditText
 import android.widget.GridLayout
@@ -119,14 +117,13 @@ class ControllerModifierTache(
     private fun recupererTypeTache(): TypeTache {
         val typeSpinner = binding.root.findViewById<Spinner>(R.id.selectTypeTache)
         val typeSelectionne = typeSpinner.selectedItem.toString()
-
-        return when (typeSelectionne.uppercase()) {
-            context.getString(R.string.type_personnelle).uppercase() -> TypeTache.PERSONNELLE
-            context.getString(R.string.type_professionnelle).uppercase() -> TypeTache.PROFESSIONNELLE
-            context.getString(R.string.type_projet).uppercase() -> TypeTache.PROJET
-            context.getString(R.string.type_etudes).uppercase() -> TypeTache.ETUDES
-            context.getString(R.string.type_sport).uppercase() -> TypeTache.SPORT
-            context.getString(R.string.type_viequo).uppercase() -> TypeTache.VIEQUO
+        return when(typeSelectionne.uppercase()) {
+            context.getString(R.string.type_personnelle) -> TypeTache.PERSONNELLE
+            context.getString(R.string.type_professionnelle) -> TypeTache.PROFESSIONNELLE
+            context.getString(R.string.type_projet) -> TypeTache.PROJET
+            context.getString(R.string.type_etudes) -> TypeTache.ETUDES
+            context.getString(R.string.type_sport) -> TypeTache.SPORT
+            context.getString(R.string.type_autre) -> TypeTache.AUTRE
             else -> TypeTache.AUTRE
         }
     }
@@ -199,7 +196,7 @@ class ControllerModifierTache(
     }
     private fun afficherPopUp_semaine() {
         // Charger le layout personnalisé pour le popup
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.popup_jour_semaine, null)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_jour_semaine, null)
 
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)

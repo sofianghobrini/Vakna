@@ -11,18 +11,16 @@
         <item>PROJET</item>
         <item>ETUDES</item>
         <item>SPORT</item>
-        <item>VIEQUO</item>
         <item>AUTRE</item>
     </string-array>
 
     <!-- New type strings -->
-    <string name="type_personnelle">Personnelle</string>
-    <string name="type_professionnelle">Professionnelle</string>
-    <string name="type_projet">Projet</string>
-    <string name="type_etudes">Études</string>
-    <string name="type_sport">Sport</string>
-    <string name="type_viequo">Vie Quotidienne</string>
-    <string name="type_autre">Autre</string>
+    <string name="type_personnelle">PERSONNELLE</string>
+    <string name="type_professionnelle">PROFESSIONNELLE</string>
+    <string name="type_projet">PROJET</string>
+    <string name="type_etudes">ETUDES</string>
+    <string name="type_sport">SPORT</string>
+    <string name="type_autre">AUTRE</string>
 
     <string name="create_task_button">Créer une quête</string>
     <string name="cancel_task_creation_button">Annuler</string>
@@ -73,7 +71,7 @@
     <string name="radio_high">Élevée</string>
     <string name="error_task_importance">Veuillez sélectionner une importance</string>
     <string name="dialog_title_archive">Archiver la quête?</string>
-    <string name="dialog_text_warning">Voulez-vous vraiment archiver la quête %1$s? Vous ne pourrez plus réactiver cette quête! Cependant, vous pourrez toujours la revoir dans la page d\'archive.</string>
+    <string name="dialog_text_warning">Do you really want to archive the quest %1$s? You will not be able to reactivate this quest! However, you will still be able to view it on the archive page.</string>
     <string name="button_archive">Archiver</string>
     <string name="dialog_title_finish_task">Avez-vous fini cette quête?</string>
     <string name="dialog_text_confirm_finish">Si vous confirmez que vous avez bien terminé la quête %1$s.</string>
@@ -157,8 +155,8 @@
     <string name="tab_companions">Compagnons</string>
     <string name="release_compagnon">Etes vous capable de dire adieux à votre campagnon</string>
     <string name="title_release">Relacher</string>
-    <string name="goodbye_myfriend">Adieu mon ami</string>
-    <string name="refus_relacher">Je relache pas mon compagnon</string>
+    <string name="goodbye_myfriend">Aurevoir</string>
+    <string name="refus_relacher">Non reste!</string>
     <string name="un_campagnon_restant">Il te reste un campagnon…</string>
 
 
@@ -184,6 +182,10 @@
     <string name="refuge_description">Les refuges peuvent augmenter le gain d\'humeur ou de faim d\'un compagnon</string>
     <string name="no_refuge_title">Vous n\'avez aucun Refuges!</string>
     <string name="buy_refuges">Acheter</string>
+    <string name="defaut_semaine">1/semaine</string>
+    <string name="defaut_mois">1/mois</string>
+    <string name="selectionner_refuge">Sélectionner</string>
+    <string name="selectionnez_refuge_titre">Sélectionnez un refuge</string>
 
 
 </resources>

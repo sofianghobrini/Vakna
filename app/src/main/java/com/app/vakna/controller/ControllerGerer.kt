@@ -45,7 +45,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
 
     private fun setUpRecyclerView() {
         val data =
-            GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches())
+            GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches(), context)
 
         val dataTrier = data.filter { !it.estTermine || !it.estArchivee }
             .filter { !it.estArchivee }

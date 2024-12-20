@@ -2,18 +2,13 @@ package com.app.vakna.controller
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.DatePicker
 import android.widget.GridLayout
-import android.widget.Toast
-import androidx.compose.ui.unit.dp
 import com.app.vakna.AjouterActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -144,7 +139,15 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
      */
     private fun recupererTypeTache(): TypeTache {
         val type = binding.contenuInclude.selectTypeTache.selectedItem.toString().uppercase()
-        return enumValueOf<TypeTache>(type)
+        return when(type) {
+            context.getString(R.string.type_personnelle) -> TypeTache.PERSONNELLE
+            context.getString(R.string.type_professionnelle) -> TypeTache.PROFESSIONNELLE
+            context.getString(R.string.type_projet) -> TypeTache.PROJET
+            context.getString(R.string.type_etudes) -> TypeTache.ETUDES
+            context.getString(R.string.type_sport) -> TypeTache.SPORT
+            context.getString(R.string.type_autre) -> TypeTache.AUTRE
+            else -> TypeTache.AUTRE
+        }
     }
 
     /**
@@ -204,7 +207,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     }
     private fun afficherPopUp_semaine() {
         // Charger le layout personnalisé pour le popup
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.popup_jour_semaine, null)
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_jour_semaine, null)
 
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
@@ -243,13 +246,13 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             var jours = ""
             selectedDays?.forEach {
                 when(it) {
-                    1 -> jours += "Lundi, "
-                    2 -> jours += "Mardi, "
-                    3 -> jours += "Mercredi, "
-                    4 -> jours += "Jeudi, "
-                    5 -> jours += "Vendredi, "
-                    6 -> jours += "Samedi, "
-                    7 -> jours += "Dimanche, "
+                    1 -> jours += context.getString(R.string.j_lundi) + ", "
+                    2 -> jours += context.getString(R.string.j_Mardi) + ", "
+                    3 -> jours += context.getString(R.string.j_Mercredi) + ", "
+                    4 -> jours += context.getString(R.string.j_Jeudi) + ", "
+                    5 -> jours += context.getString(R.string.j_Vendredi) + ", "
+                    6 -> jours += context.getString(R.string.j_Samedi) + ", "
+                    7 -> jours += context.getString(R.string.j_Dimanche) + ", "
                 }
             }
             jours = jours.subSequence(0, jours.length-2).toString()
@@ -305,7 +308,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.popup_title_choose_dates))
 
         val dialog = dialogBuilder.create()
 

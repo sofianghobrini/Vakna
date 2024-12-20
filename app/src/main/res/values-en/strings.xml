@@ -6,23 +6,21 @@
     <string name="title_compagnon">My pets</string>
     <string name="edit_name">Edit Name</string>
     <string-array name="typeTacheExemple">
-    <item>PERSONNELLE</item>
-    <item>PROFESSIONNELLE</item>
-    <item>PROJET</item>
-    <item>ETUDES</item>
-    <item>SPORT</item>
-    <item>VIEQUO</item>
-    <item>AUTRE</item>
-</string-array>
+        <item>PERSONAL</item>
+        <item>PROFESSIONAL</item>
+        <item>PROJECT</item>
+        <item>STUDIES</item>
+        <item>SPORT</item>
+        <item>OTHER</item>
+    </string-array>
 
     <!-- New type strings -->
-    <string name="type_personnelle">Personnal</string>
-    <string name="type_professionnelle">Professionnal</string>
-    <string name="type_projet">Project</string>
-    <string name="type_etudes">Studies</string>
-    <string name="type_sport">Sport</string>
-    <string name="type_viequo">Daily life</string>
-    <string name="type_autre">Other</string>
+    <string name="type_personnelle">PERSONAL</string>
+    <string name="type_professionnelle">PROFESSIONAL</string>
+    <string name="type_projet">PROJECT</string>
+    <string name="type_etudes">STUDIES</string>
+    <string name="type_sport">SPORT</string>
+    <string name="type_autre">OTHER</string>
 
     <string name="create_task_button">Create a quest</string>
     <string name="cancel_task_creation_button">Cancel</string>
@@ -158,7 +156,7 @@
     <string name="release_compagnon">Are you able to say goodbye to your partner?</string>
     <string name="title_release">Release your companion</string>
     <string name="goodbye_myfriend">"Goodbye !"</string>
-    <string name="refus_relacher">I change my mind T _ T</string>
+    <string name="refus_relacher">No stay!</string>
     <string name="un_campagnon_restant">You have one companion left.</string>
     <string name="personalite_popup_title">Personnality : %1$s</string>
     <string name="personalite_popup_message_gourmand">This companion loves to eat</string>
@@ -181,4 +179,8 @@
     <string name="refuge_description">Shelters can increase the mood or hunger gain of a companion</string>
     <string name="no_refuge_title">You have no Shelters!</string>
     <string name="buy_refuges">Buy Shelters</string>
+    <string name="defaut_semaine">1/week</string>
+    <string name="defaut_mois">1/month</string>
+    <string name="selectionner_refuge">Select</string>
+    <string name="selectionnez_refuge_titre">Select a shelter</string>
 </resources>

@@ -338,10 +338,10 @@ class GestionnaireDeTaches(context: Context) {
     }
 
     companion object {
-        fun setToListDataArray(taches: Set<Tache>): ArrayList<ListData> {
+        fun setToListDataArray(taches: Set<Tache>, context: Context): ArrayList<ListData> {
             val list = ArrayList<ListData>()
             for (tache in taches) {
-                val listData = tache.toListData()
+                val listData = tache.toListData(context)
                 list.add(listData)
             }
             return list
