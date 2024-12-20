@@ -45,7 +45,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/gray"
             android:text="@string/cancel" />
 
         <Button

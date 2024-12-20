@@ -37,12 +37,13 @@
 
         <Button
             android:id="@+id/btn_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/gray"
+            android:insetRight="20dp"
             android:text="@string/cancel"
-            android:backgroundTint="@color/red"
-            android:textColor="@android:color/darker_gray"
-            style="@style/Widget.MaterialComponents.Button.TextButton"/>
+            android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/btn_buy"
