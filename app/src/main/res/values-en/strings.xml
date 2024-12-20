@@ -181,4 +181,7 @@
     <string name="refuge_description">Shelters can increase the mood or hunger gain of a companion</string>
     <string name="no_refuge_title">You have no Shelters!</string>
     <string name="buy_refuges">Buy Shelters</string>
+    <string name="select_refuges">Select a shelters</string>
+    <string name="select">Select</string>
+
 </resources>
