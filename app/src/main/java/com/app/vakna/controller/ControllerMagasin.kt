@@ -48,10 +48,14 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         setupShopTabs()
 
         binding.switchMagasinCompagnon.setOnClickListener {
+            binding.switchMagasinCompagnon.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
+            binding.switchMagasinConsom.backgroundTintList = null
             setupCompagnonTab()
         }
 
         binding.switchMagasinConsom.setOnClickListener {
+            binding.switchMagasinConsom.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
+            binding.switchMagasinCompagnon.backgroundTintList = null
             setupShopTabs()
         }
 
