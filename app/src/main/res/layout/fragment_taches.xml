@@ -21,8 +21,8 @@
 
         <ImageButton
             android:id="@+id/boutonSettings"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/settings_icon" />
