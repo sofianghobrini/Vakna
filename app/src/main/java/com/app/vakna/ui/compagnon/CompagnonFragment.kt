@@ -15,15 +15,14 @@ class CompagnonFragment : Fragment() {
     private var _binding: FragmentCompagnonBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var compagnonController: ControllerCompagnon
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCompagnonBinding.inflate(inflater, container, false)
 
-        compagnonController = ControllerCompagnon(binding)
+        ControllerCompagnon(binding)
 
         return binding.root
     }
@@ -31,10 +30,5 @@ class CompagnonFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("test", AccesJson("compagnons", binding.root.context).lireFichierJson())
     }
 }

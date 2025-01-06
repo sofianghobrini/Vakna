@@ -1,13 +1,18 @@
 package com.app.vakna.controller
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.app.vakna.CreerCompagnonActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -34,6 +39,7 @@ import com.bumptech.glide.Glide
  * @param binding Le binding associé à l'activité de création du compagnon
  */
 class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBinding) {
+    private val REQUEST_CODE = 101
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
@@ -56,6 +62,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         actif = true
     )
     init {
+        checkAndRequestPermissions()
         val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
         val lapin = CompagnonStore(2, "Lapin", "Lapin", 450)
         val chat = CompagnonStore(3, "Chat", "Chat", 500)
@@ -223,6 +230,26 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
             context.startActivity(intent)
             context.finish()
+        }
+    }
+
+
+
+    private fun checkAndRequestPermissions() {
+        val permissionsNeeded = arrayOf(
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.SCHEDULE_EXACT_ALARM,
+            Manifest.permission.POST_NOTIFICATIONS,
+            Manifest.permission.USE_EXACT_ALARM
+        )
+
+        val permissionsToRequest = permissionsNeeded.filter {
+            ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
+        }.toTypedArray()
+
+        // If there are permissions to request, do so
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(context as CreerCompagnonActivity, permissionsToRequest, REQUEST_CODE)
         }
     }
 }

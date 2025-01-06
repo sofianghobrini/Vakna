@@ -2,7 +2,6 @@ package com.app.vakna
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.app.vakna.controller.ControllerDetailsCompagnon
 import com.app.vakna.controller.ControllerDetailsRefuge
 import com.app.vakna.databinding.ActivityDetailsRefugesBinding
 

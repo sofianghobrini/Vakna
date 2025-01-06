@@ -10,13 +10,11 @@ object LocaleHelper {
     private const val LANGUAGE_PREFERENCE_KEY = "language"
     private const val APP_PREFERENCES = "AppPreferences"
 
-    // Retrieves the saved language preference
     fun getLanguage(context: Context): String {
         val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         return sharedPreferences.getString("language", "en") ?: "en"
     }
 
-    // Sets the locale of the app based on saved language preference
     fun setLocale(context: Context): Context {
         val language = getLanguage(context)
         val locale = Locale(language)
@@ -35,13 +33,11 @@ object LocaleHelper {
         }
     }
 
-    // Retrieve language preference
     fun getLanguagePreference(context: Context): String {
         val sharedPreferences: SharedPreferences = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
         return sharedPreferences.getString(LANGUAGE_PREFERENCE_KEY, Locale.getDefault().language) ?: "en"
     }
 
-    // Save the selected language preference
     fun saveLanguagePreference(context: Context, language: String) {
         val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
         with(sharedPreferences.edit()) {

@@ -5,11 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.app.vakna.R
 import com.app.vakna.controller.ControllerMagasin
 import com.app.vakna.databinding.FragmentMagasinBinding
-import com.google.android.material.tabs.TabLayoutMediator
 
 class MagasinFragment : Fragment() {
 

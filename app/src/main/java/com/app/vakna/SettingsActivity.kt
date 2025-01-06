@@ -11,15 +11,16 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.settings_toolbar)
+        val toolbar: androidx.appcompat.widget.Toolbar = binding.settingsToolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
 
         setCurrentLanguageRadioButton()
@@ -34,7 +35,6 @@ class SettingsActivity : AppCompatActivity() {
             restartApp()
         }
 
-        // Theme
         binding.themeSwitch.isChecked = isDarkThemeEnabled()
         binding.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             setTheme(isChecked)
