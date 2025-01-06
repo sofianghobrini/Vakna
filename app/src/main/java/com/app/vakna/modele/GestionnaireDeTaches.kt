@@ -1,6 +1,8 @@
 package com.app.vakna.modele
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.app.vakna.adapters.ListData
 import com.app.vakna.modele.dao.CompagnonDAO
 import com.app.vakna.modele.dao.TacheDAO
@@ -11,7 +13,7 @@ import java.time.LocalDateTime
 class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
-    private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var gestionnaireCompagnons = GestionnaireDeCompagnons(context)
     private var gestionnaireDeRefuge = GestionnaireDeRefuge(context)
     private var idCompagnon: Int = 1
     private var idRefuge: Int = 1
@@ -55,6 +57,7 @@ class GestionnaireDeTaches(context: Context) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun supprimerTache(nom: String): Boolean {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
@@ -75,6 +78,7 @@ class GestionnaireDeTaches(context: Context) {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun finirTache(nom: String) {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
@@ -150,6 +154,7 @@ class GestionnaireDeTaches(context: Context) {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun verifierTacheNonAccomplies(): Boolean {
         val dateActuelle = LocalDateTime.now()
         tacheDAO.obtenirTous().forEach {

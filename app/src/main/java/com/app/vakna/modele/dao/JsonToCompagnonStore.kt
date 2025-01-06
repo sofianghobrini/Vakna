@@ -16,10 +16,9 @@ class JsonToCompagnonStore : JsonDeserializer<CompagnonStore> {
         val objetJson = json.asJsonObject
 
         val id = objetJson.get("id").asInt
-        val nom = objetJson.get("nom").asString
         val espece = objetJson.get("espece").asString
         val prix = objetJson.get("prix").asInt
 
-        return CompagnonStore(id, nom, espece, prix)
+        return CompagnonStore(id, espece, prix)
     }
 }

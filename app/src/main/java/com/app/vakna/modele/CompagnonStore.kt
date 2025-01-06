@@ -4,7 +4,6 @@ import com.app.vakna.adapters.GridData
 
 class CompagnonStore(
     var id: Int,           // Unique identifier for the companion in the store
-    var nom: String,       // Name of the companion
     var espece: String,    // Species of the companion (e.g., "Dragon")
     var prix: Int,       // Price of the companion in the store
 
@@ -23,7 +22,7 @@ class CompagnonStore(
 
     // Overriding the toString method to display companion's information in the store
     override fun toString(): String {
-        return "$nom ($espece) - Price: $$prix"
+        return "$espece - Price: $$prix"
     }
 
     // Method equals to compare two companions, returns false if they have different IDs

@@ -27,7 +27,7 @@ class ModeleCompagnonTest {
 
 
         // Initialize the gestionnaire with the real DAO
-        gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
+        gestionnaireDeCompagnons = GestionnaireDeCompagnons(context)
 
         // Reset the compagnon attributes before each test
         compagnon.faim = 50

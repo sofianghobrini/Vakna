@@ -27,7 +27,7 @@ class ModeleInventaireTest {
         contexte = ApplicationProvider.getApplicationContext()
         inventaireDAO = InventaireDAO(contexte)
         compagnonDAO = CompagnonDAO(contexte)
-        gestionnaireCompagnons = GestionnaireDeCompagnons(compagnonDAO)
+        gestionnaireCompagnons = GestionnaireDeCompagnons(contexte)
         objetObtenu = ObjetObtenu(12345, "Potion", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 100, "url_image")
         inventaire = Inventaire(contexte)
         compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.GENTIL, actif = true)

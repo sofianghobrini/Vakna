@@ -148,7 +148,7 @@ class GridConsommableAdapterInventaire(
             items.clear()
 
             ControllerCompagnon.setupGridView(updatedItems!!, type, binding)
-            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            val gestionnaire = GestionnaireDeCompagnons(context)
             val compagnons = gestionnaire.obtenirCompagnons()
             var compagnon = gestionnaire.obtenirActif()
             if (compagnon == null) {

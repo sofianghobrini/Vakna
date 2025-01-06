@@ -28,9 +28,7 @@ class ShopTest {
         inventaireDAO = InventaireDAO(context)
         objetDAO = ObjetDAO(context)
 
-        // Initialize a GestionnaireDeCompagnons instance (replace with actual implementation)
-        val compagnonDAO = CompagnonDAO(context)
-        val gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
+        val gestionnaireDeCompagnons = GestionnaireDeCompagnons(context)
 
         // Initialize the shop
         shop = Shop(context)

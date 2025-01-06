@@ -49,7 +49,7 @@ import com.google.android.material.tabs.TabLayout
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
-    private var gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var gestionnaire = GestionnaireDeCompagnons(context)
     private lateinit var compagnon: Compagnon
     private lateinit var compagnonsSup: Array<Compagnon>
     private var inventaire = Inventaire(context)
@@ -528,7 +528,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     companion object {
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
-            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            val gestionnaire = GestionnaireDeCompagnons(context)
             val compagnons = gestionnaire.obtenirCompagnons()
             val compagnonUpd: Compagnon
             if (gestionnaire.obtenirActif() == null) {
@@ -608,7 +608,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
          */
         fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
             val context = binding.root.context
-            val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+            val gestionnaire = GestionnaireDeCompagnons(context)
             val compagnons = gestionnaire.obtenirCompagnons()
             var compagnonGrid = gestionnaire.obtenirActif()
             if (compagnonGrid == null) {

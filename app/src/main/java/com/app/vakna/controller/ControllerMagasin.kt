@@ -163,7 +163,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     }
 
     private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
-        val sortedCompagnons = compagnons.sortedWith(compareBy<CompagnonStore> {it.prix}.thenBy { it.nom })
+        val sortedCompagnons = compagnons.sortedWith(compareBy {it.prix})
 
         val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
         val adapter = GridCompagnonsAdapter(context, gridCompagnons)

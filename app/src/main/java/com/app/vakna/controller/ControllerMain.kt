@@ -23,7 +23,7 @@ class ControllerMain(private val binding: ActivityMainBinding) {
         gestionnaireTaches = GestionnaireDeTaches(context)
         gestionnaireTaches.verifierTacheNonAccomplies()
 
-        gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+        gestionnaire = GestionnaireDeCompagnons(context)
 
         val accesJson = AccesJson("taches",context)
         if (!accesJson.fichierExiste()) {

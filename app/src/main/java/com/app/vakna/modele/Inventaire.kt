@@ -9,7 +9,7 @@ class Inventaire(contexte: Context) {
     private var inventaireDAO = InventaireDAO(contexte)
     private var objets = mutableListOf<ObjetObtenu>()
     private var pieces = 0
-    private var gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(contexte))
+    private var gestionnaireCompagnons = GestionnaireDeCompagnons(contexte)
 
 
     init {
@@ -48,7 +48,7 @@ class Inventaire(contexte: Context) {
         if (compagnon == null) {
             compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
         }
-       val idCompagnon = compagnon.id
+        val idCompagnon = compagnon.id
         if (objet.getType() == TypeObjet.JOUET) {
             if(compagnon.personnalite == Personnalite.JOUEUR){
                 gestionnaireCompagnons.modifierHumeur(idCompagnon, (niveau * compagnon.personnalite.facteurHumeur).toInt() )

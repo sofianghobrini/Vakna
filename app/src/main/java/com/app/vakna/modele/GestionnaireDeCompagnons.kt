@@ -1,18 +1,20 @@
 package com.app.vakna.modele
 
+import android.content.Context
 import com.app.vakna.modele.dao.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 
-class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
+class GestionnaireDeCompagnons(context: Context) {
+    private val daoCompagnons = CompagnonDAO(context)
     private val setDeCompagnons = mutableSetOf<Compagnon>()
     private val handler = Handler(Looper.getMainLooper())
     private val intervalleFaim = 30 * 60000L
     private val intervalleBonheur =  4 * 3600000L
 
     init {
-        dao.obtenirTous().forEach { setDeCompagnons.add(it) }
+        daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
     }
 
     fun ajouterCompagnon(compagnon: Compagnon): Boolean {
@@ -22,17 +24,17 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         if (!setDeCompagnons.add(compagnon)) {
             throw IllegalArgumentException("Une tâche avec le nom '${compagnon.nom}' existe déjà")
         }
-        return dao.inserer(compagnon)
+        return daoCompagnons.inserer(compagnon)
     }
 
     fun setActif(id: Int) {
          obtenirActif()?.let {
              it.actif = false
-             dao.modifier(it.id, it)
+             daoCompagnons.modifier(it.id, it)
         }
         obtenirCompagnon(id)?.let {
             it.actif = true
-            dao.modifier(id, it)
+            daoCompagnons.modifier(id, it)
         }
     }
 
@@ -43,7 +45,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         }
         val pieces = compagnon.niveau()*100
         setDeCompagnons.remove(compagnonRecherche)
-        dao.supprimer(compagnon.id)
+        daoCompagnons.supprimer(compagnon.id)
         return pieces
     }
 
@@ -61,7 +63,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
             compagnon.espece = nouveauCompagnon.espece
             compagnon.personnalite = nouveauCompagnon.personnalite
 
-            return dao.modifier(id, nouveauCompagnon)
+            return daoCompagnons.modifier(id, nouveauCompagnon)
         } else {
             throw IllegalArgumentException("Compagnon avec l'id $id introuvable")
         }
@@ -71,7 +73,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         val compagnon = setDeCompagnons.find { it.id == id }?: return
 
         compagnon.nom = nom
-        dao.modifier(id, compagnon)
+        daoCompagnons.modifier(id, compagnon)
     }
 
     fun modifierFaim(id: Int, niveau: Int) {
@@ -81,7 +83,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
 
         compagnon.faim += niveau
         compagnon.faim = compagnon.faim.coerceIn(0, 100)
-        dao.modifier(id, compagnon)
+        daoCompagnons.modifier(id, compagnon)
     }
 
     // Méthode pour modifier le niveau d'humeur du compagnon
@@ -93,7 +95,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         // Modification du niveau d'humeur et forçage de la valeur entre 0 et 100
         compagnon.humeur += niveau
         compagnon.humeur = compagnon.humeur.coerceIn(0, 100)
-        dao.modifier(id, compagnon)
+        daoCompagnons.modifier(id, compagnon)
     }
 
     // Méthode pour ajouter de l'expérience (XP) au compagnon
@@ -101,11 +103,11 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         val compagnon = setDeCompagnons.find { it.id == id }?: return
         val facteurXp = compagnon.personnalite.facteurXp
         compagnon.xp += (montant * facteurXp).toInt()
-        dao.modifier(id, compagnon)
+        daoCompagnons.modifier(id, compagnon)
     }
 
     fun obtenirCompagnons(): Set<Compagnon> {
-        dao.obtenirTous().forEach { setDeCompagnons.add(it) }
+        daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
         return setDeCompagnons
     }
 
@@ -132,7 +134,7 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         val faimRunnable = object : Runnable {
             override fun run() {
                 setDeCompagnons.removeAll {true}
-                dao.obtenirTous().forEach { setDeCompagnons.add(it) }
+                daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
                 modifierFaim(id, (-1 * facteurFaim).toInt())
                 handler.postDelayed(this, intervalleFaim)
             }
@@ -154,15 +156,11 @@ class GestionnaireDeCompagnons(private var dao : CompagnonDAO) {
         val bonheurRunnable = object : Runnable {
             override fun run() {
                 setDeCompagnons.removeAll {true}
-                dao.obtenirTous().forEach { setDeCompagnons.add(it) }
+                daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
                 modifierHumeur(id, (-1 * facteurHumeur).toInt())
                 handler.postDelayed(this, intervalleBonheur)
             }
         }
         handler.postDelayed(bonheurRunnable, intervalleBonheur)
-    }
-
-    fun obtenirFacteurPersonnalite(){
-
     }
 }

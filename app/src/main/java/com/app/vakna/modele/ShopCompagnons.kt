@@ -10,7 +10,7 @@ import kotlin.random.Random
 class ShopCompagnons (
     private val context: Context
 ) {
-    private val gestionnaireCompagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private val gestionnaireCompagnons = GestionnaireDeCompagnons(context)
     private var compagnonMagasin = mutableListOf<CompagnonStore>()
     private val inventaire = Inventaire(context)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
@@ -34,20 +34,13 @@ class ShopCompagnons (
         return compagnonMagasin
     }
 
-    fun getCompagnon(nom: String): CompagnonStore? {
-        return compagnonMagasin.find { it.nom == nom }
-    }
-
     fun getCompagnonParEspece(espece: String): CompagnonStore? {
         return compagnonMagasin.find { it.espece == espece }
     }
 
     fun ajouterCompagnon(compagnon: CompagnonStore): Boolean {
-        if (compagnon.nom.isBlank()) {
-            throw IllegalArgumentException("Le nom du compagnon ne peut pas être vide")
-        }
         if (!compagnonMagasin.add(compagnon)) {
-            throw IllegalArgumentException("Une tâche avec le nom '${compagnon.nom}' existe déjà")
+            throw IllegalArgumentException("Erreur")
         }
         return compagnonStoreDAO.inserer(compagnon)
     }
@@ -62,10 +55,6 @@ class ShopCompagnons (
 
         if (gestionnaireCompagnons.obtenirCompagnons().count() >= 6) {
             Toast.makeText(context, "Vous avez atteint la limite de compagnons", Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if (gestionnaireCompagnons.obtenirCompagnons().any { it.nom == compagnonStore.nom }) {
             return false
         }
 

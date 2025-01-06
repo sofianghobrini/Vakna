@@ -27,7 +27,7 @@ class ListAdapterProgress(
 
     private var completedTasks = 0
     private var gestionnaire = GestionnaireDeTaches(context)
-    private var compagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var compagnons = GestionnaireDeCompagnons(context)
     init {
         completedTasks = dataArrayList.count { it.estTermine }
         updateProgressBar()

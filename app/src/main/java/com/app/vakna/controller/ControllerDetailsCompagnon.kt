@@ -30,7 +30,7 @@ class ControllerDetailsCompagnon(
     val inventaireDAO = InventaireDAO(context)
     val inventaire = Inventaire(context)
     val shopCompagnon = ShopCompagnons(context)
-    val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+    val gestionnaire = GestionnaireDeCompagnons(context)
 
     init {
         val especeCompagnon = intent.getStringExtra("ESPECE_COMPAGNON") ?: context.getString(R.string.objet_inconnu)
