@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:title="@string/settings"
+        app:title="@string/parametres"
         app:navigationIcon="@drawable/ic_back_arrow" />
 
     <!-- Card for Language Selection -->
@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_language"
+                android:text="@string/titre_choisir_langue"
                 android:textColor="@color/couleurTexte"
                 android:textSize="18sp" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="@string/select_language"
+                android:text="@string/choisir_langue"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 
@@ -70,7 +70,7 @@
                     android:buttonTint="@color/gray"
                     android:drawableStart="@drawable/ic_flag_france"
                     android:drawablePadding="8dp"
-                    android:text="@string/french"
+                    android:text="@string/francais"
                     android:textColor="?android:attr/textColorPrimary" />
             </RadioGroup>
         </LinearLayout>
@@ -149,7 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
-                android:text="@string/enable_notifications"/>
+                android:text="@string/activer_notifications"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

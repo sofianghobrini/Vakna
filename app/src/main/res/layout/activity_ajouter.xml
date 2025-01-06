@@ -10,12 +10,11 @@
     android:background="?android:attr/colorBackground"
     tools:context=".AjouterActivity">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/titreCreerTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_task_button"
+        android:text="@string/creation_quete"
         android:textColor="?attr/colorPrimary"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -23,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Form Content -->
     <include
         layout="@layout/contenu_formulaire"
         android:id="@+id/contenuInclude"
@@ -52,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="@string/cancel_task_creation_button"
+            android:text="@string/annuler_creation_quete"
             android:textColor="@color/white"
             android:backgroundTint="@color/gray"
             app:cornerRadius="16dp"
@@ -65,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:text="@string/confirm"
+            android:text="@string/confirmer"
             android:textColor="@color/white"
             android:backgroundTint="@color/purple_500"
             app:cornerRadius="16dp"

@@ -15,7 +15,6 @@ import com.app.vakna.databinding.ActivityCreerCompagnonBinding
 import com.app.vakna.modele.Compagnon
 import com.app.vakna.modele.CompagnonStore
 import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.GestionnaireDeRefuge
 import com.app.vakna.modele.Inventaire
 import com.app.vakna.modele.Objet
 import com.app.vakna.modele.Personnalite
@@ -29,7 +28,6 @@ import com.app.vakna.modele.dao.ObjetDAO
 import com.app.vakna.modele.dao.RefugeDAO
 import com.app.vakna.modele.dao.RefugeStoreDAO
 import com.bumptech.glide.Glide
-import kotlin.random.Random
 
 /**
  * Contrôleur pour gérer la création d'un nouveau compagnon
@@ -184,7 +182,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         // Afficher un message en fonction du résultat de l'insertion
         if (insertionReussie) {
-            Toast.makeText(context, context.getString(R.string.compagnon_cree_succes), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.compagnon_creation_valide), Toast.LENGTH_SHORT).show()
             inventaire.ajouterPieces(300) //Pièce offert des le depart
         } else {
             Toast.makeText(context, context.getString(R.string.compagnon_existe_erreur), Toast.LENGTH_SHORT).show()
@@ -220,7 +218,6 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         val context = binding.root.context
         if (context is CreerCompagnonActivity) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
 
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 

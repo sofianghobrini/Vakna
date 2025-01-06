@@ -28,8 +28,8 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     init {
 
         // Set button text using string resources
-        binding.boutonCreerTache.text = context.getString(R.string.create_task_button)
-        binding.boutonAnnulerCreation.text = context.getString(R.string.cancel_task_creation_button)
+        binding.boutonCreerTache.text = context.getString(R.string.creation_quete)
+        binding.boutonAnnulerCreation.text = context.getString(R.string.annuler_creation_quete)
 
         // Bouton pour confirmer la création de la tâche
         binding.boutonCreerTache.setOnClickListener {
@@ -39,7 +39,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 // Naviguer vers l'écran principal après l'ajout de la tâche
                 if (context is AjouterActivity) {
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
 
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -53,7 +52,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         binding.boutonAnnulerCreation.setOnClickListener {
             if (context is AjouterActivity) {
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
 
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -91,7 +89,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Vérification du nom de la tâche
         val nomTacheEditText = binding.contenuInclude.inputNomTache
         if (nomTacheEditText.text.isNullOrEmpty()) {
-            nomTacheEditText.error = binding.root.context.getString(R.string.task_name_error)
+            nomTacheEditText.error = binding.root.context.getString(R.string.erreur_nom_quete)
             valide = false
         }
 
@@ -106,7 +104,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val errorFrequenceTextView = binding.contenuInclude.errorFrequence
         if (radioGroupFrequence.checkedRadioButtonId == -1) {
             errorFrequenceTextView.visibility = View.VISIBLE
-            errorFrequenceTextView.text = binding.root.context.getString(R.string.frequency_error)
+            errorFrequenceTextView.text = binding.root.context.getString(R.string.erreur_frequence_quete)
             valide = false
         } else {
             errorFrequenceTextView.visibility = View.GONE
@@ -117,7 +115,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val errorImportanceTextView = binding.contenuInclude.errorImportance
         if (radioGroupImportance.checkedRadioButtonId == -1) {
             errorImportanceTextView.visibility = View.VISIBLE
-            errorImportanceTextView.text = binding.root.context.getString(R.string.importance_error)
+            errorImportanceTextView.text = binding.root.context.getString(R.string.erreur_importance_quete)
             valide = false
         } else {
             errorImportanceTextView.visibility = View.GONE
@@ -212,7 +210,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.popup_title_select_days))
+            .setTitle(context.getString(R.string.popup_titre_selectionner_jours))
 
         val dialog = dialogBuilder.create()
 
@@ -246,13 +244,13 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             var jours = ""
             selectedDays?.forEach {
                 when(it) {
-                    1 -> jours += context.getString(R.string.j_lundi) + ", "
-                    2 -> jours += context.getString(R.string.j_Mardi) + ", "
-                    3 -> jours += context.getString(R.string.j_Mercredi) + ", "
-                    4 -> jours += context.getString(R.string.j_Jeudi) + ", "
-                    5 -> jours += context.getString(R.string.j_Vendredi) + ", "
-                    6 -> jours += context.getString(R.string.j_Samedi) + ", "
-                    7 -> jours += context.getString(R.string.j_Dimanche) + ", "
+                    1 -> jours += context.getString(R.string.lundi) + ", "
+                    2 -> jours += context.getString(R.string.mardi) + ", "
+                    3 -> jours += context.getString(R.string.mercredi) + ", "
+                    4 -> jours += context.getString(R.string.jeudi) + ", "
+                    5 -> jours += context.getString(R.string.vendredi) + ", "
+                    6 -> jours += context.getString(R.string.samedi) + ", "
+                    7 -> jours += context.getString(R.string.dimanche) + ", "
                 }
             }
             jours = jours.subSequence(0, jours.length-2).toString()

@@ -10,7 +10,7 @@
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/no_refuge_title"
+        android:text="@string/titre_aucun_refuge"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -42,14 +42,14 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/gray"
             android:insetRight="20dp"
-            android:text="@string/cancel"
+            android:text="@string/annuler"
             android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/btn_buy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/buy_refuges"
+            android:text="@string/bouton_acheter"
             android:backgroundTint="@color/purple_500"
             android:textColor="@android:color/darker_gray"
             style="@style/Widget.MaterialComponents.Button.TextButton"/>

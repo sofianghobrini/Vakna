@@ -10,7 +10,7 @@
         android:id="@+id/titreDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_refuges"
+        android:text="@string/selectionner_refuge"
         android:textSize="22sp"
         android:textStyle="bold"
         android:color="?android:attr/textColorPrimary"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/gray"
-            android:text="@string/cancel"
+            android:text="@string/annuler"
             android:textSize="12sp" />
 
         <Button
@@ -50,6 +50,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:text="@string/select" />
+            android:text="@string/selectionner" />
     </LinearLayout>
 </LinearLayout>

@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:text="@string/manage_tasks_title"
+        android:text="@string/titre_gerer_quete"
         android:textColor="@color/purple_500"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"

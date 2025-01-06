@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import com.app.vakna.R
 import com.app.vakna.modele.GestionnaireDeCompagnons
 import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.TypeTache
 import com.app.vakna.modele.dao.CompagnonDAO
 
 // Adapter pour la liste de tâches terminées
@@ -142,7 +141,7 @@ class ListAdapterProgress(
 
         var confirme = false
 
-        textView.text = context.getString(R.string.dialog_text_confirmation_task, nomTache)
+        textView.text = context.getString(R.string.dialog_confirmation_completion_quete, nomTache)
 
         dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
             dialog.dismiss()
@@ -160,8 +159,8 @@ class ListAdapterProgress(
                 onConfirm(false)
             }
         }
-        dialogView.findViewById<Button>(R.id.boutonAnnuler).text = context.getString(R.string.button_cancel)
-        dialogView.findViewById<Button>(R.id.boutonTerminer).text = context.getString(R.string.button_finish)
+        dialogView.findViewById<Button>(R.id.boutonAnnuler).text = context.getString(R.string.annuler)
+        dialogView.findViewById<Button>(R.id.boutonTerminer).text = context.getString(R.string.bouton_finir)
 
         dialog.show()
     }

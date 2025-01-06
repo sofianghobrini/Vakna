@@ -16,7 +16,7 @@
         android:id="@+id/titreModifierTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_modifier_tache"
+        android:text="@string/titre_modif_quete"
         android:textColor="@color/couleurTitre"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/gray"
-            android:text="@string/cancel" />
+            android:text="@string/annuler" />
 
         <Button
             android:id="@+id/boutonModifierTache"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/purple_500"
-            android:text="@string/edit_task_button" />
+            android:text="@string/bouton_modif_quete" />
 
     </LinearLayout>
 

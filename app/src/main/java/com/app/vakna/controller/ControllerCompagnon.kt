@@ -6,8 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.text.InputFilter
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +18,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -41,7 +37,6 @@ import com.app.vakna.modele.Refuge
 import com.app.vakna.modele.Shop
 import com.app.vakna.modele.TypeObjet
 import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.ui.compagnon.CompagnonFragment
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -114,7 +109,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                 }
             }
-            binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
+            binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
             when {
                 it.faim > 60 -> {
                     binding.imageFaim.setImageResource(R.drawable.faim_0)
@@ -129,7 +124,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     binding.imageFaim.setImageResource(R.drawable.faim_3)
                 }
             }
-            binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
+            binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
         }
 
         val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
@@ -147,7 +142,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val campagnonRestant = gestionnaire.obtenirCompagnons()
             if(campagnonRestant.size > 1) { showDialogRelease() }
             else {
-                Toast.makeText(context, context.getString(R.string.un_campagnon_restant), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.un_compagnon_restant), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -159,8 +154,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 val selectedTypeName = tab?.text.toString()
 
                 val selectedType = when (selectedTypeName) {
-                    context.getString(R.string.tab_toys) -> TypeObjet.JOUET
-                    context.getString(R.string.tab_food) -> TypeObjet.NOURRITURE
+                    context.getString(R.string.tab_jouet) -> TypeObjet.JOUET
+                    context.getString(R.string.tab_nourriture) -> TypeObjet.NOURRITURE
                     else -> TypeObjet.JOUET
                 }
 
@@ -235,7 +230,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                             binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                         }
                     }
-                    binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
+                    binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
                     when {
                         it.faim > 60 -> {
                             binding.imageFaim.setImageResource(R.drawable.faim_0)
@@ -250,7 +245,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                             binding.imageFaim.setImageResource(R.drawable.faim_3)
                         }
                     }
-                    binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
+                    binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
                 }
 
                 showPersonnalite(gestionnaire, binding.root, compagnon.id)
@@ -319,8 +314,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private fun getTabTitle(type: TypeObjet): String {
         return when (type) {
-            TypeObjet.JOUET -> context.getString(R.string.tab_toys)
-            TypeObjet.NOURRITURE -> context.getString(R.string.tab_food)
+            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
+            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
             else -> type.name
         }
     }
@@ -450,7 +445,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         // Trouver l'EditText dans la mise en page personnalisée
         val editText = dialogView.findViewById<EditText>(R.id.edit_text_name).apply {
-            hint = context.getString(R.string.new_name_hint) // Définir un indice pour l'entrée de texte
+            hint = context.getString(R.string.nouveau_nom_exemple) // Définir un indice pour l'entrée de texte
             inputType = android.text.InputType.TYPE_CLASS_TEXT // Définir le type d'entrée comme texte
             filters = arrayOf(android.text.InputFilter.LengthFilter(16)) // Limiter la longueur à 16 caractères
             compagnon.let {
@@ -523,7 +518,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val xpForCurrentLevel = currentXp % 100  // XP restant pour compléter le niveau actuel
 
         // Mettre à jour le texte du niveau
-        binding.dragonLevel.text = context.getString(R.string.level_text, level)
+        binding.dragonLevel.text = context.getString(R.string.texte_niveau, level)
 
         // Mettre à jour la barre de progression avec l'XP restant pour le niveau
         binding.progressBarLevel.progress = xpForCurrentLevel
@@ -568,34 +563,34 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val context = view.context
             val compagnon = gestionnaireCompagnons.obtenirCompagnon(id)
             val typePersonnalite = when (compagnon!!.personnalite) {
-                Personnalite.GOURMAND -> context.getString(R.string.personalite_gourmand)
-                Personnalite.JOUEUR -> context.getString(R.string.personalite_joueur)
-                Personnalite.CALME -> context.getString(R.string.personalite_calme)
-                Personnalite.AVARE -> context.getString(R.string.personalite_avare)
-                Personnalite.GRINCHEUX -> context.getString(R.string.personalite_grincheux)
-                Personnalite.RADIN -> context.getString(R.string.personalite_radin)
-                Personnalite.GENTIL -> context.getString(R.string.personalite_gentil)
-                Personnalite.JOYEUX -> context.getString(R.string.personalite_joyeux)
-                Personnalite.TRAVAILLEUR -> context.getString(R.string.personalite_travailleur)
+                Personnalite.GOURMAND -> context.getString(R.string.personnalite_gourmand)
+                Personnalite.JOUEUR -> context.getString(R.string.personnalite_joueur)
+                Personnalite.CALME -> context.getString(R.string.personnalite_calme)
+                Personnalite.AVARE -> context.getString(R.string.personnalite_avare)
+                Personnalite.GRINCHEUX -> context.getString(R.string.personnalite_grincheux)
+                Personnalite.RADIN -> context.getString(R.string.personnalite_radin)
+                Personnalite.GENTIL -> context.getString(R.string.personnalite_gentil)
+                Personnalite.JOYEUX -> context.getString(R.string.personnalite_joyeux)
+                Personnalite.TRAVAILLEUR -> context.getString(R.string.personnalite_travailleur)
             }
 
             val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)
             personnaliteTextView?.text = typePersonnalite +" (?)"// Affiche uniquement le nom
             personnaliteTextView?.setOnClickListener {
                 val message = when (compagnon!!.personnalite) {
-                    Personnalite.GOURMAND -> context.getString(R.string.personalite_popup_message_gourmand, typePersonnalite)
-                    Personnalite.JOUEUR -> context.getString(R.string.personalite_popup_message_joueur, typePersonnalite)
-                    Personnalite.CALME -> context.getString(R.string.personalite_popup_message_calme, typePersonnalite)
-                    Personnalite.AVARE -> context.getString(R.string.personalite_popup_message_avare, typePersonnalite)
-                    Personnalite.GRINCHEUX -> context.getString(R.string.personalite_popup_message_grincheux, typePersonnalite)
-                    Personnalite.RADIN -> context.getString(R.string.personalite_popup_message_radin, typePersonnalite)
-                    Personnalite.GENTIL -> context.getString(R.string.personalite_popup_message_gentil, typePersonnalite)
-                    Personnalite.JOYEUX -> context.getString(R.string.personalite_popup_message_joyeux, typePersonnalite)
-                    Personnalite.TRAVAILLEUR -> context.getString(R.string.personalite_popup_message_travailleur, typePersonnalite)
-                    else -> context.getString(R.string.personalite_popup_message_inconnue)
+                    Personnalite.GOURMAND -> context.getString(R.string.personnalite_popup_message_gourmand, typePersonnalite)
+                    Personnalite.JOUEUR -> context.getString(R.string.personnalite_popup_message_joueur, typePersonnalite)
+                    Personnalite.CALME -> context.getString(R.string.personnalite_popup_message_calme, typePersonnalite)
+                    Personnalite.AVARE -> context.getString(R.string.personnalite_popup_message_avare, typePersonnalite)
+                    Personnalite.GRINCHEUX -> context.getString(R.string.personnalite_popup_message_grincheux, typePersonnalite)
+                    Personnalite.RADIN -> context.getString(R.string.personnalite_popup_message_radin, typePersonnalite)
+                    Personnalite.GENTIL -> context.getString(R.string.personnalite_popup_message_gentil, typePersonnalite)
+                    Personnalite.JOYEUX -> context.getString(R.string.personnalite_popup_message_joyeux, typePersonnalite)
+                    Personnalite.TRAVAILLEUR -> context.getString(R.string.personnalite_popup_message_travailleur, typePersonnalite)
+                    else -> context.getString(R.string.personnalite_popup_message_inconnue)
                 }
                 AlertDialog.Builder(context)
-                    .setTitle(context.getString(R.string.personalite_popup_title, typePersonnalite))
+                    .setTitle(context.getString(R.string.personnalite_popup_titre, typePersonnalite))
                     .setMessage(message) // Utilise le message défini dans le switch
                     .setPositiveButton(android.R.string.ok) { dialog, _ ->
                         dialog.dismiss() // Ferme le popup
@@ -634,7 +629,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                         binding.imageBonheur.setImageResource(R.drawable.humeur_3)
                     }
                 }
-                binding.texteHumeur.text = context.getString(R.string.humeur_text, it.humeur)
+                binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
                 when {
                     it.faim > 60 -> {
                         binding.imageFaim.setImageResource(R.drawable.faim_0)
@@ -649,7 +644,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                         binding.imageFaim.setImageResource(R.drawable.faim_3)
                     }
                 }
-                binding.texteFaim.text = context.getString(R.string.faim_text, it.faim)
+                binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
             }
 
             if(items.isEmpty()) {
@@ -657,13 +652,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 binding.gridViewItems.numColumns = 1
 
                 val placeholderMessage = when (type) {
-                    TypeObjet.JOUET -> context.getString(R.string.message_empty_inventory_toys)
-                    TypeObjet.NOURRITURE -> context.getString(R.string.message_empty_inventory_food)
+                    TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
+                    TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
                 }
 
                 val placeholderItem = PlaceholderData(
                     message = placeholderMessage,
-                    buttonText = context.getString(R.string.store_title),
+                    buttonText = context.getString(R.string.titre_magasin),
                     buttonAction = {
                         if (context is MainActivity) {
                             val navController = context.findNavController(R.id.nav_host_fragment_activity_main)

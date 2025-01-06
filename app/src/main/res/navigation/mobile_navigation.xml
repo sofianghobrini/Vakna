@@ -8,19 +8,19 @@
     <fragment
         android:id="@+id/navigation_taches"
         android:name="com.app.vakna.ui.Taches.TachesFragment"
-        android:label="@string/title_taches"
+        android:label="@string/titre_quetes"
         tools:layout="@layout/fragment_taches" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.app.vakna.ui.compagnon.CompagnonFragment"
-        android:label="@string/title_compagnon"
+        android:label="@string/titre_compagnon"
         tools:layout="@layout/fragment_compagnon" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.app.vakna.ui.magasin.MagasinFragment"
-        android:label="@string/title_magasin"
+        android:label="@string/titre_magasin"
         tools:layout="@layout/fragment_magasin" />
 
 </navigation>

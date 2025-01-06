@@ -9,10 +9,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:scaleType="center"
-        android:text="@string/title_release"
+        android:text="@string/titre_relacher"
         android:textSize="30dp"
         android:textColor="@color/couleurTitre"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/nom_application" />
 
     <TextView
         android:id="@+id/dialogTextWarning"
@@ -23,7 +23,7 @@
         android:layout_marginRight="4dp"
         android:gravity="center"
         android:inputType="textMultiLine"
-        android:text="@string/release_compagnon" />
+        android:text="@string/relacher_compagnon" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/red"
-            android:text="@string/goodbye_myfriend" />
+            android:text="@string/aurevoir" />
 
         <Button
             android:id="@+id/boutonAnnuler"

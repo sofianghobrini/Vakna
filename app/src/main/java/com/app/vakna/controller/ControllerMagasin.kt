@@ -1,6 +1,5 @@
 package com.app.vakna.controller
 
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapter
@@ -69,7 +68,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                     }
                 }
             } else {
-                Toast.makeText(context, context.getString(R.string.pas_connection), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.pas_de_connection), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -92,13 +91,13 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                 val selectedTypeName = tab?.text.toString()
 
                 when (selectedTypeName) {
-                    context.getString(R.string.tab_companions) -> setupGridViewCompagnons(listCompagnons)
-                    context.getString(R.string.tab_toys) -> {
+                    context.getString(R.string.tab_compagnon) -> setupGridViewCompagnons(listCompagnons)
+                    context.getString(R.string.tab_jouet) -> {
                         val selectedType = TypeObjet.JOUET
                         val filteredItems = shop.getObjetsParType(selectedType)
                         setupGridView(filteredItems)
                     }
-                    context.getString(R.string.tab_food) -> {
+                    context.getString(R.string.tab_nourriture) -> {
                         val selectedType = TypeObjet.NOURRITURE
                         val filteredItems = shop.getObjetsParType(selectedType)
                         setupGridView(filteredItems)
@@ -122,7 +121,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun setupCompagnonTab() {
         binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_companions))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_compagnon))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Refuges"))
 
         setupGridViewCompagnons(listCompagnons)
@@ -132,7 +131,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                 val selectedTypeName = tab?.text.toString()
 
                 when (selectedTypeName) {
-                    context.getString(R.string.tab_companions) -> {
+                    context.getString(R.string.tab_compagnon) -> {
                         setupGridViewCompagnons(listCompagnons)
                     }
 
@@ -149,8 +148,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun getTabTitle(type: TypeObjet): String {
         return when (type) {
-            TypeObjet.JOUET -> context.getString(R.string.tab_toys)
-            TypeObjet.NOURRITURE -> context.getString(R.string.tab_food)
+            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
+            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
         }
     }
 
@@ -196,8 +195,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_food)
-                2 -> context?.getString(R.string.tab_toys)
+                0 -> context?.getString(R.string.tab_nourriture)
+                2 -> context?.getString(R.string.tab_jouet)
                 else -> ""
             }
         }.attach()
@@ -214,7 +213,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_companions)
+                0 -> context?.getString(R.string.tab_compagnon)
                 1 -> context.getString(R.string.refuges)
                 else -> ""
             }
