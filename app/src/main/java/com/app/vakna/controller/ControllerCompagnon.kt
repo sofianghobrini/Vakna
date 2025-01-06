@@ -45,6 +45,7 @@ import com.google.android.material.tabs.TabLayout
  * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
  * @param binding Le binding associé au fragment compagnon pour accéder aux vues.
  */
+@Suppress("NAME_SHADOWING")
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
