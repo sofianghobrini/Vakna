@@ -33,7 +33,7 @@ class GestionnaireDeTaches(context: Context) {
     private var gestionnaireDeRefuge = GestionnaireDeRefuge(context)
     private var inventaire = Inventaire(context)
     private var idCompagnon: Int = gestionnaireCompagnons.obtenirActif().id
-    private var idRefuge: Int = gestionnaireDeRefuge.getActif()?.getId() ?: 1
+    private var idRefuge: Int = gestionnaireDeRefuge.obtenirActif()?.getId() ?: 1
     private lateinit var refuge: Refuge
     private lateinit var compagnon: Compagnon
 
@@ -101,7 +101,7 @@ class GestionnaireDeTaches(context: Context) {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
             compagnon = gestionnaireCompagnons.obtenirActif()
-            refuge = gestionnaireDeRefuge.getRefugeParId(idRefuge) ?: throw IllegalStateException("Refuge avec ID $idRefuge introuvable")
+            refuge = gestionnaireDeRefuge.obtenirRefuge(idRefuge) ?: throw IllegalStateException("Refuge avec ID $idRefuge introuvable")
 
             tache.estTerminee = true
             tache.derniereValidation = LocalDate.now()

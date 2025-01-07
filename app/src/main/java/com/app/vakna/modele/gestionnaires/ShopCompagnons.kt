@@ -8,34 +8,22 @@ import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
 import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStoreDAO
 
-class ShopCompagnons (
-    private val context: Context
-) {
+class ShopCompagnons (private val context: Context) {
+
     private val gestionnaireCompagnons = GestionnaireDeCompagnons(context)
     private var compagnonMagasin = mutableListOf<CompagnonStore>()
     private val inventaire = Inventaire(context)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
-    // Créer une instance temporaire pour appeler la méthode personnalite_compagnon
-    private val compagnonTemporaire = Compagnon(
-        id = 0,
-        nom = "Tp",
-        faim = 50,
-        humeur = 50,
-        xp = 0,
-        espece = "Dragon",
-        personnalite = Personnalite.CALME, // Initialisation temporaire
-        actif = true
-    )
 
     init {
         compagnonStoreDAO.obtenirTous().forEach { compagnonMagasin.add(it) }
     }
 
-    fun getCompagnons(): List<CompagnonStore> {
+    fun obtenirCompagnons(): List<CompagnonStore> {
         return compagnonMagasin
     }
 
-    fun getCompagnonParEspece(espece: String): CompagnonStore? {
+    fun obtenirCompagnon(espece: String): CompagnonStore? {
         return compagnonMagasin.find { it.espece == espece }
     }
 
@@ -50,7 +38,7 @@ class ShopCompagnons (
         val compagnonStore = compagnonStoreDAO.obtenirParId(compagnonId)
             ?: return false
 
-        if (inventaire.getPieces() < compagnonStore.prix) {
+        if (inventaire.obtenirPieces() < compagnonStore.prix) {
             return false
         }
 
@@ -68,7 +56,7 @@ class ShopCompagnons (
             humeur = 50,
             xp = 0,
             espece = compagnonStore.espece,
-            personnalite = compagnonTemporaire.personnalite_compagnon(),
+            personnalite = Compagnon.personnalite_compagnon(),
             actif = false
         )
 
@@ -76,6 +64,7 @@ class ShopCompagnons (
 
         return true
     }
+
     companion object {
         fun setToGridDataArray(compagnons: List<CompagnonStore>): ArrayList<GridData> {
             val list = ArrayList<GridData>()

@@ -25,7 +25,7 @@ class ControllerDetailsCompagnon(
 
     init {
         val especeCompagnon = intent.getStringExtra("ESPECE_COMPAGNON") ?: context.getString(R.string.objet_inconnu)
-        val compagnon = shopCompagnon.getCompagnonParEspece(especeCompagnon)
+        val compagnon = shopCompagnon.obtenirCompagnon(especeCompagnon)
         afficherNombreDeCoins()
 
         binding.texteTitreDetails.text = compagnon?.espece ?: context.getString(R.string.objet_inconnu)
@@ -39,7 +39,7 @@ class ControllerDetailsCompagnon(
             if(nomCompagnon.isEmpty()) {
                 binding.inputNomCompagnon.error = "Entrez un nom pour votre compagnon"
             } else {
-                if (inventaire.getPieces() < compagnon!!.prix) {
+                if (inventaire.obtenirPieces() < compagnon!!.prix) {
                     Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter ce compagnon!", Toast.LENGTH_SHORT).show()
                 }
                 shopCompagnon.acheterCompagnon(compagnon.id, nomCompagnon)

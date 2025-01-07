@@ -50,10 +50,6 @@ class Compagnon(
         return humeurImage
     }
 
-    fun personnalite_compagnon(): Personnalite {
-        return Personnalite.values().random()
-    }
-
     // Redéfinition de la méthode toString pour afficher les informations du compagnon
     override fun toString(): String {
         return "$nom ($espece) : Faim = $faim, Humeur = $humeur, XP = $xp (niveau ${niveau()}), $personnalite"
@@ -68,6 +64,12 @@ class Compagnon(
     // Méthode hashCode pour calculer le hashcode en utilisant l'ID du compagnon
     override fun hashCode(): Int {
         return id.hashCode()
+    }
+
+    companion object {
+        fun personnalite_compagnon(): Personnalite {
+            return Personnalite.values().random()
+        }
     }
 
 }

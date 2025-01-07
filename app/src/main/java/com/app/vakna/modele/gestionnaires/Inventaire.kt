@@ -8,40 +8,32 @@ import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
 
-class Inventaire(contexte: Context) {
-    private var inventaireDAO = InventaireDAO(contexte)
-    private var objets = mutableListOf<ObjetObtenu>()
-    private var pieces = 0
-    private var gestionnaireCompagnons = GestionnaireDeCompagnons(contexte)
+class Inventaire(context: Context) {
 
+    private var pieces = 0
+    private var inventaireDAO = InventaireDAO(context)
+    private var objets = mutableListOf<ObjetObtenu>()
+    private var gestionnaireCompagnons = GestionnaireDeCompagnons(context)
 
     init {
         inventaireDAO.obtenirTousObjetsObtenus().forEach { objets.add(it) }
         pieces = inventaireDAO.obtenirPieces()
     }
 
-    fun getObjets(): List<ObjetObtenu> {
+    fun obtenirObjets(): List<ObjetObtenu> {
         return objets
     }
 
-    fun getObjetsParType(type: TypeObjet): List<ObjetObtenu> {
+    fun obtenirObjets(type: TypeObjet): List<ObjetObtenu> {
         return objets.filter { it.getType() == type }
     }
 
-    fun getPieces(): Int {
+    fun obtenirPieces(): Int {
         return pieces
     }
 
-    fun getObjetParNom(nom: String): ObjetObtenu? {
+    fun obtenirObjet(nom: String): ObjetObtenu? {
         return objets.find { it.getNom() == nom }
-    }
-
-    fun getObjetById(id: Int): ObjetObtenu? {
-        return objets.find { it.getId() == id }
-    }
-
-    fun getGestionnaireC(): GestionnaireDeCompagnons {
-        return gestionnaireCompagnons
     }
 
     private fun utiliserObjet(objet: ObjetObtenu) {
@@ -52,8 +44,7 @@ class Inventaire(contexte: Context) {
         if (objet.getType() == TypeObjet.JOUET) {
             if(compagnon.personnalite == Personnalite.JOUEUR){
                 gestionnaireCompagnons.modifierHumeur(idCompagnon, (niveau * compagnon.personnalite.facteurHumeur).toInt() )
-            }
-            else{
+            } else {
                 gestionnaireCompagnons.modifierHumeur(idCompagnon, niveau)
             }
         } else if (objet.getType() == TypeObjet.NOURRITURE) {
@@ -67,7 +58,7 @@ class Inventaire(contexte: Context) {
 
     fun utiliserObjet(nom: String, n: Int) {
         assert(n > 0){"On ne peut pas utiliser 0 objet"}
-        val objet = getObjetParNom(nom)
+        val objet = obtenirObjet(nom)
         assert(objet != null) { "On ne peut pas utiliser un objet que l'on ne possède pas" }
         assert(objet!!.getQuantite() >= n) { "On ne peut pas consommer plus d'objets que l'on en possède" }
 
@@ -84,7 +75,7 @@ class Inventaire(contexte: Context) {
             objets += nouvelObjet
             inventaireDAO.insererObjetObtenu(nouvelObjet)
         }
-        val objetNouveau = getObjetParNom(objet.getNom())
+        val objetNouveau = obtenirObjet(objet.getNom())
         objetNouveau?.updateQuantite(quantite)
         inventaireDAO.mettreAJourQuantiteObjet(objetNouveau!!.getId(), objetNouveau.getQuantite())
     }

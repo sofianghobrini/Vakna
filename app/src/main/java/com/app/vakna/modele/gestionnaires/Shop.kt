@@ -10,9 +10,7 @@ import com.app.vakna.modele.api.XmlObjetsManager
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.objet.ObjetDAO
 
-class Shop(
-    context: Context
-) {
+class Shop(context: Context) {
 
     private val objetDAO = ObjetDAO(context)
     private val inventaireDAO = InventaireDAO(context)
@@ -24,20 +22,20 @@ class Shop(
     }
 
     // Méthode pour obtenir un objet par son nom
-    fun getObjet(nom: String): Objet? {
+    fun obtenirObjet(nom: String): Objet? {
         return objetMagasin.find { it.getNom() == nom }
     }
 
-    fun getObjetsParType(type: TypeObjet): List<Objet> {
+    fun obtenirObjets(type: TypeObjet): List<Objet> {
         return objetMagasin.filter { it.getType() == type }
     }
 
     // Méthode pour obtenir tous les objets
-    fun getObjets(): List<Objet> {
+    fun obtenirObjets(): List<Objet> {
         return objetMagasin
     }
 
-    suspend fun getObjetsEnLigne(context: Context): List<Objet> {
+    suspend fun obtenirObjetsEnLigne(context: Context): List<Objet> {
         try {
 
             val objets = RetrofitInstance.apiService.obtenirObjets()
@@ -54,20 +52,15 @@ class Shop(
 
     // Méthode pour acheter une certaine quantité d'un objet
     fun acheter(nom: String, quantite: Int) {
-        val objet = getObjet(nom)
+        val objet = obtenirObjet(nom)
         if (objet != null) {
             val totalPrix = objet.getPrix() * quantite
             if (inventaireDAO.obtenirPieces() >= totalPrix) {
                 inventaire.ajouterObjet(objet, quantite)
-                val nouvellesPieces = inventaire.getPieces() - totalPrix
+                val nouvellesPieces = inventaire.obtenirPieces() - totalPrix
                 inventaireDAO.mettreAJourPieces(nouvellesPieces)
             }
         }
-    }
-
-    // Méthode pour lister tous les objets disponibles dans la boutique
-    fun listerObjet(): List<Objet> {
-        return objetMagasin
     }
 
     // Méthode pour lister les objets par type

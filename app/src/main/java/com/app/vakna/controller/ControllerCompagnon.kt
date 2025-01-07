@@ -122,14 +122,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
         }
 
-        val distinctTypesList = shop.getObjets().map { it.getType() }.distinct()
+        val distinctTypesList = shop.obtenirObjets().map { it.getType() }.distinct()
 
         distinctTypesList.forEach {
             val tabTitle = getTabTitle(it)
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
         }
 
-        val items = inventaire.getObjetsParType(distinctTypesList.first())
+        val items = inventaire.obtenirObjets(distinctTypesList.first())
         setupGridView(items, distinctTypesList.first(), binding)
 
 
@@ -154,7 +154,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     else -> TypeObjet.JOUET
                 }
 
-                val filteredItems = inventaire.getObjetsParType(selectedType)
+                val filteredItems = inventaire.obtenirObjets(selectedType)
 
                 setupGridView(filteredItems, selectedType, binding)
             }
@@ -245,7 +245,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 showPersonnalite(gestionnaire, binding.root, compagnon.id)
 
-                val items = inventaire.getObjetsParType(distinctTypesList.first())
+                val items = inventaire.obtenirObjets(distinctTypesList.first())
                 setupGridView(items, distinctTypesList.first(), binding)
             }
 
@@ -261,8 +261,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         }
 
-        val refuges = gestionnaireRefuge.getRefuges()
-        val refuge = gestionnaireRefuge.getActif()
+        val refuges = gestionnaireRefuge.obtenirRefuges()
+        val refuge = gestionnaireRefuge.obtenirActif()
 
         refuge?.let {
             Glide.with(context)
@@ -382,7 +382,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val boutonCancel = dialogView.findViewById<Button>(R.id.boutonCancel)
         val boutonSelect = dialogView.findViewById<Button>(R.id.boutonSelect)
 
-        val refuges = gestionnaireRefuge.getRefuges()
+        val refuges = gestionnaireRefuge.obtenirRefuges()
         var selectedRefuge: Refuge? = null
 
         refuges.forEach { refuge ->
@@ -539,7 +539,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun updateRefuge(binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeRefuge(context)
-            val refuges = gestionnaire.getRefuges()
+            val refuges = gestionnaire.obtenirRefuges()
             val refuge = if (refuges.isNotEmpty()) refuges.first() else null
             val fichierApparence = refuge?.apparence()
 

@@ -51,17 +51,6 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var shopCompagnons = ShopCompagnons(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
-    // Créer une instance temporaire pour appeler la méthode personnalite_compagnon
-    private val compagnonTemporaire = Compagnon(
-        id = 0,
-        nom = "Tp",
-        faim = 50,
-        humeur = 50,
-        xp = 0,
-        espece = "Dragon",
-        personnalite = Personnalite.CALME, // Initialisation temporaire
-        actif = true
-    )
     init {
         checkAndRequestPermissions()
         val dragon = CompagnonStore(1, "Dragon", 750)
@@ -192,7 +181,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             humeur = 50,
             xp = 0,
             espece = nomEspece,
-            personnalite =compagnonTemporaire.personnalite_compagnon(),
+            personnalite = Compagnon.personnalite_compagnon(),
             actif = true
         )
 
@@ -219,13 +208,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
      */
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
-            "Dragon" -> shopCompagnons.getCompagnonParEspece("Dragon")?.apparenceDefaut()
-            "Lapin" -> shopCompagnons.getCompagnonParEspece("Lapin")?.apparenceDefaut()
-            "Chat" -> shopCompagnons.getCompagnonParEspece("Chat")?.apparenceDefaut()
-            "Licorne" -> shopCompagnons.getCompagnonParEspece("Licorne")?.apparenceDefaut()
-            "Serpent" -> shopCompagnons.getCompagnonParEspece("Serpent")?.apparenceDefaut()
-            "Ecureuil" -> shopCompagnons.getCompagnonParEspece("Ecureuil")?.apparenceDefaut()
-            else -> shopCompagnons.getCompagnonParEspece("Dragon")?.apparenceDefaut()
+            "Dragon" -> shopCompagnons.obtenirCompagnon("Dragon")?.apparenceDefaut()
+            "Lapin" -> shopCompagnons.obtenirCompagnon("Lapin")?.apparenceDefaut()
+            "Chat" -> shopCompagnons.obtenirCompagnon("Chat")?.apparenceDefaut()
+            "Licorne" -> shopCompagnons.obtenirCompagnon("Licorne")?.apparenceDefaut()
+            "Serpent" -> shopCompagnons.obtenirCompagnon("Serpent")?.apparenceDefaut()
+            "Ecureuil" -> shopCompagnons.obtenirCompagnon("Ecureuil")?.apparenceDefaut()
+            else -> shopCompagnons.obtenirCompagnon("Dragon")?.apparenceDefaut()
         }
         Glide.with(context)
             .load(imageRes)

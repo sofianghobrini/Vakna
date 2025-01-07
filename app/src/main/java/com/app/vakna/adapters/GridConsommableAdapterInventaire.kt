@@ -142,8 +142,8 @@ class GridConsommableAdapterInventaire(
             val qteUtilisations = nombreUtilisations.value
             inventaire.utiliserObjet(item.nom, qteUtilisations)
 
-            val type = inventaire.getObjetParNom(item.nom)?.getType()
-            val updatedItems = type?.let { it1 -> inventaire.getObjetsParType(it1) }
+            val type = inventaire.obtenirObjet(item.nom)?.getType()
+            val updatedItems = type?.let { it1 -> inventaire.obtenirObjets(it1) }
             items.clear()
 
             ControllerCompagnon.setupGridView(updatedItems!!, type, binding)

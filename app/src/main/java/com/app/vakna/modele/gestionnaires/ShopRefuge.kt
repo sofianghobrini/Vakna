@@ -7,27 +7,23 @@ import com.app.vakna.modele.dao.refugestore.RefugeStore
 import com.app.vakna.modele.dao.refugestore.RefugeStoreDAO
 
 class ShopRefuge(context: Context) {
+
     private var refugeStoreDAO = RefugeStoreDAO(context)
     private var refugesStore = mutableSetOf<RefugeStore>()
     private val inventaire = Inventaire(context)
     private val gestionnaireRefuge = GestionnaireDeRefuge(context)
 
-
     init {
         refugeStoreDAO.obtenirTous().forEach { refugesStore.add(it) }
     }
 
-    fun getRefugesStore(): Set<RefugeStore> {
+    fun obtenirRefugesStore(): Set<RefugeStore> {
         refugeStoreDAO.obtenirTous().forEach { refugesStore.add(it) }
         return refugesStore
     }
 
-    fun getRefugeStoreParNom(nom: String): RefugeStore? {
+    fun obtenirRefugeStore(nom: String): RefugeStore? {
         return refugesStore.find { it.getNom() == nom }
-    }
-
-    fun getRefugeStoreParId(id: Int): RefugeStore? {
-        return refugesStore.find { it.getId() == id }
     }
 
     fun ajouterRefugeStore(refugeStore: RefugeStore): Boolean {
@@ -43,14 +39,14 @@ class ShopRefuge(context: Context) {
     fun acheterRefuge(refugeId: Int): Boolean {
         val refugeStore = refugeStoreDAO.obtenirParId(refugeId) ?: return false
 
-        if (inventaire.getPieces() < refugeStore.getPrix()) {
+        if (inventaire.obtenirPieces() < refugeStore.getPrix()) {
             return false
         }
 
         inventaire.ajouterPieces(-refugeStore.getPrix())
 
         val nouveauRefuge = Refuge(
-            id = (gestionnaireRefuge.getRefuges().maxOfOrNull { it.getId() } ?: 0) + 1,
+            id = (gestionnaireRefuge.obtenirRefuges().maxOfOrNull { it.getId() } ?: 0) + 1,
             nom = refugeStore.getNom(),
             modifFaim = refugeStore.getModifFaim(),
             modifHumeur = refugeStore.getModifHumeur(),

@@ -51,7 +51,7 @@ class ShopTest {
     @Test
     fun testGetObjetReturnsObject() {
         // Verify that an object can be fetched from the shop
-        val objet = shop.getObjet("Potion")
+        val objet = shop.obtenirObjet("Potion")
         assertNotNull(objet)
         assertEquals("Potion", objet?.getNom())
         assertEquals(10, objet?.getPrix())
@@ -60,7 +60,7 @@ class ShopTest {
     @Test
     fun testGetObjetReturnsNullForNonExistingObject() {
         // Verify that null is returned for non-existing object
-        val objet = shop.getObjet("NonExistingItem")
+        val objet = shop.obtenirObjet("NonExistingItem")
         assertNull(objet)
     }
 
@@ -70,10 +70,10 @@ class ShopTest {
         shop.acheter("Potion", 2)
 
         // Verify that the quantity and pieces have been updated correctly
-        assertEquals(80, inventaire.getPieces()) // 100 - 2 * 10 = 80
+        assertEquals(80, inventaire.obtenirPieces()) // 100 - 2 * 10 = 80
 
         // Verify that the object has been added or updated in the inventory
-        val objetsObtenus = inventaire.getObjets()
+        val objetsObtenus = inventaire.obtenirObjets()
         assertEquals(1, objetsObtenus.size) // Expect only 1 entry for "Potion"
         assertEquals("Potion", objetsObtenus[0].getNom())
         assertEquals(2, objetsObtenus[0].getQuantite()) // Should have exactly 2 Potions after purchase
@@ -85,8 +85,8 @@ class ShopTest {
         shop.acheter("Sword", 3)
 
         // Verify that the purchase fails and nothing is updated in the inventory
-        assertEquals(100, inventaire.getPieces())
-        assertTrue(inventaire.getObjets().isEmpty())
+        assertEquals(100, inventaire.obtenirPieces())
+        assertTrue(inventaire.obtenirObjets().isEmpty())
     }
 
     @Test

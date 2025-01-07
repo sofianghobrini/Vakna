@@ -107,7 +107,6 @@ class GestionnaireDeCompagnons(context: Context) {
         assert(niveau in -100..100) { "Le niveau d'humeur doit être compris entre -100 et 100."}
         val compagnon = setDeCompagnons.find { it.id == id }?: return
 
-        // Modification du niveau d'humeur et forçage de la valeur entre 0 et 100
         compagnon.humeur += niveau
         compagnon.humeur = compagnon.humeur.coerceIn(0, 100)
         daoCompagnons.modifier(id, compagnon)

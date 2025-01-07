@@ -23,7 +23,7 @@ class magasinRefugeFragment : Fragment() {
         binding = FragmentMagasinBinding.inflate(inflater, container, false)
         val context = binding.root.context
         val shopRefuge= ShopRefuge(context)
-        val listRefuge = shopRefuge.getRefugesStore()
+        val listRefuge = shopRefuge.obtenirRefugesStore()
         // Exemple de configuration de la vue.
 
         val refuge: Set<RefugeStore> = listRefuge

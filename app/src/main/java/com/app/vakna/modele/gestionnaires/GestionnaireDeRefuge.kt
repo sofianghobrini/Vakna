@@ -12,34 +12,17 @@ class GestionnaireDeRefuge(context: Context) {
         refugeDAO.obtenirTous().forEach { refuges.add(it) }
     }
 
-    fun getRefuges(): Set<Refuge> {
+    fun obtenirRefuges(): Set<Refuge> {
         refugeDAO.obtenirTous().forEach { refuges.add(it) }
         return refuges
     }
 
-    fun getRefugeParNom(nom: String): Refuge? {
+    fun obtenirRefuge(nom: String): Refuge? {
         return refuges.find { it.getNom() == nom }
     }
 
-    fun getRefugeParId(id: Int): Refuge? {
+    fun obtenirRefuge(id: Int): Refuge? {
         return refuges.find { it.getId() == id }
-    }
-
-    fun getActif(): Refuge? {
-        return refuges.find { it.getActif() == true }
-    }
-
-    fun setActif(id: Int) {
-        val refuge = getRefugeParId(id)
-        val actifActuel = getActif()
-        actifActuel?.let {
-            it.setActif(false)
-            refugeDAO.modifier(it.getId(), it)
-        }
-        refuge?.let {
-            it.setActif(true)
-            refugeDAO.modifier(it.getId(), it)
-        }
     }
 
     fun ajouterRefuge(refuge: Refuge): Boolean {
@@ -50,5 +33,22 @@ class GestionnaireDeRefuge(context: Context) {
             throw IllegalArgumentException("Un Refuge avec le nom '${refuge.getNom()}' existe déjà")
         }
         return refugeDAO.inserer(refuge)
+    }
+
+    fun obtenirActif(): Refuge? {
+        return refuges.find { it.getActif() == true }
+    }
+
+    fun setActif(id: Int) {
+        val refuge = obtenirRefuge(id)
+        val actifActuel = obtenirActif()
+        actifActuel?.let {
+            it.setActif(false)
+            refugeDAO.modifier(it.getId(), it)
+        }
+        refuge?.let {
+            it.setActif(true)
+            refugeDAO.modifier(it.getId(), it)
+        }
     }
 }

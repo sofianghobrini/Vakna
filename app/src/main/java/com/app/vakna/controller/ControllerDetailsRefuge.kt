@@ -25,7 +25,7 @@ class ControllerDetailsRefuge (
 
     init {
         val nomRefuge = intent.getStringExtra("NOM_REFUGE") ?: context.getString(R.string.objet_inconnu)
-        val refuge = shopRefuge.getRefugeStoreParNom(nomRefuge)
+        val refuge = shopRefuge.obtenirRefugeStore(nomRefuge)
         afficherNombreDeCoins()
 
         binding.texteTitreDetails.text = refuge!!.getNom()
@@ -39,7 +39,7 @@ class ControllerDetailsRefuge (
         binding.texteCout.text = context.getString(R.string.cout_format, refuge.getPrix())
 
         binding.boutonAchat.setOnClickListener {
-            if (inventaire.getPieces() < refuge.getPrix()) {
+            if (inventaire.obtenirPieces() < refuge.getPrix()) {
                 Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter ce refuge!", Toast.LENGTH_SHORT).show()
             }
             shopRefuge.acheterRefuge(refuge.getId())

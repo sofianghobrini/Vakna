@@ -23,7 +23,7 @@ class magasinCompagnonFragment : Fragment() {
         binding = FragmentMagasinBinding.inflate(inflater, container, false)
         val context = binding.root.context
         val shopCompagnons = ShopCompagnons(context)
-        val listCompagnons = shopCompagnons.getCompagnons()
+        val listCompagnons = shopCompagnons.obtenirCompagnons()
         // Exemple de configuration de la vue.
 
         val companions: List<CompagnonStore> = listCompagnons

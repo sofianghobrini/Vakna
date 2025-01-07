@@ -37,8 +37,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private val shopCompagnons = ShopCompagnons(context)
     private val shopRefuge = ShopRefuge(context)
     private val shop = Shop(context)
-    private val listCompagnons = shopCompagnons.getCompagnons()
-    private val listRefugesStore = shopRefuge.getRefugesStore().toList()
+    private val listCompagnons = shopCompagnons.obtenirCompagnons()
+    private val listRefugesStore = shopRefuge.obtenirRefugesStore().toList()
 
     init {
 
@@ -61,7 +61,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         binding.buttonRefresh.setOnClickListener {
             if (isInternetAvailable(context)) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val objetsShop = shop.getObjetsEnLigne(context)
+                    val objetsShop = shop.obtenirObjetsEnLigne(context)
 
                     CoroutineScope((Dispatchers.Main)).launch {
                         setupGridView(objetsShop)
@@ -76,14 +76,14 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun setupShopTabs() {
         binding.tabLayout.removeAllTabs()
-        val distinctTypeList = shop.getObjets().map { it.getType() }.distinct()
+        val distinctTypeList = shop.obtenirObjets().map { it.getType() }.distinct()
 
         distinctTypeList.forEach {
             val tabTitle = getTabTitle(it)
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
         }
 
-        val initialItems = shop.getObjetsParType(distinctTypeList.first())
+        val initialItems = shop.obtenirObjets(distinctTypeList.first())
         setupGridView(initialItems)
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -94,18 +94,18 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                     context.getString(R.string.tab_compagnon) -> setupGridViewCompagnons(listCompagnons)
                     context.getString(R.string.tab_jouet) -> {
                         val selectedType = TypeObjet.JOUET
-                        val filteredItems = shop.getObjetsParType(selectedType)
+                        val filteredItems = shop.obtenirObjets(selectedType)
                         setupGridView(filteredItems)
                     }
                     context.getString(R.string.tab_nourriture) -> {
                         val selectedType = TypeObjet.NOURRITURE
-                        val filteredItems = shop.getObjetsParType(selectedType)
+                        val filteredItems = shop.obtenirObjets(selectedType)
                         setupGridView(filteredItems)
                     }
                     else -> {
                         try {
                             val selectedType = TypeObjet.valueOf(selectedTypeName)
-                            val filteredItems = shop.getObjetsParType(selectedType)
+                            val filteredItems = shop.obtenirObjets(selectedType)
                             setupGridView(filteredItems)
                         } catch (e: IllegalArgumentException) {
                             e.printStackTrace()

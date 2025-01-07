@@ -30,7 +30,7 @@ class ControllerDetailsObjet(
 
     init {
         val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(nomObjet)
+        val objet = shop.obtenirObjet(nomObjet)
         afficherNombreDeCoins()
 
         binding.texteTitreDetails.text = objet?.getNom() ?: context.getString(R.string.objet_inconnu)
@@ -90,8 +90,8 @@ class ControllerDetailsObjet(
         binding.boutonAchat.setOnClickListener {
             val textQuantite = quantite.text.toString()
             val nbrQuantite = textQuantite.toInt()
-            val objet = shop.getObjet(nomObjet)
-            if (inventaire.getPieces() < objet!!.getPrix()) {
+            val objet = shop.obtenirObjet(nomObjet)
+            if (inventaire.obtenirPieces() < objet!!.getPrix()) {
                 Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter cet objet!", Toast.LENGTH_SHORT).show()
             }
             achat(nomObjet, nbrQuantite)
@@ -139,7 +139,7 @@ class ControllerDetailsObjet(
     private fun prixTotal() {
         val quantite = binding.inputQuantite.text.toString().toInt()
         val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(name)
+        val objet = shop.obtenirObjet(name)
         val prixTotal = (objet?.getPrix() ?: 0) * quantite
         binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
     }
@@ -147,14 +147,14 @@ class ControllerDetailsObjet(
     private fun getPrixTotal() : Int {
         val quantite = binding.inputQuantite.text.toString().toInt()
         val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(name)
+        val objet = shop.obtenirObjet(name)
         return (objet?.getPrix() ?: 0) * quantite
     }
 
     private fun reduirePrix() {
         val quantite = binding.inputQuantite.text.toString().toInt()
         val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(name)
+        val objet = shop.obtenirObjet(name)
         val prixTotal = (objet?.getPrix() ?: 0) * quantite
         binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
     }
