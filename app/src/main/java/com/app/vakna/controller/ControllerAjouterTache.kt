@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.GridLayout
+import androidx.annotation.RequiresApi
 import com.app.vakna.AjouterActivity
 import com.app.vakna.MainActivity
 import com.app.vakna.R
@@ -20,6 +22,7 @@ import java.time.LocalDate
  * Contrôleur pour la gestion de l'ajout de tâches.
  * @param binding Le binding de l'activité Ajouter, pour accéder aux vues.
  */
+@RequiresApi(Build.VERSION_CODES.O)
 class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
 
     private val context = binding.root.context
@@ -176,6 +179,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     /**
      * Méthode pour confirmer la création de la tâche.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun confirmerTache() {
         // Création de l'objet Tache avec les informations récupérées
         val tache = Tache(
@@ -225,7 +229,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val buttonValider = dialogView.findViewById<Button>(R.id.button_valider)
 
         buttonValider.setOnClickListener {
-            selectedDays = mutableListOf<Int>()
+            selectedDays = mutableListOf()
             selectedDays?.let {
                 if (checkLundi.isChecked) it.add(1)
                 if (checkMardi.isChecked) it.add(2)
@@ -239,22 +243,28 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             // Fermer le dialog après la sélection
             dialog.dismiss()
 
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            var jours = ""
-            selectedDays?.forEach {
-                when(it) {
-                    1 -> jours += context.getString(R.string.lundi) + ", "
-                    2 -> jours += context.getString(R.string.mardi) + ", "
-                    3 -> jours += context.getString(R.string.mercredi) + ", "
-                    4 -> jours += context.getString(R.string.jeudi) + ", "
-                    5 -> jours += context.getString(R.string.vendredi) + ", "
-                    6 -> jours += context.getString(R.string.samedi) + ", "
-                    7 -> jours += context.getString(R.string.dimanche) + ", "
+            if(!selectedDays?.isEmpty()!!){
+                binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+                binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+                var jours = ""
+                selectedDays?.forEach {
+                    when(it) {
+                        1 -> jours += context.getString(R.string.lundi) + ", "
+                        2 -> jours += context.getString(R.string.mardi) + ", "
+                        3 -> jours += context.getString(R.string.mercredi) + ", "
+                        4 -> jours += context.getString(R.string.jeudi) + ", "
+                        5 -> jours += context.getString(R.string.vendredi) + ", "
+                        6 -> jours += context.getString(R.string.samedi) + ", "
+                        7 -> jours += context.getString(R.string.dimanche) + ", "
+                    }
                 }
+                jours = jours.subSequence(0, jours.length-2).toString()
+                binding.contenuInclude.labelJoursTache.text = jours
+            } else {
+                selectedDays = null
+                binding.contenuInclude.titreJoursTache.visibility = View.GONE
+                binding.contenuInclude.labelJoursTache.visibility = View.GONE
             }
-            jours = jours.subSequence(0, jours.length-2).toString()
-            binding.contenuInclude.labelJoursTache.text = jours
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.button_defaut)
@@ -316,11 +326,17 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
             selectedDays?.sort()
-            val selectedDates = selectedDays?.joinToString(", ")
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.text = selectedDates
             dialog.dismiss()
+            if(!selectedDays?.isEmpty()!!) {
+                val selectedDates = selectedDays?.joinToString(", ")
+                binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+                binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+                binding.contenuInclude.labelJoursTache.text = selectedDates
+            } else {
+                selectedDays = null
+                binding.contenuInclude.titreJoursTache.visibility = View.GONE
+                binding.contenuInclude.labelJoursTache.visibility = View.GONE
+            }
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.bouton_defaut)
