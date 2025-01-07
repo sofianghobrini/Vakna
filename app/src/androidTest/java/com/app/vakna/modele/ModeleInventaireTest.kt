@@ -2,8 +2,14 @@ package com.app.vakna.modele
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.compagnon.CompagnonDAO
 import com.app.vakna.modele.dao.InventaireDAO
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,7 +33,7 @@ class ModeleInventaireTest {
         contexte = ApplicationProvider.getApplicationContext()
         inventaireDAO = InventaireDAO(contexte)
         compagnonDAO = CompagnonDAO(contexte)
-        gestionnaireCompagnons = GestionnaireDeCompagnons(compagnonDAO)
+        gestionnaireCompagnons = GestionnaireDeCompagnons(contexte)
         objetObtenu = ObjetObtenu(12345, "Potion", 50, 2, TypeObjet.NOURRITURE, "Potion de soin", 100, "url_image")
         inventaire = Inventaire(contexte)
         compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.GENTIL, actif = true)

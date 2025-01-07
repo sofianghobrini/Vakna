@@ -4,7 +4,7 @@ import java.io.File
 import android.content.Context
 import android.util.Log
 import com.app.vakna.R
-import com.app.vakna.modele.Objet
+import com.app.vakna.modele.dao.objet.Objet
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node

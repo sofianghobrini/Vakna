@@ -5,19 +5,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.app.vakna.R
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.TypeTache
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 
 // Adapter pour la liste de tâches terminées
 class ListAdapterProgress(
@@ -28,7 +28,7 @@ class ListAdapterProgress(
 
     private var completedTasks = 0
     private var gestionnaire = GestionnaireDeTaches(context)
-    private var compagnons = GestionnaireDeCompagnons(CompagnonDAO(context))
+    private var compagnons = GestionnaireDeCompagnons(context)
     init {
         completedTasks = dataArrayList.count { it.estTermine }
         updateProgressBar()
@@ -39,6 +39,7 @@ class ListAdapterProgress(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.liste_termine_taches, parent, false)
         return TachesViewHolder(view)
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TachesViewHolder, position: Int) {
         val listData = dataArrayList[position]
         holder.listTypeIcon.setImageResource(listData.icon)
@@ -81,11 +82,6 @@ class ListAdapterProgress(
             }
         }
 
-        var compagnon = compagnons.obtenirActif()
-        if (compagnon == null) {
-            compagnon = compagnons.obtenirCompagnons().first()
-        }
-        gestionnaire.setCompagnon(compagnon.id)
         gestionnaire.obtenirTaches()
 
         // Si la tâche est terminée, on désactive le switch
@@ -142,7 +138,7 @@ class ListAdapterProgress(
 
         var confirme = false
 
-        textView.text = context.getString(R.string.dialog_text_confirmation_task, nomTache)
+        textView.text = context.getString(R.string.dialog_confirmation_completion_quete, nomTache)
 
         dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
             dialog.dismiss()
@@ -160,8 +156,8 @@ class ListAdapterProgress(
                 onConfirm(false)
             }
         }
-        dialogView.findViewById<Button>(R.id.boutonAnnuler).text = context.getString(R.string.button_cancel)
-        dialogView.findViewById<Button>(R.id.boutonTerminer).text = context.getString(R.string.button_finish)
+        dialogView.findViewById<Button>(R.id.boutonAnnuler).text = context.getString(R.string.annuler)
+        dialogView.findViewById<Button>(R.id.boutonTerminer).text = context.getString(R.string.bouton_finir)
 
         dialog.show()
     }

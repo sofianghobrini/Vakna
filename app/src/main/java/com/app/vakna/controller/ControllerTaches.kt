@@ -5,16 +5,16 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.vakna.AjouterActivity
-import com.app.vakna.GererActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.AjouterActivity
+import com.app.vakna.vue.GererActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
-import com.app.vakna.SettingsActivity
+import com.app.vakna.vue.SettingsActivity
 import com.app.vakna.adapters.ListAdapterProgress
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 
 /**
  * Contrôleur pour gérer l'affichage des tâches (quotidiennes, hebdomadaires et mensuelles)

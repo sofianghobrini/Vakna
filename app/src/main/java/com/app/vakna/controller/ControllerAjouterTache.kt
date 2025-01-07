@@ -2,6 +2,7 @@ package com.app.vakna.controller
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -9,17 +10,23 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.GridLayout
-import com.app.vakna.AjouterActivity
-import com.app.vakna.MainActivity
+import androidx.annotation.RequiresApi
+import com.app.vakna.vue.AjouterActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityAjouterBinding
-import com.app.vakna.modele.*
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.dao.Importance
+import com.app.vakna.modele.dao.TypeTache
+import com.app.vakna.modele.dao.tache.Tache
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 import java.time.LocalDate
 
 /**
  * Contrôleur pour la gestion de l'ajout de tâches.
  * @param binding Le binding de l'activité Ajouter, pour accéder aux vues.
  */
+@RequiresApi(Build.VERSION_CODES.O)
 class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
 
     private val context = binding.root.context
@@ -28,8 +35,8 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     init {
 
         // Set button text using string resources
-        binding.boutonCreerTache.text = context.getString(R.string.create_task_button)
-        binding.boutonAnnulerCreation.text = context.getString(R.string.cancel_task_creation_button)
+        binding.boutonCreerTache.text = context.getString(R.string.creation_quete)
+        binding.boutonAnnulerCreation.text = context.getString(R.string.annuler_creation_quete)
 
         // Bouton pour confirmer la création de la tâche
         binding.boutonCreerTache.setOnClickListener {
@@ -39,7 +46,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 // Naviguer vers l'écran principal après l'ajout de la tâche
                 if (context is AjouterActivity) {
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
 
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -53,7 +59,6 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         binding.boutonAnnulerCreation.setOnClickListener {
             if (context is AjouterActivity) {
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
 
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -91,7 +96,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Vérification du nom de la tâche
         val nomTacheEditText = binding.contenuInclude.inputNomTache
         if (nomTacheEditText.text.isNullOrEmpty()) {
-            nomTacheEditText.error = binding.root.context.getString(R.string.task_name_error)
+            nomTacheEditText.error = binding.root.context.getString(R.string.erreur_nom_quete)
             valide = false
         }
 
@@ -106,7 +111,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val errorFrequenceTextView = binding.contenuInclude.errorFrequence
         if (radioGroupFrequence.checkedRadioButtonId == -1) {
             errorFrequenceTextView.visibility = View.VISIBLE
-            errorFrequenceTextView.text = binding.root.context.getString(R.string.frequency_error)
+            errorFrequenceTextView.text = binding.root.context.getString(R.string.erreur_frequence_quete)
             valide = false
         } else {
             errorFrequenceTextView.visibility = View.GONE
@@ -117,7 +122,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val errorImportanceTextView = binding.contenuInclude.errorImportance
         if (radioGroupImportance.checkedRadioButtonId == -1) {
             errorImportanceTextView.visibility = View.VISIBLE
-            errorImportanceTextView.text = binding.root.context.getString(R.string.importance_error)
+            errorImportanceTextView.text = binding.root.context.getString(R.string.erreur_importance_quete)
             valide = false
         } else {
             errorImportanceTextView.visibility = View.GONE
@@ -178,6 +183,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     /**
      * Méthode pour confirmer la création de la tâche.
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun confirmerTache() {
         // Création de l'objet Tache avec les informations récupérées
         val tache = Tache(
@@ -212,7 +218,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.popup_title_select_days))
+            .setTitle(context.getString(R.string.popup_titre_selectionner_jours))
 
         val dialog = dialogBuilder.create()
 
@@ -227,7 +233,7 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         val buttonValider = dialogView.findViewById<Button>(R.id.button_valider)
 
         buttonValider.setOnClickListener {
-            selectedDays = mutableListOf<Int>()
+            selectedDays = mutableListOf()
             selectedDays?.let {
                 if (checkLundi.isChecked) it.add(1)
                 if (checkMardi.isChecked) it.add(2)
@@ -241,22 +247,28 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             // Fermer le dialog après la sélection
             dialog.dismiss()
 
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            var jours = ""
-            selectedDays?.forEach {
-                when(it) {
-                    1 -> jours += context.getString(R.string.j_lundi) + ", "
-                    2 -> jours += context.getString(R.string.j_Mardi) + ", "
-                    3 -> jours += context.getString(R.string.j_Mercredi) + ", "
-                    4 -> jours += context.getString(R.string.j_Jeudi) + ", "
-                    5 -> jours += context.getString(R.string.j_Vendredi) + ", "
-                    6 -> jours += context.getString(R.string.j_Samedi) + ", "
-                    7 -> jours += context.getString(R.string.j_Dimanche) + ", "
+            if(!selectedDays?.isEmpty()!!){
+                binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+                binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+                var jours = ""
+                selectedDays?.forEach {
+                    when(it) {
+                        1 -> jours += context.getString(R.string.lundi) + ", "
+                        2 -> jours += context.getString(R.string.mardi) + ", "
+                        3 -> jours += context.getString(R.string.mercredi) + ", "
+                        4 -> jours += context.getString(R.string.jeudi) + ", "
+                        5 -> jours += context.getString(R.string.vendredi) + ", "
+                        6 -> jours += context.getString(R.string.samedi) + ", "
+                        7 -> jours += context.getString(R.string.dimanche) + ", "
+                    }
                 }
+                jours = jours.subSequence(0, jours.length-2).toString()
+                binding.contenuInclude.labelJoursTache.text = jours
+            } else {
+                selectedDays = null
+                binding.contenuInclude.titreJoursTache.visibility = View.GONE
+                binding.contenuInclude.labelJoursTache.visibility = View.GONE
             }
-            jours = jours.subSequence(0, jours.length-2).toString()
-            binding.contenuInclude.labelJoursTache.text = jours
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.button_defaut)
@@ -318,11 +330,17 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
             selectedDays?.sort()
-            val selectedDates = selectedDays?.joinToString(", ")
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.text = selectedDates
             dialog.dismiss()
+            if(!selectedDays?.isEmpty()!!) {
+                val selectedDates = selectedDays?.joinToString(", ")
+                binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+                binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+                binding.contenuInclude.labelJoursTache.text = selectedDates
+            } else {
+                selectedDays = null
+                binding.contenuInclude.titreJoursTache.visibility = View.GONE
+                binding.contenuInclude.labelJoursTache.visibility = View.GONE
+            }
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.bouton_defaut)

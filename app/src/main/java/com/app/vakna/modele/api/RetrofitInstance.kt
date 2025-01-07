@@ -1,8 +1,8 @@
 package com.app.vakna.modele.api
 
-import com.app.vakna.modele.Objet
-import com.app.vakna.modele.dao.JsonToObjet
-import com.app.vakna.modele.dao.ObjetToJson
+import com.app.vakna.modele.dao.objet.Objet
+import com.app.vakna.modele.dao.objet.JsonToObjet
+import com.app.vakna.modele.dao.objet.ObjetToJson
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit

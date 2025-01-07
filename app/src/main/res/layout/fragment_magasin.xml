@@ -5,14 +5,14 @@
     android:id="@+id/magasinContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.magasin.MagasinFragment">
+    tools:context=".vue.fragmants.magasin.MagasinFragment">
 
     <TextView
         android:id="@+id/titreMagasin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/store_title"
+        android:text="@string/titre_magasin"
         android:textColor="@color/purple_500"
         android:textSize="30sp"
         android:textStyle="bold"

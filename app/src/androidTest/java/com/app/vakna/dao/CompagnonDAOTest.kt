@@ -3,9 +3,9 @@ package com.app.vakna.dao
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.Personnalite
+import com.app.vakna.modele.dao.compagnon.CompagnonDAO
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.Personnalite
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

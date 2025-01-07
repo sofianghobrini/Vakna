@@ -2,7 +2,15 @@ package com.app.vakna.modele
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.dao.TacheDAO
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.dao.Importance
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.tache.TacheDAO
+import com.app.vakna.modele.dao.TypeTache
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.tache.Tache
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 import org.junit.Before
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
@@ -28,8 +36,8 @@ class ModeleTacheTest {
         dao = TacheDAO(context)
         gestionnaire = GestionnaireDeTaches(context)
         compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.CALME, actif = true)
-        gestionnaire.setCompagnon(compagnon.id)
-        gestionnaire.getGestionnaireCompagnon().ajouterCompagnon(compagnon)
+        val gestionnaireCompagnon = GestionnaireDeCompagnons(context)
+        gestionnaireCompagnon.ajouterCompagnon(compagnon)
         cheminFichier = File(context.filesDir, "taches.json")
         if (!cheminFichier.exists()) {
             cheminFichier.createNewFile()
@@ -39,8 +47,10 @@ class ModeleTacheTest {
 
     @Test
     fun testObtenirTachesParFrequence() {
-        val nbTachesFreqQuoti = gestionnaire.obtenirTachesParFrequence()[Frequence.QUOTIDIENNE]?.size
-        val nbTachesFreqHebdo = gestionnaire.obtenirTachesParFrequence()[Frequence.HEBDOMADAIRE]?.size
+        var tachesQuotidiennes = gestionnaire.obtenirTaches(Frequence.QUOTIDIENNE)
+        var tachesHebdomadaires = gestionnaire.obtenirTaches(Frequence.HEBDOMADAIRE)
+        val nbTachesFreqQuoti = tachesQuotidiennes.size
+        val nbTachesFreqHebdo = tachesHebdomadaires.size
 
         val tache1 = Tache("Tâche quotidienne 1", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
         val tache2 = Tache("Tâche hebdo 2", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
@@ -51,40 +61,17 @@ class ModeleTacheTest {
         gestionnaire.ajouterTache(tache2)
         gestionnaire.ajouterTache(tache3)
 
-        val tachesParFrequence = gestionnaire.obtenirTachesParFrequence()
+        tachesQuotidiennes = gestionnaire.obtenirTaches(Frequence.QUOTIDIENNE)
+        tachesHebdomadaires = gestionnaire.obtenirTaches(Frequence.HEBDOMADAIRE)
 
-        assertEquals(nbTachesFreqQuoti!! + 2, tachesParFrequence[Frequence.QUOTIDIENNE]?.size)
-        assertTrue(tachesParFrequence[Frequence.QUOTIDIENNE]?.contains(tache1) == true)
-        assertTrue(tachesParFrequence[Frequence.QUOTIDIENNE]?.contains(tache3) == true)
+        assertEquals(nbTachesFreqQuoti + 2, tachesQuotidiennes.size)
+        assertTrue(tachesQuotidiennes.contains(tache1))
+        assertTrue(tachesQuotidiennes.contains(tache3))
 
-        assertEquals(nbTachesFreqHebdo!! + 1, tachesParFrequence[Frequence.HEBDOMADAIRE]?.size)
-        assertTrue(tachesParFrequence[Frequence.HEBDOMADAIRE]?.contains(tache2) == true)
+        assertEquals(nbTachesFreqHebdo + 1, tachesHebdomadaires.size)
+        assertTrue(tachesHebdomadaires.contains(tache2))
     }
 
-    @Test
-    fun testObtenirTachesParImportance() {
-        val nbTachesFaible = gestionnaire.obtenirTachesParImportance()[Importance.FAIBLE]?.size
-        val nbTachesMoy = gestionnaire.obtenirTachesParImportance()[Importance.MOYENNE]?.size
-
-        val tache1 = Tache("Tâche importance faible", Frequence.QUOTIDIENNE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
-        val tache2 = Tache("Tâche 2", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
-        val tache3 = Tache("Tâche importance moyenne", Frequence.QUOTIDIENNE, Importance.MOYENNE, TypeTache.PERSONNELLE, listOf(3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
-
-        gestionnaire.ajouterTache(tache1)
-        gestionnaire.ajouterTache(tache2)
-        gestionnaire.ajouterTache(tache3)
-
-        val tachesParImportance = gestionnaire.obtenirTachesParImportance()
-        if (nbTachesFaible != null) {
-            assertEquals(nbTachesFaible + 2, tachesParImportance[Importance.FAIBLE]?.size)
-        }
-        assertTrue(tachesParImportance[Importance.FAIBLE]?.contains(tache1) == true)
-        assertTrue(tachesParImportance[Importance.FAIBLE]?.contains(tache2) == true)
-        if (nbTachesMoy != null) {
-            assertEquals(nbTachesMoy + 1, tachesParImportance[Importance.MOYENNE]?.size)
-        }
-        assertTrue(tachesParImportance[Importance.MOYENNE]?.contains(tache3) == true)
-    }
     @Test
     fun testAjouterTache() {
         val nbTaches = gestionnaire.obtenirTaches().size
@@ -247,18 +234,6 @@ class ModeleTacheTest {
         val tachesProfessionnelles = gestionnaire.obtenirTaches(TypeTache.PROFESSIONNELLE)
         assertEquals(nbTachesProfessionnelles + 1, tachesProfessionnelles.size)
         assertTrue(tachesProfessionnelles.contains(tacheProfessionnelle))
-    }
-
-    @Test
-    fun testRechercherTache() {
-        val tache1 = Tache("Faire", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
-        val tache2 = Tache("Faire du travail", Frequence.HEBDOMADAIRE, Importance.FAIBLE, TypeTache.PERSONNELLE, listOf(1, 2, 3, 4), null, LocalDateTime.now().plusDays(1), false, estArchivee = false)
-        gestionnaire.ajouterTache(tache1)
-        gestionnaire.ajouterTache(tache2)
-        val resultat = gestionnaire.rechercherTache("Faire")
-        assertEquals(2, resultat.size)
-        val resultat2 = gestionnaire.rechercherTache("Travailler")
-        assertEquals(0, resultat2.size)
     }
 
     /** Mise en commentaire temporaire pour générer l'APK

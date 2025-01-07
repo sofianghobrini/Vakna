@@ -9,7 +9,7 @@
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/edit_name_dialog_title"
+        android:text="@string/modif_nom_compagnon_dialog"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -19,7 +19,7 @@
         android:id="@+id/edit_text_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/new_name_hint"
+        android:hint="@string/nouveau_nom_exemple"
         android:inputType="text"
         android:padding="12dp" />
 
@@ -37,14 +37,14 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/gray"
             android:insetRight="30dp"
-            android:text="@string/cancel"
+            android:text="@string/annuler"
             android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/confirm"
+            android:text="@string/confirmer"
             android:backgroundTint="@color/purple_500"
             android:textColor="@android:color/white"
             style="@style/Widget.MaterialComponents.Button.TextButton" />

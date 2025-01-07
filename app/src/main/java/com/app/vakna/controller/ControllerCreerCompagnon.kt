@@ -1,48 +1,53 @@
 package com.app.vakna.controller
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.app.vakna.CreerCompagnonActivity
-import com.app.vakna.MainActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.app.vakna.vue.CreerCompagnonActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityCreerCompagnonBinding
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.CompagnonStore
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.GestionnaireDeRefuge
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Objet
-import com.app.vakna.modele.Personnalite
-import com.app.vakna.modele.Refuge
-import com.app.vakna.modele.RefugeStore
-import com.app.vakna.modele.ShopCompagnons
-import com.app.vakna.modele.TypeObjet
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.CompagnonStoreDAO
-import com.app.vakna.modele.dao.ObjetDAO
-import com.app.vakna.modele.dao.RefugeDAO
-import com.app.vakna.modele.dao.RefugeStoreDAO
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.dao.objet.Objet
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.refuge.Refuge
+import com.app.vakna.modele.dao.refugestore.RefugeStore
+import com.app.vakna.modele.gestionnaires.ShopCompagnons
+import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.modele.dao.compagnon.CompagnonDAO
+import com.app.vakna.modele.dao.compagnonstore.CompagnonStoreDAO
+import com.app.vakna.modele.dao.objet.ObjetDAO
+import com.app.vakna.modele.dao.refuge.RefugeDAO
+import com.app.vakna.modele.dao.refugestore.RefugeStoreDAO
 import com.bumptech.glide.Glide
-import kotlin.random.Random
 
 /**
  * Contrôleur pour gérer la création d'un nouveau compagnon
  * @param binding Le binding associé à l'activité de création du compagnon
  */
 class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBinding) {
+    private val REQUEST_CODE = 101
     private val context: Context = binding.root.context
     private val shopDAO = ObjetDAO(context)
     private val compagnonDAO = CompagnonDAO(context)
     private val refugeDAO = RefugeDAO(context)
     private val refugeStoreDAO = RefugeStoreDAO(context)
     private val inventaire = Inventaire(context)
-    private val gestionnaireCompagnon = GestionnaireDeCompagnons(compagnonDAO)
+    private val gestionnaireCompagnon = GestionnaireDeCompagnons(context)
     private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private var shopCompagnons = ShopCompagnons(context)
     private var dernierId = compagnonDAO.obtenirTous().maxOfOrNull { it.id } ?: 0 // obtenir l'ID max existant
@@ -58,12 +63,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         actif = true
     )
     init {
-        val dragon = CompagnonStore(1, "Dragon", "Dragon", 750)
-        val lapin = CompagnonStore(2, "Lapin", "Lapin", 450)
-        val chat = CompagnonStore(3, "Chat", "Chat", 500)
-        val licorne = CompagnonStore(4, "Licorne", "Licorne", 600)
-        val serpent = CompagnonStore(5, "Serpent", "Serpent", 650)
-        val ecureuil = CompagnonStore(6, "Ecureuil", "Ecureuil", 400)
+        checkAndRequestPermissions()
+        val dragon = CompagnonStore(1, "Dragon", 750)
+        val lapin = CompagnonStore(2, "Lapin", 450)
+        val chat = CompagnonStore(3, "Chat", 500)
+        val licorne = CompagnonStore(4, "Licorne", 600)
+        val serpent = CompagnonStore(5, "Serpent", 650)
+        val ecureuil = CompagnonStore(6, "Ecureuil", 400)
         val compagnonsList = listOf(dragon, lapin, chat, licorne, serpent, ecureuil)
 
         compagnonsList.forEach {
@@ -139,6 +145,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         // Configurer le bouton de confirmation de création du compagnon
         binding.boutonCreerCompagnon.setOnClickListener {
             creerCompagnon()
+            Log.e("test","gdfgdhbfbgcf")
+            val sharedPreferences = context.getSharedPreferences("AppPreferences",
+                AppCompatActivity.MODE_PRIVATE
+            )
+            val editor = sharedPreferences.edit()
+            editor.putBoolean("isFirstLaunch", false)
+            editor.apply()
             navigateToMainActivity()
         }
 
@@ -147,6 +160,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
             if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE) {
                 if (binding.boutonCreerCompagnon.isEnabled) {
                     creerCompagnon()
+                    Log.e("test","gdfgdhbfbgcf")
+                    val sharedPreferences = context.getSharedPreferences("AppPreferences",
+                        AppCompatActivity.MODE_PRIVATE
+                    )
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isFirstLaunch", false)
+                    editor.apply()
                     navigateToMainActivity()
                 }
                 true
@@ -184,7 +204,7 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         // Afficher un message en fonction du résultat de l'insertion
         if (insertionReussie) {
-            Toast.makeText(context, context.getString(R.string.compagnon_cree_succes), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.compagnon_creation_valide), Toast.LENGTH_SHORT).show()
             inventaire.ajouterPieces(300) //Pièce offert des le depart
         } else {
             Toast.makeText(context, context.getString(R.string.compagnon_existe_erreur), Toast.LENGTH_SHORT).show()
@@ -199,13 +219,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
      */
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
-            "Dragon" -> shopCompagnons.getCompagnon("Dragon")?.apparenceDefaut()
-            "Lapin" -> shopCompagnons.getCompagnon("Lapin")?.apparenceDefaut()
-            "Chat" -> shopCompagnons.getCompagnon("Chat")?.apparenceDefaut()
-            "Licorne" -> shopCompagnons.getCompagnon("Licorne")?.apparenceDefaut()
-            "Serpent" -> shopCompagnons.getCompagnon("Serpent")?.apparenceDefaut()
-            "Ecureuil" -> shopCompagnons.getCompagnon("Ecureuil")?.apparenceDefaut()
-            else -> shopCompagnons.getCompagnon("Dragon")?.apparenceDefaut()
+            "Dragon" -> shopCompagnons.getCompagnonParEspece("Dragon")?.apparenceDefaut()
+            "Lapin" -> shopCompagnons.getCompagnonParEspece("Lapin")?.apparenceDefaut()
+            "Chat" -> shopCompagnons.getCompagnonParEspece("Chat")?.apparenceDefaut()
+            "Licorne" -> shopCompagnons.getCompagnonParEspece("Licorne")?.apparenceDefaut()
+            "Serpent" -> shopCompagnons.getCompagnonParEspece("Serpent")?.apparenceDefaut()
+            "Ecureuil" -> shopCompagnons.getCompagnonParEspece("Ecureuil")?.apparenceDefaut()
+            else -> shopCompagnons.getCompagnonParEspece("Dragon")?.apparenceDefaut()
         }
         Glide.with(context)
             .load(imageRes)
@@ -220,12 +240,31 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
         val context = binding.root.context
         if (context is CreerCompagnonActivity) {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra("navigateTo", context.getString(R.string.navigate_to_tasks))
 
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             context.startActivity(intent)
             context.finish()
+        }
+    }
+
+
+
+    private fun checkAndRequestPermissions() {
+        val permissionsNeeded = arrayOf(
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.SCHEDULE_EXACT_ALARM,
+            Manifest.permission.POST_NOTIFICATIONS,
+            Manifest.permission.USE_EXACT_ALARM
+        )
+
+        val permissionsToRequest = permissionsNeeded.filter {
+            ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
+        }.toTypedArray()
+
+        // If there are permissions to request, do so
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(context as CreerCompagnonActivity, permissionsToRequest, REQUEST_CODE)
         }
     }
 }

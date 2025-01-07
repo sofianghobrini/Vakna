@@ -10,9 +10,8 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.app.vakna.DetailsCompagnonActivity
-import com.app.vakna.DetailsRefugeActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsRefugeActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.bumptech.glide.Glide
 

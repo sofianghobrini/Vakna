@@ -1,23 +1,14 @@
 package com.app.vakna.controller
 
-import android.content.Context
 import android.content.Intent
-import android.text.Editable
-import android.text.InputFilter
-import android.text.Spanned
-import android.text.TextWatcher
 import android.widget.Toast
-import com.app.vakna.DetailsCompagnonActivity
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsCompagnonActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsCompagnonBinding
-import com.app.vakna.databinding.ActivityDetailsObjetBinding
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Shop
-import com.app.vakna.modele.ShopCompagnons
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.gestionnaires.ShopCompagnons
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 
@@ -30,7 +21,7 @@ class ControllerDetailsCompagnon(
     val inventaireDAO = InventaireDAO(context)
     val inventaire = Inventaire(context)
     val shopCompagnon = ShopCompagnons(context)
-    val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+    val gestionnaire = GestionnaireDeCompagnons(context)
 
     init {
         val especeCompagnon = intent.getStringExtra("ESPECE_COMPAGNON") ?: context.getString(R.string.objet_inconnu)

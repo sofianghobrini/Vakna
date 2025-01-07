@@ -1,6 +1,8 @@
 package com.app.vakna.modele
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

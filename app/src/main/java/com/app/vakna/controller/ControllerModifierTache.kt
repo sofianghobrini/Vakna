@@ -12,15 +12,15 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.Spinner
 import android.widget.Toast
-import com.app.vakna.GererActivity
-import com.app.vakna.ModifierActivity
+import com.app.vakna.vue.GererActivity
+import com.app.vakna.vue.ModifierActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityModifierBinding
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.TypeTache
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.Tache
+import com.app.vakna.modele.dao.Importance
+import com.app.vakna.modele.dao.TypeTache
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.dao.tache.Tache
 import java.time.LocalDate
 
 /**
@@ -38,7 +38,7 @@ class ControllerModifierTache(
     private var selectedDays: MutableList<Int>? = null
 
     init{
-        val taskName = intent.getStringExtra("NOM_TACHE") ?: context.getString(R.string.task_unknown)
+        val taskName = intent.getStringExtra("NOM_TACHE") ?: context.getString(R.string.quete_inconnue)
 
         val gestionnaire = GestionnaireDeTaches(binding.root.context)
 
@@ -48,10 +48,10 @@ class ControllerModifierTache(
 
         preFillFields(tacheOriginel)
 
-        binding.titreModifierTache.text = context.getString(R.string.modifier_task_title, taskName)
+        binding.titreModifierTache.text = context.getString(R.string.modifier_titre_tache, taskName)
 
-        binding.boutonModifierTache.text = context.getString(R.string.edit_task_button)
-        binding.boutonAnnulerCreation.text = context.getString(R.string.cancel)
+        binding.boutonModifierTache.text = context.getString(R.string.bouton_modif_quete)
+        binding.boutonAnnulerCreation.text = context.getString(R.string.annuler)
 
         binding.boutonModifierTache.setOnClickListener {
             modifierTache()
@@ -157,7 +157,7 @@ class ControllerModifierTache(
         val nomTache = recupererNomTache()
 
         if (nomTache.isBlank()) {
-            Toast.makeText(context, context.getString(R.string.task_name_required), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.nom_quete_requis), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -189,9 +189,9 @@ class ControllerModifierTache(
         val resultat = gestionnaireDeTaches.modifierTache(tacheOriginel.nom, tache)
 
         if (resultat) {
-            Toast.makeText(context, context.getString(R.string.task_edit_success), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.modif_quete_valide), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, context.getString(R.string.task_edit_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.modif_quete_erreur), Toast.LENGTH_SHORT).show()
         }
     }
     private fun afficherPopUp_semaine() {
@@ -201,7 +201,7 @@ class ControllerModifierTache(
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.popup_title_select_days))
+            .setTitle(context.getString(R.string.popup_titre_selectionner_jours))
 
         val dialog = dialogBuilder.create()
 
@@ -297,7 +297,7 @@ class ControllerModifierTache(
         // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.popup_title_choose_dates))
+            .setTitle(context.getString(R.string.popup_titre_choisir_dates))
 
         val dialog = dialogBuilder.create()
 

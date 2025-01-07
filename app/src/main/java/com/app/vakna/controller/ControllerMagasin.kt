@@ -1,25 +1,24 @@
 package com.app.vakna.controller
 
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridCompagnonsAdapter
 import com.app.vakna.adapters.GridRefugesAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
-import com.app.vakna.modele.CompagnonStore
-import com.app.vakna.modele.Objet
-import com.app.vakna.modele.RefugeStore
-import com.app.vakna.modele.Shop
-import com.app.vakna.modele.ShopCompagnons
-import com.app.vakna.modele.ShopRefuge
-import com.app.vakna.modele.TypeObjet
+import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
+import com.app.vakna.modele.dao.objet.Objet
+import com.app.vakna.modele.dao.refugestore.RefugeStore
+import com.app.vakna.modele.gestionnaires.Shop
+import com.app.vakna.modele.gestionnaires.ShopCompagnons
+import com.app.vakna.modele.gestionnaires.ShopRefuge
+import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
-import com.app.vakna.ui.magasin.MagasinAdapter
-import com.app.vakna.ui.magasin.magasinCompagnonFragment
-import com.app.vakna.ui.magasin.magasinJouetFragment
-import com.app.vakna.ui.magasin.magasinNourritureFragment
-import com.app.vakna.ui.magasin.magasinRefugeFragment
+import com.app.vakna.vue.fragmants.magasin.MagasinAdapter
+import com.app.vakna.vue.fragmants.magasin.magasinCompagnonFragment
+import com.app.vakna.vue.fragmants.magasin.magasinJouetFragment
+import com.app.vakna.vue.fragmants.magasin.magasinNourritureFragment
+import com.app.vakna.vue.fragmants.magasin.magasinRefugeFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
@@ -69,7 +68,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                     }
                 }
             } else {
-                Toast.makeText(context, context.getString(R.string.pas_connection), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.pas_de_connection), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -92,13 +91,13 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                 val selectedTypeName = tab?.text.toString()
 
                 when (selectedTypeName) {
-                    context.getString(R.string.tab_companions) -> setupGridViewCompagnons(listCompagnons)
-                    context.getString(R.string.tab_toys) -> {
+                    context.getString(R.string.tab_compagnon) -> setupGridViewCompagnons(listCompagnons)
+                    context.getString(R.string.tab_jouet) -> {
                         val selectedType = TypeObjet.JOUET
                         val filteredItems = shop.getObjetsParType(selectedType)
                         setupGridView(filteredItems)
                     }
-                    context.getString(R.string.tab_food) -> {
+                    context.getString(R.string.tab_nourriture) -> {
                         val selectedType = TypeObjet.NOURRITURE
                         val filteredItems = shop.getObjetsParType(selectedType)
                         setupGridView(filteredItems)
@@ -122,7 +121,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun setupCompagnonTab() {
         binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_companions))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_compagnon))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Refuges"))
 
         setupGridViewCompagnons(listCompagnons)
@@ -132,7 +131,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                 val selectedTypeName = tab?.text.toString()
 
                 when (selectedTypeName) {
-                    context.getString(R.string.tab_companions) -> {
+                    context.getString(R.string.tab_compagnon) -> {
                         setupGridViewCompagnons(listCompagnons)
                     }
 
@@ -149,8 +148,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun getTabTitle(type: TypeObjet): String {
         return when (type) {
-            TypeObjet.JOUET -> context.getString(R.string.tab_toys)
-            TypeObjet.NOURRITURE -> context.getString(R.string.tab_food)
+            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
+            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
         }
     }
 
@@ -164,7 +163,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     }
 
     private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
-        val sortedCompagnons = compagnons.sortedWith(compareBy<CompagnonStore> {it.prix}.thenBy { it.nom })
+        val sortedCompagnons = compagnons.sortedWith(compareBy {it.prix})
 
         val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
         val adapter = GridCompagnonsAdapter(context, gridCompagnons)
@@ -196,8 +195,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_food)
-                2 -> context?.getString(R.string.tab_toys)
+                0 -> context?.getString(R.string.tab_nourriture)
+                2 -> context?.getString(R.string.tab_jouet)
                 else -> ""
             }
         }.attach()
@@ -214,7 +213,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_companions)
+                0 -> context?.getString(R.string.tab_compagnon)
                 1 -> context.getString(R.string.refuges)
                 else -> ""
             }

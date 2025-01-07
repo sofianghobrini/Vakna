@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_days_of_week"
+        android:text="@string/choisir_jours_semaine"
         android:textColor="@color/purple_700"
         android:textSize="18sp"
         android:paddingBottom="8dp" />
@@ -18,43 +18,43 @@
         android:id="@+id/checkbox_lundi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/monday" />
+        android:text="@string/lundi" />
 
     <CheckBox
         android:id="@+id/checkbox_mardi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tuesday" />
+        android:text="@string/mardi" />
 
     <CheckBox
         android:id="@+id/checkbox_mercredi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/wednesday" />
+        android:text="@string/mercredi" />
 
     <CheckBox
         android:id="@+id/checkbox_jeudi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/thursday" />
+        android:text="@string/jeudi" />
 
     <CheckBox
         android:id="@+id/checkbox_vendredi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/friday" />
+        android:text="@string/vendredi" />
 
     <CheckBox
         android:id="@+id/checkbox_samedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/saturday" />
+        android:text="@string/samedi" />
 
     <CheckBox
         android:id="@+id/checkbox_dimanche"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sunday" />
+        android:text="@string/dimanche" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -68,7 +68,7 @@
             android:layout_width="122dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="@string/confirm" />
+            android:text="@string/confirmer" />
 
         <Button
             android:id="@+id/button_defaut"

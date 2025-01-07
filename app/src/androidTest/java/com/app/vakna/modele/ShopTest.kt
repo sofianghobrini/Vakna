@@ -2,8 +2,12 @@ package com.app.vakna.modele
 
 import androidx.test.core.app.ApplicationProvider
 import com.app.vakna.modele.dao.InventaireDAO
-import com.app.vakna.modele.dao.ObjetDAO
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.objet.ObjetDAO
+import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.modele.dao.objet.Objet
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.gestionnaires.Shop
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -28,9 +32,7 @@ class ShopTest {
         inventaireDAO = InventaireDAO(context)
         objetDAO = ObjetDAO(context)
 
-        // Initialize a GestionnaireDeCompagnons instance (replace with actual implementation)
-        val compagnonDAO = CompagnonDAO(context)
-        val gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
+        val gestionnaireDeCompagnons = GestionnaireDeCompagnons(context)
 
         // Initialize the shop
         shop = Shop(context)
