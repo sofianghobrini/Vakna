@@ -20,23 +20,22 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.children
 import androidx.navigation.findNavController
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
-import com.app.vakna.SettingsActivity
+import com.app.vakna.vue.SettingsActivity
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
 import com.app.vakna.adapters.PlaceholderAdapter
 import com.app.vakna.adapters.PlaceholderData
 import com.app.vakna.databinding.FragmentCompagnonBinding
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.GestionnaireDeRefuge
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.ObjetObtenu
-import com.app.vakna.modele.Personnalite
-import com.app.vakna.modele.Refuge
-import com.app.vakna.modele.Shop
-import com.app.vakna.modele.TypeObjet
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuge
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.refuge.Refuge
+import com.app.vakna.modele.gestionnaires.Shop
+import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
@@ -79,12 +78,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         // Charger le compagnon depuis la base de données
         val compagnons = gestionnaire.obtenirCompagnons()
-        if (gestionnaire.obtenirActif() == null) {
-            compagnon = compagnons.first()
-            gestionnaire.setActif(compagnon.id)
-        } else {
-            compagnon = gestionnaire.obtenirActif()!!
-        }
+        compagnon = gestionnaire.obtenirActif()
 
         compagnon.let {
             binding.dragonName.text = it.nom
@@ -530,13 +524,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
             val compagnons = gestionnaire.obtenirCompagnons()
-            val compagnonUpd: Compagnon
-            if (gestionnaire.obtenirActif() == null) {
-                compagnonUpd = compagnons.first()
-                gestionnaire.setActif(compagnon.id)
-            } else {
-                compagnonUpd = gestionnaire.obtenirActif()!!
-            }
+            val compagnonUpd: Compagnon = gestionnaire.obtenirActif()
             val fichierApparence = compagnonUpd.apparence()
             println(fichierApparence)
 
@@ -609,11 +597,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnons = gestionnaire.obtenirCompagnons()
-            var compagnonGrid = gestionnaire.obtenirActif()
-            if (compagnonGrid == null) {
-                compagnonGrid = compagnons.first()
-            }
+            val compagnonGrid = gestionnaire.obtenirActif()
 
             compagnonGrid.let {
                 when {

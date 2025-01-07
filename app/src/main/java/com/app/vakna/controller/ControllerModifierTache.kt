@@ -12,15 +12,15 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.Spinner
 import android.widget.Toast
-import com.app.vakna.GererActivity
-import com.app.vakna.ModifierActivity
+import com.app.vakna.vue.GererActivity
+import com.app.vakna.vue.ModifierActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityModifierBinding
-import com.app.vakna.modele.Importance
-import com.app.vakna.modele.TypeTache
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.Tache
+import com.app.vakna.modele.dao.Importance
+import com.app.vakna.modele.dao.TypeTache
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.dao.tache.Tache
 import java.time.LocalDate
 
 /**

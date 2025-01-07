@@ -1,16 +1,14 @@
 package com.app.vakna.controller
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
-import com.app.vakna.DetailsCompagnonActivity
-import com.app.vakna.DetailsRefugeActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsRefugeActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsRefugesBinding
-import com.app.vakna.modele.GestionnaireDeRefuge
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.ShopRefuge
+import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuge
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.gestionnaires.ShopRefuge
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 

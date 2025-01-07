@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.app.vakna.databinding.ActivityMainBinding
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 import com.app.vakna.modele.dao.AccesJson
-import com.app.vakna.modele.dao.CompagnonDAO
 
 class ControllerMain(private val binding: ActivityMainBinding) {
 
@@ -30,7 +29,7 @@ class ControllerMain(private val binding: ActivityMainBinding) {
             accesJson.ecrireFichierJson("""{"taches": []}""")
         }
 
-        compagnon = gestionnaire.obtenirActif() ?: gestionnaire.obtenirCompagnons().first()
+        compagnon = gestionnaire.obtenirActif()
 
         val dernierLancement = getDernierLancement()
 

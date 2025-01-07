@@ -9,7 +9,7 @@
     android:paddingTop="32dp"
     android:paddingEnd="16dp"
     android:paddingBottom="0dp"
-    tools:context=".CreerCompagnonActivity">
+    tools:context=".vue.CreerCompagnonActivity">
 
     <TextView
         android:id="@+id/titreCreerCompagnon"

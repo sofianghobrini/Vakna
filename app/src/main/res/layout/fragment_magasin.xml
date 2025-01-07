@@ -5,7 +5,7 @@
     android:id="@+id/magasinContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.magasin.MagasinFragment">
+    tools:context=".vue.fragmants.magasin.MagasinFragment">
 
     <TextView
         android:id="@+id/titreMagasin"

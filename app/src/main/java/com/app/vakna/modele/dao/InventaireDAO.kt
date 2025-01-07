@@ -1,9 +1,9 @@
 package com.app.vakna.modele.dao
 
 import android.content.Context
-import com.app.vakna.modele.Objet
-import com.app.vakna.modele.ObjetObtenu
-import com.app.vakna.modele.TypeObjet
+import com.app.vakna.modele.dao.objetobtenu.JsonToObjetObtenu
+import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
+import com.app.vakna.modele.dao.objetobtenu.ObjetObtenuToJson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken

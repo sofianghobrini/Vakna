@@ -3,7 +3,9 @@ package com.app.vakna.modele
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.dao.RefugeDAO
+import com.app.vakna.modele.dao.refuge.Refuge
+import com.app.vakna.modele.dao.refuge.RefugeDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuge
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

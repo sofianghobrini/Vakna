@@ -10,7 +10,7 @@
     android:paddingTop="32dp"
     android:paddingEnd="16dp"
     android:paddingBottom="0dp"
-    tools:context=".ModifierActivity">
+    tools:context=".vue.ModifierActivity">
 
     <TextView
         android:id="@+id/titreModifierTache"

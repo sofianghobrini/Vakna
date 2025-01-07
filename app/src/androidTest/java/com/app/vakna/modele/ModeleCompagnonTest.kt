@@ -2,7 +2,10 @@ package com.app.vakna.modele
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.compagnon.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

@@ -5,18 +5,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.app.vakna.R
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 
 // Adapter pour la liste de tâches terminées
 class ListAdapterProgress(
@@ -38,6 +39,7 @@ class ListAdapterProgress(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.liste_termine_taches, parent, false)
         return TachesViewHolder(view)
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: TachesViewHolder, position: Int) {
         val listData = dataArrayList[position]
         holder.listTypeIcon.setImageResource(listData.icon)
@@ -80,11 +82,6 @@ class ListAdapterProgress(
             }
         }
 
-        var compagnon = compagnons.obtenirActif()
-        if (compagnon == null) {
-            compagnon = compagnons.obtenirCompagnons().first()
-        }
-        gestionnaire.setCompagnon(compagnon.id)
         gestionnaire.obtenirTaches()
 
         // Si la tâche est terminée, on désactive le switch

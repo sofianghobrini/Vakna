@@ -1,21 +1,19 @@
 package com.app.vakna.controller
 
-import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
 import android.widget.Toast
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsObjetActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Personnalite
-import com.app.vakna.modele.Shop
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.gestionnaires.Shop
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 
@@ -127,10 +125,7 @@ class ControllerDetailsObjet(
 
     private fun achat(nom: String, quantite: Int) {
         shop.acheter(nom, quantite)
-        var compagnon = gestionnaireCompagnons.obtenirActif()
-        if (compagnon == null) {
-            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
-        }
+        val compagnon = gestionnaireCompagnons.obtenirActif()
         if(compagnon.personnalite == Personnalite.AVARE){
             when(getPrixTotal()){
                 in 10..90->gestionnaireCompagnons.modifierHumeur(compagnon.id, -2)

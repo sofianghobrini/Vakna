@@ -6,7 +6,7 @@
     android:id="@+id/compagnonContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.compagnon.CompagnonFragment">
+    tools:context=".vue.fragmants.compagnon.CompagnonFragment">
 
     <!-- Dragon Name with Pencil Icon -->
     <TextView

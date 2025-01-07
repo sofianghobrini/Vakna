@@ -10,14 +10,13 @@ import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.PopupWindow
 import android.widget.TextView
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsObjetActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerCompagnon
 import com.app.vakna.databinding.FragmentCompagnonBinding
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
 import com.bumptech.glide.Glide
 
 class GridConsommableAdapterInventaire(
@@ -149,12 +148,7 @@ class GridConsommableAdapterInventaire(
 
             ControllerCompagnon.setupGridView(updatedItems!!, type, binding)
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnons = gestionnaire.obtenirCompagnons()
-            var compagnon = gestionnaire.obtenirActif()
-            if (compagnon == null) {
-                compagnon = compagnons.first()
-                gestionnaire.setActif(compagnon.id)
-            }
+            val compagnon = gestionnaire.obtenirActif()
             ControllerCompagnon.updateHumeurCompagnon(binding, compagnon)
             popupUtilisationWindow.dismiss()
         }

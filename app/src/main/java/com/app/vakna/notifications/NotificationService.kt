@@ -12,7 +12,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.app.vakna.AjouterActivity
+import com.app.vakna.vue.AjouterActivity
 import java.util.Timer
 import java.util.TimerTask
 

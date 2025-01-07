@@ -1,7 +1,6 @@
 package com.app.vakna.controller
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,25 +12,25 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.app.vakna.CreerCompagnonActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.CreerCompagnonActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityCreerCompagnonBinding
-import com.app.vakna.modele.Compagnon
-import com.app.vakna.modele.CompagnonStore
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Objet
-import com.app.vakna.modele.Personnalite
-import com.app.vakna.modele.Refuge
-import com.app.vakna.modele.RefugeStore
-import com.app.vakna.modele.ShopCompagnons
-import com.app.vakna.modele.TypeObjet
-import com.app.vakna.modele.dao.CompagnonDAO
-import com.app.vakna.modele.dao.CompagnonStoreDAO
-import com.app.vakna.modele.dao.ObjetDAO
-import com.app.vakna.modele.dao.RefugeDAO
-import com.app.vakna.modele.dao.RefugeStoreDAO
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.dao.objet.Objet
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.refuge.Refuge
+import com.app.vakna.modele.dao.refugestore.RefugeStore
+import com.app.vakna.modele.gestionnaires.ShopCompagnons
+import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.modele.dao.compagnon.CompagnonDAO
+import com.app.vakna.modele.dao.compagnonstore.CompagnonStoreDAO
+import com.app.vakna.modele.dao.objet.ObjetDAO
+import com.app.vakna.modele.dao.refuge.RefugeDAO
+import com.app.vakna.modele.dao.refugestore.RefugeStoreDAO
 import com.bumptech.glide.Glide
 
 /**

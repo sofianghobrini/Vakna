@@ -11,11 +11,15 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.GridLayout
 import androidx.annotation.RequiresApi
-import com.app.vakna.AjouterActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.AjouterActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityAjouterBinding
-import com.app.vakna.modele.*
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.dao.Importance
+import com.app.vakna.modele.dao.TypeTache
+import com.app.vakna.modele.dao.tache.Tache
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 import java.time.LocalDate
 
 /**

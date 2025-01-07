@@ -2,8 +2,11 @@ package com.app.vakna.dao
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.dao.TacheDAO
-import com.app.vakna.modele.*
+import com.app.vakna.modele.dao.tache.TacheDAO
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.dao.Importance
+import com.app.vakna.modele.dao.TypeTache
+import com.app.vakna.modele.dao.tache.Tache
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before

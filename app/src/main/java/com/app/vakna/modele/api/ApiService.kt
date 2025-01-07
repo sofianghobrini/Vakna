@@ -1,7 +1,6 @@
 package com.app.vakna.modele.api
 
-import com.app.vakna.modele.Objet
-import retrofit2.Call
+import com.app.vakna.modele.dao.objet.Objet
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
