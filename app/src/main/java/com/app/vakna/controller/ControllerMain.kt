@@ -1,6 +1,7 @@
 package com.app.vakna.controller
 
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.app.vakna.databinding.ActivityMainBinding

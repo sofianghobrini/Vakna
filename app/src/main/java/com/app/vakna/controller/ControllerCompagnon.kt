@@ -462,7 +462,9 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val newName = editText.text.toString()
             if (newName.isNotEmpty()) {
                 // Mettre à jour le nom du compagnon dans la base de données
-                compagnon.let { gestionnaire.modifierNom(it.id, newName) }
+                val compagnonModif = compagnon
+                compagnonModif.nom = newName
+                gestionnaire.modifierCompagnon(compagnon.id, compagnonModif)
                 binding.dragonName.text = newName // Mettre à jour l'affichage du nom dans l'interface utilisateur
             }
             dialog.dismiss()

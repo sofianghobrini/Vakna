@@ -4,17 +4,29 @@ import android.content.Context
 import com.app.vakna.modele.dao.compagnon.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
+import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.compagnon.Compagnon
 
 class GestionnaireDeCompagnons(context: Context) {
-    private val daoCompagnons = CompagnonDAO(context)
-    private val setDeCompagnons = mutableSetOf<Compagnon>()
-    private val handler = Handler(Looper.getMainLooper())
+
     private val intervalleFaim = 30 * 60000L
     private val intervalleBonheur =  4 * 3600000L
 
+    private val daoCompagnons = CompagnonDAO(context)
+    private val setDeCompagnons = mutableSetOf<Compagnon>()
+    private val handler = Handler(Looper.getMainLooper())
+
     init {
         daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
+    }
+
+    fun obtenirCompagnons(): Set<Compagnon> {
+        daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
+        return setDeCompagnons
+    }
+
+    fun obtenirCompagnon(id: Int): Compagnon? {
+        return obtenirCompagnons().find { it.id == id }
     }
 
     fun ajouterCompagnon(compagnon: Compagnon): Boolean {
@@ -25,37 +37,6 @@ class GestionnaireDeCompagnons(context: Context) {
             throw IllegalArgumentException("Une tâche avec le nom '${compagnon.nom}' existe déjà")
         }
         return daoCompagnons.inserer(compagnon)
-    }
-
-    fun setActif(id: Int) {
-        obtenirActif().let {
-             it.actif = false
-             daoCompagnons.modifier(it.id, it)
-        }
-        obtenirCompagnon(id)?.let {
-            it.actif = true
-            daoCompagnons.modifier(id, it)
-        }
-    }
-
-    fun relacherCompagnon(compagnon: Compagnon, id : Int): Int{
-        val compagnonRecherche = setDeCompagnons.find { it.id == id }
-        if(!setDeCompagnons.contains(compagnon)){
-            throw IllegalArgumentException("Le compagnon n'existe pas")
-        }
-        val pieces = compagnon.niveau()*100
-        setDeCompagnons.remove(compagnonRecherche)
-        daoCompagnons.supprimer(compagnon.id)
-        return pieces
-    }
-
-    fun obtenirActif(): Compagnon {
-        var compagnon = obtenirCompagnons().find { it.actif }
-        if(compagnon == null) {
-            compagnon = obtenirCompagnons().first()
-            setActif(compagnon.id)
-        }
-        return compagnon
     }
 
     fun modifierCompagnon(id: Int, nouveauCompagnon: Compagnon): Boolean {
@@ -74,16 +55,45 @@ class GestionnaireDeCompagnons(context: Context) {
         }
     }
 
-    fun modifierNom(id: Int, nom: String) {
-        val compagnon = setDeCompagnons.find { it.id == id }?: return
+    fun obtenirActif(): Compagnon {
+        if (obtenirCompagnons().isEmpty()) {
+            var compagnon = Compagnon(0,"A",50,50,0,"A",Personnalite.AVARE,true)
+            return compagnon
+        } else {
+            var compagnon = obtenirCompagnons().find { it.actif }
+            if(compagnon == null) {
+                compagnon = obtenirCompagnons().first()
+                setActif(compagnon.id)
+            }
+            return compagnon
+        }
+    }
 
-        compagnon.nom = nom
-        daoCompagnons.modifier(id, compagnon)
+    fun setActif(id: Int) {
+        obtenirActif().let {
+            it.actif = false
+            daoCompagnons.modifier(it.id, it)
+        }
+        obtenirCompagnon(id)?.let {
+            it.actif = true
+            daoCompagnons.modifier(id, it)
+        }
+    }
+
+    fun relacherCompagnon(compagnon: Compagnon, id : Int): Int{
+        val compagnonRecherche = setDeCompagnons.find { it.id == id }
+        if(!setDeCompagnons.contains(compagnon)){
+            throw IllegalArgumentException("Le compagnon n'existe pas")
+        }
+        val pieces = compagnon.niveau()*100
+        setDeCompagnons.remove(compagnonRecherche)
+        daoCompagnons.supprimer(compagnon.id)
+        return pieces
     }
 
     fun modifierFaim(id: Int, niveau: Int) {
         // Vérification que le niveau est compris entre -100 et 100
-        assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100." }
+        assert(niveau in -100..100) { "Le niveau de faim doit être compris entre -100 et 100."}
         val compagnon = setDeCompagnons.find { it.id == id }?: return
 
         compagnon.faim += niveau
@@ -94,7 +104,7 @@ class GestionnaireDeCompagnons(context: Context) {
     // Méthode pour modifier le niveau d'humeur du compagnon
     fun modifierHumeur(id: Int, niveau: Int) {
         // Vérification que le niveau est compris entre -100 et 100
-        assert(niveau in -100..100) { "Le niveau d'humeur doit être compris entre -100 et 100." }
+        assert(niveau in -100..100) { "Le niveau d'humeur doit être compris entre -100 et 100."}
         val compagnon = setDeCompagnons.find { it.id == id }?: return
 
         // Modification du niveau d'humeur et forçage de la valeur entre 0 et 100
@@ -111,19 +121,6 @@ class GestionnaireDeCompagnons(context: Context) {
         daoCompagnons.modifier(id, compagnon)
     }
 
-    fun obtenirCompagnons(): Set<Compagnon> {
-        daoCompagnons.obtenirTous().forEach { setDeCompagnons.add(it) }
-        return setDeCompagnons
-    }
-
-    fun obtenirCompagnon(id: Int): Compagnon? {
-        return obtenirCompagnons().find { it.id == id }
-    }
-
-    fun obtenirCompagnon(nom: String): Compagnon? {
-        return obtenirCompagnons().find { it.nom == nom }
-    }
-    
     fun baisserNivFaim(id: Int, lastLaunch: Long?) {
         val compagnon = setDeCompagnons.find { it.id == id } ?: return
         val facteurFaim = compagnon.personnalite.facteurFaim // Récupérer le facteur faim
@@ -146,6 +143,7 @@ class GestionnaireDeCompagnons(context: Context) {
         }
         handler.postDelayed(faimRunnable, intervalleFaim)
     }
+
     fun baisserNivHumeur(id: Int, lastLaunch: Long?){
         val compagnon = setDeCompagnons.find { it.id == id } ?: return
         val facteurHumeur = compagnon.personnalite.facteurHumeur // Récupérer le facteur humeur

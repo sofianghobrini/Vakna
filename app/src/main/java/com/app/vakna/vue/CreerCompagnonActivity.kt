@@ -1,6 +1,7 @@
 package com.app.vakna.vue
 
 import android.os.Bundle
+import android.util.Log
 import com.app.vakna.controller.ControllerCreerCompagnon
 import com.app.vakna.databinding.ActivityCreerCompagnonBinding
 

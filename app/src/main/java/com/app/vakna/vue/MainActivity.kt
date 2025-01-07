@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,13 +24,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        handlePremierLancement()
 
         super.onCreate(savedInstanceState)
 
+        handlePremierLancement()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         ControllerMain(binding)
 
         setUpNavMenu()
@@ -62,7 +63,6 @@ class MainActivity : AppCompatActivity() {
     private fun handlePremierLancement() {
         sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         if (premierLancement()) {
-            setPremierLancement()
             val intent = Intent(this, CreerCompagnonActivity::class.java)
             startActivity(intent)
             finish()
@@ -71,12 +71,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun premierLancement(): Boolean {
         return sharedPreferences.getBoolean("isFirstLaunch", true)
-    }
-
-    private fun setPremierLancement() {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("isFirstLaunch", false)
-        editor.apply()
     }
 
     private fun setUpNavMenu() {

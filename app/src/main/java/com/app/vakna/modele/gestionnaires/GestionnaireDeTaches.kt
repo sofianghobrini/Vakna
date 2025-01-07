@@ -17,15 +17,15 @@ import java.time.LocalDateTime
 
 class GestionnaireDeTaches(context: Context) {
 
-    private final val facteurPiecesJournalier = 3
-    private final val facteurPiecesHebdomadaire = 16
-    private final val facteurPiecesMensuel = 42
-    private final val facteurVolJournalier = 0.9
-    private final val facteurVolHebdomadaire = 0.8
-    private final val facteurVolMensuel = 0.72
-    private final val facteurHumeurJournalier = 2
-    private final val facteurHumeurHebdomadaire = 4
-    private final val facteurHumeurMensuel = 7
+    private val facteurPiecesJournalier = 3
+    private val facteurPiecesHebdomadaire = 16
+    private val facteurPiecesMensuel = 42
+    private val facteurVolJournalier = 0.9
+    private val facteurVolHebdomadaire = 0.8
+    private val facteurVolMensuel = 0.72
+    private val facteurHumeurJournalier = 2
+    private val facteurHumeurHebdomadaire = 4
+    private val facteurHumeurMensuel = 7
 
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
@@ -128,6 +128,7 @@ class GestionnaireDeTaches(context: Context) {
         tacheDAO.modifier(nom, tache)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun archiverTache(nom: String): Boolean {
         val tache = setDeTaches.find { it.nom == nom } ?: return false
         handleAbandon(tache)
