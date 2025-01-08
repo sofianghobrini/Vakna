@@ -1,36 +1,39 @@
-package com.app.vakna.vue.fragmants.magasin
+package com.app.vakna.ui.magasin
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.app.vakna.adapters.GridData
-import com.app.vakna.adapters.GridRefugesAdapter
+import com.app.vakna.adapters.GridCompagnonsAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.dao.refugestore.RefugeStore
 import com.app.vakna.modele.gestionnaires.ShopRefuge
 
 class magasinRefugeFragment : Fragment() {
 
-    private lateinit var binding: FragmentMagasinBinding // Généré avec view binding.
+    private var _binding: FragmentMagasinBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMagasinBinding.inflate(inflater, container, false)
-        val context = binding.root.context
+        _binding = FragmentMagasinBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val context = requireContext()
         val shopRefuge= ShopRefuge(context)
         val listRefuge = shopRefuge.obtenirRefugesStore()
-        // Exemple de configuration de la vue.
 
-        val refuge: Set<RefugeStore> = listRefuge
-        val gridDataList: ArrayList<GridData> = refuge.map { it.toGridData() } as ArrayList<GridData>
-        val adapter = GridRefugesAdapter(requireContext(), gridDataList)
+        val sortedRefuge = listRefuge.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
+        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
+
+        val adapter = GridCompagnonsAdapter(context, gridRefuge)
         binding.gridViewItems.adapter = adapter
-
-        return binding.root
     }
 }
