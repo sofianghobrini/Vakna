@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import android.widget.Toast
 
 
@@ -127,7 +128,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private fun setupCompagnonTab() {
         binding.tabLayout.removeAllTabs()
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_compagnon))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Refuges"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(context.getString(R.string.refuges)))
 
         setupGridViewCompagnons(listCompagnons)
 
@@ -170,7 +171,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
         val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
-
         val gridRefuge = MagasinRefuge.setToGridDataArray(sortedRefuge)
         val adapter = GridRefugesAdapter(context, gridRefuge)
         binding.gridViewItems.adapter = adapter

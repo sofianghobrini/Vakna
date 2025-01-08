@@ -17,31 +17,21 @@ import com.bumptech.glide.Glide
 open class GridConsommableAdapter (
     private val context: Context,
     private val items: ArrayList<GridConsommableData>
-) : BaseAdapter() {
-
-    override fun getCount(): Int = items.size
-
-    override fun getItem(position: Int): Any = items[position]
-
-    override fun getItemId(position: Int): Long = position.toLong()
+) : GridConsommableDefautAdapter(context, items) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        super.getView(position, convertView, parent)
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_magasin, parent, false)
 
         val item = items[position]
 
-        // Bind data to the views
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
-        val nomTextView = view.findViewById<TextView>(R.id.itemNom)
-        val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val coutTextView = view.findViewById<TextView>(R.id.itemCout)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
 
         Glide.with(context)
             .load(item.image)
             .into(imageView)
-        nomTextView.text = item.nom
-        niveauTextView.text = item.niveau.toString()
         coutTextView.text = item.cout.toString()
 
         view.setOnClickListener {

@@ -9,9 +9,9 @@ import android.widget.TextView
 import com.app.vakna.R
 import com.app.vakna.databinding.FragmentCompagnonBinding
 
-class PlaceholderAdapter(
+class InventaireVideAdapter(
     private val binding: FragmentCompagnonBinding,
-    private val items: List<PlaceholderData>
+    private val items: List<InventaireVideData>
 ) : BaseAdapter() {
 
     override fun getCount(): Int = items.size

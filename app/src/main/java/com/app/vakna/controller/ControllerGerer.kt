@@ -14,7 +14,7 @@ import com.app.vakna.vue.GererActivity
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.vue.ModifierActivity
 import com.app.vakna.R
-import com.app.vakna.adapters.ListAdapterBoutons
+import com.app.vakna.adapters.ListAdapterGerer
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityGererBinding
 import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
@@ -22,7 +22,7 @@ import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 class ControllerGerer(private val binding: ActivityGererBinding) {
 
     val context: Context = binding.root.context
-    private lateinit var listAdapter: ListAdapterBoutons
+    private lateinit var listAdapter: ListAdapterGerer
 
     init {
         setUpRecyclerView()
@@ -56,7 +56,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
                 }
             }.thenBy { it.name })
 
-        listAdapter = ListAdapterBoutons(
+        listAdapter = ListAdapterGerer(
             ArrayList(dataTrier),
             onArchiveClick = { nomTache ->
                 showArchiveDialog(nomTache)

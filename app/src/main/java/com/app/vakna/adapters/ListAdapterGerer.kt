@@ -1,7 +1,7 @@
 package com.app.vakna.adapters
 
 // Adapter qui gère les boutons d'archivage et de modification des tâches
-class ListAdapterBoutons(
+class ListAdapterGerer(
     dataArrayList: ArrayList<ListData>,
     private val onArchiveClick: (String) -> Unit,
     private val onModifierClick: (String) -> Unit

@@ -18,14 +18,19 @@ open class ListAdapter(
     val dataArrayList: ArrayList<ListData>
 ) : RecyclerView.Adapter<ListAdapter.TachesViewHolder>() {
 
+    private val flammeNonActif: Float = 0.3f
+    private val flammeActif: Float = 1.0f
+    private val grayScaleFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
+    private val normalColorFilter = ColorMatrixColorFilter(ColorMatrix())
+
     // ViewHolder contenant les éléments de la tâche
     class TachesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val listTypeIcon: ImageView = itemView.findViewById(R.id.listTypeImage)
         val listName: TextView = itemView.findViewById(R.id.listName)
         val listType: TextView = itemView.findViewById(R.id.listType)
-        val flameGreen: ImageView = itemView.findViewById(R.id.flame_green)
-        val flameOrange: ImageView = itemView.findViewById(R.id.flame_orange)
-        val flameRed: ImageView = itemView.findViewById(R.id.flame_red)
+        val flammeVert: ImageView = itemView.findViewById(R.id.flame_green)
+        val flammeOrange: ImageView = itemView.findViewById(R.id.flame_orange)
+        val flammeRouge: ImageView = itemView.findViewById(R.id.flame_red)
         val listTermine: SwitchMaterial? = itemView.findViewById(R.id.listSwitchTermine)
         val cardView: CardView? = itemView.findViewById(R.id.cardView)
         val boutonArchiverTache: ImageButton? = itemView.findViewById(R.id.boutonArchiverTache)
@@ -41,52 +46,47 @@ open class ListAdapter(
     // Affichage des éléments de la tâche
     override fun onBindViewHolder(holder: TachesViewHolder, position: Int) {
         val listData = dataArrayList[position]
-        // Affichage des icônes, noms et informations sur la tâche
+
         holder.listTypeIcon.setImageResource(listData.icon)
         holder.listName.text = listData.name
         holder.listType.text = listData.type
 
-        // Création du filtre noir et blanc
-        val grayScaleMatrix = ColorMatrix().apply { setSaturation(0f) }
-        val grayScaleFilter = ColorMatrixColorFilter(grayScaleMatrix)
+        afficherFlammes(holder, listData)
+    }
 
+    private fun afficherFlammes(
+        holder: TachesViewHolder,
+        listData: ListData
+    ) {
+        holder.flammeVert.colorFilter = grayScaleFilter
+        holder.flammeOrange.colorFilter = grayScaleFilter
+        holder.flammeRouge.colorFilter = grayScaleFilter
         when (listData.importance) {
             "ELEVEE" -> {
-                holder.flameGreen.alpha = 0.3f
-                holder.flameGreen.colorFilter = grayScaleFilter
-                holder.flameOrange.alpha = 0.3f
-                holder.flameOrange.colorFilter = grayScaleFilter
-                holder.flameRed.alpha = 1.0f  // Affiche la flamme rouge
+                setFlammeActive(holder, flammeNonActif, flammeNonActif, flammeActif)
             }
+
             "MOYENNE" -> {
-                holder.flameGreen.alpha = 0.3f
-                holder.flameGreen.colorFilter = grayScaleFilter
-                holder.flameOrange.alpha = 1.0f  // Affiche la flamme orange
-                holder.flameRed.alpha = 0.2f
-                holder.flameRed.colorFilter = grayScaleFilter
+                setFlammeActive(holder, flammeNonActif, flammeActif, flammeNonActif)
             }
+
             "FAIBLE" -> {
-                holder.flameGreen.alpha = 1.0f  // Affiche la flamme verte
-                holder.flameOrange.alpha = 0.3f
-                holder.flameOrange.colorFilter = grayScaleFilter
-                holder.flameRed.alpha = 0.2f
-                holder.flameRed.colorFilter = grayScaleFilter
-            }
-            else -> {
-                // Si `importance` n'est pas défini, toutes les flammes sont en transparence et noir et blanc
-                holder.flameGreen.alpha = 0.3f
-                holder.flameGreen.colorFilter = grayScaleFilter
-                holder.flameOrange.alpha = 0.3f
-                holder.flameOrange.colorFilter = grayScaleFilter
-                holder.flameRed.alpha = 0.3f
-                holder.flameRed.colorFilter = grayScaleFilter
+                setFlammeActive(holder, flammeActif, flammeNonActif, flammeNonActif)
             }
         }
     }
 
+    private fun setFlammeActive(holder: TachesViewHolder, alphaVert: Float, alphaOrange: Float, alphaRouge: Float) {
+        holder.flammeVert.alpha = alphaVert
+        holder.flammeOrange.alpha = alphaOrange
+        holder.flammeRouge.alpha = alphaRouge
+        when {
+            alphaVert == flammeActif -> holder.flammeVert.colorFilter = normalColorFilter
+            alphaOrange == flammeActif -> holder.flammeOrange.colorFilter = normalColorFilter
+            alphaRouge == flammeActif -> holder.flammeRouge.colorFilter = normalColorFilter
+        }
+    }
 
-
-    // Retourne le nombre d'éléments dans la liste
     override fun getItemCount(): Int {
         return dataArrayList.size
     }

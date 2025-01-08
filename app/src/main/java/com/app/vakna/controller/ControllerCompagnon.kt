@@ -23,8 +23,8 @@ import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.vue.SettingsActivity
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
-import com.app.vakna.adapters.PlaceholderAdapter
-import com.app.vakna.adapters.PlaceholderData
+import com.app.vakna.adapters.InventaireVideAdapter
+import com.app.vakna.adapters.InventaireVideData
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.dao.compagnon.Compagnon
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
@@ -581,7 +581,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                     TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
                 }
 
-                val placeholderItem = PlaceholderData(
+                val placeholderItem = InventaireVideData(
                     message = placeholderMessage,
                     buttonText = context.getString(R.string.titre_magasin),
                     buttonAction = {
@@ -591,7 +591,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 val gridItems = listOf(placeholderItem)
 
-                val adapter = PlaceholderAdapter(binding, gridItems)
+                val adapter = InventaireVideAdapter(binding, gridItems)
                 binding.gridViewItems.adapter = adapter
             } else {
 

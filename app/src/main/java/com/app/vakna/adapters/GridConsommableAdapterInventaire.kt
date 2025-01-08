@@ -22,26 +22,23 @@ import com.bumptech.glide.Glide
 class GridConsommableAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
     private val items: ArrayList<GridConsommableData>
-) : GridConsommableAdapter(binding.root.context, items) {
+) : GridConsommableDefautAdapter(binding.root.context, items) {
 
     private val context = binding.root.context
     private val inventaire = Inventaire(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        super.getView(position, convertView, parent)
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_inventaire, parent, false)
 
         val item = items[position]
 
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
-        val nomTextView = view.findViewById<TextView>(R.id.itemNom)
-        val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val qteTextView = view.findViewById<TextView>(R.id.itemQuantite)
 
         Glide.with(context)
             .load(item.image)
             .into(imageView)
-        nomTextView.text = item.nom
-        niveauTextView.text = item.niveau.toString()
         qteTextView.text = "${item.qte}x"
 
         view.setOnClickListener {
