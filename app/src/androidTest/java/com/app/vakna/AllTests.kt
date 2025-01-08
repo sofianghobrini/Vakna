@@ -19,7 +19,7 @@ import org.junit.runners.Suite
     ModeleInventaireTest::class,
     ObjetObtenuTest::class,
     RefugeTest::class,
-    GestionnaireDeRefugeTest::class
+    GestionnaireDeRefugesTest::class
 
 )
 class AllTests {

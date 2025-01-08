@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ControllerMain(binding)
+        ControllerMain(binding, intent)
         applyConstraintLayoutBackground()
         setUpNavMenu()
     }
@@ -101,27 +100,27 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_taches,
-                R.id.navigation_dashboard,
-                R.id.navigation_notifications
+                R.id.navigation_quetes,
+                R.id.navigation_compagnon,
+                R.id.navigation_magasin
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_taches -> {
-                    navController.navigate(R.id.navigation_taches)
+                R.id.navigation_quetes -> {
+                    navController.navigate(R.id.navigation_quetes)
                     true
                 }
 
-                R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.navigation_dashboard)
+                R.id.navigation_compagnon -> {
+                    navController.navigate(R.id.navigation_compagnon)
                     true
                 }
 
-                R.id.navigation_notifications -> {
-                    navController.navigate(R.id.navigation_notifications)
+                R.id.navigation_magasin -> {
+                    navController.navigate(R.id.navigation_magasin)
                     true
                 }
 

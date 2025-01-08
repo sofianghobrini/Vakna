@@ -9,7 +9,7 @@ import com.app.vakna.adapters.GridCompagnonsAdapter
 import com.app.vakna.adapters.GridData
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
-import com.app.vakna.modele.gestionnaires.ShopCompagnons
+import com.app.vakna.modele.gestionnaires.MagasinCompagnons
 
 class magasinCompagnonFragment : Fragment() {
 
@@ -22,8 +22,8 @@ class magasinCompagnonFragment : Fragment() {
     ): View {
         binding = FragmentMagasinBinding.inflate(inflater, container, false)
         val context = binding.root.context
-        val shopCompagnons = ShopCompagnons(context)
-        val listCompagnons = shopCompagnons.obtenirCompagnons()
+        val magasinCompagnons = MagasinCompagnons(context)
+        val listCompagnons = magasinCompagnons.obtenirCompagnons()
         // Exemple de configuration de la vue.
 
         val companions: List<CompagnonStore> = listCompagnons

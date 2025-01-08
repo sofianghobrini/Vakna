@@ -9,7 +9,7 @@ import com.app.vakna.adapters.GridData
 import com.app.vakna.adapters.GridRefugesAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.dao.refugestore.RefugeStore
-import com.app.vakna.modele.gestionnaires.ShopRefuge
+import com.app.vakna.modele.gestionnaires.MagasinRefuge
 
 class magasinRefugeFragment : Fragment() {
 
@@ -22,11 +22,11 @@ class magasinRefugeFragment : Fragment() {
     ): View {
         binding = FragmentMagasinBinding.inflate(inflater, container, false)
         val context = binding.root.context
-        val shopRefuge= ShopRefuge(context)
-        val listRefuge = shopRefuge.obtenirRefugesStore()
+        val magasinRefuge= MagasinRefuge(context)
+        val listRefuge = magasinRefuge.obtenirRefugesStore()
         // Exemple de configuration de la vue.
 
-        val refuge: Set<RefugeStore> = listRefuge
+        val refuge: List<RefugeStore> = listRefuge
         val gridDataList: ArrayList<GridData> = refuge.map { it.toGridData() } as ArrayList<GridData>
         val adapter = GridRefugesAdapter(requireContext(), gridDataList)
         binding.gridViewItems.adapter = adapter

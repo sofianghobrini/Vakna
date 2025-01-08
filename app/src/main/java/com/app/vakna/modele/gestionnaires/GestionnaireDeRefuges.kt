@@ -4,7 +4,7 @@ import android.content.Context
 import com.app.vakna.modele.dao.refuge.Refuge
 import com.app.vakna.modele.dao.refuge.RefugeDAO
 
-class GestionnaireDeRefuge(context: Context) {
+class GestionnaireDeRefuges(context: Context) {
     private var refugeDAO = RefugeDAO(context)
     private var refuges = mutableSetOf<Refuge>()
 

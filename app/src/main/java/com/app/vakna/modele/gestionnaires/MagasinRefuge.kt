@@ -6,19 +6,18 @@ import com.app.vakna.modele.dao.refuge.Refuge
 import com.app.vakna.modele.dao.refugestore.RefugeStore
 import com.app.vakna.modele.dao.refugestore.RefugeStoreDAO
 
-class ShopRefuge(context: Context) {
+class MagasinRefuge(context: Context) {
 
     private var refugeStoreDAO = RefugeStoreDAO(context)
-    private var refugesStore = mutableSetOf<RefugeStore>()
+    private var refugesStore = mutableListOf<RefugeStore>()
     private val inventaire = Inventaire(context)
-    private val gestionnaireRefuge = GestionnaireDeRefuge(context)
+    private val gestionnaireRefuge = GestionnaireDeRefuges(context)
 
     init {
         refugeStoreDAO.obtenirTous().forEach { refugesStore.add(it) }
     }
 
-    fun obtenirRefugesStore(): Set<RefugeStore> {
-        refugeStoreDAO.obtenirTous().forEach { refugesStore.add(it) }
+    fun obtenirRefugesStore(): List<RefugeStore> {
         return refugesStore
     }
 

@@ -1,23 +1,28 @@
 package com.app.vakna.controller
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.app.vakna.R
 import com.app.vakna.databinding.ActivityMainBinding
 import com.app.vakna.modele.dao.compagnon.Compagnon
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 import com.app.vakna.modele.dao.AccesJson
 
-class ControllerMain(private val binding: ActivityMainBinding) {
+class ControllerMain(private val binding: ActivityMainBinding, intent: Intent) {
 
     val context: Context = binding.root.context
+    private val navigateTo = intent.getStringExtra("navigateTo")
     private var gestionnaireTaches: GestionnaireDeTaches
     private var gestionnaire: GestionnaireDeCompagnons
     private var compagnon: Compagnon? = null
 
     init {
+        handleNavigationVersFragments()
+
         appliquerThemeSauvegarder()
 
         gestionnaireTaches = GestionnaireDeTaches(context)
@@ -37,6 +42,12 @@ class ControllerMain(private val binding: ActivityMainBinding) {
         compagnon?.let {
             diminuerHumeurCompagnon(it.id, dernierLancement)
             diminuerFaimCompagnon(it.id, dernierLancement)
+        }
+    }
+
+    private fun handleNavigationVersFragments() {
+        when(navigateTo) {
+            "CompagnonFragment" -> NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_compagnon)
         }
     }
 

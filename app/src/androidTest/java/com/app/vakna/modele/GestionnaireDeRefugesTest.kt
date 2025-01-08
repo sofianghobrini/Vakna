@@ -5,7 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.vakna.modele.dao.refuge.Refuge
 import com.app.vakna.modele.dao.refuge.RefugeDAO
-import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuge
+import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuges
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -16,11 +16,11 @@ import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class GestionnaireDeRefugeTest {
+class GestionnaireDeRefugesTest {
     private lateinit var dao: RefugeDAO
     private lateinit var cheminFichier: File
     private lateinit var context: Context
-    private lateinit var gestionnaireRefuge: GestionnaireDeRefuge
+    private lateinit var gestionnaireRefuge: GestionnaireDeRefuges
 
     @Before
     fun setUp() {
@@ -31,7 +31,7 @@ class GestionnaireDeRefugeTest {
             cheminFichier.createNewFile()
             cheminFichier.writeText("""{"refuges": []}""")
         }
-        gestionnaireRefuge = GestionnaireDeRefuge(context)
+        gestionnaireRefuge = GestionnaireDeRefuges(context)
     }
 
     @After

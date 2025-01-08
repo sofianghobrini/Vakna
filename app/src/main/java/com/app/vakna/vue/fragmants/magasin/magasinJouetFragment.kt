@@ -9,7 +9,7 @@ import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.dao.objet.Objet
-import com.app.vakna.modele.gestionnaires.Shop
+import com.app.vakna.modele.gestionnaires.MagasinObjets
 import com.app.vakna.modele.dao.TypeObjet
 
 class magasinJouetFragment : Fragment() {
@@ -25,11 +25,11 @@ class magasinJouetFragment : Fragment() {
         val context = binding.root.context
 
 
-        val shop = Shop(context)
-        val jouet : List<Objet> = shop.listerObjet(TypeObjet.JOUET)
+        val magasinObjets = MagasinObjets(context)
+        val jouet : List<Objet> = magasinObjets.listerObjet(TypeObjet.JOUET)
 
 
-        val gridDataList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(jouet)
+        val gridDataList: ArrayList<GridConsommableData> = MagasinObjets.setToGridDataArray(jouet)
 
 
         val adapter = GridConsommableAdapter(requireContext(), gridDataList)

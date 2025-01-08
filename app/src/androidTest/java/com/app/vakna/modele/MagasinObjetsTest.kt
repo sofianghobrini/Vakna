@@ -7,7 +7,7 @@ import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import com.app.vakna.modele.gestionnaires.Inventaire
-import com.app.vakna.modele.gestionnaires.Shop
+import com.app.vakna.modele.gestionnaires.MagasinObjets
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -15,9 +15,9 @@ import kotlin.test.assertTrue
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class ShopTest {
+class MagasinObjetsTest {
 
-    private lateinit var shop: Shop
+    private lateinit var magasinObjets: MagasinObjets
     private lateinit var inventaireDAO: InventaireDAO
     private lateinit var objetDAO: ObjetDAO
     private lateinit var inventaire: Inventaire
@@ -35,7 +35,7 @@ class ShopTest {
         val gestionnaireDeCompagnons = GestionnaireDeCompagnons(context)
 
         // Initialize the shop
-        shop = Shop(context)
+        magasinObjets = MagasinObjets(context)
 
         // Initialize an inventory with 100 pieces and some existing objects
         inventaire = Inventaire(context)
@@ -51,7 +51,7 @@ class ShopTest {
     @Test
     fun testGetObjetReturnsObject() {
         // Verify that an object can be fetched from the shop
-        val objet = shop.obtenirObjet("Potion")
+        val objet = magasinObjets.obtenirObjet("Potion")
         assertNotNull(objet)
         assertEquals("Potion", objet?.getNom())
         assertEquals(10, objet?.getPrix())
@@ -60,14 +60,14 @@ class ShopTest {
     @Test
     fun testGetObjetReturnsNullForNonExistingObject() {
         // Verify that null is returned for non-existing object
-        val objet = shop.obtenirObjet("NonExistingItem")
+        val objet = magasinObjets.obtenirObjet("NonExistingItem")
         assertNull(objet)
     }
 
     @Test
     fun testAcheterUpdatesInventory() {
         // Buy 2 Potions
-        shop.acheter("Potion", 2)
+        magasinObjets.acheter("Potion", 2)
 
         // Verify that the quantity and pieces have been updated correctly
         assertEquals(80, inventaire.obtenirPieces()) // 100 - 2 * 10 = 80
@@ -82,7 +82,7 @@ class ShopTest {
     @Test
     fun testAcheterFailsForInsufficientFunds() {
         // Try to buy 3 Swords, but the inventory has only 100 pieces (3 * 50 = 150)
-        shop.acheter("Sword", 3)
+        magasinObjets.acheter("Sword", 3)
 
         // Verify that the purchase fails and nothing is updated in the inventory
         assertEquals(100, inventaire.obtenirPieces())
@@ -92,12 +92,12 @@ class ShopTest {
     @Test
     fun testListerObjetByType() {
         // List objects by type NOURRITURE
-        val nourritureList = shop.listerObjet(TypeObjet.NOURRITURE)
+        val nourritureList = magasinObjets.listerObjet(TypeObjet.NOURRITURE)
         assertEquals(1, nourritureList.size)
         assertEquals("Potion", nourritureList[0].getNom())
 
         // List objects by type JOUET
-        val armeList = shop.listerObjet(TypeObjet.JOUET)
+        val armeList = magasinObjets.listerObjet(TypeObjet.JOUET)
         assertEquals(1, armeList.size)
         assertEquals("Sword", armeList[0].getNom())
     }

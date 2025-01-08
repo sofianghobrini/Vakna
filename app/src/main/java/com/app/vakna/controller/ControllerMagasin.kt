@@ -9,9 +9,9 @@ import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.refugestore.RefugeStore
-import com.app.vakna.modele.gestionnaires.Shop
-import com.app.vakna.modele.gestionnaires.ShopCompagnons
-import com.app.vakna.modele.gestionnaires.ShopRefuge
+import com.app.vakna.modele.gestionnaires.MagasinObjets
+import com.app.vakna.modele.gestionnaires.MagasinCompagnons
+import com.app.vakna.modele.gestionnaires.MagasinRefuge
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.vue.fragmants.magasin.MagasinAdapter
@@ -34,17 +34,16 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private val context = binding.root.context
     private val inventaireDAO = InventaireDAO(context)
-    private val shopCompagnons = ShopCompagnons(context)
-    private val shopRefuge = ShopRefuge(context)
-    private val shop = Shop(context)
-    private val listCompagnons = shopCompagnons.obtenirCompagnons()
-    private val listRefugesStore = shopRefuge.obtenirRefugesStore().toList()
+    private val magasinCompagnons = MagasinCompagnons(context)
+    private val magasinRefuge = MagasinRefuge(context)
+    private val magasinObjets = MagasinObjets(context)
+    private val listCompagnons = magasinCompagnons.obtenirCompagnons()
+    private val listRefugesStore = magasinRefuge.obtenirRefugesStore()
 
     init {
-
         afficherNombreDeCoins()
 
-        setupShopTabs()
+        setUpConsommableTab()
 
         binding.switchMagasinCompagnon.setOnClickListener {
             binding.switchMagasinCompagnon.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
@@ -55,13 +54,13 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         binding.switchMagasinConsom.setOnClickListener {
             binding.switchMagasinConsom.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
             binding.switchMagasinCompagnon.backgroundTintList = null
-            setupShopTabs()
+            setUpConsommableTab()
         }
 
         binding.buttonRefresh.setOnClickListener {
-            if (isInternetAvailable(context)) {
+            if (verifierConnection(context)) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val objetsShop = shop.obtenirObjetsEnLigne(context)
+                    val objetsShop = magasinObjets.obtenirObjetsEnLigne(context)
 
                     CoroutineScope((Dispatchers.Main)).launch {
                         setupGridView(objetsShop)
@@ -74,42 +73,41 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     }
 
-    private fun setupShopTabs() {
-        binding.tabLayout.removeAllTabs()
-        val distinctTypeList = shop.obtenirObjets().map { it.getType() }.distinct()
+    private fun afficherNombreDeCoins() {
+        val nombreDeCoins = inventaireDAO.obtenirPieces()
+        val texteNombreCoins = binding.texteNombreCoins
+        texteNombreCoins.text = "$nombreDeCoins"
+    }
+
+    private fun setUpConsommableTab() {
+        val tabLayout = binding.tabLayout
+        tabLayout.removeAllTabs()
+
+        val distinctTypeList = magasinObjets.obtenirObjets().map { it.getType() }.distinct()
 
         distinctTypeList.forEach {
-            val tabTitle = getTabTitle(it)
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
+            val tabTitle = getTitreTab(it)
+            val newTab = tabLayout.newTab()
+            tabLayout.addTab(newTab.setText(tabTitle))
         }
 
-        val initialItems = shop.obtenirObjets(distinctTypeList.first())
-        setupGridView(initialItems)
+        val itemsInitial = magasinObjets.obtenirObjets(distinctTypeList.first())
+        setupGridView(itemsInitial)
 
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val selectedTypeName = tab?.text.toString()
 
                 when (selectedTypeName) {
-                    context.getString(R.string.tab_compagnon) -> setupGridViewCompagnons(listCompagnons)
                     context.getString(R.string.tab_jouet) -> {
                         val selectedType = TypeObjet.JOUET
-                        val filteredItems = shop.obtenirObjets(selectedType)
+                        val filteredItems = magasinObjets.obtenirObjets(selectedType)
                         setupGridView(filteredItems)
                     }
                     context.getString(R.string.tab_nourriture) -> {
                         val selectedType = TypeObjet.NOURRITURE
-                        val filteredItems = shop.obtenirObjets(selectedType)
+                        val filteredItems = magasinObjets.obtenirObjets(selectedType)
                         setupGridView(filteredItems)
-                    }
-                    else -> {
-                        try {
-                            val selectedType = TypeObjet.valueOf(selectedTypeName)
-                            val filteredItems = shop.obtenirObjets(selectedType)
-                            setupGridView(filteredItems)
-                        } catch (e: IllegalArgumentException) {
-                            e.printStackTrace()
-                        }
                     }
                 }
             }
@@ -117,6 +115,13 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+    }
+
+    private fun getTitreTab(type: TypeObjet): String {
+        return when (type) {
+            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
+            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
+        }
     }
 
     private fun setupCompagnonTab() {
@@ -135,7 +140,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                         setupGridViewCompagnons(listCompagnons)
                     }
 
-                    "Refuges" -> {
+                    context.getString(R.string.refuges) -> {
                         setupGridViewRefuges(listRefugesStore)
                     }
                 }
@@ -146,42 +151,29 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         })
     }
 
-    private fun getTabTitle(type: TypeObjet): String {
-        return when (type) {
-            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
-            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
-        }
+    private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
+        val sortedCompagnons = compagnons.sortedWith(compareBy {it.prix})
+
+        val gridCompagnons = MagasinCompagnons.setToGridDataArray(sortedCompagnons)
+        val adapter = GridCompagnonsAdapter(context, gridCompagnons)
+        binding.gridViewItems.adapter = adapter
     }
 
     private fun setupGridView(items: List<Objet>) {
         val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
 
-        val gridItems = Shop.setToGridDataArray(sortedItems)
+        val gridItems = MagasinObjets.setToGridDataArray(sortedItems)
 
         val adapter = GridConsommableAdapter(context, gridItems)
-        binding.gridViewItems.adapter = adapter
-    }
-
-    private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
-        val sortedCompagnons = compagnons.sortedWith(compareBy {it.prix})
-
-        val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
-        val adapter = GridCompagnonsAdapter(context, gridCompagnons)
         binding.gridViewItems.adapter = adapter
     }
 
     private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
         val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
 
-        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
+        val gridRefuge = MagasinRefuge.setToGridDataArray(sortedRefuge)
         val adapter = GridRefugesAdapter(context, gridRefuge)
         binding.gridViewItems.adapter = adapter
-    }
-
-    private fun afficherNombreDeCoins() {
-        val nombreDeCoins = inventaireDAO.obtenirPieces()
-        val texteNombreCoins = binding.texteNombreCoins
-        texteNombreCoins.text = "$nombreDeCoins"
     }
 
     private fun setupViewSwipeNourritureJouet() {
@@ -219,7 +211,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             }
         }.attach()
     }
-    fun isInternetAvailable(context: Context): Boolean {
+
+    fun verifierConnection(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
         val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
@@ -231,7 +224,4 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             else -> false
         }
     }
-
-
-
 }

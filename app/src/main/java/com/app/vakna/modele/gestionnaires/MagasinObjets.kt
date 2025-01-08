@@ -10,7 +10,7 @@ import com.app.vakna.modele.api.XmlObjetsManager
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.objet.ObjetDAO
 
-class Shop(context: Context) {
+class MagasinObjets(context: Context) {
 
     private val objetDAO = ObjetDAO(context)
     private val inventaireDAO = InventaireDAO(context)
