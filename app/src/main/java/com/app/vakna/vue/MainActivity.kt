@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ControllerMain(binding)
-
+        applyConstraintLayoutBackground()
         setUpNavMenu()
     }
 
@@ -58,6 +59,24 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun applyConstraintLayoutBackground() {
+        val constraintLayout = binding.root.findViewById<ConstraintLayout>(R.id.main_layout)
+
+        // Vérifier si le thème sombre est activé
+        val isDarkTheme = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+            .getBoolean("darkTheme", false)
+
+        // Définir le drawable approprié
+        val backgroundDrawable = if (isDarkTheme) {
+            R.drawable.background_color_main_dark // Nom du fichier pour le mode sombre
+        } else {
+            R.drawable.background_color_main // Nom du fichier pour le mode clair
+        }
+
+        // Appliquer le drawable comme arrière-plan
+        constraintLayout.setBackgroundResource(backgroundDrawable)
     }
 
     private fun handlePremierLancement() {
@@ -110,7 +129,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    private fun isDarkThemeEnabled(): Boolean {
+        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        return sharedPreferences.getBoolean("darkTheme", false)
+    }
     private fun saveCurrentLauchTime() {
         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
