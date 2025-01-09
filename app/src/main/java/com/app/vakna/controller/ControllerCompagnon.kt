@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.opengl.Visibility
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -88,15 +89,22 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         creationTabs()
 
-        compagnonsSupplementaire = (compagnons - compagnon).toTypedArray()
+        updateCompagnonsSupplementaires(compagnons)
 
-        if (compagnonsSupplementaire.isEmpty()) {
-            binding.switchCompagnon1.setOnClickListener {
-                showCompagnonPopUp(it)
+        setUpRefuges()
+
+        binding.boutonRelacherCompagnon.setOnClickListener{
+            val compagnonRestant = gestionnaireCompagnons.obtenirCompagnons()
+            if(compagnonRestant.size > 1) { showDialogRelease() }
+            else {
+                Toast.makeText(context, context.getString(R.string.un_compagnon_restant), Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
-        var iteration = 0
+    private fun updateCompagnonsSupplementaires(compagnons: Set<Compagnon>) {
+        compagnonsSupplementaire = (compagnons - compagnon).toTypedArray()
+
         val switchBoutons = listOf(
             binding.switchCompagnon1,
             binding.switchCompagnon2,
@@ -105,11 +113,26 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             binding.switchCompagnon5
         )
 
+        switchBoutons.forEach{
+            it.visibility = View.GONE
+        }
+
+        if (compagnonsSupplementaire.isEmpty()) {
+            binding.switchCompagnon1.visibility = View.VISIBLE
+            binding.switchCompagnon1.setImageResource(R.drawable.ajout_compagnon)
+            binding.switchCompagnon1.setOnClickListener {
+                showCompagnonPopUp(it)
+            }
+        }
+
+        var iteration = 0
+
         compagnonsSupplementaire.forEach {
             val id = iteration
 
             //Création du bouton switch
             val bouton = switchBoutons[iteration]
+            bouton.visibility = View.VISIBLE
             val appearancePath = it.apparence()
             Glide.with(context)
                 .asGif()
@@ -120,25 +143,15 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 echangeDeCompagnon(bouton, id)
             }
 
-            if(iteration + 1 <= 4) {
+            if (iteration + 1 <= 4) {
                 val boutonNext = switchBoutons[iteration + 1]
                 boutonNext.visibility = View.VISIBLE
-
-                boutonNext.setOnClickListener {view ->
+                boutonNext.setImageResource(R.drawable.ajout_compagnon)
+                boutonNext.setOnClickListener { view ->
                     showCompagnonPopUp(view)
                 }
             }
             iteration++
-        }
-
-        setUpRefuges()
-
-        binding.boutonRelacherCompagnon.setOnClickListener{
-            val compagnonRestant = gestionnaireCompagnons.obtenirCompagnons()
-            if(compagnonRestant.size > 1) { showDialogRelease() }
-            else {
-                Toast.makeText(context, context.getString(R.string.un_compagnon_restant), Toast.LENGTH_SHORT).show()
-            }
         }
     }
 
@@ -449,14 +462,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         buttonValider.setOnClickListener{
             val compagnonsRestants = gestionnaireCompagnons.obtenirCompagnons()
             gestionnaireCompagnons.relacherCompagnon(compagnon, compagnon.id)
-            Log.e("test", "DEBUT")
             if (compagnonsRestants.isNotEmpty()) {
-                Log.e("test", "test1")
                 compagnon = compagnonsRestants.first()
-                Log.e("test", "test2")
                 gestionnaireCompagnons.setActif(compagnon.id)
             }
-            Log.e("test", "FIN")
+            updateAffichageCompagnon()
+            val compagnons = gestionnaireCompagnons.obtenirCompagnons()
+            updateCompagnonsSupplementaires(compagnons)
             dialog.dismiss()
         }
 
