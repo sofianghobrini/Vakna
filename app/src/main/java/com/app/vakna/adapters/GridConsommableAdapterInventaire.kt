@@ -150,7 +150,11 @@ class GridConsommableAdapterInventaire(
 
             ControllerCompagnon.setupGridView(updatedItems!!, type, binding)
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnon = gestionnaire.obtenirActif()
+            var compagnon = gestionnaire.obtenirActif()
+            if (compagnon == null) {
+                compagnon = gestionnaire.obtenirCompagnons().first()
+                gestionnaire.setActif(compagnon.id)
+            }
             ControllerCompagnon.updateHumeurCompagnon(binding, compagnon)
             popupUtilisationWindow.dismiss()
         }

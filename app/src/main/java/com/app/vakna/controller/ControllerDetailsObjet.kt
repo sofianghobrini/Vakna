@@ -134,7 +134,11 @@ class ControllerDetailsObjet(
 
     private fun achat(nom: String, quantite: Int) {
         magasinObjets.acheter(nom, quantite)
-        val compagnon = gestionnaireCompagnons.obtenirActif()
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+            gestionnaireCompagnons.setActif(compagnon.id)
+        }
         if(compagnon.personnalite == Personnalite.AVARE){
             when(getPrixTotal()){
                 in 10..90->gestionnaireCompagnons.modifierHumeur(compagnon.id, -2)

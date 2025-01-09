@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -75,7 +76,12 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     private fun setUpView() {
 
         val compagnons = gestionnaireCompagnons.obtenirCompagnons()
-        compagnon = gestionnaireCompagnons.obtenirActif()
+        var compagnonTemp = gestionnaireCompagnons.obtenirActif()
+        if (compagnonTemp == null) {
+            compagnonTemp = gestionnaireCompagnons.obtenirCompagnons().first()
+            gestionnaireCompagnons.setActif(compagnonTemp.id)
+        }
+        compagnon = compagnonTemp
 
         updateAffichageCompagnon()
         updateRefuge(binding)
@@ -127,7 +133,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         setUpRefuges()
 
-        binding.freeCompagnonButton.setOnClickListener{
+        binding.boutonRelacherCompagnon.setOnClickListener{
             val compagnonRestant = gestionnaireCompagnons.obtenirCompagnons()
             if(compagnonRestant.size > 1) { showDialogRelease() }
             else {
@@ -443,10 +449,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         buttonValider.setOnClickListener{
             val compagnonsRestants = gestionnaireCompagnons.obtenirCompagnons()
             gestionnaireCompagnons.relacherCompagnon(compagnon, compagnon.id)
+            Log.e("test", "DEBUT")
             if (compagnonsRestants.isNotEmpty()) {
+                Log.e("test", "test1")
                 compagnon = compagnonsRestants.first()
+                Log.e("test", "test2")
                 gestionnaireCompagnons.setActif(compagnon.id)
             }
+            Log.e("test", "FIN")
             dialog.dismiss()
         }
 
@@ -504,7 +514,11 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnonUpd: Compagnon = gestionnaire.obtenirActif()
+            var compagnonUpd: Compagnon? = gestionnaire.obtenirActif()
+            if (compagnonUpd == null) {
+                compagnonUpd = gestionnaire.obtenirCompagnons().first()
+                gestionnaire.setActif(compagnonUpd.id)
+            }
             val fichierApparence = compagnonUpd.apparence()
             println(fichierApparence)
 
@@ -564,7 +578,11 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnonGrid = gestionnaire.obtenirActif()
+            var compagnonGrid = gestionnaire.obtenirActif()
+            if (compagnonGrid == null) {
+                compagnonGrid = gestionnaire.obtenirCompagnons().first()
+                gestionnaire.setActif(compagnonGrid.id)
+            }
 
             compagnonGrid.let {
                 affichageHumeur(binding, it)

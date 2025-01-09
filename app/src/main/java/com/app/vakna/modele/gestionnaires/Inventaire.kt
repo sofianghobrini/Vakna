@@ -39,7 +39,11 @@ class Inventaire(context: Context) {
     private fun utiliserObjet(objet: ObjetObtenu) {
         assert(objet.getQuantite() > 0) { "La quantité de l'objet ne peut pas être négative ou nulle" }
         val niveau = objet.getNiveau()
-        val compagnon = gestionnaireCompagnons.obtenirActif()
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+            gestionnaireCompagnons.setActif(compagnon.id)
+        }
         val idCompagnon = compagnon.id
         if (objet.getType() == TypeObjet.JOUET) {
             if(compagnon.personnalite == Personnalite.JOUEUR){
