@@ -1,12 +1,7 @@
 package com.app.vakna.controller
 
-import androidx.fragment.app.FragmentActivity
 import com.app.vakna.R
-import com.app.vakna.adapters.GridConsommableAdapter
-import com.app.vakna.adapters.GridCompagnonsAdapter
-import com.app.vakna.adapters.GridRefugesAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
-import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.refugestore.RefugeStore
 import com.app.vakna.modele.gestionnaires.Shop
@@ -14,8 +9,6 @@ import com.app.vakna.modele.gestionnaires.ShopCompagnons
 import com.app.vakna.modele.gestionnaires.ShopRefuge
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
-import com.app.vakna.vue.fragmants.magasin.MagasinAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +17,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
-import com.app.vakna.ui.magasin.magasinCompagnonFragment
-import com.app.vakna.ui.magasin.magasinJouetFragment
-import com.app.vakna.ui.magasin.magasinNourritureFragment
-import com.app.vakna.ui.magasin.magasinRefugeFragment
+import androidx.recyclerview.widget.RecyclerView
+import com.app.vakna.adapters.GridConsommableData
+import com.app.vakna.adapters.ViewPagerAdapter
+import com.app.vakna.adapters.ViewPagerAdapterConsommable
 
 
 class ControllerMagasin(private val binding: FragmentMagasinBinding) {
@@ -64,7 +57,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
                     val objetsShop = shop.obtenirObjetsEnLigne(context)
 
                     CoroutineScope((Dispatchers.Main)).launch {
-                        setupGridView(objetsShop)
                     }
                 }
             } else {
@@ -74,32 +66,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     }
 
-
-    private fun setupGridView(items: List<Objet>) {
-        val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
-
-        val gridItems = Shop.setToGridDataArray(sortedItems)
-
-        val adapter = GridConsommableAdapter(context, gridItems)
-        binding.grid.gridViewItems.adapter = adapter
-    }
-
-    private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
-        val sortedCompagnons = compagnons.sortedWith(compareBy {it.prix})
-
-        val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
-        val adapter = GridCompagnonsAdapter(context, gridCompagnons)
-        binding.grid.gridViewItems.adapter = adapter
-    }
-
-    private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
-        val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
-
-        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
-        val adapter = GridRefugesAdapter(context, gridRefuge)
-        binding.grid.gridViewItems.adapter = adapter
-    }
-
     private fun afficherNombreDeCoins() {
         val nombreDeCoins = inventaireDAO.obtenirPieces()
         val texteNombreCoins = binding.texteNombreCoins
@@ -107,38 +73,74 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     }
 
     private fun setupViewSwipeNourritureJouet() {
-        val fragments = listOf(
-            magasinJouetFragment(),      // Onglet pour les jouets
-            magasinNourritureFragment()      // Onglet pour la nourriture
+        val viewPager = binding.viewPager
+        val tabLayout = binding.tabLayout
+
+        val nourritureList: List<Objet> = shop.listerObjet(TypeObjet.NOURRITURE)
+        val sortedNourriture = nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridNourritureList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedNourriture)
+
+        val jouetList: List<Objet> = shop.listerObjet(TypeObjet.JOUET)
+        val sortedJouets = jouetList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridJouetsList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedJouets)
+
+        val pages = listOf(
+            gridNourritureList,
+            gridJouetsList
         )
 
-        val adapter = MagasinAdapter((context as FragmentActivity), fragments)
-        binding.grid.viewPager.adapter = adapter
+        val tabTitles = listOf("Jouets", "Nourriture")
 
-        TabLayoutMediator(binding.tabLayout, binding.grid.viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> context.getString(R.string.tab_jouet)
-                1 -> context.getString(R.string.tab_nourriture)
-                else -> ""
+        viewPager.adapter = ViewPagerAdapterConsommable(context, pages)
+
+        viewPager.getChildAt(0).apply {
+            if(this is RecyclerView) {
+                this.setOnTouchListener { _, _ -> false}
             }
+        }
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = tabTitles[position]
         }.attach()
     }
 
     private fun setupViewSwipeCompagnonRefuge() {
-        val fragments = listOf(
-            magasinCompagnonFragment(), // Onglet pour les compagnons
-            magasinRefugeFragment(),    // Onglet pour les refuges
+        val viewPager = binding.viewPager
+        val tabLayout = binding.tabLayout
+
+        val nourritureList: List<Objet> = shop.listerObjet(TypeObjet.NOURRITURE)
+        val sortedNourriture = nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridNourritureList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedNourriture)
+
+        val shopCompagnons = ShopCompagnons(context)
+        val listCompagnons = shopCompagnons.obtenirCompagnons()
+
+        val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
+        val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
+
+        val shopRefuge= ShopRefuge(context)
+        val listRefuge = shopRefuge.obtenirRefugesStore()
+
+        val sortedRefuge = listRefuge.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
+        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
+
+        val pages = listOf(
+            gridCompagnons,
+            gridRefuge
         )
 
-        val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
-        binding.grid.viewPager.adapter = adapter
+        val tabTitles = listOf("Compagnon", "Refuges")
 
-        TabLayoutMediator(binding.tabLayout, binding.grid.viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_compagnon)
-                1 -> context?.getString(R.string.refuges)
-                else -> ""
+        viewPager.adapter = ViewPagerAdapter(context, pages)
+
+        viewPager.getChildAt(0).apply {
+            if(this is RecyclerView) {
+                this.setOnTouchListener { _, _ -> false}
             }
+        }
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = tabTitles[position]
         }.attach()
     }
     fun isInternetAvailable(context: Context): Boolean {
