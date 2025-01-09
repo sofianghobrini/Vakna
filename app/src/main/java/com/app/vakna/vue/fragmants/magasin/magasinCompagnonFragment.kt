@@ -6,19 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.vakna.adapters.GridCompagnonsAdapter
-import com.app.vakna.databinding.FragmentMagasinBinding
+import com.app.vakna.databinding.FragmentObjetBinding
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
 import com.app.vakna.modele.gestionnaires.ShopCompagnons
 
 class magasinCompagnonFragment : Fragment() {
-    private var _binding: FragmentMagasinBinding? = null
+    private var _binding: FragmentObjetBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMagasinBinding.inflate(inflater, container, false)
+        _binding = FragmentObjetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,7 +29,7 @@ class magasinCompagnonFragment : Fragment() {
         val shopCompagnons = ShopCompagnons(context)
         val listCompagnons = shopCompagnons.obtenirCompagnons()
 
-        val sortedCompagnons = listCompagnons.sortedWith(compareBy<CompagnonStore> { it.prix })
+        val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
         val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
 
         val adapter = GridCompagnonsAdapter(context, gridCompagnons)

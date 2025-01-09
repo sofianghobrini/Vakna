@@ -15,10 +15,6 @@ import com.app.vakna.modele.gestionnaires.ShopRefuge
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.vue.fragmants.magasin.MagasinAdapter
-import com.app.vakna.vue.fragmants.magasin.magasinCompagnonFragment
-import com.app.vakna.vue.fragmants.magasin.magasinJouetFragment
-import com.app.vakna.vue.fragmants.magasin.magasinNourritureFragment
-import com.app.vakna.vue.fragmants.magasin.magasinRefugeFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +24,10 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
+import com.app.vakna.ui.magasin.magasinCompagnonFragment
+import com.app.vakna.ui.magasin.magasinJouetFragment
+import com.app.vakna.ui.magasin.magasinNourritureFragment
+import com.app.vakna.ui.magasin.magasinRefugeFragment
 
 
 class ControllerMagasin(private val binding: FragmentMagasinBinding) {
@@ -44,18 +44,18 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         afficherNombreDeCoins()
 
-        setupShopTabs()
+        setupViewSwipeNourritureJouet()
 
         binding.switchMagasinCompagnon.setOnClickListener {
             binding.switchMagasinCompagnon.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
             binding.switchMagasinConsom.backgroundTintList = null
-            setupCompagnonTab()
+            setupViewSwipeCompagnonRefuge()
         }
 
         binding.switchMagasinConsom.setOnClickListener {
             binding.switchMagasinConsom.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
             binding.switchMagasinCompagnon.backgroundTintList = null
-            setupShopTabs()
+            setupViewSwipeNourritureJouet()
         }
 
         binding.buttonRefresh.setOnClickListener {
@@ -74,84 +74,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     }
 
-    private fun setupShopTabs() {
-        binding.tabLayout.removeAllTabs()
-        val distinctTypeList = shop.obtenirObjets().map { it.getType() }.distinct()
-
-        distinctTypeList.forEach {
-            val tabTitle = getTabTitle(it)
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
-        }
-
-        val initialItems = shop.obtenirObjets(distinctTypeList.first())
-        setupGridView(initialItems)
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val selectedTypeName = tab?.text.toString()
-
-                when (selectedTypeName) {
-                    context.getString(R.string.tab_compagnon) -> setupGridViewCompagnons(listCompagnons)
-                    context.getString(R.string.tab_jouet) -> {
-                        val selectedType = TypeObjet.JOUET
-                        val filteredItems = shop.obtenirObjets(selectedType)
-                        setupGridView(filteredItems)
-                    }
-                    context.getString(R.string.tab_nourriture) -> {
-                        val selectedType = TypeObjet.NOURRITURE
-                        val filteredItems = shop.obtenirObjets(selectedType)
-                        setupGridView(filteredItems)
-                    }
-                    else -> {
-                        try {
-                            val selectedType = TypeObjet.valueOf(selectedTypeName)
-                            val filteredItems = shop.obtenirObjets(selectedType)
-                            setupGridView(filteredItems)
-                        } catch (e: IllegalArgumentException) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-    }
-
-    private fun setupCompagnonTab() {
-        binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_compagnon))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Refuges"))
-
-        setupGridViewCompagnons(listCompagnons)
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val selectedTypeName = tab?.text.toString()
-
-                when (selectedTypeName) {
-                    context.getString(R.string.tab_compagnon) -> {
-                        setupGridViewCompagnons(listCompagnons)
-                    }
-
-                    "Refuges" -> {
-                        setupGridViewRefuges(listRefugesStore)
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-    }
-
-    private fun getTabTitle(type: TypeObjet): String {
-        return when (type) {
-            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
-            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
-        }
-    }
 
     private fun setupGridView(items: List<Objet>) {
         val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
@@ -159,7 +81,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         val gridItems = Shop.setToGridDataArray(sortedItems)
 
         val adapter = GridConsommableAdapter(context, gridItems)
-        binding.gridViewItems.adapter = adapter
+        binding.grid.gridViewItems.adapter = adapter
     }
 
     private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
@@ -167,7 +89,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
         val adapter = GridCompagnonsAdapter(context, gridCompagnons)
-        binding.gridViewItems.adapter = adapter
+        binding.grid.gridViewItems.adapter = adapter
     }
 
     private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
@@ -175,7 +97,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
         val adapter = GridRefugesAdapter(context, gridRefuge)
-        binding.gridViewItems.adapter = adapter
+        binding.grid.gridViewItems.adapter = adapter
     }
 
     private fun afficherNombreDeCoins() {
@@ -186,17 +108,17 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
     private fun setupViewSwipeNourritureJouet() {
         val fragments = listOf(
-            magasinNourritureFragment(),      // Onglet pour la nourriture
-            magasinJouetFragment()       // Onglet pour les jouets
+            magasinJouetFragment(),      // Onglet pour les jouets
+            magasinNourritureFragment()      // Onglet pour la nourriture
         )
 
-        val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
-        binding.viewPager.adapter = adapter
+        val adapter = MagasinAdapter((context as FragmentActivity), fragments)
+        binding.grid.viewPager.adapter = adapter
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.grid.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_nourriture)
-                2 -> context?.getString(R.string.tab_jouet)
+                0 -> context.getString(R.string.tab_jouet)
+                1 -> context.getString(R.string.tab_nourriture)
                 else -> ""
             }
         }.attach()
@@ -209,12 +131,12 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         )
 
         val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
-        binding.viewPager.adapter = adapter
+        binding.grid.viewPager.adapter = adapter
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.grid.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> context?.getString(R.string.tab_compagnon)
-                1 -> context.getString(R.string.refuges)
+                1 -> context?.getString(R.string.refuges)
                 else -> ""
             }
         }.attach()

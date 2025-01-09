@@ -35,9 +35,9 @@ class MagasinNourritureJouetFragment : Fragment() {
         )
 
         val adapter = MagasinAdapter(requireActivity() as FragmentActivity, fragments)
-        binding.viewPager.adapter = adapter
+        binding.grid.viewPager.adapter = adapter
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.grid.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.tab_nourriture)
                 1 -> getString(R.string.tab_jouet)

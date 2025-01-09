@@ -8,13 +8,14 @@ import androidx.fragment.app.Fragment
 import com.app.vakna.adapters.GridConsommableAdapter
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.databinding.FragmentMagasinBinding
+import com.app.vakna.databinding.FragmentObjetBinding
 import com.app.vakna.modele.*
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.gestionnaires.Shop
 
 class magasinNourritureFragment : Fragment() {
-    private var _binding: FragmentMagasinBinding? = null
+    private var _binding: FragmentObjetBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,7 +23,7 @@ class magasinNourritureFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMagasinBinding.inflate(inflater, container, false)
+        _binding = FragmentObjetBinding.inflate(inflater, container, false)
         return binding.root
     }
 
