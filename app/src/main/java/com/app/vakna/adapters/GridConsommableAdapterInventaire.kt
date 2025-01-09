@@ -33,8 +33,13 @@ class GridConsommableAdapterInventaire(
 
         val item = items[position]
 
+        val nomTextView = view.findViewById<TextView>(R.id.itemNom)
+        val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
         val qteTextView = view.findViewById<TextView>(R.id.itemQuantite)
+
+        nomTextView.text = item.nom
+        niveauTextView.text = item.niveau.toString()
 
         Glide.with(context)
             .load(item.image)

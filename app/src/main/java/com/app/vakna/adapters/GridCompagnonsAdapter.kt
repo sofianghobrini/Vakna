@@ -26,8 +26,13 @@ open class GridCompagnonsAdapter(
 
         val item = items[position]
 
+        val nomTextView = view.findViewById<TextView>(R.id.itemNom)
+        val coutTextView = view.findViewById<TextView>(R.id.itemCout)
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
+
+        nomTextView.text = item.nom
+        coutTextView.text = item.cout.toString()
 
         Glide.with(context)
             .asGif()

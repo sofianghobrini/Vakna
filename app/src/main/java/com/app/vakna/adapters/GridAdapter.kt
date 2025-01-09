@@ -25,20 +25,14 @@ open class GridAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_magasin, parent, false)
 
-        val item = items[position]
-
         val nomTextView = view.findViewById<TextView>(R.id.itemNom)
         val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
-        val coutTextView = view.findViewById<TextView>(R.id.itemCout)
-
-        nomTextView.text = item.nom
-        coutTextView.text = item.cout.toString()
-        niveauTextView.visibility = View.GONE
 
         val layoutParams = nomTextView.layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.marginEnd = 0
         layoutParams.marginStart = 0
         nomTextView.gravity = Gravity.CENTER
+        niveauTextView.visibility = View.GONE
 
         return view
     }

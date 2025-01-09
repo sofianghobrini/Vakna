@@ -24,14 +24,6 @@ open class GridConsommableDefautAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.grid_magasin, parent, false)
 
-        val item = items[position]
-
-        val nomTextView = view.findViewById<TextView>(R.id.itemNom)
-        val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
-
-        nomTextView.text = item.nom
-        niveauTextView.text = item.niveau.toString()
-
         return view
     }
 }
