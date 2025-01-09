@@ -31,7 +31,7 @@ import android.util.Log
 import android.widget.Toast
 
 
-class ControllerMagasin(private val binding: FragmentMagasinBinding) {
+class ControllerMagasin(private val binding: FragmentMagasinBinding, private val tabSelectionne: String?) {
 
     private val context = binding.root.context
     private val inventaireDAO = InventaireDAO(context)
@@ -44,17 +44,15 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     init {
         afficherNombreDeCoins()
 
-        setUpConsommableTab()
+        setUpTabSelectionne()
 
         binding.switchMagasinCompagnon.setOnClickListener {
-            binding.switchMagasinCompagnon.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
-            binding.switchMagasinConsom.backgroundTintList = null
+            menuCompagnonsSelectionne()
             setupCompagnonTab()
         }
 
         binding.switchMagasinConsom.setOnClickListener {
-            binding.switchMagasinConsom.backgroundTintList = context.getColorStateList(R.color.tacheTermine)
-            binding.switchMagasinCompagnon.backgroundTintList = null
+            menuConsommableSelectionne()
             setUpConsommableTab()
         }
 
@@ -80,7 +78,23 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         texteNombreCoins.text = "$nombreDeCoins"
     }
 
-    private fun setUpConsommableTab() {
+    private fun setUpTabSelectionne() {
+        when(tabSelectionne) {
+            "Jouets" -> setUpConsommableTab()
+            "Nourriture" -> setUpConsommableTab(false)
+            "Compagnons" -> {
+                setupCompagnonTab()
+                menuCompagnonsSelectionne()
+            }
+            "Refuges" -> {
+                setupCompagnonTab(false)
+                menuCompagnonsSelectionne()
+            }
+            else -> setUpConsommableTab()
+        }
+    }
+
+    private fun setUpConsommableTab(jouets: Boolean = true) {
         val tabLayout = binding.tabLayout
         tabLayout.removeAllTabs()
 
@@ -92,7 +106,16 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             tabLayout.addTab(newTab.setText(tabTitle))
         }
 
-        val itemsInitial = magasinObjets.obtenirObjets(distinctTypeList.first())
+        val itemsInitial: List<Objet>
+        when (jouets) {
+            true -> {
+                itemsInitial = magasinObjets.obtenirObjets(distinctTypeList.first())
+            }
+            false -> {
+                itemsInitial = magasinObjets.obtenirObjets(distinctTypeList.last())
+                tabLayout.getTabAt(1)?.select()
+            }
+        }
         setupGridView(itemsInitial)
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -125,12 +148,18 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         }
     }
 
-    private fun setupCompagnonTab() {
-        binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_compagnon))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(context.getString(R.string.refuges)))
+    private fun setupCompagnonTab(compagnons: Boolean = true) {
+        val tabLayout = binding.tabLayout
+        tabLayout.removeAllTabs()
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_compagnon))
+        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.refuges)))
 
-        setupGridViewCompagnons(listCompagnons)
+        if (compagnons) {
+            setupGridViewCompagnons(listCompagnons)
+        } else {
+            setupGridViewRefuges(listRefugesStore)
+            tabLayout.getTabAt(1)?.select()
+        }
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -174,6 +203,18 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         val gridRefuge = MagasinRefuge.setToGridDataArray(sortedRefuge)
         val adapter = GridRefugesAdapter(context, gridRefuge)
         binding.gridViewItems.adapter = adapter
+    }
+
+    private fun menuCompagnonsSelectionne() {
+        binding.switchMagasinCompagnon.backgroundTintList =
+            context.getColorStateList(R.color.tacheTermine)
+        binding.switchMagasinConsom.backgroundTintList = null
+    }
+
+    private fun menuConsommableSelectionne() {
+        binding.switchMagasinConsom.backgroundTintList =
+            context.getColorStateList(R.color.tacheTermine)
+        binding.switchMagasinCompagnon.backgroundTintList = null
     }
 
     private fun setupViewSwipeNourritureJouet() {

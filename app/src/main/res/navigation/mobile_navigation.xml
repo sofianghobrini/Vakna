@@ -21,6 +21,10 @@
         android:id="@+id/navigation_magasin"
         android:name="com.app.vakna.vue.fragmants.magasin.MagasinFragment"
         android:label="@string/titre_magasin"
-        tools:layout="@layout/fragment_magasin" />
+        tools:layout="@layout/fragment_magasin">
+        <argument
+            android:name="tabSelectionne"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

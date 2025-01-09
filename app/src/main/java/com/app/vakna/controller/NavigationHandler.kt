@@ -2,16 +2,20 @@ package com.app.vakna.controller
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.navigation.findNavController
 import com.app.vakna.R
 import com.app.vakna.vue.MainActivity
 
 class NavigationHandler {
     companion object {
-        fun navigationFragmentVersFragment(context: Context, destination: Int) {
+        fun navigationFragmentVersFragment(context: Context, destination: Int, tabSelectionne: String? = null) {
             if (context is MainActivity) {
                 val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                navController.navigate(destination)
+                val bundle = tabSelectionne?.let {
+                    Bundle().apply { putString("tabSelectionne", it) }
+                }
+                navController.navigate(destination, bundle)
             }
         }
 

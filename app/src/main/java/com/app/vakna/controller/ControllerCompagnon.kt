@@ -243,7 +243,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
         boutonMagasin.setOnClickListener {
-            NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin)
+            NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Compagnons")
             popupMagasinWindow.dismiss()
         }
 
@@ -316,7 +316,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialog.findViewById<Button>(R.id.btn_buy).setOnClickListener {
-            NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin)
+            NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Refuges")
             dialog.dismiss()
         }
 
@@ -575,16 +575,19 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 binding.gridViewItems.numColumns = 1
 
-                val placeholderMessage = when (type) {
+                val inventaireVideMessage = when (type) {
                     TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
                     TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
                 }
 
                 val placeholderItem = InventaireVideData(
-                    message = placeholderMessage,
+                    message = inventaireVideMessage,
                     buttonText = context.getString(R.string.titre_magasin),
                     buttonAction = {
-                        NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin)
+                        when (type) {
+                            TypeObjet.JOUET -> { NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin) }
+                            TypeObjet.NOURRITURE -> {  NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Nourriture") }
+                        }
                     }
                 )
 
