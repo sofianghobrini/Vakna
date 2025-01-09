@@ -19,6 +19,7 @@ import android.net.NetworkCapabilities
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.adapters.GridConsommableData
+import com.app.vakna.adapters.GridData
 import com.app.vakna.adapters.ViewPagerAdapter
 import com.app.vakna.adapters.ViewPagerAdapterConsommable
 
@@ -76,18 +77,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         val viewPager = binding.viewPager
         val tabLayout = binding.tabLayout
 
-        val nourritureList: List<Objet> = shop.listerObjet(TypeObjet.NOURRITURE)
-        val sortedNourriture = nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
-        val gridNourritureList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedNourriture)
-
-        val jouetList: List<Objet> = shop.listerObjet(TypeObjet.JOUET)
-        val sortedJouets = jouetList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
-        val gridJouetsList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedJouets)
-
-        val pages = listOf(
-            gridNourritureList,
-            gridJouetsList
-        )
+        val pages = SetPageConsommable()
 
         val tabTitles = listOf("Jouets", "Nourriture")
 
@@ -104,30 +94,13 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         }.attach()
     }
 
+
+
     private fun setupViewSwipeCompagnonRefuge() {
         val viewPager = binding.viewPager
         val tabLayout = binding.tabLayout
 
-        val nourritureList: List<Objet> = shop.listerObjet(TypeObjet.NOURRITURE)
-        val sortedNourriture = nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
-        val gridNourritureList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedNourriture)
-
-        val shopCompagnons = ShopCompagnons(context)
-        val listCompagnons = shopCompagnons.obtenirCompagnons()
-
-        val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
-        val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
-
-        val shopRefuge= ShopRefuge(context)
-        val listRefuge = shopRefuge.obtenirRefugesStore()
-
-        val sortedRefuge = listRefuge.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
-        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
-
-        val pages = listOf(
-            gridCompagnons,
-            gridRefuge
-        )
+        val pages = SetPageCompagnon()
 
         val tabTitles = listOf("Compagnon", "Refuges")
 
@@ -143,7 +116,50 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             tab.text = tabTitles[position]
         }.attach()
     }
-    fun isInternetAvailable(context: Context): Boolean {
+
+
+    private fun SetPageConsommable(): List<ArrayList<GridConsommableData>> {
+        val nourritureList: List<Objet> = shop.listerObjet(TypeObjet.NOURRITURE)
+        val sortedNourriture =
+            nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridNourritureList: ArrayList<GridConsommableData> =
+            Shop.setToGridDataArray(sortedNourriture)
+
+        val jouetList: List<Objet> = shop.listerObjet(TypeObjet.JOUET)
+        val sortedJouets =
+            jouetList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridJouetsList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedJouets)
+
+        val pages = listOf(
+            gridNourritureList,
+            gridJouetsList
+        )
+        return pages
+    }
+
+
+    private fun SetPageCompagnon(): List<ArrayList<GridData>> {
+        val shopCompagnons = ShopCompagnons(context)
+        val listCompagnons = shopCompagnons.obtenirCompagnons()
+
+        val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
+        val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
+
+        val shopRefuge = ShopRefuge(context)
+        val listRefuge = shopRefuge.obtenirRefugesStore()
+
+        val sortedRefuge =
+            listRefuge.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
+        val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
+
+        val pages = listOf(
+            gridCompagnons,
+            gridRefuge
+        )
+        return pages
+    }
+
+    private fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
         val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
@@ -155,7 +171,5 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
             else -> false
         }
     }
-
-
 
 }
