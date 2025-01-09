@@ -79,7 +79,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         val pages = SetPageConsommable()
 
-        val tabTitles = listOf("Jouets", "Nourriture")
+        val tabTitles = listOf(R.string.tab_nourriture, R.string.tab_jouet)
 
         viewPager.adapter = ViewPagerAdapterConsommable(context, pages)
 
@@ -90,7 +90,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         }
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTitles[position]
+            tab.text = context?.getString(tabTitles[position])
         }.attach()
     }
 
@@ -102,7 +102,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
 
         val pages = SetPageCompagnon()
 
-        val tabTitles = listOf("Compagnon", "Refuges")
+        val tabTitles = listOf(R.string.tab_compagnon, R.string.refuges)
 
         viewPager.adapter = ViewPagerAdapter(context, pages)
 
@@ -113,7 +113,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
         }
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTitles[position]
+            tab.text = context?.getString(tabTitles[position])
         }.attach()
     }
 
@@ -141,15 +141,12 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private fun SetPageCompagnon(): List<ArrayList<GridData>> {
         val shopCompagnons = ShopCompagnons(context)
         val listCompagnons = shopCompagnons.obtenirCompagnons()
-
         val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
         val gridCompagnons = ShopCompagnons.setToGridDataArray(sortedCompagnons)
 
         val shopRefuge = ShopRefuge(context)
         val listRefuge = shopRefuge.obtenirRefugesStore()
-
-        val sortedRefuge =
-            listRefuge.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
+        val sortedRefuge = listRefuge.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
         val gridRefuge = ShopRefuge.setToGridDataArray(sortedRefuge)
 
         val pages = listOf(

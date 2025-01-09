@@ -23,7 +23,7 @@ class ViewPagerAdapter(
         val items = pages[position] // Items for this page
         val gridView = holder.gridView
 
-        val adapter = if(compagnon) GridCompagnonsAdapter(context, ArrayList(items))
+        val adapter = if(compagnon !=true) GridCompagnonsAdapter(context, ArrayList(items))
         else GridRefugesAdapter(context, ArrayList(items))
         gridView.adapter = adapter
     }
