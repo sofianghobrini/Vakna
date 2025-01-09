@@ -58,7 +58,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
      * Charge les données depuis la base et configure les éléments graphiques.
      */
     init {
-        inventaire.ajouterPieces(500)
         setUpView()
 
         binding.editNameButton.setOnClickListener {
