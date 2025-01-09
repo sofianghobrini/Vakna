@@ -30,6 +30,7 @@ class GridRefugesAdapter (
         val coutTextView = view.findViewById<TextView>(R.id.itemCout)
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
+        val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
 
         nomTextView.text = item.nom
         coutTextView.text = item.cout.toString()
@@ -37,6 +38,12 @@ class GridRefugesAdapter (
         Glide.with(context)
             .load(item.image)
             .into(imageView)
+
+        val layoutParams = nomTextView.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.marginEnd = 0
+        layoutParams.marginStart = 0
+        nomTextView.gravity = Gravity.CENTER
+        niveauTextView.visibility = View.GONE
 
         view.setOnClickListener {
             if (context is MainActivity) {
