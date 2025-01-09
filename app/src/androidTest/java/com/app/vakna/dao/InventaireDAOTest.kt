@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.app.vakna.modele.dao.InventaireDAO
-import com.app.vakna.modele.ObjetObtenu
-import com.app.vakna.modele.TypeObjet
+import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
+import com.app.vakna.modele.dao.TypeObjet
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

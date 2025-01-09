@@ -1,19 +1,21 @@
 package com.app.vakna.controller
 
-import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
 import android.widget.Toast
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsObjetActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Shop
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.gestionnaires.Shop
 import com.app.vakna.modele.dao.InventaireDAO
+import com.bumptech.glide.Glide
 
 class ControllerDetailsObjet(
     private val binding: ActivityDetailsObjetBinding,
@@ -23,13 +25,18 @@ class ControllerDetailsObjet(
     val context = binding.root.context
     val shop = Shop(context)
     val inventaireDAO = InventaireDAO(context)
+    val inventaire = Inventaire(context)
+    val gestionnaireCompagnons = GestionnaireDeCompagnons(context)
 
     init {
         val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(nomObjet)
+        val objet = shop.obtenirObjet(nomObjet)
         afficherNombreDeCoins()
 
         binding.texteTitreDetails.text = objet?.getNom() ?: context.getString(R.string.objet_inconnu)
+        Glide.with(context)
+            .load(objet?.getImageUrl())
+            .into(binding.imageObjet)
         binding.texteNiveau.text = context.getString(R.string.niveau_format, objet?.getNiveau())
         binding.texteCout.text = context.getString(R.string.cout_format, objet?.getPrix())
         binding.texteDescription.text = objet?.getDetails() ?: context.getString(R.string.description_non_disponible)
@@ -83,6 +90,10 @@ class ControllerDetailsObjet(
         binding.boutonAchat.setOnClickListener {
             val textQuantite = quantite.text.toString()
             val nbrQuantite = textQuantite.toInt()
+            val objet = shop.obtenirObjet(nomObjet)
+            if (inventaire.obtenirPieces() < objet!!.getPrix()) {
+                Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter cet objet!", Toast.LENGTH_SHORT).show()
+            }
             achat(nomObjet, nbrQuantite)
             if (context is DetailsObjetActivity) {
                 val sourceFragment = intent.getStringExtra("sourceFragment")
@@ -114,20 +125,36 @@ class ControllerDetailsObjet(
 
     private fun achat(nom: String, quantite: Int) {
         shop.acheter(nom, quantite)
+        val compagnon = gestionnaireCompagnons.obtenirActif()
+        if(compagnon.personnalite == Personnalite.AVARE){
+            when(getPrixTotal()){
+                in 10..90->gestionnaireCompagnons.modifierHumeur(compagnon.id, -2)
+                in 90..300->gestionnaireCompagnons.modifierHumeur(compagnon.id, -3)
+                in 300..1000->gestionnaireCompagnons.modifierHumeur(compagnon.id, -4)
+                else -> gestionnaireCompagnons.modifierHumeur(compagnon.id, -8)
+            }
+        }
     }
 
     private fun prixTotal() {
         val quantite = binding.inputQuantite.text.toString().toInt()
         val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(name)
+        val objet = shop.obtenirObjet(name)
         val prixTotal = (objet?.getPrix() ?: 0) * quantite
         binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
+    }
+
+    private fun getPrixTotal() : Int {
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
+        val objet = shop.obtenirObjet(name)
+        return (objet?.getPrix() ?: 0) * quantite
     }
 
     private fun reduirePrix() {
         val quantite = binding.inputQuantite.text.toString().toInt()
         val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.getObjet(name)
+        val objet = shop.obtenirObjet(name)
         val prixTotal = (objet?.getPrix() ?: 0) * quantite
         binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
     }

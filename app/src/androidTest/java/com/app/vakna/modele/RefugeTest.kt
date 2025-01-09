@@ -1,6 +1,7 @@
 package com.app.vakna.modele
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.app.vakna.modele.dao.refuge.Refuge
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertFalse
@@ -19,7 +20,7 @@ class RefugeTest {
 
     @Test
     fun testToString() {
-        assertEquals(refuge.toString(), "Refuge Dragon(1) : faim : 1, humeur : 1, xp : 1, pieces : 1")
+        assertEquals(refuge.toString(), "Refuge Dragon(1) : faim : 1.0, humeur : 1.0, xp : 1.0, pieces : 1.0")
     }
 
     @Test

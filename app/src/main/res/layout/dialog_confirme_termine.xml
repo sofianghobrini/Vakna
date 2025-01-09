@@ -9,10 +9,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:scaleType="center"
-        android:text="@string/dialog_title_finish_task"
+        android:text="@string/dialog_titre_finir_quete"
         android:textSize="30dp"
         android:textColor="@color/couleurTitre"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/nom_application" />
 
     <TextView
         android:id="@+id/dialogTexteWarning"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/dialog_text_confirm_finish"
+        android:text="@string/dialog_confirmation_completion_quete"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp" />
@@ -37,8 +37,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/red"
-            android:text="@string/button_finish" />
+            android:backgroundTint="@color/purple_500"
+            android:text="@string/bouton_finir" />
 
         <Button
             android:id="@+id/boutonAnnuler"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/gray"
-            android:text="@string/cancel" />
+            android:text="@string/annuler" />
 
     </LinearLayout>
 </LinearLayout>

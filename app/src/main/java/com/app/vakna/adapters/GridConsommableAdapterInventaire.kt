@@ -10,12 +10,14 @@ import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.PopupWindow
 import android.widget.TextView
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsObjetActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerCompagnon
 import com.app.vakna.databinding.FragmentCompagnonBinding
-import com.app.vakna.modele.Inventaire
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.bumptech.glide.Glide
 
 class GridConsommableAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
@@ -35,7 +37,9 @@ class GridConsommableAdapterInventaire(
         val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val qteTextView = view.findViewById<TextView>(R.id.itemQuantite)
 
-        imageView.setImageResource(item.image)
+        Glide.with(context)
+            .load(item.image)
+            .into(imageView)
         nomTextView.text = item.nom
         niveauTextView.text = item.niveau.toString()
         qteTextView.text = "${item.qte}x"
@@ -64,7 +68,7 @@ class GridConsommableAdapterInventaire(
             popupMagasinView.findViewById(R.id.popupMagasinTitre)
         popupTextMagasinView.text = item.nom
         val popupTextQuestion: TextView = popupMagasinView.findViewById(R.id.popupMagasinQuestion)
-        popupTextQuestion.text = "Vous n'avez plus de ${item.nom}, voulez-vous en acheter plus?"
+        popupTextQuestion.text = context.getString(R.string.popup_titre_quantite_vide, item.nom)
 
         popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val popupWidth = popupMagasinView.measuredWidth
@@ -81,6 +85,7 @@ class GridConsommableAdapterInventaire(
         popupMagasinWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
 
         val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
+        boutonMagasin.text = context.getString(R.string.bouton_acheter)
         boutonMagasin.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, DetailsObjetActivity::class.java).apply {
@@ -110,7 +115,7 @@ class GridConsommableAdapterInventaire(
             popupUtilisationView.findViewById(R.id.popupUtilisationTitre)
         popupTextUtilisationView.text = item.nom
         val popupTextQuestion: TextView = popupUtilisationView.findViewById(R.id.popupQuestion)
-        popupTextQuestion.text = "Combien voulez-vous utiliser de ${item.nom}."
+        popupTextQuestion.text = context.getString(R.string.popup_quantite_utiliser, item.nom)
 
         val nombreUtilisations =
             popupUtilisationView.findViewById<NumberPicker>(R.id.nombreUtilisations)
@@ -132,16 +137,19 @@ class GridConsommableAdapterInventaire(
         popupUtilisationWindow.showAtLocation(view, Gravity.NO_GRAVITY, offsetX, offsetY)
 
         val buttonUtiliser: Button = popupUtilisationView.findViewById(R.id.boutonUtiliser)
+        buttonUtiliser.text = context.getString(R.string.bouton_utiliser)
         buttonUtiliser.setOnClickListener {
             val qteUtilisations = nombreUtilisations.value
             inventaire.utiliserObjet(item.nom, qteUtilisations)
 
-            val type = inventaire.getObjetParNom(item.nom)?.getType()
-            val updatedItems = type?.let { it1 -> inventaire.getObjetsParType(it1) }
+            val type = inventaire.obtenirObjet(item.nom)?.getType()
+            val updatedItems = type?.let { it1 -> inventaire.obtenirObjets(it1) }
             items.clear()
 
-            ControllerCompagnon.setupGridView(updatedItems!!, binding)
-            ControllerCompagnon.updateHumeurCompagnon(binding)
+            ControllerCompagnon.setupGridView(updatedItems!!, type, binding)
+            val gestionnaire = GestionnaireDeCompagnons(context)
+            val compagnon = gestionnaire.obtenirActif()
+            ControllerCompagnon.updateHumeurCompagnon(binding, compagnon)
             popupUtilisationWindow.dismiss()
         }
 

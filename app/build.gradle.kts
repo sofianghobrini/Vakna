@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.app.vakna"
-        minSdk = 28
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.databinding.compiler)
+    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:4.8.0")
     implementation("androidx.databinding:databinding-runtime:7.0.0")
@@ -104,6 +105,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.robolectric:robolectric:4.7.3")
     testImplementation("androidx.test:core:1.4.0")

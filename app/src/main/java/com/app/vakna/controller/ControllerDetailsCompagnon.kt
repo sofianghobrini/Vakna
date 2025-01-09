@@ -1,24 +1,16 @@
 package com.app.vakna.controller
 
-import android.content.Context
 import android.content.Intent
-import android.text.Editable
-import android.text.InputFilter
-import android.text.Spanned
-import android.text.TextWatcher
 import android.widget.Toast
-import com.app.vakna.DetailsCompagnonActivity
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsCompagnonActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsCompagnonBinding
-import com.app.vakna.databinding.ActivityDetailsObjetBinding
-import com.app.vakna.modele.GestionnaireDeCompagnons
-import com.app.vakna.modele.Inventaire
-import com.app.vakna.modele.Shop
-import com.app.vakna.modele.ShopCompagnons
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
+import com.app.vakna.modele.gestionnaires.Inventaire
+import com.app.vakna.modele.gestionnaires.ShopCompagnons
 import com.app.vakna.modele.dao.InventaireDAO
+import com.bumptech.glide.Glide
 
 class ControllerDetailsCompagnon(
     private val binding: ActivityDetailsCompagnonBinding,
@@ -27,15 +19,19 @@ class ControllerDetailsCompagnon(
 
     val context = binding.root.context
     val inventaireDAO = InventaireDAO(context)
+    val inventaire = Inventaire(context)
     val shopCompagnon = ShopCompagnons(context)
-    val gestionnaire = GestionnaireDeCompagnons(CompagnonDAO(context))
+    val gestionnaire = GestionnaireDeCompagnons(context)
 
     init {
         val especeCompagnon = intent.getStringExtra("ESPECE_COMPAGNON") ?: context.getString(R.string.objet_inconnu)
-        val compagnon = shopCompagnon.getCompagnonParEspece(especeCompagnon)
+        val compagnon = shopCompagnon.obtenirCompagnon(especeCompagnon)
         afficherNombreDeCoins()
 
         binding.texteTitreDetails.text = compagnon?.espece ?: context.getString(R.string.objet_inconnu)
+        Glide.with(context)
+            .load(compagnon?.apparenceDefaut())
+            .into(binding.imageCompagnon)
         binding.texteCoutCompagnon.text = context.getString(R.string.cout_format, compagnon?.prix)
 
         binding.boutonAchat.setOnClickListener {
@@ -43,7 +39,10 @@ class ControllerDetailsCompagnon(
             if(nomCompagnon.isEmpty()) {
                 binding.inputNomCompagnon.error = "Entrez un nom pour votre compagnon"
             } else {
-                shopCompagnon.acheterCompagnon(compagnon!!.id, nomCompagnon)
+                if (inventaire.obtenirPieces() < compagnon!!.prix) {
+                    Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter ce compagnon!", Toast.LENGTH_SHORT).show()
+                }
+                shopCompagnon.acheterCompagnon(compagnon.id, nomCompagnon)
                 if (context is DetailsCompagnonActivity) {
                     val sourceFragment = intent.getStringExtra("sourceFragment")
                     if (sourceFragment == "CompagnonFragment") {

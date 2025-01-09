@@ -10,14 +10,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.vakna.GererActivity
-import com.app.vakna.MainActivity
-import com.app.vakna.ModifierActivity
+import com.app.vakna.vue.GererActivity
+import com.app.vakna.vue.MainActivity
+import com.app.vakna.vue.ModifierActivity
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapterBoutons
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityGererBinding
-import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 
 class ControllerGerer(private val binding: ActivityGererBinding) {
 
@@ -45,9 +45,10 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
 
     private fun setUpRecyclerView() {
         val data =
-            GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches())
+            GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches(), context)
 
         val dataTrier = data.filter { !it.estTermine || !it.estArchivee }
+            .filter { !it.estArchivee }
             .sortedWith(compareByDescending<ListData>
             {
                 when (it.importance) {

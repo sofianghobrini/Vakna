@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    tools:context=".DetailsObjetActivity" >
+    tools:context=".vue.DetailsObjetActivity" >
 
     <ImageButton
         android:id="@+id/boutonRetour"
@@ -77,7 +77,7 @@
         android:id="@+id/texteCoutCompagnon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cout: {Cout du produit}"
+        android:text="@string/cout_format"
         android:textColor="@color/couleurTexte"
         android:textSize="24sp"
         android:layout_marginTop="16dp"
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/label_companion_name"
+        android:text="@string/nom_compagnon"
         android:textColor="@color/couleurTexte"
         android:textSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,11 +105,12 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/input_border"
-        android:hint="@string/hint_companion_name"
+        android:hint="@string/nom_compagnon_exemple"
         android:inputType="text"
         android:padding="5dp"
         android:textColorHint="@color/gray"
         android:textSize="18sp"
+        android:maxLength="16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelNomCompagnon" />

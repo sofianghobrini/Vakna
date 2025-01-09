@@ -5,17 +5,16 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.vakna.AjouterActivity
-import com.app.vakna.GererActivity
-import com.app.vakna.MainActivity
-import com.app.vakna.ProjetsActivity
+import com.app.vakna.vue.AjouterActivity
+import com.app.vakna.vue.GererActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
+import com.app.vakna.vue.SettingsActivity
 import com.app.vakna.adapters.ListAdapterProgress
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.FragmentTachesBinding
-import com.app.vakna.modele.Frequence
-import com.app.vakna.modele.GestionnaireDeTaches
-import com.app.vakna.ui.Taches.TachesFragment
+import com.app.vakna.modele.dao.Frequence
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 
 /**
  * Contrôleur pour gérer l'affichage des tâches (quotidiennes, hebdomadaires et mensuelles)
@@ -28,6 +27,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
 
     // Initialisation du contrôleur et des boutons
     init {
+        gestionnaire.verifierTacheNonAccomplies()
         setupRecyclerView()
 
         // Bouton pour ajouter une nouvelle tâche
@@ -42,6 +42,14 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
         binding.boutonGererTache.setOnClickListener {
             if (context is MainActivity) {
                 val intent = Intent(context, GererActivity::class.java)
+                context.startActivity(intent)
+            }
+        }
+
+        // Bouton pour accéder à paramètres
+        binding.boutonSettings.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, SettingsActivity::class.java)
                 context.startActivity(intent)
             }
         }
@@ -65,8 +73,7 @@ class ControllerTaches(private val binding: FragmentTachesBinding) {
      * @param progressBar : ProgressBar - La barre de progression associée
      */
     private fun createListAdapter(frequence: Frequence, listeTaches: RecyclerView, progressBar: ProgressBar) {
-        gestionnaire.verifierTacheNonAccomplies()
-        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence))
+        val taskList = GestionnaireDeTaches.setToListDataArray(gestionnaire.obtenirTaches(frequence), context)
 
         // Filtrer les tâches non archivées et les trier par statut et importance
         val sortedTasks = taskList

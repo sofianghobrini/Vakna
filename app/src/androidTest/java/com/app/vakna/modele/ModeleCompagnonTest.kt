@@ -2,7 +2,10 @@ package com.app.vakna.modele
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.dao.CompagnonDAO
+import com.app.vakna.modele.dao.Personnalite
+import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.modele.dao.compagnon.CompagnonDAO
+import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +20,7 @@ class ModeleCompagnonTest {
     private lateinit var gestionnaireDeCompagnons: GestionnaireDeCompagnons
 
     // Create a test instance of Compagnon
-    private val compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon")
+    private val compagnon = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.GENTIL, actif = true)
 
     @Before
     fun setUp() {
@@ -27,7 +30,7 @@ class ModeleCompagnonTest {
 
 
         // Initialize the gestionnaire with the real DAO
-        gestionnaireDeCompagnons = GestionnaireDeCompagnons(compagnonDAO)
+        gestionnaireDeCompagnons = GestionnaireDeCompagnons(context)
 
         // Reset the compagnon attributes before each test
         compagnon.faim = 50
@@ -122,9 +125,10 @@ class ModeleCompagnonTest {
 
     @Test
     fun testGagnerXpNegatif() {
-        gestionnaireDeCompagnons.gagnerXp(compagnon.id, 120)
-        gestionnaireDeCompagnons.gagnerXp(compagnon.id, -30)
-        assertEquals(90, compagnon.xp)
+        val c = Compagnon(0, "Veolia la dragonne", espece = "Dragon", personnalite = Personnalite.CALME, actif = true)
+        gestionnaireDeCompagnons.ajouterCompagnon(c)
+        gestionnaireDeCompagnons.gagnerXp(c.id, -30)
+        assertEquals(-30, c.xp)
     }
 
     @Test

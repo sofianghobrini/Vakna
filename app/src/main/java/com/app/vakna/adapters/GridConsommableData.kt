@@ -1,7 +1,7 @@
 package com.app.vakna.adapters
 
 class GridConsommableData (
-    image: Int,
+    image: String,
     nom: String,
     val niveau: Int,
     cout: Int,

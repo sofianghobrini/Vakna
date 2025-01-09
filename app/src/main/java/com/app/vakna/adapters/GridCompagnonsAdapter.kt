@@ -2,7 +2,6 @@ package com.app.vakna.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,12 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.app.vakna.DetailsCompagnonActivity
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsCompagnonActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
+import com.bumptech.glide.Glide
 
-open class GridCompagnonsAdapter (
+open class GridCompagnonsAdapter(
     private val context: Context,
     private val items: ArrayList<GridData>
 ) : BaseAdapter() {
@@ -38,7 +37,10 @@ open class GridCompagnonsAdapter (
         val coutTextView = view.findViewById<TextView>(R.id.itemCout)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
 
-        imageView.setImageResource(item.image)
+        Glide.with(context)
+            .asGif()
+            .load(item.image)
+            .into(imageView)
         nomTextView.text = item.nom
         coutTextView.text = item.cout.toString()
 
@@ -48,6 +50,15 @@ open class GridCompagnonsAdapter (
         layoutParams.marginEnd = 0
         layoutParams.marginStart = 0
         nomTextView.gravity = Gravity.CENTER
+
+        view.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsCompagnonActivity::class.java).apply {
+                    putExtra("ESPECE_COMPAGNON", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
 
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {

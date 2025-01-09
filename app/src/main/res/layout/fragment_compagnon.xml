@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/compagnon_container"
+    android:id="@+id/compagnonContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.compagnon.CompagnonFragment">
+    tools:context=".vue.fragmants.compagnon.CompagnonFragment">
 
     <!-- Dragon Name with Pencil Icon -->
     <TextView
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/dragon_name"
+        android:text="@string/nom_du_compagnon"
         android:textColor="@color/green"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -28,21 +28,67 @@
         android:layout_width="30dp"
         android:layout_height="27dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/edit_name"
+        android:contentDescription="@string/modif_nom"
         android:src="@drawable/ic_pencil"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.204"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toEndOf="@+id/dragon_name"
         app:layout_constraintTop_toTopOf="@id/dragon_name" />
+
+    <ImageButton
+        android:id="@+id/free_compagnon_button"
+        android:layout_width="30dp"
+        android:layout_height="27dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/relacher_compagnon"
+        android:src="@drawable/wave"
+        android:tintMode="src_in"
+        android:layout_marginTop="4dp"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/dragon_name"
+        app:layout_constraintTop_toTopOf="@id/dragon_name"
+        app:tint="@color/red" />
+
+    <LinearLayout
+        android:id="@+id/layoutRightTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/boutonSettings"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/settings_icon" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/dragon_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/level_text"
+        android:text="@string/texte_niveau"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dragon_name" />
+
+    <TextView
+        android:id="@+id/personnalite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Personnalité_Inconnue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar_level" />
 
     <!-- Progress Bar for Level -->
     <ProgressBar
@@ -62,7 +108,7 @@
         android:orientation="vertical"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toStartOf="@id/dragon_gif"
+        app:layout_constraintEnd_toStartOf="@id/compagnon_slot"
         app:layout_constraintTop_toBottomOf="@id/progress_bar_level">
 
         <ImageButton
@@ -125,74 +171,107 @@
 
     </LinearLayout>
 
-    <!-- Dragon GIF -->
-    <ImageView
-        android:id="@+id/dragon_gif"
-        android:layout_width="250dp"
+    <FrameLayout
+        android:id="@+id/compagnon_slot"
+        android:layout_width="264dp"
         android:layout_height="264dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progress_bar_level" />
+        app:layout_constraintTop_toBottomOf="@id/progress_bar_level">
+        <!-- Refuge -->
+        <ImageView
+            android:id="@+id/refuge"
+            android:layout_width="264dp"
+            android:layout_height="264dp" />
+        <!-- Compagnon GIF -->
+        <ImageView
+            android:id="@+id/dragon_gif"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="bottom|center_horizontal" />
+
+    </FrameLayout>
+
+
+
+    <ImageButton
+        android:id="@+id/switch_refuge"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginTop="-20dp"
+        android:background="@drawable/bouton_rond"
+        android:padding="9dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ajout_compagnon"
+        app:layout_constraintStart_toEndOf="@id/compagnon_slot"
+        app:layout_constraintTop_toBottomOf="@id/compagnon_slot" />
+
+
+    <ImageView
+        android:id="@+id/image_bonheur"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="64dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/humeur_0"
+        app:layout_constraintTop_toTopOf="@id/compagnon_slot"
+        app:layout_constraintStart_toEndOf="@id/compagnon_slot"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/texteHumeur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/humeur_text"
+        android:text="@string/texte_faim"
         android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="@id/progress_humeur"
-        app:layout_constraintStart_toStartOf="@id/progress_humeur"
-        app:layout_constraintBottom_toTopOf="@id/progress_humeur" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/image_bonheur"
+        app:layout_constraintStart_toStartOf="@id/image_bonheur"
+        app:layout_constraintTop_toBottomOf="@id/image_bonheur" />
 
-    <ProgressBar
-        android:id="@+id/progress_humeur"
-        android:layout_width="3dp"
-        android:layout_height="130dp"
-        android:max="100"
-        android:progress="50"
-        android:progressTint="@color/progressHumeur"
-        style="@style/Widget.ProgressBar.Vertical"
-        app:layout_constraintTop_toTopOf="@id/dragon_gif"
-        app:layout_constraintStart_toEndOf="@id/dragon_gif"
+
+    <ImageView
+        android:id="@+id/image_faim"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/faim_0"
+        app:layout_constraintTop_toBottomOf="@id/image_bonheur"
+        app:layout_constraintStart_toEndOf="@id/compagnon_slot"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/texteFaim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/faim_text"
+        android:text="@string/texte_faim"
         android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="@id/progress_faim"
-        app:layout_constraintStart_toStartOf="@id/progress_faim"
-        app:layout_constraintTop_toBottomOf="@id/progress_faim" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/image_faim"
+        app:layout_constraintStart_toStartOf="@id/image_faim"
+        app:layout_constraintTop_toBottomOf="@id/image_faim" />
 
-    <ProgressBar
-        android:id="@+id/progress_faim"
-        android:layout_width="3dp"
-        android:layout_height="130dp"
-        android:rotation="180"
-        android:max="100"
-        android:progress="50"
-        android:progressTint="@color/progressFaim"
-        style="@style/Widget.ProgressBar.Vertical"
-        app:layout_constraintTop_toBottomOf="@id/progress_humeur"
-        app:layout_constraintStart_toEndOf="@id/dragon_gif"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Jouets and Nourriture Tabs -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/tab_description"
-        app:layout_constraintTop_toBottomOf="@id/dragon_gif"
+        android:contentDescription="@string/description_tab"
+        app:layout_constraintTop_toBottomOf="@id/compagnon_slot"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:background="@color/white" />
+        app:tabTextColor="@color/gray"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabBackground="?android:attr/textColorPrimaryInverse"/>
 
     <!-- GridView for displaying items -->
+
     <GridView
         android:id="@+id/grid_view_items"
         android:layout_width="0dp"
@@ -207,6 +286,8 @@
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+    </GridView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

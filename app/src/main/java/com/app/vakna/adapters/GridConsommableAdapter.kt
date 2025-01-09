@@ -9,9 +9,10 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.app.vakna.DetailsObjetActivity
-import com.app.vakna.MainActivity
+import com.app.vakna.vue.DetailsObjetActivity
+import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
+import com.bumptech.glide.Glide
 
 open class GridConsommableAdapter (
     private val context: Context,
@@ -36,10 +37,21 @@ open class GridConsommableAdapter (
         val coutTextView = view.findViewById<TextView>(R.id.itemCout)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
 
-        imageView.setImageResource(item.image)
+        Glide.with(context)
+            .load(item.image)
+            .into(imageView)
         nomTextView.text = item.nom
         niveauTextView.text = item.niveau.toString()
         coutTextView.text = item.cout.toString()
+
+        view.setOnClickListener {
+            if (context is MainActivity) {
+                val intent = Intent(context, DetailsObjetActivity::class.java).apply {
+                    putExtra("NOM_OBJET", item.nom)
+                }
+                context.startActivity(intent)
+            }
+        }
 
         boutonAchat.setOnClickListener {
             if (context is MainActivity) {

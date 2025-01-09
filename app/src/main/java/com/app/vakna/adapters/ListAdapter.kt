@@ -10,6 +10,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.R
 import com.google.android.material.switchmaterial.SwitchMaterial
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 
 // Adapter pour la liste des tâches
 open class ListAdapter(
@@ -44,27 +46,40 @@ open class ListAdapter(
         holder.listName.text = listData.name
         holder.listType.text = listData.type
 
+        // Création du filtre noir et blanc
+        val grayScaleMatrix = ColorMatrix().apply { setSaturation(0f) }
+        val grayScaleFilter = ColorMatrixColorFilter(grayScaleMatrix)
+
         when (listData.importance) {
             "ELEVEE" -> {
                 holder.flameGreen.alpha = 0.3f
+                holder.flameGreen.colorFilter = grayScaleFilter
                 holder.flameOrange.alpha = 0.3f
+                holder.flameOrange.colorFilter = grayScaleFilter
                 holder.flameRed.alpha = 1.0f  // Affiche la flamme rouge
             }
             "MOYENNE" -> {
                 holder.flameGreen.alpha = 0.3f
+                holder.flameGreen.colorFilter = grayScaleFilter
                 holder.flameOrange.alpha = 1.0f  // Affiche la flamme orange
-                holder.flameRed.alpha = 0.3f
+                holder.flameRed.alpha = 0.2f
+                holder.flameRed.colorFilter = grayScaleFilter
             }
             "FAIBLE" -> {
                 holder.flameGreen.alpha = 1.0f  // Affiche la flamme verte
                 holder.flameOrange.alpha = 0.3f
-                holder.flameRed.alpha = 0.3f
+                holder.flameOrange.colorFilter = grayScaleFilter
+                holder.flameRed.alpha = 0.2f
+                holder.flameRed.colorFilter = grayScaleFilter
             }
             else -> {
-                // Si `importance` n'est pas défini, toutes les flammes sont en transparence
+                // Si `importance` n'est pas défini, toutes les flammes sont en transparence et noir et blanc
                 holder.flameGreen.alpha = 0.3f
+                holder.flameGreen.colorFilter = grayScaleFilter
                 holder.flameOrange.alpha = 0.3f
+                holder.flameOrange.colorFilter = grayScaleFilter
                 holder.flameRed.alpha = 0.3f
+                holder.flameRed.colorFilter = grayScaleFilter
             }
         }
     }

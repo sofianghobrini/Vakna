@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/magasinContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.magasin.MagasinFragment">
+    tools:context=".vue.fragmants.magasin.MagasinFragment">
 
     <TextView
         android:id="@+id/titreMagasin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/store_title"
+        android:layout_marginTop="16dp"
+        android:text="@string/titre_magasin"
+        android:textColor="@color/purple_500"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:textColor="@color/couleurTitre"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/layoutNombreCoins"
@@ -59,24 +59,26 @@
 
         <ImageButton
             android:id="@+id/switchMagasinConsom"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="9dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ajout_compagnon"
+            android:src="@drawable/magasin_consommable_icon"
             android:background="@drawable/bouton_rond"
+            android:backgroundTint="@color/couleurTitre"
             android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/switchMagasinCompagnon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="9dp"
-            android:src="@drawable/ajout_compagnon"
+            android:src="@drawable/magasin_compagnon_icon"
             android:background="@drawable/bouton_rond"
             android:scaleType="fitCenter"/>
 
     </LinearLayout>
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -85,31 +87,35 @@
         app:layout_constraintTop_toBottomOf="@id/magasinTypeLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:background="@color/white" />
+        android:layout_marginTop="10dp"
+        app:tabTextColor="@color/gray"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabBackground="?android:attr/textColorPrimaryInverse"
+        android:background= "?android:attr/textColorPrimaryInverse"
+        tools:ignore="NotSibling" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <GridView
-        android:id="@+id/grid_view_items"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
-        android:layout_marginTop="32dp"
-        android:columnWidth="100dp"
-        android:horizontalSpacing="10dp"
-        android:numColumns="3"
-        android:verticalSpacing="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/buttonRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="14dp"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/no_refresh"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

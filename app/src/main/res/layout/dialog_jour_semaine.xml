@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choisir_jours_semaine"
+        android:textColor="@color/purple_700"
+        android:textSize="18sp"
+        android:paddingBottom="8dp" />
+
+    <CheckBox
+        android:id="@+id/checkbox_lundi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lundi" />
+
+    <CheckBox
+        android:id="@+id/checkbox_mardi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mardi" />
+
+    <CheckBox
+        android:id="@+id/checkbox_mercredi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mercredi" />
+
+    <CheckBox
+        android:id="@+id/checkbox_jeudi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/jeudi" />
+
+    <CheckBox
+        android:id="@+id/checkbox_vendredi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vendredi" />
+
+    <CheckBox
+        android:id="@+id/checkbox_samedi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/samedi" />
+
+    <CheckBox
+        android:id="@+id/checkbox_dimanche"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dimanche" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_valider"
+            android:layout_width="122dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/confirmer" />
+
+        <Button
+            android:id="@+id/button_defaut"
+            android:layout_width="122dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="@string/defaut_semaine" />
+
+    </LinearLayout>
+</LinearLayout>

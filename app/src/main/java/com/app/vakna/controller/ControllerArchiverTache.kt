@@ -1,7 +1,7 @@
 package com.app.vakna.controller
 
 import com.app.vakna.databinding.ActivityGererBinding
-import com.app.vakna.modele.GestionnaireDeTaches
+import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 
 /**
  * Contrôleur pour archiver une tâche.

@@ -10,13 +10,13 @@
     android:paddingTop="32dp"
     android:paddingEnd="16dp"
     android:paddingBottom="0dp"
-    tools:context=".ModifierActivity">
+    tools:context=".vue.ModifierActivity">
 
     <TextView
         android:id="@+id/titreModifierTache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_modifier_tache"
+        android:text="@string/titre_modif_quete"
         android:textColor="@color/couleurTitre"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,16 +45,16 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/red"
-            android:text="@string/cancel" />
+            android:backgroundTint="@color/gray"
+            android:text="@string/annuler" />
 
         <Button
             android:id="@+id/boutonModifierTache"
             android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/green"
-            android:text="@string/edit_task_button" />
+            android:backgroundTint="@color/purple_500"
+            android:text="@string/bouton_modif_quete" />
 
     </LinearLayout>
 

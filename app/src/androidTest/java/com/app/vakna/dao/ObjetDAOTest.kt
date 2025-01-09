@@ -3,8 +3,9 @@ package com.app.vakna.dao
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.app.vakna.modele.*
-import com.app.vakna.modele.dao.ObjetDAO
+import com.app.vakna.modele.dao.objet.ObjetDAO
+import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.modele.dao.objet.Objet
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Assert.assertEquals
