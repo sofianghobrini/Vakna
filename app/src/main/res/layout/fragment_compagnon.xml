@@ -194,12 +194,11 @@
     </FrameLayout>
 
 
-
     <ImageButton
         android:id="@+id/switch_refuge"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="-20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="-25dp"
         android:layout_marginTop="-20dp"
         android:background="@drawable/bouton_rond"
         android:padding="9dp"
@@ -260,15 +259,15 @@
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/description_tab"
-        app:layout_constraintTop_toBottomOf="@id/compagnon_slot"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        app:tabTextColor="@color/gray"
-        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/compagnon_slot"
+        app:tabBackground="?android:attr/textColorPrimaryInverse"
         app:tabIndicatorColor="?attr/colorPrimary"
-        app:tabBackground="?android:attr/textColorPrimaryInverse"/>
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabTextColor="@color/gray" />
 
     <!-- GridView for displaying items -->
 
