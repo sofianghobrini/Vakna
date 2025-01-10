@@ -14,11 +14,6 @@ import com.app.vakna.modele.gestionnaires.MagasinCompagnons
 import com.app.vakna.modele.gestionnaires.MagasinRefuge
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
-import com.app.vakna.vue.fragmants.magasin.MagasinAdapter
-import com.app.vakna.vue.fragmants.magasin.magasinCompagnonFragment
-import com.app.vakna.vue.fragmants.magasin.magasinJouetFragment
-import com.app.vakna.vue.fragmants.magasin.magasinNourritureFragment
-import com.app.vakna.vue.fragmants.magasin.magasinRefugeFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +24,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.app.vakna.adapters.GridConsommableData
+import com.app.vakna.adapters.GridData
+import com.app.vakna.adapters.ViewPagerAdapter
+import com.app.vakna.adapters.ViewPagerAdapterConsommable
 
 
 class ControllerMagasin(private val binding: FragmentMagasinBinding, private val tabSelectionne: String?) {
@@ -48,12 +48,12 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
 
         binding.switchMagasinCompagnon.setOnClickListener {
             menuCompagnonsSelectionne()
-            setupCompagnonTab()
+            setupViewSwipeCompagnonRefuge()
         }
 
         binding.switchMagasinConsom.setOnClickListener {
             menuConsommableSelectionne()
-            setUpConsommableTab()
+            setupViewSwipeNourritureJouet()
         }
 
         binding.buttonRefresh.setOnClickListener {
@@ -62,7 +62,6 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
                     val objetsShop = magasinObjets.obtenirObjetsEnLigne(context)
 
                     CoroutineScope((Dispatchers.Main)).launch {
-                        setupGridView(objetsShop)
                     }
                 }
             } else {
@@ -79,131 +78,24 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
     }
 
     private fun setUpTabSelectionne() {
-        when(tabSelectionne) {
-            "Jouets" -> setUpConsommableTab()
-            "Nourriture" -> setUpConsommableTab(false)
+        when (tabSelectionne) {
+            "Nourriture" -> {
+                setupViewSwipeNourritureJouet(defaultTab = 1)
+            }
             "Compagnons" -> {
-                setupCompagnonTab()
                 menuCompagnonsSelectionne()
+                setupViewSwipeCompagnonRefuge(defaultTab = 0)
             }
             "Refuges" -> {
-                setupCompagnonTab(false)
                 menuCompagnonsSelectionne()
+                setupViewSwipeCompagnonRefuge(defaultTab = 1)
             }
-            else -> setUpConsommableTab()
-        }
-    }
-
-    private fun setUpConsommableTab(jouets: Boolean = true) {
-        val tabLayout = binding.tabLayout
-        tabLayout.removeAllTabs()
-
-        val distinctTypeList = magasinObjets.obtenirObjets().map { it.getType() }.distinct()
-
-        distinctTypeList.forEach {
-            val tabTitle = getTitreTab(it)
-            val newTab = tabLayout.newTab()
-            tabLayout.addTab(newTab.setText(tabTitle))
-        }
-
-        val itemsInitial: List<Objet>
-        when (jouets) {
-            true -> {
-                itemsInitial = magasinObjets.obtenirObjets(distinctTypeList.first())
-            }
-            false -> {
-                itemsInitial = magasinObjets.obtenirObjets(distinctTypeList.last())
-                tabLayout.getTabAt(1)?.select()
+            else -> {
+                setupViewSwipeNourritureJouet(defaultTab = 0)
             }
         }
-        setupGridView(itemsInitial)
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val selectedTypeName = tab?.text.toString()
-
-                when (selectedTypeName) {
-                    context.getString(R.string.tab_jouet) -> {
-                        val selectedType = TypeObjet.JOUET
-                        val filteredItems = magasinObjets.obtenirObjets(selectedType)
-                        setupGridView(filteredItems)
-                    }
-                    context.getString(R.string.tab_nourriture) -> {
-                        val selectedType = TypeObjet.NOURRITURE
-                        val filteredItems = magasinObjets.obtenirObjets(selectedType)
-                        setupGridView(filteredItems)
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
     }
 
-    private fun getTitreTab(type: TypeObjet): String {
-        return when (type) {
-            TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
-            TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
-        }
-    }
-
-    private fun setupCompagnonTab(compagnons: Boolean = true) {
-        val tabLayout = binding.tabLayout
-        tabLayout.removeAllTabs()
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_compagnon))
-        tabLayout.addTab(tabLayout.newTab().setText(context.getString(R.string.refuges)))
-
-        if (compagnons) {
-            setupGridViewCompagnons(listCompagnons)
-        } else {
-            setupGridViewRefuges(listRefugesStore)
-            tabLayout.getTabAt(1)?.select()
-        }
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val selectedTypeName = tab?.text.toString()
-
-                when (selectedTypeName) {
-                    context.getString(R.string.tab_compagnon) -> {
-                        setupGridViewCompagnons(listCompagnons)
-                    }
-
-                    context.getString(R.string.refuges) -> {
-                        setupGridViewRefuges(listRefugesStore)
-                    }
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-    }
-
-    private fun setupGridViewCompagnons(compagnons: List<CompagnonStore>) {
-        val sortedCompagnons = compagnons.sortedWith(compareBy {it.prix})
-
-        val gridCompagnons = MagasinCompagnons.setToGridDataArray(sortedCompagnons)
-        val adapter = GridCompagnonsAdapter(context, gridCompagnons)
-        binding.gridViewItems.adapter = adapter
-    }
-
-    private fun setupGridView(items: List<Objet>) {
-        val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
-
-        val gridItems = MagasinObjets.setToGridDataArray(sortedItems)
-
-        val adapter = GridConsommableAdapter(context, gridItems)
-        binding.gridViewItems.adapter = adapter
-    }
-
-    private fun setupGridViewRefuges(refuges: List<RefugeStore>) {
-        val sortedRefuge = refuges.sortedWith(compareBy<RefugeStore> {it.getPrix()}.thenBy { it.getNom() })
-        val gridRefuge = MagasinRefuge.setToGridDataArray(sortedRefuge)
-        val adapter = GridRefugesAdapter(context, gridRefuge)
-        binding.gridViewItems.adapter = adapter
-    }
 
     private fun menuCompagnonsSelectionne() {
         binding.switchMagasinCompagnon.backgroundTintList =
@@ -217,40 +109,83 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
         binding.switchMagasinCompagnon.backgroundTintList = null
     }
 
-    private fun setupViewSwipeNourritureJouet() {
-        val fragments = listOf(
-            magasinNourritureFragment(),      // Onglet pour la nourriture
-            magasinJouetFragment()       // Onglet pour les jouets
-        )
+    private fun setupViewSwipeCompagnonRefuge(defaultTab: Int = 0) {
+        val viewPager = binding.viewPager
+        val tabLayout = binding.tabLayout
 
-        val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
-        binding.viewPager.adapter = adapter
+        val pages = SetPageCompagnon()
+        val tabTitles = listOf(R.string.tab_compagnon, R.string.refuges)
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_nourriture)
-                2 -> context?.getString(R.string.tab_jouet)
-                else -> ""
+        viewPager.adapter = ViewPagerAdapter(context, pages)
+
+        viewPager.getChildAt(0).apply {
+            if (this is RecyclerView) {
+                this.setOnTouchListener { _, _ -> false }
             }
+        }
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = context?.getString(tabTitles[position])
         }.attach()
+
+        // Sélectionne l'onglet par défaut
+        viewPager.setCurrentItem(defaultTab, false)
     }
 
-    private fun setupViewSwipeCompagnonRefuge() {
-        val fragments = listOf(
-            magasinCompagnonFragment(), // Onglet pour les compagnons
-            magasinRefugeFragment(),    // Onglet pour les refuges
-        )
 
-        val adapter = MagasinAdapter((binding.root.context as FragmentActivity), fragments)
-        binding.viewPager.adapter = adapter
+    private fun setupViewSwipeNourritureJouet(defaultTab: Int = 0) {
+        val viewPager = binding.viewPager
+        val tabLayout = binding.tabLayout
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> context?.getString(R.string.tab_compagnon)
-                1 -> context.getString(R.string.refuges)
-                else -> ""
+        val pages = SetPageConsommable()
+        val tabTitles = listOf(R.string.tab_jouet, R.string.tab_nourriture)
+
+        viewPager.adapter = ViewPagerAdapterConsommable(context, pages)
+
+        viewPager.getChildAt(0).apply {
+            if (this is RecyclerView) {
+                this.setOnTouchListener { _, _ -> false }
             }
+        }
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = context?.getString(tabTitles[position])
         }.attach()
+
+
+        viewPager.setCurrentItem(defaultTab, false)
+    }
+
+
+    private fun SetPageConsommable(): List<ArrayList<GridConsommableData>> {
+        val nourritureList: List<Objet> = magasinObjets.listerObjet(TypeObjet.NOURRITURE)
+        val sortedNourriture = nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridNourritureList: ArrayList<GridConsommableData> = MagasinObjets.setToGridDataArray(sortedNourriture)
+
+        val jouetList: List<Objet> = magasinObjets.listerObjet(TypeObjet.JOUET)
+        val sortedJouets = jouetList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val gridJouetsList: ArrayList<GridConsommableData> = MagasinObjets.setToGridDataArray(sortedJouets)
+
+        val pages = listOf(
+            gridJouetsList,
+            gridNourritureList
+        )
+        return pages
+    }
+
+
+    private fun SetPageCompagnon(): List<ArrayList<GridData>> {
+        val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
+        val gridCompagnons = MagasinCompagnons.setToGridDataArray(sortedCompagnons)
+
+        val sortedRefuge = listRefugesStore.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
+        val gridRefuge = MagasinRefuge.setToGridDataArray(sortedRefuge)
+
+        val pages = listOf(
+            gridCompagnons,
+            gridRefuge
+        )
+        return pages
     }
 
     fun verifierConnection(context: Context): Boolean {
