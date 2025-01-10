@@ -10,8 +10,8 @@ import com.app.vakna.R
 
 class ViewPagerAdapter(
     private val context: Context,
-    private val pages: List<List<GridData>>, // List of items for each page
-    private val compagnon: Boolean = true
+    private val pages: List<List<GridData>>,
+    private val adapterProvider: (Context, List<GridData>) -> GridAdapter
 ) : RecyclerView.Adapter<ViewPagerAdapter.PagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
@@ -20,11 +20,10 @@ class ViewPagerAdapter(
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        val items = pages[position] // Items for this page
+        val items = pages[position]
         val gridView = holder.gridView
 
-        val adapter = if(compagnon!=true) GridCompagnonsAdapter(context, ArrayList(items))
-        else GridRefugesAdapter(context, ArrayList(items))
+        val adapter = adapterProvider(context, items)
         gridView.adapter = adapter
     }
 

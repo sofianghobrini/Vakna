@@ -10,7 +10,7 @@ import com.app.vakna.R
 
 class ViewPagerAdapterConsommable(
     private val context: Context,
-    private val pages: List<List<GridConsommableData>> // List of items for each page
+    private val pages: List<List<GridConsommableData>>
 ) : RecyclerView.Adapter<ViewPagerAdapterConsommable.PagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
@@ -19,10 +19,10 @@ class ViewPagerAdapterConsommable(
     }
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        val items = pages[position] // Items for this page
+        val items = pages[position]
         val gridView = holder.gridView
 
-        // Use your custom GridView adapter
+
         val adapter = GridConsommableAdapter(context, ArrayList(items))
         gridView.adapter = adapter
     }
