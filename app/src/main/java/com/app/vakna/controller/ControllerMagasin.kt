@@ -138,7 +138,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     }
 
     private fun setupGridView(items: List<Objet>) {
-        val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+        val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom(context) })
 
         val gridItems = Shop.setToGridDataArray(sortedItems)
 

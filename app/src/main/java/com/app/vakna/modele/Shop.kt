@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.Log
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.api.RetrofitInstance
-import com.app.vakna.modele.api.XmlObjetsManager
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.ObjetDAO
 
 class Shop(
-    context: Context
+    private var context: Context
 ) {
 
     private val objetDAO = ObjetDAO(context)
@@ -23,7 +22,7 @@ class Shop(
 
     // Méthode pour obtenir un objet par son nom
     fun getObjet(nom: String): Objet? {
-        return objetMagasin.find { it.getNom() == nom }
+        return objetMagasin.find { it.getNom(context) == nom }
     }
 
     fun getObjetsParType(type: TypeObjet): List<Objet> {
@@ -40,9 +39,6 @@ class Shop(
 
             val nouveauxObjets = RetrofitInstance.apiService.obtenirObjets()
             objetDAO.remplacerObjets(nouveauxObjets)
-            val objetsManager = XmlObjetsManager(context)
-            objetsManager.creerFichiers()
-            objetsManager.remplirFichiers(nouveauxObjets)
 
             return nouveauxObjets
         } catch (e: Exception) {
@@ -75,10 +71,10 @@ class Shop(
     }
 
     companion object {
-        fun setToGridDataArray(objets: List<Objet>): ArrayList<GridConsommableData> {
+        fun setToGridDataArray(objets: List<Objet>, context: Context): ArrayList<GridConsommableData> {
             val list = ArrayList<GridConsommableData>()
             for (objet in objets) {
-                val listData = objet.toGridData()
+                val listData = objet.toGridData(context)
                 list.add(listData)
             }
             return list

@@ -654,7 +654,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 binding.gridViewItems.numColumns = 2
 
-                val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+                val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom(context) })
 
                 val gridItems = Inventaire.setToGridDataArray(sortedItems)
 

@@ -1,20 +1,22 @@
 package com.app.vakna.modele
 
+import android.content.Context
 import com.app.vakna.adapters.GridConsommableData
 
 class ObjetObtenu(
     id: Int,
-    nom: String,
+    nom: Map<String, String>,
     prix: Int,
     niveau: Int,
     type: TypeObjet,
-    detail: String,
+    detail: Map<String, String>,
     private var quantite: Int,
-    imageUrl: String
+    imageUrl: String,
+    private var contexte: Context
 ) : Objet(id, nom, prix, niveau, type, detail, imageUrl) {
 
-    override fun toGridData(): GridConsommableData {
-        return GridConsommableData(getImageUrl(), getNom(), getNiveau(), getPrix(), getQuantite())
+    override fun toGridData(context: Context): GridConsommableData {
+        return GridConsommableData(getImageUrl(), getNom(contexte), getNiveau(), getPrix(), getQuantite())
     }
 
     fun getQuantite(): Int {

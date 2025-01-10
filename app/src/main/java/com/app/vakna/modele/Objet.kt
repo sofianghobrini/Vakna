@@ -6,11 +6,11 @@ import com.app.vakna.adapters.GridConsommableData
 
 open class Objet(
     private var id: Int,
-    private var nom: String,
+    private var nom: Map<String, String>,
     private var prix: Int,
     private var niveau: Int,
     private var type: TypeObjet,
-    private var detail: String,
+    private var detail: Map<String, String>,
     private var imageUrl: String
 ) {
 
@@ -21,16 +21,16 @@ open class Objet(
         require(imageUrl.isNotBlank()){"L'URL de l'image ne doit pas être vide"}
     }
 
-    open fun toGridData(): GridConsommableData {
-        return GridConsommableData(getImageUrl(), getNom(), getNiveau(), getPrix())
+    open fun toGridData(context: Context): GridConsommableData {
+        return GridConsommableData(getImageUrl(), getNom(context), getNiveau(), getPrix())
     }
 
     fun getId(): Int {
         return id
     }
 
-    fun getNom(): String {
-        return nom
+    fun getNom(context: Context): String {
+        return nom[LocaleHelper.getLanguage(context)]!!
     }
 
     fun getPrix(): Int {
@@ -45,15 +45,15 @@ open class Objet(
         return type
     }
 
-    fun getDetails(): String {
-        return detail
+    fun getDetails(context: Context): String {
+        return detail[LocaleHelper.getLanguage((context))]!!
     }
 
-    fun setNom(nom: String) {
-        if (nom.isBlank()) {
+    fun setNom(noms: Map<String, String>) {
+        if (nom.isEmpty()) {
             throw IllegalArgumentException("Le nom ne peut pas être vide ou seulement des espaces.")
         }
-        this.nom = nom
+        this.nom = noms
     }
 
     fun setPrix(prix: Int) {
@@ -71,11 +71,11 @@ open class Objet(
         this.type = type
     }
 
-    fun setDetails(detail: String) {
-        if (detail.isBlank()) {
+    fun setDetails(details: Map<String, String>) {
+        if (detail.isEmpty()) {
             throw IllegalArgumentException("Les détails ne peuvent pas être vides.")
         }
-        this.detail = detail
+        this.detail = details
     }
     fun getImageUrl(): String {
         return imageUrl
@@ -83,20 +83,5 @@ open class Objet(
 
     override fun toString(): String {
         return "$id $nom ($type) $prix€ : $detail [niveau=$niveau]"
-    }
-
-    companion object {
-        fun getNomLocale(nom: String, context: Context): String {
-            val match = Regex("(.*)\\[(.*)]").matchEntire(nom)
-            return if (match != null) {
-                if (LocaleHelper.getLanguage(context) == "fr") {
-                    match.groupValues[1]
-                } else {
-                    match.groupValues[2]
-                }
-            } else {
-                nom
-            }
-        }
     }
 }

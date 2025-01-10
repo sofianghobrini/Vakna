@@ -40,8 +40,8 @@ class ControllerDetailsObjet(
             .into(binding.imageObjet)
 
         if (objet != null) {
-            binding.texteTitreDetails.text = Objet.getNomLocale(objet.getNom(), context)
-            binding.texteDescription.text = Objet.getNomLocale(objet.getDetails(), context)
+            binding.texteTitreDetails.text = objet.getNom(context)
+            binding.texteDescription.text = objet.getDetails(context)
         } else {
             binding.texteTitreDetails.text = context.getString(R.string.objet_inconnu)
             binding.texteDescription.text = context.getString(R.string.objet_inconnu)
