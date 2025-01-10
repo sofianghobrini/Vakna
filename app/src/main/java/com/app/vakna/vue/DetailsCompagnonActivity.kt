@@ -1,6 +1,7 @@
 package com.app.vakna.vue
 
 import android.os.Bundle
+import com.app.vakna.R
 import com.app.vakna.controller.ControllerDetailsCompagnon
 import com.app.vakna.databinding.ActivityDetailsCompagnonBinding
 
@@ -13,6 +14,8 @@ class DetailsCompagnonActivity : HideKeyboardActivity() {
 
         binding = ActivityDetailsCompagnonBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        BackgroundSetter.applyConstraintLayoutBackground(this, R.id.detailsCompagnonLayout)
 
         ControllerDetailsCompagnon(binding, intent)
     }
