@@ -3,24 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_taches">
+    app:startDestination="@+id/navigation_quetes">
 
     <fragment
-        android:id="@+id/navigation_taches"
+        android:id="@+id/navigation_quetes"
         android:name="com.app.vakna.vue.fragmants.Taches.TachesFragment"
         android:label="@string/titre_quetes"
         tools:layout="@layout/fragment_taches" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_compagnon"
         android:name="com.app.vakna.vue.fragmants.compagnon.CompagnonFragment"
         android:label="@string/titre_compagnon"
         tools:layout="@layout/fragment_compagnon" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_magasin"
         android:name="com.app.vakna.vue.fragmants.magasin.MagasinFragment"
         android:label="@string/titre_magasin"
-        tools:layout="@layout/fragment_magasin" />
+        tools:layout="@layout/fragment_magasin">
+        <argument
+            android:name="tabSelectionne"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

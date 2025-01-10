@@ -55,22 +55,12 @@ class GestionnaireDeCompagnons(context: Context) {
         }
     }
 
-    fun obtenirActif(): Compagnon {
-        if (obtenirCompagnons().isEmpty()) {
-            var compagnon = Compagnon(0,"A",50,50,0,"A",Personnalite.AVARE,true)
-            return compagnon
-        } else {
-            var compagnon = obtenirCompagnons().find { it.actif }
-            if(compagnon == null) {
-                compagnon = obtenirCompagnons().first()
-                setActif(compagnon.id)
-            }
-            return compagnon
-        }
+    fun obtenirActif(): Compagnon? {
+        return setDeCompagnons.find { it.actif == true }
     }
 
     fun setActif(id: Int) {
-        obtenirActif().let {
+        obtenirActif()?.let {
             it.actif = false
             daoCompagnons.modifier(it.id, it)
         }

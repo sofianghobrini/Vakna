@@ -3,7 +3,6 @@ package com.app.vakna.controller
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -33,38 +32,19 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
     private var selectedDays: MutableList<Int>? = null
 
     init {
-
-        // Set button text using string resources
         binding.boutonCreerTache.text = context.getString(R.string.creation_quete)
         binding.boutonAnnulerCreation.text = context.getString(R.string.annuler_creation_quete)
 
-        // Bouton pour confirmer la création de la tâche
         binding.boutonCreerTache.setOnClickListener {
             if (validerFormulaire()) {
                 confirmerTache()
 
-                // Naviguer vers l'écran principal après l'ajout de la tâche
-                if (context is AjouterActivity) {
-                    val intent = Intent(context, MainActivity::class.java)
-
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-                    context.startActivity(intent)
-                    context.finish()
-                }
+                naviguerVersMain()
             }
         }
 
-        // Bouton pour annuler la création de la tâche et revenir à l'écran principal
         binding.boutonAnnulerCreation.setOnClickListener {
-            if (context is AjouterActivity) {
-                val intent = Intent(context, MainActivity::class.java)
-
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-                context.startActivity(intent)
-                context.finish()
-            }
+            naviguerVersMain()
         }
 
         val radioGroup = binding.contenuInclude.radioFrequenceTache
@@ -72,16 +52,15 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             when (checkedId) {
                 R.id.radioQuotidien -> {
                     selectedDays = mutableListOf()
-                    binding.contenuInclude.titreJoursTache.visibility = View.GONE
-                    binding.contenuInclude.labelJoursTache.visibility = View.GONE
+                    setJoursInvisible()
                 }
 
                 R.id.radioHebdomadaire -> {
-                    afficherPopUp_semaine()
+                    afficherPopUpSemaine()
                 }
 
                 R.id.radioMensuel -> {
-                    afficherPopUp_mensuel()
+                    afficherPopUpMensuel()
                 }
             }
         }
@@ -91,9 +70,24 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
      * Méthode privée pour valider le formulaire d'ajout de tâche.
      */
     private fun validerFormulaire(): Boolean {
-        var valide = true
 
-        // Vérification du nom de la tâche
+        if(!verifierNom()) {
+            return false
+        }
+
+        if(!verifierFrequence()) {
+            return false
+        }
+
+        if(!verifierImportance()) {
+            return false
+        }
+
+        return true
+    }
+
+    private fun verifierNom(): Boolean {
+        var valide = true
         val nomTacheEditText = binding.contenuInclude.inputNomTache
         if (nomTacheEditText.text.isNullOrEmpty()) {
             nomTacheEditText.error = binding.root.context.getString(R.string.erreur_nom_quete)
@@ -105,31 +99,67 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             nomTacheEditText.error = "Il ne peut pas y avoir deux quêtes avec le même nom"
             valide = false
         }
+        return valide
+    }
 
-        // Vérification de la fréquence sélectionnée
+    private fun verifierFrequence(): Boolean {
+        var valide = true
         val radioGroupFrequence = binding.contenuInclude.radioFrequenceTache
         val errorFrequenceTextView = binding.contenuInclude.errorFrequence
         if (radioGroupFrequence.checkedRadioButtonId == -1) {
             errorFrequenceTextView.visibility = View.VISIBLE
-            errorFrequenceTextView.text = binding.root.context.getString(R.string.erreur_frequence_quete)
+            errorFrequenceTextView.text =
+                binding.root.context.getString(R.string.erreur_frequence_quete)
             valide = false
         } else {
             errorFrequenceTextView.visibility = View.GONE
         }
+        return valide
+    }
 
-        // Vérification de l'importance sélectionnée
+    private fun verifierImportance(): Boolean {
+        var valide = true
         val radioGroupImportance = binding.contenuInclude.radioImportanceTache
         val errorImportanceTextView = binding.contenuInclude.errorImportance
         if (radioGroupImportance.checkedRadioButtonId == -1) {
             errorImportanceTextView.visibility = View.VISIBLE
-            errorImportanceTextView.text = binding.root.context.getString(R.string.erreur_importance_quete)
+            errorImportanceTextView.text =
+                binding.root.context.getString(R.string.erreur_importance_quete)
             valide = false
         } else {
             errorImportanceTextView.visibility = View.GONE
         }
-
-        Log.d("ValidationFormulaire", "Formulaire valide: $valide")
         return valide
+    }
+
+    /**
+     * Méthode pour confirmer la création de la tâche.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun confirmerTache() {
+        val tache = Tache(
+            nom = recupererNomTache(),
+            frequence = recupererFrequenceTache(),
+            importance = recupererImportanceTache(),
+            type = recupererTypeTache(),
+            jours = selectedDays,
+            derniereValidation = LocalDate.now(),
+            prochaineValidation = when(recupererFrequenceTache()) {
+                Frequence.QUOTIDIENNE -> {
+                    LocalDate.now().plusDays(1).atStartOfDay()
+                }
+                Frequence.HEBDOMADAIRE -> {
+                    LocalDate.now().plusWeeks(1).atStartOfDay()
+                }
+                Frequence.MENSUELLE -> {
+                    LocalDate.now().plusMonths(1).atStartOfDay()
+                }
+            },
+            estTerminee = false
+        )
+
+        val gestionnaireDeTaches = GestionnaireDeTaches(context)
+        gestionnaireDeTaches.ajouterTache(tache)
     }
 
     /**
@@ -180,38 +210,18 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
         }
     }
 
-    /**
-     * Méthode pour confirmer la création de la tâche.
-     */
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun confirmerTache() {
-        // Création de l'objet Tache avec les informations récupérées
-        val tache = Tache(
-            nom = recupererNomTache(),
-            frequence = recupererFrequenceTache(),
-            importance = recupererImportanceTache(),
-            type = recupererTypeTache(),
-            jours = selectedDays,
-            derniereValidation = LocalDate.now(),
-            prochaineValidation = when(recupererFrequenceTache()) {
-                Frequence.QUOTIDIENNE -> {
-                    LocalDate.now().plusDays(1).atStartOfDay()
-                }
-                Frequence.HEBDOMADAIRE -> {
-                    LocalDate.now().plusWeeks(1).atStartOfDay()
-                }
-                Frequence.MENSUELLE -> {
-                    LocalDate.now().plusMonths(1).atStartOfDay()
-                }
-            },
-            estTerminee = false
-        )
+    private fun naviguerVersMain() {
+        if (context is AjouterActivity) {
+            val intent = Intent(context, MainActivity::class.java)
 
-        // Gestionnaire de tâches pour ajouter la nouvelle tâche
-        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
-        gestionnaireDeTaches.ajouterTache(tache)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            context.startActivity(intent)
+            context.finish()
+        }
     }
-    private fun afficherPopUp_semaine() {
+
+    private fun afficherPopUpSemaine() {
         // Charger le layout personnalisé pour le popup
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_jour_semaine, null)
 
@@ -244,115 +254,130 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                 if (checkDimanche.isChecked) it.add(7)
             }
 
-            // Fermer le dialog après la sélection
-            dialog.dismiss()
+            afficherJoursSemaine()
 
-            if(!selectedDays?.isEmpty()!!){
-                binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-                binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-                var jours = ""
-                selectedDays?.forEach {
-                    when(it) {
-                        1 -> jours += context.getString(R.string.lundi) + ", "
-                        2 -> jours += context.getString(R.string.mardi) + ", "
-                        3 -> jours += context.getString(R.string.mercredi) + ", "
-                        4 -> jours += context.getString(R.string.jeudi) + ", "
-                        5 -> jours += context.getString(R.string.vendredi) + ", "
-                        6 -> jours += context.getString(R.string.samedi) + ", "
-                        7 -> jours += context.getString(R.string.dimanche) + ", "
-                    }
-                }
-                jours = jours.subSequence(0, jours.length-2).toString()
-                binding.contenuInclude.labelJoursTache.text = jours
-            } else {
-                selectedDays = null
-                binding.contenuInclude.titreJoursTache.visibility = View.GONE
-                binding.contenuInclude.labelJoursTache.visibility = View.GONE
-            }
+            dialog.dismiss()
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.button_defaut)
 
         boutonDefaut.setOnClickListener {
-            selectedDays = null
+            setJoursInvisible()
             dialog.dismiss()
-            binding.contenuInclude.titreJoursTache.visibility = View.GONE
-            binding.contenuInclude.labelJoursTache.visibility = View.GONE
         }
 
-        // Afficher le popup
         dialog.show()
     }
 
-    private fun afficherPopUp_mensuel() {
+    private fun afficherPopUpMensuel() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuel_perso, null)
         val gridLayout = dialogView.findViewById<GridLayout>(R.id.grid_layout)
 
-        val dayButtons = (1..31).map { day ->
-            Button(context).apply {
-                text = day.toString()
-                setBackgroundColor(resources.getColor(R.color.grisClair, null))
-                val widthInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50f, resources.displayMetrics).toInt()
-                val heightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt()
-                val marginInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics).toInt()
-                layoutParams = GridLayout.LayoutParams().apply {
-                    width = widthInPx
-                    height = heightInPx
-                    setMargins(marginInPx, marginInPx, marginInPx, marginInPx)
-                    setPadding(0,0,0,0)
-                }
-                textSize = 10f
-                setOnClickListener {
-                    if (selectedDays!!.contains(day)) {
-                        selectedDays?.remove(day)
-                        setBackgroundColor(resources.getColor(R.color.grisClair, null))
-                    } else {
-                        selectedDays?.add(day)
-                        setBackgroundColor(resources.getColor(R.color.tacheTermine, null))
-                    }
-                }
-            }
-        }
+        val dayButtons = (1..31).map { day -> creerListeJours(day) }
 
         gridLayout.removeAllViews()
         dayButtons.forEach { gridLayout.addView(it) }
 
-        // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
 
         val dialog = dialogBuilder.create()
 
-        // Référencer le DatePicker et le bouton d'ajout
         val buttonConfirmDate = dialogView.findViewById<Button>(R.id.confirmer_date)
-        selectedDays = mutableListOf<Int>()
+        selectedDays = mutableListOf()
 
-        // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
-            selectedDays?.sort()
+            afficherJoursMois()
             dialog.dismiss()
-            if(!selectedDays?.isEmpty()!!) {
-                val selectedDates = selectedDays?.joinToString(", ")
-                binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-                binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-                binding.contenuInclude.labelJoursTache.text = selectedDates
-            } else {
-                selectedDays = null
-                binding.contenuInclude.titreJoursTache.visibility = View.GONE
-                binding.contenuInclude.labelJoursTache.visibility = View.GONE
-            }
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.bouton_defaut)
 
         boutonDefaut.setOnClickListener {
-            selectedDays = null
+            setJoursInvisible()
             dialog.dismiss()
-            binding.contenuInclude.titreJoursTache.visibility = View.GONE
-            binding.contenuInclude.labelJoursTache.visibility = View.GONE
         }
 
-        // Afficher le popup
         dialog.show()
+    }
+
+    private fun creerListeJours(day: Int): Button {
+        return Button(context).apply {
+            text = day.toString()
+            setBackgroundColor(resources.getColor(R.color.grisClair, null))
+            val widthInPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                50f,
+                resources.displayMetrics
+            ).toInt()
+            val heightInPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                30f,
+                resources.displayMetrics
+            ).toInt()
+            val marginInPx =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics)
+                    .toInt()
+            layoutParams = GridLayout.LayoutParams().apply {
+                width = widthInPx
+                height = heightInPx
+                setMargins(marginInPx, marginInPx, marginInPx, marginInPx)
+                setPadding(0, 0, 0, 0)
+            }
+            textSize = 10f
+            setOnClickListener {
+                if (selectedDays!!.contains(day)) {
+                    selectedDays?.remove(day)
+                    setBackgroundColor(resources.getColor(R.color.grisClair, null))
+                } else {
+                    selectedDays?.add(day)
+                    setBackgroundColor(resources.getColor(R.color.tacheTermine, null))
+                }
+            }
+        }
+    }
+
+    private fun afficherJoursSemaine() {
+        if (!selectedDays?.isEmpty()!!) {
+            setJoursVisible()
+            var jours = ""
+            selectedDays?.forEach {
+                when (it) {
+                    1 -> jours += context.getString(R.string.lundi) + ", "
+                    2 -> jours += context.getString(R.string.mardi) + ", "
+                    3 -> jours += context.getString(R.string.mercredi) + ", "
+                    4 -> jours += context.getString(R.string.jeudi) + ", "
+                    5 -> jours += context.getString(R.string.vendredi) + ", "
+                    6 -> jours += context.getString(R.string.samedi) + ", "
+                    7 -> jours += context.getString(R.string.dimanche) + ", "
+                }
+            }
+            jours = jours.subSequence(0, jours.length - 2).toString()
+            binding.contenuInclude.labelJoursTache.text = jours
+        } else {
+            setJoursInvisible()
+        }
+    }
+
+    private fun afficherJoursMois() {
+        selectedDays?.sort()
+        if (!selectedDays?.isEmpty()!!) {
+            val selectedDates = selectedDays?.joinToString(", ")
+            setJoursVisible()
+            binding.contenuInclude.labelJoursTache.text = selectedDates
+        } else {
+            setJoursInvisible()
+        }
+    }
+
+    private fun setJoursVisible() {
+        binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+        binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+    }
+
+    private fun setJoursInvisible() {
+        selectedDays = null
+        binding.contenuInclude.titreJoursTache.visibility = View.GONE
+        binding.contenuInclude.labelJoursTache.visibility = View.GONE
     }
 }

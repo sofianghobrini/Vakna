@@ -30,10 +30,10 @@ class GestionnaireDeTaches(context: Context) {
     private var tacheDAO = TacheDAO(context)
     private val setDeTaches = mutableSetOf<Tache>()
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(context)
-    private var gestionnaireDeRefuge = GestionnaireDeRefuge(context)
+    private var gestionnaireDeRefuges = GestionnaireDeRefuges(context)
     private var inventaire = Inventaire(context)
-    private var idCompagnon: Int = gestionnaireCompagnons.obtenirActif().id
-    private var idRefuge: Int = gestionnaireDeRefuge.obtenirActif()?.getId() ?: 1
+    private var idCompagnon: Int = gestionnaireCompagnons.obtenirActif()?.id ?: 1
+    private var idRefuge: Int = gestionnaireDeRefuges.obtenirActif()?.getId() ?: 1
     private lateinit var refuge: Refuge
     private lateinit var compagnon: Compagnon
 
@@ -100,8 +100,13 @@ class GestionnaireDeTaches(context: Context) {
     fun finirTache(nom: String) {
         val tache = setDeTaches.find { it.nom == nom }
         if (tache != null) {
-            compagnon = gestionnaireCompagnons.obtenirActif()
-            refuge = gestionnaireDeRefuge.obtenirRefuge(idRefuge) ?: throw IllegalStateException("Refuge avec ID $idRefuge introuvable")
+            var compagnonTemp = gestionnaireCompagnons.obtenirActif()
+            if (compagnonTemp == null) {
+                compagnonTemp = gestionnaireCompagnons.obtenirCompagnons().first()
+                gestionnaireCompagnons.setActif(compagnonTemp.id)
+            }
+            compagnon = compagnonTemp
+            refuge = gestionnaireDeRefuges.obtenirRefuge(idRefuge) ?: throw IllegalStateException("Refuge avec ID $idRefuge introuvable")
 
             tache.estTerminee = true
             tache.derniereValidation = LocalDate.now()

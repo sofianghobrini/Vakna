@@ -21,7 +21,8 @@ class MagasinFragment : Fragment() {
         _binding = FragmentMagasinBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        ControllerMagasin(binding)
+        val tabSelectionne = arguments?.getString("tabSelectionne")
+        ControllerMagasin(binding, tabSelectionne)
 
         return root
     }

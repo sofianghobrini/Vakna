@@ -7,13 +7,12 @@ import android.text.Spanned
 import android.text.TextWatcher
 import android.widget.Toast
 import com.app.vakna.vue.DetailsObjetActivity
-import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import com.app.vakna.modele.gestionnaires.Inventaire
 import com.app.vakna.modele.dao.Personnalite
-import com.app.vakna.modele.gestionnaires.Shop
+import com.app.vakna.modele.gestionnaires.MagasinObjets
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 
@@ -23,22 +22,27 @@ class ControllerDetailsObjet(
 ) {
 
     val context = binding.root.context
-    val shop = Shop(context)
+    val magasinObjets = MagasinObjets(context)
     val inventaireDAO = InventaireDAO(context)
     val inventaire = Inventaire(context)
     val gestionnaireCompagnons = GestionnaireDeCompagnons(context)
 
     init {
-        val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.obtenirObjet(nomObjet)
         afficherNombreDeCoins()
 
+        val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
+        val objet = magasinObjets.obtenirObjet(nomObjet)
+
         binding.texteTitreDetails.text = objet?.getNom() ?: context.getString(R.string.objet_inconnu)
+
         Glide.with(context)
             .load(objet?.getImageUrl())
             .into(binding.imageObjet)
+
         binding.texteNiveau.text = context.getString(R.string.niveau_format, objet?.getNiveau())
+
         binding.texteCout.text = context.getString(R.string.cout_format, objet?.getPrix())
+
         binding.texteDescription.text = objet?.getDetails() ?: context.getString(R.string.description_non_disponible)
 
         val boutonDiminuer = binding.boutonDiminuer
@@ -46,8 +50,6 @@ class ControllerDetailsObjet(
         val quantite = binding.inputQuantite
 
         quantite.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
                     prixTotal()
@@ -71,6 +73,8 @@ class ControllerDetailsObjet(
                     }
                 }
             }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
         boutonDiminuer.setOnClickListener {
@@ -90,28 +94,17 @@ class ControllerDetailsObjet(
         binding.boutonAchat.setOnClickListener {
             val textQuantite = quantite.text.toString()
             val nbrQuantite = textQuantite.toInt()
-            val objet = shop.obtenirObjet(nomObjet)
+            val objet = magasinObjets.obtenirObjet(nomObjet)
             if (inventaire.obtenirPieces() < objet!!.getPrix()) {
                 Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter cet objet!", Toast.LENGTH_SHORT).show()
             }
             achat(nomObjet, nbrQuantite)
-            if (context is DetailsObjetActivity) {
-                val sourceFragment = intent.getStringExtra("sourceFragment")
-                if (sourceFragment == "CompagnonFragment") {
-                    val intent = Intent(context, MainActivity::class.java).apply {
-                        intent.putExtra("navigateTo", "CompagnonFragment")
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    context.startActivity(intent)
-                }
-                context.finish()
-            }
+            NavigationHandler.navigationActiviteVersFragment(context, "CompagnonFragment")
+            fermerLaPage()
         }
 
         binding.boutonRetour.setOnClickListener {
-            if (context is DetailsObjetActivity) {
-                context.finish()
-            }
+            fermerLaPage()
         }
 
         val maxValue = inventaireDAO.obtenirPieces() / (objet?.getPrix() ?: 1)
@@ -123,9 +116,29 @@ class ControllerDetailsObjet(
         binding.texteNombreCoins.text = context.getString(R.string.nombre_de_coins, nombreDeCoins)
     }
 
+    private fun prixTotal() {
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
+        val objet = magasinObjets.obtenirObjet(name)
+        val prixTotal = (objet?.getPrix() ?: 0) * quantite
+        binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
+    }
+
+    private fun reduirePrix() {
+        val quantite = binding.inputQuantite.text.toString().toInt()
+        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
+        val objet = magasinObjets.obtenirObjet(name)
+        val prixTotal = (objet?.getPrix() ?: 0) * quantite
+        binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
+    }
+
     private fun achat(nom: String, quantite: Int) {
-        shop.acheter(nom, quantite)
-        val compagnon = gestionnaireCompagnons.obtenirActif()
+        magasinObjets.acheter(nom, quantite)
+        var compagnon = gestionnaireCompagnons.obtenirActif()
+        if (compagnon == null) {
+            compagnon = gestionnaireCompagnons.obtenirCompagnons().first()
+            gestionnaireCompagnons.setActif(compagnon.id)
+        }
         if(compagnon.personnalite == Personnalite.AVARE){
             when(getPrixTotal()){
                 in 10..90->gestionnaireCompagnons.modifierHumeur(compagnon.id, -2)
@@ -136,27 +149,17 @@ class ControllerDetailsObjet(
         }
     }
 
-    private fun prixTotal() {
-        val quantite = binding.inputQuantite.text.toString().toInt()
-        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.obtenirObjet(name)
-        val prixTotal = (objet?.getPrix() ?: 0) * quantite
-        binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
-    }
-
     private fun getPrixTotal() : Int {
         val quantite = binding.inputQuantite.text.toString().toInt()
         val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.obtenirObjet(name)
+        val objet = magasinObjets.obtenirObjet(name)
         return (objet?.getPrix() ?: 0) * quantite
     }
 
-    private fun reduirePrix() {
-        val quantite = binding.inputQuantite.text.toString().toInt()
-        val name = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
-        val objet = shop.obtenirObjet(name)
-        val prixTotal = (objet?.getPrix() ?: 0) * quantite
-        binding.texteCout.text = context.getString(R.string.cout_total_format, prixTotal)
+    private fun fermerLaPage() {
+        if (context is DetailsObjetActivity) {
+            context.finish()
+        }
     }
 
     inner class MinMaxFilter(private val minValue: Int, private val maxValue: Int) : InputFilter {

@@ -14,7 +14,7 @@ import com.app.vakna.vue.GererActivity
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.vue.ModifierActivity
 import com.app.vakna.R
-import com.app.vakna.adapters.ListAdapterBoutons
+import com.app.vakna.adapters.ListAdapterGerer
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityGererBinding
 import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
@@ -22,21 +22,17 @@ import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
 class ControllerGerer(private val binding: ActivityGererBinding) {
 
     val context: Context = binding.root.context
-    private lateinit var listAdapter: ListAdapterBoutons
+    private lateinit var listAdapter: ListAdapterGerer
 
     init {
-
-        // Setup RecyclerView
         setUpRecyclerView()
 
-        // Add dividers and set the adapter
         ajoutDividers(binding.listeTaches)
 
         val boutonRetour = binding.boutonRetour
         boutonRetour.setOnClickListener {
             if (context is GererActivity) {
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("navigateTo", "Taches")
                 context.startActivity(intent)
                 context.finish()
             }
@@ -44,11 +40,12 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
     }
 
     private fun setUpRecyclerView() {
-        val data =
-            GestionnaireDeTaches.setToListDataArray(GestionnaireDeTaches(context).obtenirTaches(), context)
+        val data = GestionnaireDeTaches.setToListDataArray(
+            GestionnaireDeTaches(context).obtenirTaches(),
+            context
+        )
 
-        val dataTrier = data.filter { !it.estTermine || !it.estArchivee }
-            .filter { !it.estArchivee }
+        val dataTrier = data.filter { !it.estArchivee }
             .sortedWith(compareByDescending<ListData>
             {
                 when (it.importance) {
@@ -59,7 +56,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
                 }
             }.thenBy { it.name })
 
-        listAdapter = ListAdapterBoutons(
+        listAdapter = ListAdapterGerer(
             ArrayList(dataTrier),
             onArchiveClick = { nomTache ->
                 showArchiveDialog(nomTache)
@@ -67,7 +64,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
             onModifierClick = { nomTache ->
                 if (context is GererActivity) {
                     val intent = Intent(context, ModifierActivity::class.java)
-                    intent.putExtra("NOM_TACHE", nomTache) // Pass the task name
+                    intent.putExtra("NOM_TACHE", nomTache)
                     context.startActivity(intent)
                 }
             })
@@ -84,8 +81,6 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
             .create()
 
         val nomTacheTextView = dialogView.findViewById<TextView>(R.id.dialogTexteWarning)
-
-        // Update the TextView content dynamically with the task name
         nomTacheTextView.text =
             "Voulez-vous vraiment archiver la tâche \"$nomTache\" ? Vous ne pourrez plus réactiver cette tâche! " +
                     "Cependant vous pourrez toujours la revoir dans la page d'archive."
@@ -106,7 +101,6 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun ajoutDividers(listeBinding: RecyclerView) {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        // Add dividers between items in the list
         listeBinding.layoutManager = layoutManager
 
         listeBinding.addItemDecoration(

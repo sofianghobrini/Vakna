@@ -5,10 +5,9 @@ import android.widget.Toast
 import com.app.vakna.adapters.GridData
 import com.app.vakna.modele.dao.compagnon.Compagnon
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
-import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStoreDAO
 
-class ShopCompagnons (private val context: Context) {
+class MagasinCompagnons (private val context: Context) {
 
     private val gestionnaireCompagnons = GestionnaireDeCompagnons(context)
     private var compagnonMagasin = mutableListOf<CompagnonStore>()

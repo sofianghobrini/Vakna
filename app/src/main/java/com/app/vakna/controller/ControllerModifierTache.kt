@@ -42,24 +42,19 @@ class ControllerModifierTache(
 
         val gestionnaire = GestionnaireDeTaches(binding.root.context)
 
-
-        // Récupérer la tâche à partir du gestionnaire
         tacheOriginel = gestionnaire.obtenirTache(taskName)!!
 
-        preFillFields(tacheOriginel)
+        remplirChamps(tacheOriginel)
 
         binding.titreModifierTache.text = context.getString(R.string.modifier_titre_tache, taskName)
-
-        binding.boutonModifierTache.text = context.getString(R.string.bouton_modif_quete)
-        binding.boutonAnnulerCreation.text = context.getString(R.string.annuler)
 
         binding.boutonModifierTache.setOnClickListener {
             modifierTache()
             if (context is ModifierActivity) {
-                val intent = Intent(context, GererActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                val intentNav = Intent(context, GererActivity::class.java)
+                intentNav.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-                context.startActivity(intent)
+                context.startActivity(intentNav)
                 context.finish()
             }
         }
@@ -80,17 +75,17 @@ class ControllerModifierTache(
                 }
 
                 R.id.radioHebdomadaire -> {
-                    afficherPopUp_semaine()
+                    afficherPopUpSemaine()
                 }
 
                 R.id.radioMensuel -> {
-                    afficherPopUp_mensuel()
+                    afficherPopUpMensuel()
                 }
             }
         }
     }
 
-    private fun preFillFields(task: Tache) {
+    private fun remplirChamps(task: Tache) {
         binding.contenuInclude.inputNomTache.setText(task.nom)
         val taskTypePosition = task.type.ordinal
         binding.contenuInclude.selectTypeTache.setSelection(taskTypePosition)
@@ -101,7 +96,6 @@ class ControllerModifierTache(
             Frequence.MENSUELLE -> binding.contenuInclude.radioFrequenceTache.check(R.id.radioMensuel)
         }
 
-        // Set the importance RadioButton
         when (task.importance) {
             Importance.FAIBLE -> binding.contenuInclude.radioImportanceTache.check(R.id.radioFaible)
             Importance.MOYENNE -> binding.contenuInclude.radioImportanceTache.check(R.id.radioMoyen)
@@ -194,7 +188,8 @@ class ControllerModifierTache(
             Toast.makeText(context, context.getString(R.string.modif_quete_erreur), Toast.LENGTH_SHORT).show()
         }
     }
-    private fun afficherPopUp_semaine() {
+
+    private fun afficherPopUpSemaine() {
         // Charger le layout personnalisé pour le popup
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_jour_semaine, null)
 
@@ -216,7 +211,7 @@ class ControllerModifierTache(
         val buttonValider = dialogView.findViewById<Button>(R.id.button_valider)
 
         buttonValider.setOnClickListener {
-            selectedDays = mutableListOf<Int>()
+            selectedDays = mutableListOf()
             selectedDays?.let {
                 if (checkLundi.isChecked) it.add(1)
                 if (checkMardi.isChecked) it.add(2)
@@ -227,104 +222,130 @@ class ControllerModifierTache(
                 if (checkDimanche.isChecked) it.add(7)
             }
 
-            // Fermer le dialog après la sélection
-            dialog.dismiss()
+            afficherJoursSemaine()
 
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            var jours = ""
-            selectedDays?.forEach {
-                when(it) {
-                    1 -> jours += "Lundi, "
-                    2 -> jours += "Mardi, "
-                    3 -> jours += "Mercredi, "
-                    4 -> jours += "Jeudi, "
-                    5 -> jours += "Vendredi, "
-                    6 -> jours += "Samedi, "
-                    7 -> jours += "Dimanche, "
-                }
-            }
-            jours = jours.subSequence(0, jours.length-2).toString()
-            binding.contenuInclude.labelJoursTache.text = jours
+            dialog.dismiss()
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.button_defaut)
 
         boutonDefaut.setOnClickListener {
-            selectedDays = null
+            setJoursInvisible()
             dialog.dismiss()
-            binding.contenuInclude.titreJoursTache.visibility = View.GONE
-            binding.contenuInclude.labelJoursTache.visibility = View.GONE
         }
 
-        // Afficher le popup
         dialog.show()
     }
 
-    private fun afficherPopUp_mensuel() {
+    private fun afficherPopUpMensuel() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_mensuel_perso, null)
         val gridLayout = dialogView.findViewById<GridLayout>(R.id.grid_layout)
 
-        val dayButtons = (1..31).map { day ->
-            Button(context).apply {
-                text = day.toString()
-                setBackgroundColor(resources.getColor(R.color.grisClair, null))
-                val widthInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50f, resources.displayMetrics).toInt()
-                val heightInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, resources.displayMetrics).toInt()
-                val marginInPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics).toInt()
-                layoutParams = GridLayout.LayoutParams().apply {
-                    width = widthInPx
-                    height = heightInPx
-                    setMargins(marginInPx, marginInPx, marginInPx, marginInPx)
-                    setPadding(0,0,0,0)
-                }
-                textSize = 10f
-                setOnClickListener {
-                    if (selectedDays!!.contains(day)) {
-                        selectedDays?.remove(day)
-                        setBackgroundColor(resources.getColor(R.color.grisClair, null))
-                    } else {
-                        selectedDays?.add(day)
-                        setBackgroundColor(resources.getColor(R.color.tacheTermine, null))
-                    }
-                }
-            }
-        }
+        val dayButtons = (1..31).map { day -> creerListeJours(day) }
 
         gridLayout.removeAllViews()
         dayButtons.forEach { gridLayout.addView(it) }
 
-        // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle(context.getString(R.string.popup_titre_choisir_dates))
 
         val dialog = dialogBuilder.create()
 
-        // Référencer le DatePicker et le bouton d'ajout
         val buttonConfirmDate = dialogView.findViewById<Button>(R.id.confirmer_date)
-        selectedDays = mutableListOf<Int>()
+        selectedDays = mutableListOf()
 
-        // Bouton de confirmation pour finaliser la sélection
         buttonConfirmDate.setOnClickListener {
-            selectedDays?.sort()
-            val selectedDates = selectedDays?.joinToString(", ")
-            binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
-            binding.contenuInclude.labelJoursTache.text = selectedDates
+            afficherJoursMois()
             dialog.dismiss()
         }
 
         val boutonDefaut = dialogView.findViewById<Button>(R.id.bouton_defaut)
 
         boutonDefaut.setOnClickListener {
-            selectedDays = null
+            setJoursInvisible()
             dialog.dismiss()
-            binding.contenuInclude.titreJoursTache.visibility = View.GONE
-            binding.contenuInclude.labelJoursTache.visibility = View.GONE
         }
 
-        // Afficher le popup
         dialog.show()
+    }
+
+    private fun creerListeJours(day: Int): Button {
+        return Button(context).apply {
+            text = day.toString()
+            setBackgroundColor(resources.getColor(R.color.grisClair, null))
+            val widthInPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                50f,
+                resources.displayMetrics
+            ).toInt()
+            val heightInPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                30f,
+                resources.displayMetrics
+            ).toInt()
+            val marginInPx =
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics)
+                    .toInt()
+            layoutParams = GridLayout.LayoutParams().apply {
+                width = widthInPx
+                height = heightInPx
+                setMargins(marginInPx, marginInPx, marginInPx, marginInPx)
+                setPadding(0, 0, 0, 0)
+            }
+            textSize = 10f
+            setOnClickListener {
+                if (selectedDays!!.contains(day)) {
+                    selectedDays?.remove(day)
+                    setBackgroundColor(resources.getColor(R.color.grisClair, null))
+                } else {
+                    selectedDays?.add(day)
+                    setBackgroundColor(resources.getColor(R.color.tacheTermine, null))
+                }
+            }
+        }
+    }
+
+    private fun afficherJoursSemaine() {
+        if (!selectedDays?.isEmpty()!!) {
+            setJoursVisible()
+            var jours = ""
+            selectedDays?.forEach {
+                when (it) {
+                    1 -> jours += context.getString(R.string.lundi) + ", "
+                    2 -> jours += context.getString(R.string.mardi) + ", "
+                    3 -> jours += context.getString(R.string.mercredi) + ", "
+                    4 -> jours += context.getString(R.string.jeudi) + ", "
+                    5 -> jours += context.getString(R.string.vendredi) + ", "
+                    6 -> jours += context.getString(R.string.samedi) + ", "
+                    7 -> jours += context.getString(R.string.dimanche) + ", "
+                }
+            }
+            jours = jours.subSequence(0, jours.length - 2).toString()
+            binding.contenuInclude.labelJoursTache.text = jours
+        } else {
+            setJoursInvisible()
+        }
+    }
+
+    private fun afficherJoursMois() {
+        selectedDays?.sort()
+        if (!selectedDays?.isEmpty()!!) {
+            val selectedDates = selectedDays?.joinToString(", ")
+            setJoursVisible()
+            binding.contenuInclude.labelJoursTache.text = selectedDates
+        } else {
+            setJoursInvisible()
+        }
+    }
+
+    private fun setJoursVisible() {
+        binding.contenuInclude.titreJoursTache.visibility = View.VISIBLE
+        binding.contenuInclude.labelJoursTache.visibility = View.VISIBLE
+    }
+
+    private fun setJoursInvisible() {
+        selectedDays = null
+        binding.contenuInclude.titreJoursTache.visibility = View.GONE
+        binding.contenuInclude.labelJoursTache.visibility = View.GONE
     }
 }

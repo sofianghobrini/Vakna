@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerMain
 import com.app.vakna.databinding.ActivityMainBinding
+import com.app.vakna.modele.InitialisationJSON
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,13 +28,17 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
         handlePremierLancement()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ControllerMain(binding)
-        applyConstraintLayoutBackground()
+
+        BackgroundSetter.applyConstraintLayoutBackground(this, R.id.main_layout)
+
         setUpNavMenu()
+
+        ControllerMain(binding, intent)
     }
 
     override fun onStop () {
@@ -61,27 +65,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun applyConstraintLayoutBackground() {
-        val constraintLayout = binding.root.findViewById<ConstraintLayout>(R.id.main_layout)
-
-        // Vérifier si le thème sombre est activé
-        val isDarkTheme = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-            .getBoolean("darkTheme", false)
-
-        // Définir le drawable approprié
-        val backgroundDrawable = if (isDarkTheme) {
-            R.drawable.background_color_main_dark // Nom du fichier pour le mode sombre
-        } else {
-            R.drawable.background_color_main // Nom du fichier pour le mode clair
-        }
-
-        // Appliquer le drawable comme arrière-plan
-        constraintLayout.setBackgroundResource(backgroundDrawable)
-    }
-
     private fun handlePremierLancement() {
         sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         if (premierLancement()) {
+            InitialisationJSON(binding.root.context)
             val intent = Intent(this, CreerCompagnonActivity::class.java)
             startActivity(intent)
             finish()
@@ -101,27 +88,27 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_taches,
-                R.id.navigation_dashboard,
-                R.id.navigation_notifications
+                R.id.navigation_quetes,
+                R.id.navigation_compagnon,
+                R.id.navigation_magasin
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_taches -> {
-                    navController.navigate(R.id.navigation_taches)
+                R.id.navigation_quetes -> {
+                    navController.navigate(R.id.navigation_quetes)
                     true
                 }
 
-                R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.navigation_dashboard)
+                R.id.navigation_compagnon -> {
+                    navController.navigate(R.id.navigation_compagnon)
                     true
                 }
 
-                R.id.navigation_notifications -> {
-                    navController.navigate(R.id.navigation_notifications)
+                R.id.navigation_magasin -> {
+                    navController.navigate(R.id.navigation_magasin)
                     true
                 }
 
@@ -129,10 +116,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun isDarkThemeEnabled(): Boolean {
-        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-        return sharedPreferences.getBoolean("darkTheme", false)
-    }
+
     private fun saveCurrentLauchTime() {
         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {

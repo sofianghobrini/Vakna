@@ -6,6 +6,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.opengl.Visibility
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,22 +21,21 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.children
-import androidx.navigation.findNavController
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.vue.SettingsActivity
 import com.app.vakna.adapters.GridConsommableAdapterInventaire
-import com.app.vakna.adapters.PlaceholderAdapter
-import com.app.vakna.adapters.PlaceholderData
+import com.app.vakna.adapters.InventaireVideAdapter
+import com.app.vakna.adapters.InventaireVideData
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.dao.compagnon.Compagnon
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
-import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuge
+import com.app.vakna.modele.gestionnaires.GestionnaireDeRefuges
 import com.app.vakna.modele.gestionnaires.Inventaire
 import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
 import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.refuge.Refuge
-import com.app.vakna.modele.gestionnaires.Shop
+import com.app.vakna.modele.gestionnaires.MagasinObjets
 import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -44,16 +45,15 @@ import com.google.android.material.tabs.TabLayout
  * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
  * @param binding Le binding associé au fragment compagnon pour accéder aux vues.
  */
-@Suppress("NAME_SHADOWING")
 class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private val context: Context = binding.root.context
-    private var gestionnaire = GestionnaireDeCompagnons(context)
-    private lateinit var compagnon: Compagnon
-    private lateinit var compagnonsSup: Array<Compagnon>
+    private var gestionnaireCompagnons = GestionnaireDeCompagnons(context)
     private var inventaire = Inventaire(context)
-    private val shop = Shop(context)
-    private val gestionnaireRefuge = GestionnaireDeRefuge(context)
+    private val magasinObjets = MagasinObjets(context)
+    private val gestionnaireRefuge = GestionnaireDeRefuges(context)
+    private lateinit var compagnon: Compagnon
+    private lateinit var compagnonsSupplementaire: Array<Compagnon>
 
     /**
      * Initialise l'interface utilisateur pour afficher les informations du compagnon.
@@ -76,72 +76,136 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
     private fun setUpView() {
 
-        // Charger le compagnon depuis la base de données
-        val compagnons = gestionnaire.obtenirCompagnons()
-        compagnon = gestionnaire.obtenirActif()
-
-        compagnon.let {
-            binding.dragonName.text = it.nom
-            updateLevelAndProgress(it)
+        val compagnons = gestionnaireCompagnons.obtenirCompagnons()
+        var compagnonTemp = gestionnaireCompagnons.obtenirActif()
+        if (compagnonTemp == null) {
+            compagnonTemp = gestionnaireCompagnons.obtenirCompagnons().first()
+            gestionnaireCompagnons.setActif(compagnonTemp.id)
         }
+        compagnon = compagnonTemp
 
+        updateAffichageCompagnon()
         updateRefuge(binding)
-        updateHumeurCompagnon(binding, compagnon)
-        showPersonnalite(gestionnaire, binding.root, compagnon.id)
 
-        compagnon.let {
-            when {
-                it.humeur > 60 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.humeur_0)
-                }
-                it.humeur > 30 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.humeur_1)
-                }
-                it.humeur > 0 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.humeur_2)
-                }
-                it.humeur == 0 -> {
-                    binding.imageBonheur.setImageResource(R.drawable.humeur_3)
-                }
-            }
-            binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
-            when {
-                it.faim > 60 -> {
-                    binding.imageFaim.setImageResource(R.drawable.faim_0)
-                }
-                it.faim > 30 -> {
-                    binding.imageFaim.setImageResource(R.drawable.faim_1)
-                }
-                it.faim > 0 -> {
-                    binding.imageFaim.setImageResource(R.drawable.faim_2)
-                }
-                it.faim == 0 -> {
-                    binding.imageFaim.setImageResource(R.drawable.faim_3)
-                }
-            }
-            binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
-        }
+        creationTabs()
 
-        val distinctTypesList = shop.obtenirObjets().map { it.getType() }.distinct()
+        updateCompagnonsSupplementaires(compagnons)
 
-        distinctTypesList.forEach {
-            val tabTitle = getTabTitle(it)
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
-        }
+        setUpRefuges()
 
-        val items = inventaire.obtenirObjets(distinctTypesList.first())
-        setupGridView(items, distinctTypesList.first(), binding)
-
-
-        binding.freeCompagnonButton.setOnClickListener{
-            val campagnonRestant = gestionnaire.obtenirCompagnons()
-            if(campagnonRestant.size > 1) { showDialogRelease() }
+        binding.boutonRelacherCompagnon.setOnClickListener{
+            val compagnonRestant = gestionnaireCompagnons.obtenirCompagnons()
+            if(compagnonRestant.size > 1) { showDialogRelease() }
             else {
                 Toast.makeText(context, context.getString(R.string.un_compagnon_restant), Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
-        // Gérer la sélection d'onglets (Jouets / Nourriture)
+    private fun updateCompagnonsSupplementaires(compagnons: Set<Compagnon>) {
+        compagnonsSupplementaire = (compagnons - compagnon).toTypedArray()
+
+        val switchBoutons = listOf(
+            binding.switchCompagnon1,
+            binding.switchCompagnon2,
+            binding.switchCompagnon3,
+            binding.switchCompagnon4,
+            binding.switchCompagnon5
+        )
+
+        switchBoutons.forEach{
+            it.visibility = View.GONE
+        }
+
+        if (compagnonsSupplementaire.isEmpty()) {
+            binding.switchCompagnon1.visibility = View.VISIBLE
+            binding.switchCompagnon1.setImageResource(R.drawable.ajout_compagnon)
+            binding.switchCompagnon1.setOnClickListener {
+                showCompagnonPopUp(it)
+            }
+        }
+
+        var iteration = 0
+
+        compagnonsSupplementaire.forEach {
+            val id = iteration
+
+            //Création du bouton switch
+            val bouton = switchBoutons[iteration]
+            bouton.visibility = View.VISIBLE
+            val appearancePath = it.apparence()
+            Glide.with(context)
+                .asGif()
+                .load(appearancePath)
+                .into(bouton)
+
+            bouton.setOnClickListener { view ->
+                echangeDeCompagnon(bouton, id)
+            }
+
+            if (iteration + 1 <= 4) {
+                val boutonNext = switchBoutons[iteration + 1]
+                boutonNext.visibility = View.VISIBLE
+                boutonNext.setImageResource(R.drawable.ajout_compagnon)
+                boutonNext.setOnClickListener { view ->
+                    showCompagnonPopUp(view)
+                }
+            }
+            iteration++
+        }
+    }
+
+    private fun updateAffichageCompagnon() {
+        compagnon.let { comp ->
+            binding.dragonName.text = comp.nom
+            updateLevelAndProgress(comp)
+        }
+
+        compagnon.let {
+            affichageHumeur(binding, it)
+            affichageFaim(binding, it)
+        }
+
+        updateHumeurCompagnon(binding, compagnon)
+        showPersonnalite(gestionnaireCompagnons, binding.root, compagnon.id)
+    }
+
+    /**
+     * Met à jour le niveau du compagnon et l'affichage de la progression en fonction de l'XP.
+     * @param compagnon Le compagnon pour lequel le niveau et la progression doivent être mis à jour.
+     */
+    private fun updateLevelAndProgress(compagnon: Compagnon) {
+        val currentXp = compagnon.xp
+        val level = currentXp / 100  // Calculer le niveau à partir de l'XP
+        val xpForCurrentLevel = currentXp % 100  // XP restant pour compléter le niveau actuel
+
+        // Mettre à jour le texte du niveau
+        binding.dragonLevel.text = context.getString(R.string.texte_niveau, level)
+
+        // Mettre à jour la barre de progression avec l'XP restant pour le niveau
+        binding.progressBarLevel.progress = xpForCurrentLevel
+    }
+
+    private fun updateRefuge(binding: FragmentCompagnonBinding) {
+        val refuge = gestionnaireRefuge.obtenirActif()
+        val fichierApparence = refuge?.apparence()
+
+        Glide.with(context)
+            .load(fichierApparence)
+            .into(binding.refuge)
+    }
+
+    private fun creationTabs(): List<TypeObjet> {
+        val listeTypesObjet = magasinObjets.obtenirObjets().map { it.getType() }.distinct()
+
+        listeTypesObjet.forEach {
+            val tabTitle = getTabTitle(it)
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(tabTitle))
+        }
+
+        val items = inventaire.obtenirObjets(listeTypesObjet.first())
+        setupGridView(items, listeTypesObjet.first(), binding)
+
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 inventaire = Inventaire(context)
@@ -162,156 +226,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
-
-        compagnonsSup = (compagnons - compagnon).toTypedArray()
-
-        if (compagnonsSup.isEmpty()) {
-            binding.switchCompagnon1.setOnClickListener {
-                showCompagnonPopUp(it)
-            }
-        }
-
-        var iteration = 0
-        compagnonsSup.forEach {
-            val switchBoutons = listOf(
-                binding.switchCompagnon1,
-                binding.switchCompagnon2,
-                binding.switchCompagnon3,
-                binding.switchCompagnon4,
-                binding.switchCompagnon5
-            )
-
-            val bouton = switchBoutons[iteration]
-            val appearancePath = it.apparence()
-
-            Glide.with(context)
-                .asGif()
-                .load(appearancePath)
-                .into(bouton)
-            val id = iteration
-            bouton.setOnClickListener { view ->
-                val appearancePathNew = compagnon.apparence()
-
-                Glide.with(context)
-                    .asGif()
-                    .load(appearancePathNew)
-                    .into(bouton)
-
-                val newCompagnon = compagnonsSup[id]
-                compagnonsSup[id] = compagnon
-                gestionnaire.setActif(newCompagnon.id)
-                compagnon = newCompagnon
-
-                newCompagnon.let { comp ->
-                    binding.dragonName.text = comp.nom
-                    updateLevelAndProgress(comp)
-                }
-
-                updateHumeurCompagnon(binding, newCompagnon)
-
-                // Mettre à jour les progress bar
-                newCompagnon.let { comp ->
-                    when {
-                        it.humeur > 60 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.humeur_0)
-                        }
-                        it.humeur > 30 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.humeur_1)
-                        }
-                        it.humeur > 0 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.humeur_2)
-                        }
-                        it.humeur == 0 -> {
-                            binding.imageBonheur.setImageResource(R.drawable.humeur_3)
-                        }
-                    }
-                    binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
-                    when {
-                        it.faim > 60 -> {
-                            binding.imageFaim.setImageResource(R.drawable.faim_0)
-                        }
-                        it.faim > 30 -> {
-                            binding.imageFaim.setImageResource(R.drawable.faim_1)
-                        }
-                        it.faim > 0 -> {
-                            binding.imageFaim.setImageResource(R.drawable.faim_2)
-                        }
-                        it.faim == 0 -> {
-                            binding.imageFaim.setImageResource(R.drawable.faim_3)
-                        }
-                    }
-                    binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
-                }
-
-                showPersonnalite(gestionnaire, binding.root, compagnon.id)
-
-                val items = inventaire.obtenirObjets(distinctTypesList.first())
-                setupGridView(items, distinctTypesList.first(), binding)
-            }
-
-            if(iteration + 1 <= 4) {
-                val boutonNext = switchBoutons[iteration + 1]
-                boutonNext.visibility = View.VISIBLE
-
-                boutonNext.setOnClickListener {view ->
-                    showCompagnonPopUp(view)
-                }
-            }
-            iteration++
-
-        }
-
-        val refuges = gestionnaireRefuge.obtenirRefuges()
-        val refuge = gestionnaireRefuge.obtenirActif()
-
-        refuge?.let {
-            Glide.with(context)
-                .load(refuge.apparence())
-                .into(binding.refuge)
-        } ?: {
-            if(refuges.isNotEmpty()) {
-                val nouveauActif = refuges.first()
-                gestionnaireRefuge.setActif(nouveauActif.getId())
-            }
-        }
-        when {
-            refuges.isEmpty() -> {
-                binding.switchRefuge.setOnClickListener {
-                    showAcheterRefugeDialog()
-                }
-            }
-            refuges.size == 1 -> {
-                binding.switchRefuge.setOnClickListener {
-                    showAcheterRefugeDialog()
-                }
-            }
-            refuges.size > 1 -> {
-                binding.switchRefuge.setImageResource(R.drawable.changer_refuges)
-                binding.switchRefuge.setPadding(18,18,18,18)
-                binding.switchRefuge.setOnClickListener {
-                    showSelectRefugeDialog()
-                }
-            }
-        }
-
-        if(refuges.isEmpty()) {
-            binding.switchRefuge.setOnClickListener {
-                showAcheterRefugeDialog()
-            }
-        }
-
-        if(refuges.size == 1) {
-            binding.switchRefuge.setOnClickListener {
-                showAcheterRefugeDialog()
-            }
-        }
+        return listeTypesObjet
     }
 
     private fun getTabTitle(type: TypeObjet): String {
         return when (type) {
             TypeObjet.JOUET -> context.getString(R.string.tab_jouet)
             TypeObjet.NOURRITURE -> context.getString(R.string.tab_nourriture)
-            else -> type.name
         }
     }
 
@@ -326,7 +247,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         )
 
         popupMagasinView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        val popupWidth = popupMagasinView.measuredWidth
         val popupHeight = popupMagasinView.measuredHeight
 
         val location = IntArray(2)
@@ -342,10 +262,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         val boutonMagasin: Button = popupMagasinView.findViewById(R.id.boutonMagasin)
         boutonMagasin.setOnClickListener {
-            if (context is MainActivity) {
-                val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                navController.navigate(R.id.navigation_notifications)
-            }
+            NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Compagnons")
             popupMagasinWindow.dismiss()
         }
 
@@ -354,16 +271,71 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
     }
 
-    fun showAcheterRefugeDialog() {
+    private fun echangeDeCompagnon(bouton: ImageButton, id: Int) {
+        val appearancePathNew = compagnon.apparence()
+
+        Glide.with(context)
+            .asGif()
+            .load(appearancePathNew)
+            .into(bouton)
+
+        val newCompagnon = compagnonsSupplementaire[id]
+        compagnonsSupplementaire[id] = compagnon
+        gestionnaireCompagnons.setActif(newCompagnon.id)
+        compagnon = newCompagnon
+
+        updateAffichageCompagnon()
+
+        val listeTypesObjet = magasinObjets.obtenirObjets().map { it.getType() }.distinct()
+
+        val items = inventaire.obtenirObjets(listeTypesObjet.first())
+        setupGridView(items, listeTypesObjet.first(), binding)
+    }
+
+    private fun setUpRefuges() {
+        val refuges = gestionnaireRefuge.obtenirRefuges()
+        val refuge = gestionnaireRefuge.obtenirActif()
+
+        refuge?.let {
+            Glide.with(context)
+                .load(refuge.apparence())
+                .into(binding.refuge)
+        } ?: {
+            if (refuges.isNotEmpty()) {
+                val nouveauActif = refuges.first()
+                gestionnaireRefuge.setActif(nouveauActif.getId())
+            }
+        }
+        when {
+            refuges.isEmpty() -> {
+                binding.switchRefuge.setOnClickListener {
+                    showAcheterRefugeDialog()
+                }
+            }
+
+            refuges.size == 1 -> {
+                binding.switchRefuge.setOnClickListener {
+                    showAcheterRefugeDialog()
+                }
+            }
+
+            else -> {
+                binding.switchRefuge.setImageResource(R.drawable.changer_refuges)
+                binding.switchRefuge.setPadding(18, 18, 18, 18)
+                binding.switchRefuge.setOnClickListener {
+                    showSelectRefugeDialog()
+                }
+            }
+        }
+    }
+
+    private fun showAcheterRefugeDialog() {
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.dialog_refuges)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         dialog.findViewById<Button>(R.id.btn_buy).setOnClickListener {
-            if (context is MainActivity) {
-                val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                navController.navigate(R.id.navigation_notifications)
-            }
+            NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Refuges")
             dialog.dismiss()
         }
 
@@ -374,7 +346,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         dialog.show()
     }
 
-    fun showSelectRefugeDialog() {
+    private fun showSelectRefugeDialog() {
         val inflater = LayoutInflater.from(context)
         val dialogView = inflater.inflate(R.layout.dialog_select_refuge, null)
 
@@ -406,7 +378,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             }
             horizontalContainer.addView(imageButton)
         }
-
 
         val dialog = MaterialAlertDialogBuilder(context)
             .setTitle("")
@@ -464,7 +435,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 // Mettre à jour le nom du compagnon dans la base de données
                 val compagnonModif = compagnon
                 compagnonModif.nom = newName
-                gestionnaire.modifierCompagnon(compagnon.id, compagnonModif)
+                gestionnaireCompagnons.modifierCompagnon(compagnon.id, compagnonModif)
                 binding.dragonName.text = newName // Mettre à jour l'affichage du nom dans l'interface utilisateur
             }
             dialog.dismiss()
@@ -480,7 +451,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     fun showDialogRelease(){
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_confirm_relacher, null)
 
-        // Créer le popup avec AlertDialog
         val dialogBuilder = AlertDialog.Builder(context)
             .setView(dialogView)
 
@@ -490,12 +460,15 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val buttonValider = dialogView.findViewById<Button>(R.id.boutonRelacher)
 
         buttonValider.setOnClickListener{
-            val compagnonsRestants = gestionnaire.obtenirCompagnons()
-            gestionnaire.relacherCompagnon(compagnon, compagnon.id)
+            val compagnonsRestants = gestionnaireCompagnons.obtenirCompagnons()
+            gestionnaireCompagnons.relacherCompagnon(compagnon, compagnon.id)
             if (compagnonsRestants.isNotEmpty()) {
                 compagnon = compagnonsRestants.first()
-                gestionnaire.setActif(compagnon.id)
+                gestionnaireCompagnons.setActif(compagnon.id)
             }
+            updateAffichageCompagnon()
+            val compagnons = gestionnaireCompagnons.obtenirCompagnons()
+            updateCompagnonsSupplementaires(compagnons)
             dialog.dismiss()
         }
 
@@ -505,28 +478,59 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         dialog.show()
     }
 
-    /**
-     * Met à jour le niveau du compagnon et l'affichage de la progression en fonction de l'XP.
-     * @param compagnon Le compagnon pour lequel le niveau et la progression doivent être mis à jour.
-     */
-    private fun updateLevelAndProgress(compagnon: Compagnon) {
-        val currentXp = compagnon.xp
-        val level = currentXp / 100  // Calculer le niveau à partir de l'XP
-        val xpForCurrentLevel = currentXp % 100  // XP restant pour compléter le niveau actuel
-
-        // Mettre à jour le texte du niveau
-        binding.dragonLevel.text = context.getString(R.string.texte_niveau, level)
-
-        // Mettre à jour la barre de progression avec l'XP restant pour le niveau
-        binding.progressBarLevel.progress = xpForCurrentLevel
-    }
-
     companion object {
+        private fun affichageHumeur(binding: FragmentCompagnonBinding, it: Compagnon) {
+            val context = binding.root.context
+            when {
+                it.humeur > 60 -> {
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_0)
+                }
+
+                it.humeur > 30 -> {
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_1)
+                }
+
+                it.humeur > 0 -> {
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_2)
+                }
+
+                it.humeur == 0 -> {
+                    binding.imageBonheur.setImageResource(R.drawable.humeur_3)
+                }
+            }
+            binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
+        }
+
+        private fun affichageFaim(binding: FragmentCompagnonBinding, it: Compagnon) {
+            val context = binding.root.context
+            when {
+                it.faim > 60 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_0)
+                }
+
+                it.faim > 30 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_1)
+                }
+
+                it.faim > 0 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_2)
+                }
+
+                it.faim == 0 -> {
+                    binding.imageFaim.setImageResource(R.drawable.faim_3)
+                }
+            }
+            binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
+        }
+
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnons = gestionnaire.obtenirCompagnons()
-            val compagnonUpd: Compagnon = gestionnaire.obtenirActif()
+            var compagnonUpd: Compagnon? = gestionnaire.obtenirActif()
+            if (compagnonUpd == null) {
+                compagnonUpd = gestionnaire.obtenirCompagnons().first()
+                gestionnaire.setActif(compagnonUpd.id)
+            }
             val fichierApparence = compagnonUpd.apparence()
             println(fichierApparence)
 
@@ -534,19 +538,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 .asGif()
                 .load(fichierApparence)
                 .into(binding.dragonGif)
-        }
-
-        fun updateRefuge(binding: FragmentCompagnonBinding) {
-            val context = binding.root.context
-            val gestionnaire = GestionnaireDeRefuge(context)
-            val refuges = gestionnaire.obtenirRefuges()
-            val refuge = if (refuges.isNotEmpty()) refuges.first() else null
-            val fichierApparence = refuge?.apparence()
-
-            // Charger et afficher un GIF via Glide
-            Glide.with(context)
-                .load(fichierApparence)
-                .into(binding.refuge)
         }
 
         @SuppressLint("StringFormatInvalid")
@@ -568,7 +559,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val personnaliteTextView = view.findViewById<TextView>(R.id.personnalite)
             personnaliteTextView?.text = typePersonnalite +" (?)"// Affiche uniquement le nom
             personnaliteTextView?.setOnClickListener {
-                val message = when (compagnon!!.personnalite) {
+                val message = when (compagnon.personnalite) {
                     Personnalite.GOURMAND -> context.getString(R.string.personnalite_popup_message_gourmand, typePersonnalite)
                     Personnalite.JOUEUR -> context.getString(R.string.personnalite_popup_message_joueur, typePersonnalite)
                     Personnalite.CALME -> context.getString(R.string.personnalite_popup_message_calme, typePersonnalite)
@@ -582,13 +573,13 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 }
                 AlertDialog.Builder(context)
                     .setTitle(context.getString(R.string.personnalite_popup_titre, typePersonnalite))
-                    .setMessage(message) // Utilise le message défini dans le switch
+                    .setMessage(message)
                     .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                        dialog.dismiss() // Ferme le popup
+                        dialog.dismiss()
                     }
                     .create()
                     .show()
-        }
+            }
         }
 
 
@@ -599,64 +590,40 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
-            val compagnonGrid = gestionnaire.obtenirActif()
+            var compagnonGrid = gestionnaire.obtenirActif()
+            if (compagnonGrid == null) {
+                compagnonGrid = gestionnaire.obtenirCompagnons().first()
+                gestionnaire.setActif(compagnonGrid.id)
+            }
 
             compagnonGrid.let {
-                when {
-                    it.humeur > 60 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.humeur_0)
-                    }
-                    it.humeur > 30 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.humeur_1)
-                    }
-                    it.humeur > 0 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.humeur_2)
-                    }
-                    it.humeur == 0 -> {
-                        binding.imageBonheur.setImageResource(R.drawable.humeur_3)
-                    }
-                }
-                binding.texteHumeur.text = context.getString(R.string.texte_humeur, it.humeur)
-                when {
-                    it.faim > 60 -> {
-                        binding.imageFaim.setImageResource(R.drawable.faim_0)
-                    }
-                    it.faim > 30 -> {
-                        binding.imageFaim.setImageResource(R.drawable.faim_1)
-                    }
-                    it.faim > 0 -> {
-                        binding.imageFaim.setImageResource(R.drawable.faim_2)
-                    }
-                    it.faim == 0 -> {
-                        binding.imageFaim.setImageResource(R.drawable.faim_3)
-                    }
-                }
-                binding.texteFaim.text = context.getString(R.string.texte_faim, it.faim)
+                affichageHumeur(binding, it)
+                affichageFaim(binding, it)
             }
 
             if(items.isEmpty()) {
 
                 binding.gridViewItems.numColumns = 1
 
-                val placeholderMessage = when (type) {
+                val inventaireVideMessage = when (type) {
                     TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
                     TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
                 }
 
-                val placeholderItem = PlaceholderData(
-                    message = placeholderMessage,
+                val placeholderItem = InventaireVideData(
+                    message = inventaireVideMessage,
                     buttonText = context.getString(R.string.titre_magasin),
                     buttonAction = {
-                        if (context is MainActivity) {
-                            val navController = context.findNavController(R.id.nav_host_fragment_activity_main)
-                            navController.navigate(R.id.navigation_notifications)
+                        when (type) {
+                            TypeObjet.JOUET -> { NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin) }
+                            TypeObjet.NOURRITURE -> {  NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Nourriture") }
                         }
                     }
                 )
 
                 val gridItems = listOf(placeholderItem)
 
-                val adapter = PlaceholderAdapter(binding, gridItems)
+                val adapter = InventaireVideAdapter(binding, gridItems)
                 binding.gridViewItems.adapter = adapter
             } else {
 

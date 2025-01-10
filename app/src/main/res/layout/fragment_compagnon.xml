@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="@id/dragon_name" />
 
     <ImageButton
-        android:id="@+id/free_compagnon_button"
+        android:id="@+id/bouton_relacher_compagnon"
         android:layout_width="30dp"
         android:layout_height="27dp"
         android:background="?attr/selectableItemBackgroundBorderless"
