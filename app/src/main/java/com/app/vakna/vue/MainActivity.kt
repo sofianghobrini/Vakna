@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerMain
 import com.app.vakna.databinding.ActivityMainBinding
+import com.app.vakna.modele.InitialisationJSON
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,9 +28,10 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
         handlePremierLancement()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         BackgroundSetter.applyConstraintLayoutBackground(this, R.id.main_layout)
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
     private fun handlePremierLancement() {
         sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         if (premierLancement()) {
+            InitialisationJSON(binding.root.context)
             val intent = Intent(this, CreerCompagnonActivity::class.java)
             startActivity(intent)
             finish()
