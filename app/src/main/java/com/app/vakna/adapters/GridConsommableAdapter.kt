@@ -43,7 +43,7 @@ open class GridConsommableAdapter (
             .into(imageView)
 
 
-        nomTextView.text = Objet.getNomLocale(item.nom, context)
+        nomTextView.text = item.nom
         niveauTextView.text = item.niveau.toString()
         coutTextView.text = item.cout.toString()
 

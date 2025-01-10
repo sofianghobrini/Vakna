@@ -80,7 +80,7 @@ class Inventaire(context: Context) {
 
     fun ajouterObjet(objet: Objet, quantite: Int) {
         assert(quantite > 0) { "La quantité d'objets ne peut pas être négative ou nulle" }
-        val nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(contexte),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(contexte), 0, objet.getImageUrl())
+        val nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 0, objet.getImageUrl(), contexte)
         if (!objets.any { it.getId() == objet.getId() }) {
             objets += nouvelObjet
             inventaireDAO.insererObjetObtenu(nouvelObjet)
@@ -97,10 +97,10 @@ class Inventaire(context: Context) {
     }
 
     companion object {
-        fun setToGridDataArray(objets: List<ObjetObtenu>): ArrayList<GridConsommableData> {
+        fun setToGridDataArray(objets: List<ObjetObtenu>, context: Context): ArrayList<GridConsommableData> {
             val list = ArrayList<GridConsommableData>()
             for (objet in objets) {
-                val listData = objet.toGridData()
+                val listData = objet.toGridData(context)
                 list.add(listData)
             }
             return list

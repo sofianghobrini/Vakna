@@ -33,6 +33,10 @@ open class Objet(
         return nom[LocaleHelper.getLanguage(context)]!!
     }
 
+    fun getNom(): Map<String, String> {
+        return nom
+    }
+
     fun getPrix(): Int {
         return prix
     }
@@ -47,6 +51,10 @@ open class Objet(
 
     fun getDetails(context: Context): String {
         return detail[LocaleHelper.getLanguage((context))]!!
+    }
+
+    fun getDetails(): Map<String, String> {
+        return detail
     }
 
     fun setNom(noms: Map<String, String>) {

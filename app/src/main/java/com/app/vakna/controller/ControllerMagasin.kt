@@ -13,6 +13,7 @@ import com.app.vakna.modele.Shop
 import com.app.vakna.modele.ShopCompagnons
 import com.app.vakna.modele.ShopRefuge
 import com.app.vakna.modele.TypeObjet
+import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.modele.dao.InventaireDAO
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +32,8 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private val listRefugesStore = shopRefuge.getRefugesStore().toList()
 
     init {
+
+        Log.d("test", AccesJson("objets", context).lireFichierJson())
 
         afficherNombreDeCoins()
 
@@ -140,7 +143,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding) {
     private fun setupGridView(items: List<Objet>) {
         val sortedItems = items.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom(context) })
 
-        val gridItems = Shop.setToGridDataArray(sortedItems)
+        val gridItems = Shop.setToGridDataArray(sortedItems, context)
 
         val adapter = GridConsommableAdapter(context, gridItems)
         binding.gridViewItems.adapter = adapter

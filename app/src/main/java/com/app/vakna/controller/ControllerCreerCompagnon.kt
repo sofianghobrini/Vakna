@@ -70,22 +70,23 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
 
         val especeList = listOf("Dragon", "Lapin", "Chat", "Licorne", "Serpent", "Ecureuil")
 
-        val jouet1  = Objet(0, "Bateau" , 15 , 5 , TypeObjet.JOUET, "Attention à ne pas imiter le Titanic ...", "file:///android_asset/jouets/jouet_bateau.png")
-        val jouet2  = Objet(1, "Dinosaure" , 20, 6 , TypeObjet.JOUET, "Grrr ! Je suis le roi méchants !", "file:///android_asset/jouets/jouet_dinosaure.png")
-        val jouet3  = Objet(2, "Ourson" , 25, 7 , TypeObjet.JOUET, "Câlins gratuits !", "file:///android_asset/jouets/jouet_ourson.png")
-        val jouet4  = Objet(3, "Robot" , 30, 8 , TypeObjet.JOUET, "Bip bip bop skibidi bop", "file:///android_asset/jouets/jouet_robot.png")
-        val jouet5  = Objet(4, "Voiture" , 35, 9 , TypeObjet.JOUET, "Vrouuuuum, vrouuuuum!", "file:///android_asset/jouets/jouet_voiture.png")
+        val jouet1  = Objet(0, mapOf("fr" to "Bateau", "en" to "Boat"), 15, 5, TypeObjet.JOUET, mapOf("fr" to "Attention à ne pas imiter le Titanic ...", "en" to "Don't imitate the Titanic ..."), "file:///android_asset/jouets/jouet_bateau.png")
+        val jouet2  = Objet(1, mapOf("fr" to "Dinosaure", "en" to "Dinosaur"), 20, 6, TypeObjet.JOUET, mapOf("fr" to "Grrr ! Je suis le roi des méchants !", "en" to "Grrr ! I'm the king of evil !"), "file:///android_asset/jouets/jouet_dinosaure.png")
+        val jouet3  = Objet(2, mapOf("fr" to "Ourson", "en" to "Teddy bear"), 25, 7, TypeObjet.JOUET, mapOf("fr" to "Câlins gratuits !", "en" to "Free hugs!"), "file:///android_asset/jouets/jouet_ourson.png")
+        val jouet4  = Objet(3, mapOf("fr" to "Robot", "en" to "Robot"), 30, 8, TypeObjet.JOUET, mapOf("fr" to "Bip bip bop skibidi bop", "en" to "Beep beep bop skibidi bop"), "file:///android_asset/jouets/jouet_robot.png")
+        val jouet5  = Objet(4, mapOf("fr" to "Voiture", "en" to "Car"), 35, 9, TypeObjet.JOUET, mapOf("fr" to "Vrouuuuum, vrouuuuum!", "en" to "Vroom vroom!"), "file:///android_asset/jouets/jouet_voiture.png")
 
         val jouetsItems = listOf(jouet1, jouet2, jouet3, jouet4, jouet5)
 
-        val kebab    = Objet(10, "Kebab"   , 8 , 10, TypeObjet.NOURRITURE, "Le cholestérole est mon meilleur ami", "file:///android_asset/nourritures/nourriture_kebab.png")
-        val pizza    = Objet(11, "Pizza"   , 12, 15, TypeObjet.NOURRITURE, "Un pizza dé la mama, prego.", "file:///android_asset/nourritures/nourriture_pizza.png")
-        val burger   = Objet(12, "Burger"  , 10, 8 , TypeObjet.NOURRITURE, "Can I get some burger ? With some peanut butter.", "file:///android_asset/nourritures/nourriture_plumberger.png")
-        val sandwich = Objet(13, "Sandwich", 7 , 5 , TypeObjet.NOURRITURE, "L'une des nourritures les plus saine de ce jeu.", "file:///android_asset/nourritures/nourriture_sandwich.png")
-        val salade   = Objet(14, "Salade"  , 6 , 4 , TypeObjet.NOURRITURE, "Sérieusement vous voulez manger du vert ?", "file:///android_asset/nourritures/nourriture_salade.png")
-        val pasta    = Objet(15, "Pasta"   , 11, 9 , TypeObjet.NOURRITURE, "Mamamia c'est la pasta dé la pizza !", "file:///android_asset/nourritures/nourriture_pasta.png")
-        val sushi    = Objet(16, "Sushi"   , 14, 13, TypeObjet.NOURRITURE, "Non on ne va faire de blague raciste ... quoique ...", "file:///android_asset/nourritures/nourriture_sushi.png")
-        val steak    = Objet(17, "Steak"   , 20, 18, TypeObjet.NOURRITURE, "De la viande à l'état pure (c'est quand même mieux que la salade)", "file:///android_asset/nourritures/nourriture_steak.png")
+        val kebab    = Objet(10, mapOf("fr" to "Kebab", "en" to "Kebab"), 8, 10, TypeObjet.NOURRITURE, mapOf("fr" to "Le cholestérol est mon meilleur ami", "en" to "Cholesterol is my best friend"), "file:///android_asset/nourritures/nourriture_kebab.png")
+        val pizza    = Objet(11, mapOf("fr" to "Pizza", "en" to "Pizza"), 12, 15, TypeObjet.NOURRITURE, mapOf("fr" to "Une pizza de la mama, prego.", "en" to "A pizza from mama, please."), "file:///android_asset/nourritures/nourriture_pizza.png")
+        val burger   = Objet(12, mapOf("fr" to "Burger", "en" to "Burger"), 10, 8, TypeObjet.NOURRITURE, mapOf("fr" to "Puis-je avoir un burger ? Avec du beurre de cacahuète.", "en" to "Can I get some burger? With some peanut butter."), "file:///android_asset/nourritures/nourriture_plumberger.png")
+        val sandwich = Objet(13, mapOf("fr" to "Sandwich", "en" to "Sandwich"), 7, 5, TypeObjet.NOURRITURE, mapOf("fr" to "L'une des nourritures les plus saines de ce jeu.", "en" to "One of the healthiest foods in this game."), "file:///android_asset/nourritures/nourriture_sandwich.png")
+        val salade   = Objet(14, mapOf("fr" to "Salade", "en" to "Salad"), 6, 4, TypeObjet.NOURRITURE, mapOf("fr" to "Sérieusement, vous voulez manger du vert ?", "en" to "Seriously, you want to eat green stuff?"), "file:///android_asset/nourritures/nourriture_salade.png")
+        val pasta    = Objet(15, mapOf("fr" to "Pâtes", "en" to "Pasta"), 11, 9, TypeObjet.NOURRITURE, mapOf("fr" to "Mamamia, ce sont les pâtes de la pizza !", "en" to "Mamamia, it's pasta from the pizza!"), "file:///android_asset/nourritures/nourriture_pasta.png")
+        val sushi    = Objet(16, mapOf("fr" to "Sushi", "en" to "Sushi"), 14, 13, TypeObjet.NOURRITURE, mapOf("fr" to "Non, on ne va pas faire de blague raciste ... quoique ...", "en" to "No, we're not going to make a racist joke ... or maybe ..."), "file:///android_asset/nourritures/nourriture_sushi.png")
+        val steak    = Objet(17, mapOf("fr" to "Steak", "en" to "Steak"), 20, 18, TypeObjet.NOURRITURE, mapOf("fr" to "De la viande à l'état pur (c'est quand même mieux que la salade)", "en" to "Pure meat (it's still better than salad)"), "file:///android_asset/nourritures/nourriture_steak.png")
+
         val nourritureItems = listOf(kebab, pizza, burger, sandwich, salade, pasta, sushi, steak)
 
         val allItems = jouetsItems + nourritureItems

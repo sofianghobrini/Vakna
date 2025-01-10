@@ -656,7 +656,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
                 val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom(context) })
 
-                val gridItems = Inventaire.setToGridDataArray(sortedItems)
+                val gridItems = Inventaire.setToGridDataArray(sortedItems, context)
 
                 val adapter = GridConsommableAdapterInventaire(binding, gridItems)
                 binding.gridViewItems.adapter = adapter

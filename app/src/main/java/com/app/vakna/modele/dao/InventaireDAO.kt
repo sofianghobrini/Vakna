@@ -12,7 +12,7 @@ class InventaireDAO(private val contexte: Context) {
 
     private val gson = GsonBuilder()
         .setPrettyPrinting()
-        .registerTypeAdapter(ObjetObtenu::class.java, JsonToObjetObtenu())
+        .registerTypeAdapter(ObjetObtenu::class.java, JsonToObjetObtenu(contexte))
         .registerTypeAdapter(ObjetObtenu::class.java, ObjetObtenuToJson())
         .create()
 

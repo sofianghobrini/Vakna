@@ -9,7 +9,7 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 /** Permet de convertir un objet ObjetObtenu en entrée JSON */
-class ObjetObtenuToJson (private var androidContext: Context) : JsonSerializer<ObjetObtenu> {
+class ObjetObtenuToJson : JsonSerializer<ObjetObtenu> {
     override fun serialize(
         src: ObjetObtenu,
         typeOfSrc: Type,
@@ -18,11 +18,22 @@ class ObjetObtenuToJson (private var androidContext: Context) : JsonSerializer<O
         val objetJson = JsonObject()
 
         objetJson.addProperty("id", src.getId())
-        objetJson.addProperty("nom", src.getNom(androidContext))
+        val nomJson = JsonObject()
+        src.getNom().forEach { (langue, valeur) ->
+            nomJson.addProperty(langue, valeur)
+        }
+
+        objetJson.add("nom", nomJson)
         objetJson.addProperty("prix", src.getPrix())
         objetJson.addProperty("niveau", src.getNiveau())
         objetJson.addProperty("type", src.getType().name)
-        objetJson.addProperty("detail", src.getDetails(androidContext))
+
+        val detailJson = JsonObject()
+        src.getDetails().forEach { (langue, valeur) ->
+            detailJson.addProperty(langue, valeur)
+        }
+        objetJson.add("detail", detailJson)
+
         objetJson.addProperty("quantite", src.getQuantite())
         objetJson.addProperty("imageUrl", src.getImageUrl())
 
