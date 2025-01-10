@@ -3,6 +3,7 @@ package com.app.vakna.modele
 import android.content.Context
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.compagnonstore.CompagnonStore
+import com.app.vakna.modele.dao.compagnonstore.CompagnonStoreDAO
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.objet.ObjetDAO
 import com.app.vakna.modele.dao.refuge.Refuge
@@ -14,7 +15,7 @@ import com.app.vakna.modele.gestionnaires.MagasinCompagnons
 
 class InitialisationJSON(context: Context) {
 
-    private var magasinCompagnons = MagasinCompagnons(context)
+    private val compagnonStoreDAO = CompagnonStoreDAO(context)
     private val shopDAO = ObjetDAO(context)
     private val refugeStoreDAO = RefugeStoreDAO(context)
     private val refugeDAO = RefugeDAO(context)
@@ -38,7 +39,7 @@ class InitialisationJSON(context: Context) {
         val compagnonsList = listOf(dragon, lapin, chat, licorne, serpent, ecureuil)
 
         compagnonsList.forEach {
-            magasinCompagnons.ajouterCompagnon(it)
+            compagnonStoreDAO.inserer(it)
         }
     }
 

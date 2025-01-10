@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -35,8 +36,6 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
     private var magasinCompagnons = MagasinCompagnons(context)
 
     init {
-        InitialisationJSON(context)
-
         demandeDesPermissions()
 
         affichageEspece()
@@ -113,13 +112,13 @@ class ControllerCreerCompagnon(private val binding: ActivityCreerCompagnonBindin
      */
     private fun afficherImageCompagnon(espece: String) {
         val imageRes = when (espece) {
-            "Dragon" -> magasinCompagnons.obtenirCompagnon("Dragon")?.apparenceDefaut()
-            "Lapin" -> magasinCompagnons.obtenirCompagnon("Lapin")?.apparenceDefaut()
-            "Chat" -> magasinCompagnons.obtenirCompagnon("Chat")?.apparenceDefaut()
-            "Licorne" -> magasinCompagnons.obtenirCompagnon("Licorne")?.apparenceDefaut()
-            "Serpent" -> magasinCompagnons.obtenirCompagnon("Serpent")?.apparenceDefaut()
-            "Ecureuil" -> magasinCompagnons.obtenirCompagnon("Ecureuil")?.apparenceDefaut()
-            else -> magasinCompagnons.obtenirCompagnon("Dragon")?.apparenceDefaut()
+            "Dragon" -> magasinCompagnons.obtenirCompagnon("Dragon")!!.apparenceDefaut()
+            "Lapin" -> magasinCompagnons.obtenirCompagnon("Lapin")!!.apparenceDefaut()
+            "Chat" -> magasinCompagnons.obtenirCompagnon("Chat")!!.apparenceDefaut()
+            "Licorne" -> magasinCompagnons.obtenirCompagnon("Licorne")!!.apparenceDefaut()
+            "Serpent" -> magasinCompagnons.obtenirCompagnon("Serpent")!!.apparenceDefaut()
+            "Ecureuil" -> magasinCompagnons.obtenirCompagnon("Ecureuil")!!.apparenceDefaut()
+            else -> magasinCompagnons.obtenirCompagnon("Dragon")!!.apparenceDefaut()
         }
         Glide.with(context)
             .load(imageRes)

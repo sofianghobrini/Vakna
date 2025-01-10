@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerMain
 import com.app.vakna.databinding.ActivityMainBinding
+import com.app.vakna.modele.InitialisationJSON
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,13 +28,17 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
         handlePremierLancement()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ControllerMain(binding, intent)
-        applyConstraintLayoutBackground()
+
+        BackgroundSetter.applyConstraintLayoutBackground(this, R.id.main_layout)
+
         setUpNavMenu()
+
+        ControllerMain(binding, intent)
     }
 
     override fun onStop () {
@@ -60,27 +65,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun applyConstraintLayoutBackground() {
-        val constraintLayout = binding.root.findViewById<ConstraintLayout>(R.id.main_layout)
-
-        // Vérifier si le thème sombre est activé
-        val isDarkTheme = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-            .getBoolean("darkTheme", false)
-
-        // Définir le drawable approprié
-        val backgroundDrawable = if (isDarkTheme) {
-            R.drawable.background_color_main_dark // Nom du fichier pour le mode sombre
-        } else {
-            R.drawable.background_color_main // Nom du fichier pour le mode clair
-        }
-
-        // Appliquer le drawable comme arrière-plan
-        constraintLayout.setBackgroundResource(backgroundDrawable)
-    }
-
     private fun handlePremierLancement() {
         sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
         if (premierLancement()) {
+            InitialisationJSON(binding.root.context)
             val intent = Intent(this, CreerCompagnonActivity::class.java)
             startActivity(intent)
             finish()
@@ -128,10 +116,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun isDarkThemeEnabled(): Boolean {
-        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-        return sharedPreferences.getBoolean("darkTheme", false)
-    }
+
     private fun saveCurrentLauchTime() {
         val sharedPref = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {

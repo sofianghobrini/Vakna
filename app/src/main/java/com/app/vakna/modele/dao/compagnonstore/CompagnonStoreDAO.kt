@@ -56,6 +56,10 @@ class CompagnonStoreDAO(private val contexte: Context) : DAO<CompagnonStore, Int
         val listeCompanions: MutableList<CompagnonStore> = gson.fromJson(companionsJsonArray, typeCompagnonStoreList)
             ?: mutableListOf()
 
+        if (listeCompanions.any { it.espece == entite.espece }) {
+            return false
+        }
+
         // Génère un ID unique pour le nouvel article du magasin de compagnons
         val nouvelId = (listeCompanions.maxOfOrNull { it.id } ?: 0) + 1
         entite.id = nouvelId

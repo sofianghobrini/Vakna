@@ -16,6 +16,8 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        BackgroundSetter.applyConstraintLayoutBackground(this, R.id.settingsLayout)
+
         val toolbar: androidx.appcompat.widget.Toolbar = binding.settingsToolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -39,6 +41,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.themeSwitch.isChecked = isDarkThemeEnabled()
         binding.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             setTheme(isChecked)
+            BackgroundSetter.applyConstraintLayoutBackground(this, R.id.settingsLayout)
         }
 
         binding.notificationsSwitch.isChecked = areNotificationsEnabled()

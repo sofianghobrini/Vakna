@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settingsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?android:attr/colorBackground">
 
     <!-- Toolbar -->
@@ -14,15 +15,22 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:title="@string/parametres"
-        app:navigationIcon="@drawable/ic_back_arrow" />
+        app:navigationIcon="@drawable/ic_back_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Card for Language Selection -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         app:cardElevation="4dp"
-        app:cardCornerRadius="12dp">
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,11 +86,15 @@
 
     <!-- Card for Theme Selection -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         app:cardElevation="4dp"
-        app:cardCornerRadius="12dp">
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardLanguage">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,10 +129,14 @@
 
     <!-- Card for Notifications -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardNotifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="4dp"
-        app:cardCornerRadius="12dp">
+        app:cardCornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardTheme">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -152,5 +168,4 @@
                 android:text="@string/activer_notifications"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

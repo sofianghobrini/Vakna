@@ -1,6 +1,7 @@
 package com.app.vakna.vue
 
 import android.os.Bundle
+import com.app.vakna.R
 import com.app.vakna.controller.ControllerAjouterTache
 import com.app.vakna.databinding.ActivityAjouterBinding
 
@@ -14,6 +15,7 @@ class AjouterActivity : HideKeyboardActivity() {
         binding = ActivityAjouterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        BackgroundSetter.applyConstraintLayoutBackground(this, R.id.container)
         ControllerAjouterTache(binding)
     }
 }
