@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/titre_aucun_refuge"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         android:textStyle="bold"
         android:padding="16dp"/>
 
@@ -24,7 +24,7 @@
         android:text="@string/refuge_description"
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
-        android:textSize="16sp"
+        android:textSize="@dimen/text1"
         android:paddingHorizontal="16dp"
         android:paddingVertical="24dp"/>
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end"
+        android:gravity="center"
         android:padding="8dp">
 
         <Button
@@ -43,6 +43,7 @@
             android:backgroundTint="@color/gray"
             android:insetRight="20dp"
             android:text="@string/annuler"
+            android:textSize="@dimen/bouton"
             android:textColor="@android:color/darker_gray" />
 
         <Button
@@ -50,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bouton_acheter"
+            android:textSize="@dimen/bouton"
             android:backgroundTint="@color/purple_500"
             android:textColor="@android:color/darker_gray"
             style="@style/Widget.MaterialComponents.Button.TextButton"/>

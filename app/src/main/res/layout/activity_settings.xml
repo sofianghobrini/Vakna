@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/titre_choisir_langue"
                 android:textColor="@color/couleurTexte"
-                android:textSize="18sp" />
+                android:textSize="@dimen/sousTitre" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:paddingBottom="8dp"
                 android:text="@string/choisir_langue"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
+                android:textSize="@dimen/petitTexte" />
 
             <RadioGroup
                 android:id="@+id/languageGroup"
@@ -65,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/english"
+                    android:textSize="@dimen/text1"
                     android:buttonTint="@color/gray"
                     android:textColor="?android:attr/textColorPrimary"
                     android:drawableStart="@drawable/ic_flag_uk"
@@ -79,6 +80,7 @@
                     android:drawableStart="@drawable/ic_flag_france"
                     android:drawablePadding="8dp"
                     android:text="@string/francais"
+                    android:textSize="@dimen/text1"
                     android:textColor="?android:attr/textColorPrimary" />
             </RadioGroup>
         </LinearLayout>
@@ -107,14 +109,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/theme"
-                android:textSize="18sp"
+                android:textSize="@dimen/sousTitre"
                 android:textColor="@color/couleurTexte"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/theme_description"
-                android:textSize="14sp"
+                android:textSize="@dimen/petitTexte"
                 android:textColor="@android:color/darker_gray"
                 android:paddingBottom="8dp"/>
 
@@ -123,7 +125,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
-                android:text="@string/dark_mode"/>
+                android:text="@string/dark_mode"
+                android:textSize="@dimen/text1"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -149,14 +152,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/notifications"
-                android:textSize="18sp"
+                android:textSize="@dimen/titre"
                 android:textColor="@color/couleurTexte"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/notifications_description"
-                android:textSize="14sp"
+                android:textSize="@dimen/petitTexte"
                 android:textColor="@android:color/darker_gray"
                 android:paddingBottom="8dp"/>
 
@@ -165,7 +168,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorPrimary"
-                android:text="@string/activer_notifications"/>
+                android:text="@string/activer_notifications"
+                android:textSize="@dimen/text1"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

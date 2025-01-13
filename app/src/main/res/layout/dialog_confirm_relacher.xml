@@ -10,7 +10,7 @@
         android:gravity="center"
         android:scaleType="center"
         android:text="@string/titre_relacher"
-        android:textSize="30dp"
+        android:textSize="@dimen/titre"
         android:textColor="@color/couleurTitre"
         android:contentDescription="@string/nom_application" />
 
@@ -23,7 +23,8 @@
         android:layout_marginRight="4dp"
         android:gravity="center"
         android:inputType="textMultiLine"
-        android:text="@string/relacher_compagnon" />
+        android:text="@string/relacher_compagnon"
+        android:textSize="@dimen/text1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,15 +39,17 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/red"
-            android:text="@string/aurevoir" />
+            android:text="@string/aurevoir"
+            android:textSize="@dimen/bouton" />
 
         <Button
             android:id="@+id/boutonAnnuler"
-            android:layout_width="135dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/purple_500"
-            android:text="@string/refus_relacher" />
+            android:text="@string/refus_relacher"
+            android:textSize="@dimen/bouton" />
 
     </LinearLayout>
 </LinearLayout>

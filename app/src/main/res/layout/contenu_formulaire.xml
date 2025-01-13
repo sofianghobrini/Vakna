@@ -21,7 +21,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/nom_quete"
         android:textColor="@color/couleurTexte"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +35,7 @@
         android:inputType="text"
         android:padding="5dp"
         android:textColorHint="@color/gray"
-        android:textSize="18sp"
+        android:textSize="@dimen/text1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelNomTache" />
 
@@ -46,7 +46,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/type_quete"
         android:textColor="@color/couleurTexte"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputNomTache" />
 
@@ -56,6 +56,7 @@
         android:layout_height="30dp"
         android:entries="@array/types_quete"
         android:spinnerMode="dropdown"
+        android:textSize="@dimen/text1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelTypeTache" />
 
@@ -66,7 +67,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/frequence_quete"
         android:textColor="@color/couleurTexte"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectTypeTache" />
 
@@ -82,18 +83,21 @@
             android:id="@+id/radioQuotidien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text1"
             android:text="@string/radio_journalier" />
 
         <RadioButton
             android:id="@+id/radioHebdomadaire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text1"
             android:text="@string/radio_hebdomadaire" />
 
         <RadioButton
             android:id="@+id/radioMensuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text1"
             android:text="@string/radio_mensuel" />
     </RadioGroup>
 
@@ -103,6 +107,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
         android:text="@string/erreur_frequence_quete"
+        android:textSize="@dimen/text1"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
@@ -114,7 +119,7 @@
         android:layout_marginTop="20dp"
         android:text="Jours choisis:"
         android:textColor="@color/couleurTexte"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioFrequenceTache" />
@@ -127,7 +132,7 @@
         android:layout_marginStart="12dp"
         android:text="{jours}"
         android:visibility="gone"
-        android:textSize="12sp"
+        android:textSize="@dimen/text1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titreJoursTache" />
 
@@ -138,7 +143,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/importance_quete"
         android:textColor="@color/couleurTexte"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelJoursTache" />
 
@@ -156,6 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="30dp"
+            android:textSize="@dimen/text1"
             android:text="@string/radio_faible" />
 
         <RadioButton
@@ -163,12 +169,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
+            android:textSize="@dimen/text1"
             android:text="@string/radio_moyen" />
 
         <RadioButton
             android:id="@+id/radioElevee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/text1"
             android:text="@string/radio_elevee" />
     </RadioGroup>
 
@@ -178,6 +186,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_light"
         android:text="@string/erreur_importance_quete"
+        android:textSize="@dimen/text1"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioImportanceTache" />

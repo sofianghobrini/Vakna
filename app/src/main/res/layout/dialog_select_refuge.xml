@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/selectionner_refuge"
-        android:textSize="22sp"
+        android:textSize="@dimen/titre"
         android:textStyle="bold"
         android:color="?android:attr/textColorPrimary"
         android:layout_gravity="center_horizontal" />
@@ -43,13 +43,13 @@
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/gray"
             android:text="@string/annuler"
-            android:textSize="12sp" />
+            android:textSize="@dimen/bouton" />
 
         <Button
             android:id="@+id/boutonSelect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/bouton"
             android:text="@string/selectionner" />
     </LinearLayout>
 </LinearLayout>

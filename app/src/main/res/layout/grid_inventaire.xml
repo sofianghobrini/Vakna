@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="8x"
-            android:textSize="12sp"
+            android:textSize="@dimen/textPopUps"
             android:layout_gravity="right"/>
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="Name"
-            android:textSize="10sp"
+            android:textSize="@dimen/petitTextePopUps"
             android:textStyle="bold"
             android:textColor="@color/couleurTexte"
             android:layout_gravity="center_vertical" />
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10"
-            android:textSize="10sp"
+            android:textSize="@dimen/textPopUps"
             android:textColor="@color/green" />
 
     </LinearLayout>

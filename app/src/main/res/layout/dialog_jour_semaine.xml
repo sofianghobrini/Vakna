@@ -11,50 +11,57 @@
         android:layout_height="wrap_content"
         android:text="@string/choisir_jours_semaine"
         android:textColor="@color/purple_700"
-        android:textSize="18sp"
+        android:textSize="@dimen/sousTitre"
         android:paddingBottom="8dp" />
 
     <CheckBox
         android:id="@+id/checkbox_lundi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lundi" />
+        android:text="@string/lundi"
+        android:textSize="@dimen/text1"/>
 
     <CheckBox
         android:id="@+id/checkbox_mardi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mardi" />
+        android:text="@string/mardi"
+        android:textSize="@dimen/text1" />
 
     <CheckBox
         android:id="@+id/checkbox_mercredi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mercredi" />
+        android:text="@string/mercredi"
+        android:textSize="@dimen/text1" />
 
     <CheckBox
         android:id="@+id/checkbox_jeudi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/jeudi" />
+        android:text="@string/jeudi"
+        android:textSize="@dimen/text1" />
 
     <CheckBox
         android:id="@+id/checkbox_vendredi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/vendredi" />
+        android:text="@string/vendredi"
+        android:textSize="@dimen/text1" />
 
     <CheckBox
         android:id="@+id/checkbox_samedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/samedi" />
+        android:text="@string/samedi"
+        android:textSize="@dimen/text1" />
 
     <CheckBox
         android:id="@+id/checkbox_dimanche"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dimanche" />
+        android:text="@string/dimanche"
+        android:textSize="@dimen/text1" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -68,15 +75,17 @@
             android:layout_width="122dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="@string/confirmer" />
+            android:text="@string/confirmer"
+            android:textSize="@dimen/bouton" />
 
         <Button
             android:id="@+id/button_defaut"
-            android:layout_width="122dp"
+            android:layout_width="130dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:layout_marginStart="12dp"
-            android:text="@string/defaut_semaine" />
+            android:text="@string/defaut_semaine"
+            android:textSize="@dimen/bouton" />
 
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="titre">32sp</dimen>
+    <dimen name="sousTitre">26sp</dimen>
+    <dimen name="text1">18sp</dimen>
+    <dimen name="petitTexte">15sp</dimen>
+    <dimen name="titrePopUps">20sp</dimen>
+    <dimen name="textPopUps">14sp</dimen>
+    <dimen name="petitTextePopUps">10sp</dimen>
+    <dimen name="bouton">16sp</dimen>
+</resources>
