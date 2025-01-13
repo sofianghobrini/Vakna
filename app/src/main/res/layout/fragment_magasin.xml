@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/titre_magasin"
         android:textColor="@color/purple_500"
-        android:textSize="30sp"
+        android:textSize="@dimen/titre"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:textColor="@color/couleurTexte"
-            android:textSize="12sp" />
+            android:textSize="@dimen/petitTexte" />
 
         <ImageView
             android:layout_width="15dp"
@@ -65,7 +65,7 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/magasin_consommable_icon"
             android:background="@drawable/bouton_rond"
-            android:backgroundTint="@color/couleurTitre"
+            android:backgroundTint="@color/tacheTermine"
             android:scaleType="fitCenter"/>
 
         <ImageButton

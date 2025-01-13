@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:text="@string/popup_nom_objet"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/titrePopUps" />
 
         <TextView
             android:id="@+id/popupMagasinQuestion"
@@ -29,18 +29,18 @@
             android:text="@string/popup_acheter_plus"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="10sp" />
+            android:textSize="@dimen/textPopUps" />
 
         <Button
             android:id="@+id/boutonMagasin"
-            android:layout_width="85dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:backgroundTint="@color/green"
             android:text="@string/titre_magasin"
-            android:textSize="10sp" />
+            android:textSize="@dimen/textPopUps" />
 
     </LinearLayout>
 

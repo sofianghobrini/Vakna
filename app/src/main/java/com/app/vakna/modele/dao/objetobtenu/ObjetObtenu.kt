@@ -16,7 +16,7 @@ class ObjetObtenu(
 ) : Objet(id, nom, prix, niveau, type, detail, imageUrl) {
 
     override fun toGridData(): GridConsommableData {
-        return GridConsommableData(getImageUrl(), getNom(), getNiveau(), getPrix(), getQuantite())
+        return GridConsommableData(getImageUrl(), getNom(), getNiveau(), getPrix(), getType(), getQuantite())
     }
 
     fun getQuantite(): Int {

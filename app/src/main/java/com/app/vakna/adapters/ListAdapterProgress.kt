@@ -62,21 +62,21 @@ class ListAdapterProgress(
                             completedTasks++
                             updateProgressBar()
                             updateBackground(holder.cardView)
-                            val updatedList = dataArrayList
-                                .filter { !it.estArchivee }
-                                .sortedWith(
-                                    compareBy<ListData> { it.estTermine }
-                                        .thenByDescending {
-                                            when (it.importance) {
-                                                "ELEVEE" -> 3
-                                                "MOYENNE" -> 2
-                                                "FAIBLE" -> 1
-                                                else -> 0
-                                            }
-                                        }
-                                        .thenBy { it.name }
-                                )
-                            updateData(updatedList)
+//                            val updatedList = dataArrayList
+//                                .filter { !it.estArchivee }
+//                                .sortedWith(
+//                                    compareBy<ListData> { it.estTermine }
+//                                        .thenByDescending {
+//                                            when (it.importance) {
+//                                                "ELEVEE" -> 3
+//                                                "MOYENNE" -> 2
+//                                                "FAIBLE" -> 1
+//                                                else -> 0
+//                                            }
+//                                        }
+//                                        .thenBy { it.name }
+//                                )
+//                            updateData(updatedList)
                         } else {
                             switchTermine.isChecked = false
                         }
@@ -133,9 +133,9 @@ class ListAdapterProgress(
         dialog.show()
     }
 
-    fun updateData(newList: List<ListData>) {
-        dataArrayList.clear()
-        dataArrayList.addAll(newList)
-        notifyDataSetChanged()
-    }
+//    fun updateData(newList: List<ListData>) {
+//        dataArrayList.clear()
+//        dataArrayList.addAll(newList)
+//        notifyDataSetChanged()
+//    }
 }

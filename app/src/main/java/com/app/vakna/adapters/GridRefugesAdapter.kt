@@ -31,6 +31,9 @@ class GridRefugesAdapter (
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
         val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
+        val effet = view.findViewById<ImageView>(R.id.itemEffet)
+
+        effet.visibility = View.GONE
 
         nomTextView.text = item.nom
         coutTextView.text = item.cout.toString()

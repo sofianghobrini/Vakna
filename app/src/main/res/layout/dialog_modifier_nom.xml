@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:text="@string/modif_nom_compagnon_dialog"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="20sp"
+        android:textSize="@dimen/sousTitre"
         android:textStyle="bold"
+        android:textAlignment="center"
         android:padding="16dp" />
 
     <EditText
@@ -21,13 +22,14 @@
         android:layout_height="wrap_content"
         android:hint="@string/nouveau_nom_exemple"
         android:inputType="text"
+        android:textSize="@dimen/text1"
         android:padding="12dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end"
+        android:gravity="center"
         android:padding="8dp">
 
         <Button
@@ -38,6 +40,7 @@
             android:backgroundTint="@color/gray"
             android:insetRight="30dp"
             android:text="@string/annuler"
+            android:textSize="@dimen/bouton"
             android:textColor="@android:color/white" />
 
         <Button
@@ -45,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/confirmer"
+            android:textSize="@dimen/bouton"
             android:backgroundTint="@color/purple_500"
             android:textColor="@android:color/white"
             style="@style/Widget.MaterialComponents.Button.TextButton" />

@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textSize="12sp"
+            android:textSize="@dimen/textPopUps"
             android:textStyle="bold"
             android:textColor="@color/couleurTexte" />
 
@@ -31,12 +31,28 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/itemNiveau"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10"
-            android:textSize="10sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <ImageView
+                android:id="@+id/itemEffet"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/humeur_0"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/itemNiveau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="@dimen/textPopUps" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20"
-            android:textSize="10sp"
+            android:textSize="@dimen/textPopUps"
             android:layout_gravity="center" />
 
         <ImageView

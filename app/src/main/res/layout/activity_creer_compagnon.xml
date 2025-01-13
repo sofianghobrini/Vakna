@@ -19,7 +19,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/titre_creer_compagnon"
         android:textColor="@color/couleurTitre"
-        android:textSize="32dp"
+        android:textSize="@dimen/titre"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/espece_compagnon"
         android:textColor="@color/couleurTexte"
-        android:textSize="28dp"
+        android:textSize="@dimen/sousTitre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dragon_gif" />
@@ -63,6 +63,7 @@
         android:layout_marginTop="24dp"
         android:entries="@array/types_quete"
         android:spinnerMode="dropdown"
+        android:textSize="@dimen/text1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelEspeceCompagnon" />
@@ -74,7 +75,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/nom_compagnon"
         android:textColor="@color/couleurTexte"
-        android:textSize="28dp"
+        android:textSize="@dimen/sousTitre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/EspeceSelect" />
@@ -91,7 +92,7 @@
         android:inputType="text"
         android:padding="5dp"
         android:textColorHint="@color/gray"
-        android:textSize="18sp"
+        android:textSize="@dimen/text1"
         android:maxLength="16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,6 +105,7 @@
         android:layout_marginTop="30dp"
         android:backgroundTint="@color/purple_500"
         android:text="@string/confirmer"
+        android:textSize="@dimen/bouton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputNomCompagnon" />

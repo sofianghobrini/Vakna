@@ -12,12 +12,13 @@
         android:layout_height="wrap_content"
         android:text="Message"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textSize="@dimen/text1" />
 
     <Button
         android:id="@+id/placeholder_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
+        android:textSize="@dimen/bouton"
         android:layout_marginTop="8dp" />
 </LinearLayout>

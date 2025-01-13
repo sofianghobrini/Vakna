@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="125dp"
+    android:layout_width="145dp"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
     <LinearLayout
         android:id="@+id/layoutPopUp"
-        android:layout_width="125dp"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:background="@color/purple_200"
         android:orientation="vertical"
@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:text="@string/popup_nom_objet"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/titrePopUps" />
 
         <TextView
             android:id="@+id/popupQuestion"
@@ -29,7 +29,7 @@
             android:text="@string/popup_nombre_utilisations"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="10sp" />
+            android:textSize="@dimen/textPopUps" />
 
         <NumberPicker
             android:id="@+id/nombreUtilisations"
@@ -40,14 +40,14 @@
 
         <Button
             android:id="@+id/boutonUtiliser"
-            android:layout_width="85dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="4dp"
             android:backgroundTint="@color/green"
             android:text="@string/bouton_utiliser"
-            android:textSize="10sp" />
+            android:textSize="@dimen/textPopUps" />
 
     </LinearLayout>
 
