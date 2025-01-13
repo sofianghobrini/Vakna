@@ -6,6 +6,7 @@
     <dimen name="petitTexte">15sp</dimen>
     <dimen name="titrePopUps">20sp</dimen>
     <dimen name="textPopUps">14sp</dimen>
+    <dimen name="text2PopUps">12sp</dimen>
     <dimen name="petitTextePopUps">10sp</dimen>
     <dimen name="bouton">16sp</dimen>
 </resources>
