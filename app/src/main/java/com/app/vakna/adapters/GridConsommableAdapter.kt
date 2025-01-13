@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.app.vakna.vue.DetailsObjetActivity
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
+import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
 
 open class GridConsommableAdapter (
@@ -30,10 +31,16 @@ open class GridConsommableAdapter (
         val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
         val coutTextView = view.findViewById<TextView>(R.id.itemCout)
+        val effet = view.findViewById<ImageView>(R.id.itemEffet)
         val boutonAchat = view.findViewById<ImageButton>(R.id.boutonVueDetaille)
 
         nomTextView.text = item.nom
         niveauTextView.text = item.niveau.toString()
+
+        when(item.type) {
+            TypeObjet.JOUET -> effet.setImageResource(R.drawable.humeur_0)
+            TypeObjet.NOURRITURE -> effet.setImageResource(R.drawable.faim_0)
+        }
 
         Glide.with(context)
             .load(item.image)

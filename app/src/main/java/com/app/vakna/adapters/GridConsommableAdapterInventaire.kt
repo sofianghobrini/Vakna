@@ -15,6 +15,7 @@ import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.controller.ControllerCompagnon
 import com.app.vakna.databinding.FragmentCompagnonBinding
+import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import com.app.vakna.modele.gestionnaires.Inventaire
 import com.bumptech.glide.Glide
@@ -36,10 +37,16 @@ class GridConsommableAdapterInventaire(
         val nomTextView = view.findViewById<TextView>(R.id.itemNom)
         val niveauTextView = view.findViewById<TextView>(R.id.itemNiveau)
         val imageView = view.findViewById<ImageView>(R.id.itemImage)
+        val effet = view.findViewById<ImageView>(R.id.itemEffet)
         val qteTextView = view.findViewById<TextView>(R.id.itemQuantite)
 
         nomTextView.text = item.nom
         niveauTextView.text = item.niveau.toString()
+
+        when(item.type) {
+            TypeObjet.JOUET -> effet.setImageResource(R.drawable.humeur_0)
+            TypeObjet.NOURRITURE -> effet.setImageResource(R.drawable.faim_0)
+        }
 
         Glide.with(context)
             .load(item.image)
