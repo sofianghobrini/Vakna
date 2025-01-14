@@ -14,7 +14,7 @@ class ViewPagerAdapterConsommable(
 ) : RecyclerView.Adapter<ViewPagerAdapterConsommable.PagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.grid_objet, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.liste_objet, parent, false)
         return PagerViewHolder(view)
     }
 
@@ -30,6 +30,6 @@ class ViewPagerAdapterConsommable(
     override fun getItemCount(): Int = pages.size
 
     inner class PagerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val gridView: GridView = view.findViewById(R.id.grid_view_items)
+        val gridView: GridView = view.findViewById(R.id.grid_view_items_objet)
     }
 }

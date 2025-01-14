@@ -110,7 +110,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
     }
 
     private fun setupViewSwipeNourritureJouet(defaultTab: Int = 0) {
-        val viewPager = binding.viewPager
+        val viewPager = binding.viewPagerMagasin
         val tabLayout = binding.tabLayout
 
         val pages = SetPageConsommable()
@@ -135,7 +135,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
 
 
     private fun setupViewSwipeCompagnonRefuge(defaultTab: Int = 0) {
-        val viewPager = binding.viewPager
+        val viewPager = binding.viewPagerMagasin
         val tabLayout = binding.tabLayout
 
         val pages = SetPageCompagnon()
