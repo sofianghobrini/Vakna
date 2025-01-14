@@ -65,7 +65,7 @@
     <string name="radio_moyen">Moyen</string>
     <string name="radio_elevee">Élevée</string>
     <string name="dialog_titre_archive">Archiver la quête?</string>
-    <string name="dialog_texte_archive">Voulez-vous vraiment archiver la quête %1$s? Vous ne pourrez plus réactiver cette quête! Cependant, vous pourrez toujours la revoir dans la page d\'archive.</string>
+    <string name="dialog_texte_archive">Voulez-vous vraiment archiver la quête %1$s? Vous pourrez la retrouver dans la page d\'archive et la réactiver plus tard.</string>
     <string name="bouton_archive">Archiver</string>
     <string name="dialog_titre_finir_quete">Avez-vous fini cette quête?</string>
     <string name="bouton_finir">Terminer</string>
@@ -145,5 +145,8 @@
     <string name="personnalite_travailleur">Travailleur</string>
     <string name="pas_de_connection">Pas de connection!</string>
     <string name="refuges">Refuges</string>
+    <string name="dialog_titre_reactive">Réactiver la quête?</string>
+    <string name="dialog_texte_reactive">Voulez-vous vraiment réactiver la quête %1$s?</string>
+    <string name="bouton_reactive">Réactiver</string>
 
 </resources>

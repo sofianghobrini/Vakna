@@ -33,6 +33,7 @@ open class ListAdapter(
         val flammeRouge: ImageView = itemView.findViewById(R.id.flame_red)
         val listTermine: SwitchMaterial? = itemView.findViewById(R.id.listSwitchTermine)
         val cardView: CardView? = itemView.findViewById(R.id.cardView)
+        val boutonReactiveTache: ImageButton? = itemView.findViewById(R.id.boutonReactiverTache)
         val boutonArchiverTache: ImageButton? = itemView.findViewById(R.id.boutonArchiverTache)
         val boutonModifierTache: ImageButton? = itemView.findViewById(R.id.boutonModifierTache)
     }

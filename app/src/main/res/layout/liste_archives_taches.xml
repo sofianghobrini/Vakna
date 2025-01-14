@@ -11,5 +11,17 @@
             layout="@layout/contenu_liste_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/boutonReactiverTache"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/dearchiver"
+            android:background="@android:color/transparent"
+            android:textColor="@color/white"
+            android:layout_marginEnd="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

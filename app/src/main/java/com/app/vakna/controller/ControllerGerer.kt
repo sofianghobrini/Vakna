@@ -81,6 +81,18 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         binding.listeTaches.adapter = listAdapter
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun ajoutDividers(listeBinding: RecyclerView) {
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        listeBinding.layoutManager = layoutManager
+
+        listeBinding.addItemDecoration(
+            DividerItemDecoration(context, layoutManager.orientation).apply {
+                setDrawable(context.getDrawable(R.drawable.divider_item)!!)
+            }
+        )
+    }
+
     @SuppressLint("SetTextI18n")
     private fun showArchiveDialog(nomTache: String) {
         val dialogView = LayoutInflater.from(context)
@@ -106,17 +118,5 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
         }
 
         dialog.show()
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun ajoutDividers(listeBinding: RecyclerView) {
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        listeBinding.layoutManager = layoutManager
-
-        listeBinding.addItemDecoration(
-            DividerItemDecoration(context, layoutManager.orientation).apply {
-                setDrawable(context.getDrawable(R.drawable.divider_item)!!)
-            }
-        )
     }
 }

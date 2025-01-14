@@ -3,11 +3,16 @@ package com.app.vakna.controller
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.R
 import com.app.vakna.adapters.ListAdapter
+import com.app.vakna.adapters.ListAdapterArchive
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityArchivesBinding
 import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
@@ -51,7 +56,11 @@ class ControllerArchives(private val binding: ActivityArchivesBinding) {
                 }
             }.thenBy { it.name })
 
-        listAdapter = ListAdapter(ArrayList(dataTrier))
+        listAdapter = ListAdapterArchive(
+            ArrayList(dataTrier),
+            onReactiveClick = { nomTache ->
+                showReactiveDialog(nomTache)
+            })
 
         binding.listeTaches.adapter = listAdapter
     }
@@ -66,5 +75,30 @@ class ControllerArchives(private val binding: ActivityArchivesBinding) {
                 setDrawable(context.getDrawable(R.drawable.divider_item)!!)
             }
         )
+    }
+
+    private fun showReactiveDialog(nomTache: String) {
+        val dialogView = LayoutInflater.from(context)
+            .inflate(R.layout.dialog_dearchive, null)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .create()
+
+        val nomTacheTextView = dialogView.findViewById<TextView>(R.id.dialogTexteWarning)
+        nomTacheTextView.text = context.getString(R.string.dialog_texte_reactive, nomTache)
+
+        dialogView.findViewById<Button>(R.id.boutonAnnuler).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.boutonReactiver).setOnClickListener {
+            val gestionnaire = GestionnaireDeTaches(context)
+            gestionnaire.reactiverTache(nomTache)
+            setUpRecyclerView()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }

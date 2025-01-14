@@ -62,7 +62,7 @@
     <string name="radio_moyen">Medium</string>
     <string name="radio_elevee">High</string>
     <string name="dialog_titre_archive">Archive quest?</string>
-    <string name="dialog_texte_archive">Are you sure you want to archive quest %1$s? You won\'t be able to reactivate this quest! However, you can still view it in the archive page.</string>
+    <string name="dialog_texte_archive">Are you sure you want to archive the quest %1$s? You will be able to find it and reactivate it in the archives page.</string>
     <string name="bouton_archive">Archive</string>
     <string name="dialog_titre_finir_quete">Have you finished this quest?</string>
     <string name="bouton_finir">Finish</string>
@@ -142,5 +142,8 @@
     <string name="personnalite_travailleur">Hardworking</string>
     <string name="pas_de_connection">No connection!</string>
     <string name="refuges">Shelters</string>
+    <string name="dialog_titre_reactive">Reactivate Quest?</string>
+    <string name="dialog_texte_reactive">Do you really want to reactivate the quest %1$s?</string>
+    <string name="bouton_reactive">Reactivate</string>
 
 </resources>

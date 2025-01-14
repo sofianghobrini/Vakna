@@ -139,7 +139,6 @@ class GestionnaireDeTaches(context: Context) {
         tacheDAO.modifier(nom, tache)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun archiverTache(nom: String): Boolean {
         val tache = setDeTaches.find { it.nom == nom } ?: return false
         handleAbandon(tache)
@@ -148,7 +147,13 @@ class GestionnaireDeTaches(context: Context) {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    fun reactiverTache(nom: String): Boolean {
+        val tache = setDeTaches.find { it.nom == nom } ?: return false
+        tache.estArchivee = false
+        tacheDAO.modifier(nom, tache)
+        return true
+    }
+
     fun verifierTacheNonAccomplies(): Boolean {
         val dateActuelle = LocalDateTime.now()
         tacheDAO.obtenirTous().forEach {
