@@ -151,11 +151,12 @@ class GridConsommableAdapterInventaire(
             val qteUtilisations = nombreUtilisations.value
             inventaire.utiliserObjet(item.nom, qteUtilisations)
 
-            val type = inventaire.obtenirObjet(item.nom)?.getType()
+            var type = inventaire.obtenirObjet(item.nom)?.getType()
+            val typeObjet = listOf(type)
             val updatedItems = type?.let { it1 -> inventaire.obtenirObjets(it1) }
             items.clear()
 
-            ControllerCompagnon.setupGridView(updatedItems!!, type, binding)
+            ControllerCompagnon.setupPagerView(updatedItems!!, listOf(TypeObjet.JOUET, TypeObjet.NOURRITURE), binding)
             val gestionnaire = GestionnaireDeCompagnons(context)
             var compagnon = gestionnaire.obtenirActif()
             if (compagnon == null) {

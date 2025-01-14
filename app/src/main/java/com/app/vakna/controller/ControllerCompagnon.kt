@@ -37,7 +37,6 @@ import com.app.vakna.modele.gestionnaires.MagasinObjets
 import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**
@@ -86,7 +85,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         updateAffichageCompagnon()
         updateRefuge(binding)
 
-        setupViewPagerInventaire(listOf(TypeObjet.JOUET, TypeObjet.NOURRITURE))
+        creationTabs()
 
         updateCompagnonsSupplementaires(compagnons)
 
@@ -194,7 +193,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             .into(binding.refuge)
     }
 
-    private fun creationTabs(): List<TypeObjet> {
+    private fun creationTabs(){
         val listeTypesObjet = magasinObjets.obtenirObjets().map { it.getType() }.distinct()
 
         listeTypesObjet.forEach {
@@ -203,29 +202,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
 
         val items = inventaire.obtenirObjets(listeTypesObjet.first())
-        setupGridView(items, listeTypesObjet.first(), binding)
-
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                inventaire = Inventaire(context)
-
-                val selectedTypeName = tab?.text.toString()
-
-                val selectedType = when (selectedTypeName) {
-                    context.getString(R.string.tab_jouet) -> TypeObjet.JOUET
-                    context.getString(R.string.tab_nourriture) -> TypeObjet.NOURRITURE
-                    else -> TypeObjet.JOUET
-                }
-
-                val filteredItems = inventaire.obtenirObjets(selectedType)
-
-                setupGridView(filteredItems, selectedType, binding)
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-        return listeTypesObjet
+        setupPagerView(items, listeTypesObjet, binding)
     }
 
     private fun getTabTitle(type: TypeObjet): String {
@@ -288,7 +265,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         val listeTypesObjet = magasinObjets.obtenirObjets().map { it.getType() }.distinct()
 
         val items = inventaire.obtenirObjets(listeTypesObjet.first())
-        setupGridView(items, listeTypesObjet.first(), binding)
+        setupPagerView(items, listOf(TypeObjet.JOUET, TypeObjet.NOURRITURE), binding)
     }
 
     private fun setUpRefuges() {
@@ -477,42 +454,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         dialog.show()
     }
 
-    fun setupViewPagerInventaire(items: List<TypeObjet>){
-        val viewPager = binding.viewPagerCompagnon
-        val tabLayout = binding.tabLayout
 
-        val pages = SetPageInventaire()
-        val tabTitles = listOf(R.string.tab_jouet, R.string.tab_nourriture)
-
-        viewPager.adapter = ViewPagerAdapterInventaire(binding = binding, context, pages, items)
-
-        viewPager.getChildAt(0).apply {
-            if (this is RecyclerView) {
-                this.setOnTouchListener { _, _ -> false }
-            }
-        }
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = context?.getString(tabTitles[position])
-        }.attach()
-    }
-
-    private fun SetPageInventaire(): List<ArrayList<GridConsommableData>> {
-
-        val nourritureList: List<ObjetObtenu> = inventaire.obtenirObjets(TypeObjet.NOURRITURE)
-        val sortedNourriture = nourritureList.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom()})
-        val InventaireNourritureList: ArrayList<GridConsommableData> =  Inventaire.setToGridDataArray(sortedNourriture)
-
-        val jouetList: List<ObjetObtenu> = inventaire.obtenirObjets(TypeObjet.JOUET)
-        val sortedJouets = jouetList.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom()})
-        val InventaireJouetsList: ArrayList<GridConsommableData> = Inventaire.setToGridDataArray(sortedJouets)
-
-        val pages = listOf(
-            InventaireJouetsList,
-            InventaireNourritureList
-        )
-        return pages
-    }
 
     companion object {
         private fun affichageHumeur(binding: FragmentCompagnonBinding, it: Compagnon) {
@@ -625,9 +567,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
          */
 
 
-        fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
+        fun setupPagerView(items: List<ObjetObtenu>, type: List<TypeObjet>, binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
+            val inventaire = Inventaire(context)
             var compagnonGrid = gestionnaire.obtenirActif()
             if (compagnonGrid == null) {
                 compagnonGrid = gestionnaire.obtenirCompagnons().first()
@@ -639,32 +582,47 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 affichageFaim(binding, it)
             }
 
-//            if(items.isEmpty()) {
-//
-//                val inventaireVideMessage = when (type) {
-//                    TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
-//                    TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
-//                }
-//
-//                val placeholderItem = InventaireVideData(
-//                    message = inventaireVideMessage,
-//                    buttonText = context.getString(R.string.titre_magasin),
-//                    buttonAction = {
-//                        when (type) {
-//                            TypeObjet.JOUET -> { NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin) }
-//                            TypeObjet.NOURRITURE -> {  NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Nourriture") }
-//                        }
-//                    }
-//                )
-//
-//                val gridItems = listOf(placeholderItem)
-//
-//                val adapter = InventaireVideAdapter(binding, gridItems)
-//                binding.viewPagerCompagnon.adapter = adapter
-//            } else {
-//                setupViewPagerInventaire()
-//            }
-      }
+            setupViewPagerInventaire(binding, items, type, inventaire)
 
+        }
+        fun setupViewPagerInventaire(
+            binding: FragmentCompagnonBinding,
+            listObjet: List<ObjetObtenu>,
+            type:List<TypeObjet>,
+            inventaire: Inventaire
+        ) {
+            val viewPager = binding.viewPagerCompagnon
+            val tabLayout = binding.tabLayout
+
+            val pages = setPageInventaire(inventaire)
+            val tabTitles = listOf(R.string.tab_jouet, R.string.tab_nourriture)
+
+            viewPager.adapter = ViewPagerAdapterInventaire(binding = binding, viewPager.context, pages, listObjet, type)
+
+            viewPager.getChildAt(0).apply {
+                if (this is RecyclerView) {
+                    this.setOnTouchListener { _, _ -> false }
+                }
+            }
+
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = viewPager.context.getString(tabTitles[position])
+            }.attach()
+        }
+
+        private fun setPageInventaire(inventaire: Inventaire): List<ArrayList<GridConsommableData>> {
+            val nourritureList = inventaire.obtenirObjets(TypeObjet.NOURRITURE)
+                .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+            val InventaireNourritureList = Inventaire.setToGridDataArray(nourritureList)
+
+            val jouetList = inventaire.obtenirObjets(TypeObjet.JOUET)
+                .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+            val InventaireJouetsList = Inventaire.setToGridDataArray(jouetList)
+
+            return listOf(InventaireJouetsList, InventaireNourritureList)
+        }
     }
+
+
 }
+
