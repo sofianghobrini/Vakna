@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/gererLayout"
+    android:id="@+id/archivesLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    tools:context=".vue.GererActivity">
+    tools:context=".vue.ArchivesActivity">
 
     <ImageButton
         android:id="@+id/boutonRetour"
@@ -21,24 +21,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/boutonArchives"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/archives"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/texteTitreGerer"
+        android:id="@+id/texteTitreArchives"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="42dp"
-        android:text="@string/titre_gerer_quete"
+        android:text="@string/titre_archives"
         android:textColor="@color/purple_500"
         android:textSize="@dimen/titre"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +40,7 @@
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/texteTitreGerer" />
+        app:layout_constraintTop_toBottomOf="@id/texteTitreArchives" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listeTaches"
@@ -63,7 +51,7 @@
         android:padding="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/texteTitreGerer"
-        tools:listitem="@layout/liste_gerer_taches" />
+        app:layout_constraintTop_toBottomOf="@id/texteTitreArchives"
+        tools:listitem="@layout/liste_archives_taches" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

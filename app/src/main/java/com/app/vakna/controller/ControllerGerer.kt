@@ -18,6 +18,7 @@ import com.app.vakna.adapters.ListAdapterGerer
 import com.app.vakna.adapters.ListData
 import com.app.vakna.databinding.ActivityGererBinding
 import com.app.vakna.modele.gestionnaires.GestionnaireDeTaches
+import com.app.vakna.vue.ArchivesActivity
 
 class ControllerGerer(private val binding: ActivityGererBinding) {
 
@@ -35,6 +36,14 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
                 val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
                 context.finish()
+            }
+        }
+
+        val boutonArchives = binding.boutonArchives
+        boutonArchives.setOnClickListener {
+            if (context is GererActivity) {
+                val intent = Intent(context, ArchivesActivity::class.java)
+                context.startActivity(intent)
             }
         }
     }
@@ -68,6 +77,7 @@ class ControllerGerer(private val binding: ActivityGererBinding) {
                     context.startActivity(intent)
                 }
             })
+
         binding.listeTaches.adapter = listAdapter
     }
 

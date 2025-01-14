@@ -43,6 +43,9 @@
         <activity android:name=".vue.ModifierActivity"
             android:screenOrientation="portrait"
             android:label="Modifier Tâche" />
+        <activity android:name=".vue.ArchivesActivity"
+            android:screenOrientation="portrait"
+            android:label="Settings" />
         <activity android:name=".vue.CreerCompagnonActivity"
             android:screenOrientation="portrait"
             android:label="Créer le compagnon" />
