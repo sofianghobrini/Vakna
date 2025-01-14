@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".vue.fragmants.magasin.MagasinFragment">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:background="#111B1A1A"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout" />
+
     <TextView
         android:id="@+id/titreMagasin"
         android:layout_width="wrap_content"

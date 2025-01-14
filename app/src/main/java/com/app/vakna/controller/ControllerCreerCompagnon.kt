@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -18,7 +17,6 @@ import com.app.vakna.vue.CreerCompagnonActivity
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.databinding.ActivityCreerCompagnonBinding
-import com.app.vakna.modele.InitialisationJSON
 import com.app.vakna.modele.dao.compagnon.Compagnon
 import com.app.vakna.modele.gestionnaires.MagasinCompagnons
 import com.app.vakna.modele.dao.compagnon.CompagnonDAO
