@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
         <ImageView
