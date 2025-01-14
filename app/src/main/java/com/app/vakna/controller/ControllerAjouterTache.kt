@@ -94,10 +94,12 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
             valide = false
         }
 
-        val gestionnaireDeTaches = GestionnaireDeTaches(binding.root.context)
+        val gestionnaireDeTaches = GestionnaireDeTaches(context)
         gestionnaireDeTaches.obtenirTache(nomTacheEditText.text.toString())?.let {
-            nomTacheEditText.error = "Il ne peut pas y avoir deux quêtes avec le même nom"
-            valide = false
+            if(!it.estArchivee) {
+                nomTacheEditText.error = "Il ne peut pas y avoir deux quêtes avec le même nom"
+                valide = false
+            }
         }
         return valide
     }

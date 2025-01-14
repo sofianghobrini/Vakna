@@ -63,7 +63,13 @@ class GestionnaireDeTaches(context: Context) {
             throw IllegalArgumentException("Le nom de la tâche ne peut pas être vide")
         }
         if (!setDeTaches.add(tache)) {
-            throw IllegalArgumentException("Une tâche avec le nom '${tache.nom}' existe déjà")
+            val tacheExistante = obtenirTache(tache.nom)
+            if (tacheExistante?.estArchivee == true) {
+                setDeTaches.remove(tacheExistante)
+                tacheDAO.supprimer(tacheExistante.nom)
+            } else {
+                throw IllegalArgumentException("Une tâche avec le nom '${tache.nom}' existe déjà")
+            }
         }
         return tacheDAO.inserer(tache)
     }
