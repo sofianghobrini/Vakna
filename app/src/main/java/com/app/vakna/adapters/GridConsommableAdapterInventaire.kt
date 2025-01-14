@@ -1,11 +1,15 @@
 package com.app.vakna.adapters
 
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.PopupWindow
@@ -123,13 +127,52 @@ class GridConsommableAdapterInventaire(
         val popupTextUtilisationView: TextView =
             popupUtilisationView.findViewById(R.id.popupUtilisationTitre)
         popupTextUtilisationView.text = item.nom
+
         val popupTextQuestion: TextView = popupUtilisationView.findViewById(R.id.popupQuestion)
         popupTextQuestion.text = context.getString(R.string.popup_quantite_utiliser, item.nom)
 
-        val nombreUtilisations =
-            popupUtilisationView.findViewById<NumberPicker>(R.id.nombreUtilisations)
-        nombreUtilisations.minValue = 1
-        nombreUtilisations.maxValue = item.qte!!
+        val boutonDiminuer: ImageButton = popupUtilisationView.findViewById(R.id.boutonDiminuer)
+        val boutonAugmenter: ImageButton = popupUtilisationView.findViewById(R.id.boutonAugmenter)
+        val quantite: EditText = popupUtilisationView.findViewById(R.id.inputQuantite)
+
+        quantite.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (!s.isNullOrEmpty()) {
+                    try {
+                        val input = s.toString().toInt()
+                        val maxValue = item.qte!!
+
+                        when {
+                            input < 1 -> {
+                                quantite.setText("1")
+                                quantite.setSelection(quantite.text.length)
+                            }
+                            input > maxValue -> {
+                                quantite.setText(maxValue.toString())
+                                quantite.setSelection(quantite.text.length)
+                            }
+                        }
+                    } catch (e: NumberFormatException) {
+                        quantite.setText("1")
+                        quantite.setSelection(quantite.text.length)
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        boutonDiminuer.setOnClickListener {
+            val qte = quantite.text.toString().toInt()
+            if (qte > 1) {
+                quantite.setText((qte - 1).toString())
+            }
+        }
+
+        boutonAugmenter.setOnClickListener {
+            val qte = quantite.text.toString().toInt()
+            quantite.setText((qte + 1).toString())
+        }
 
         popupUtilisationView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         val popupWidth = popupUtilisationView.measuredWidth
@@ -148,7 +191,7 @@ class GridConsommableAdapterInventaire(
         val buttonUtiliser: Button = popupUtilisationView.findViewById(R.id.boutonUtiliser)
         buttonUtiliser.text = context.getString(R.string.bouton_utiliser)
         buttonUtiliser.setOnClickListener {
-            val qteUtilisations = nombreUtilisations.value
+            val qteUtilisations = quantite.text.toString().toInt()
             inventaire.utiliserObjet(item.nom, qteUtilisations)
 
             var type = inventaire.obtenirObjet(item.nom)?.getType()

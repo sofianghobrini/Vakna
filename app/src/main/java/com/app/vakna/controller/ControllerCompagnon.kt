@@ -296,8 +296,6 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             }
 
             else -> {
-                binding.switchRefuge.setImageResource(R.drawable.changer_refuges)
-                binding.switchRefuge.setPadding(18, 18, 18, 18)
                 binding.switchRefuge.setOnClickListener {
                     showSelectRefugeDialog()
                 }

@@ -39,7 +39,7 @@ open class ListAdapter(
 
     // Création du ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TachesViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.liste_gerer_taches, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.liste_archives_taches, parent, false)
         return TachesViewHolder(view)
     }
 

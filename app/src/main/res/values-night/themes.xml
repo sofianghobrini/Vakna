@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Vakna" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="textAppearanceBody1">@color/couleurTexte</item>
+    </style>
+</resources>

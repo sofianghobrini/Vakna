@@ -24,7 +24,7 @@
             android:text="Name"
             android:textSize="@dimen/textPopUps"
             android:textStyle="bold"
-            android:textColor="@color/couleurTexte" />
+            android:textColor="?attr/textAppearanceBody1" />
 
         <View
             android:layout_width="0dp"

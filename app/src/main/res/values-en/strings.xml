@@ -48,6 +48,7 @@
     <string name="nom_compagnon">Companion name :</string>
     <string name="nom_compagnon_exemple">e.g., Veolia the dragon</string>
     <string name="titre_gerer_quete">Manage quests</string>
+    <string name="titre_archives">Archived Quests</string>
     <string name="titre_modif_quete">Edit quest &quot;{task name here}&quot;</string>
     <string name="nom_quete">Quest name :</string>
     <string name="nom_quete_exemple">e.g., do the dishes</string>
@@ -120,8 +121,8 @@
     <string name="personnalite_popup_message_avare">This companion loves money</string>
     <string name="personnalite_popup_message_grincheux">This companion is often in a bad mood</string>
     <string name="personnalite_popup_message_radin">This companion is very economical</string>
-    <string name="personnalite_popup_message_gentil">" This companion is very kind."</string>
-    <string name="personnalite_popup_message_joyeux">" This companion is always full of joy."</string>
+    <string name="personnalite_popup_message_gentil">This companion is very kind.</string>
+    <string name="personnalite_popup_message_joyeux">This companion is always full of joy.</string>
     <string name="personnalite_popup_message_travailleur">This companion is very invested</string>
     <string name="personnalite_popup_message_inconnue">Unknown personnality</string>
     <string name="refuge_description">Shelters can increase the mood or hunger gain of a companion</string>

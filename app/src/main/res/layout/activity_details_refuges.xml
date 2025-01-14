@@ -27,10 +27,11 @@
         android:id="@+id/texteTitreDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="{Nom refuge}"
-        android:textColor="@color/couleurTitre"
+        android:textColor="@color/purple_500"
         android:textSize="@dimen/titre"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,24 +40,22 @@
         android:id="@+id/layoutNombreCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="12dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/texteTitreDetails"
+        app:layout_constraintBottom_toBottomOf="@id/texteTitreDetails">
 
         <TextView
             android:id="@+id/texteNombreCoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="{Nombre Coins}"
-            android:textColor="@color/couleurTexte"
-            android:textSize="@dimen/petitTexte" />
+            android:textColor="@color/purple_500"
+            android:textSize="@dimen/text1" />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/coins"
             android:scaleType="fitCenter"
             android:layout_gravity="center"/>
@@ -90,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif Faim: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
         <View
@@ -104,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif Humeur: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
     </LinearLayout>
@@ -125,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif XP: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
         <View
@@ -139,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif pièces: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
     </LinearLayout>
@@ -150,7 +149,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Prix: {Prix}"
-        android:textColor="@color/couleurTexte"
+        android:textColor="@color/purple_500"
         android:textSize="@dimen/sousTitre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -7,11 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".vue.fragmants.magasin.MagasinFragment">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:background="#111B1A1A"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout" />
+
     <TextView
         android:id="@+id/titreMagasin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/titre_magasin"
         android:textColor="@color/purple_500"
         android:textSize="@dimen/titre"
@@ -24,23 +30,23 @@
         android:id="@+id/layoutNombreCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/titreMagasin"
+        app:layout_constraintBottom_toBottomOf="@id/titreMagasin">
 
         <TextView
             android:id="@+id/texteNombreCoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/couleurTexte"
-            android:textSize="@dimen/petitTexte" />
+            android:textColor="@color/purple_500"
+            android:textSize="@dimen/text1" />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/coins"
             android:scaleType="fitCenter"
             android:layout_gravity="center"/>
@@ -65,7 +71,7 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/magasin_consommable_icon"
             android:background="@drawable/bouton_rond"
-            android:backgroundTint="@color/tacheTermine"
+            android:backgroundTint="@color/purple_500"
             android:scaleType="fitCenter"/>
 
         <ImageButton
@@ -75,6 +81,7 @@
             android:padding="9dp"
             android:src="@drawable/magasin_compagnon_icon"
             android:background="@drawable/bouton_rond"
+            android:backgroundTint="@color/gray"
             android:scaleType="fitCenter"/>
 
     </LinearLayout>

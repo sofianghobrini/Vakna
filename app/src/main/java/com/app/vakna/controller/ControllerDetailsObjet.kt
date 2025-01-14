@@ -113,7 +113,7 @@ class ControllerDetailsObjet(
 
     private fun afficherNombreDeCoins() {
         val nombreDeCoins = inventaireDAO.obtenirPieces()
-        binding.texteNombreCoins.text = context.getString(R.string.nombre_de_coins, nombreDeCoins)
+        binding.texteNombreCoins.text = "$nombreDeCoins"
     }
 
     private fun prixTotal() {
