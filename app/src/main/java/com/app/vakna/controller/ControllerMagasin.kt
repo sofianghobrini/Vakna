@@ -97,14 +97,16 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
 
     private fun menuCompagnonsSelectionne() {
         binding.switchMagasinCompagnon.backgroundTintList =
-            context.getColorStateList(R.color.tacheTermine)
-        binding.switchMagasinConsom.backgroundTintList = null
+            context.getColorStateList(R.color.purple_500)
+        binding.switchMagasinConsom.backgroundTintList =
+            context.getColorStateList(R.color.gray)
     }
 
     private fun menuConsommableSelectionne() {
         binding.switchMagasinConsom.backgroundTintList =
-            context.getColorStateList(R.color.tacheTermine)
-        binding.switchMagasinCompagnon.backgroundTintList = null
+            context.getColorStateList(R.color.purple_500)
+        binding.switchMagasinCompagnon.backgroundTintList =
+            context.getColorStateList(R.color.gray)
     }
 
     private fun setupViewSwipeNourritureJouet(defaultTab: Int = 0) {
