@@ -31,12 +31,51 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/textPopUps" />
 
-        <NumberPicker
-            android:id="@+id/nombreUtilisations"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center" />
+        <LinearLayout
+            android:id="@+id/layoutQuantite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/boutonDiminuer"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:src="@drawable/diminuer"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:textAlignment="center"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/inputQuantite"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="1"
+                android:textSize="@dimen/text1"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/boutonAugmenter"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
+                android:src="@drawable/augmenter"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/boutonUtiliser"
