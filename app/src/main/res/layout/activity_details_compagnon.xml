@@ -27,11 +27,11 @@
         android:id="@+id/texteTitreDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="{Espece Compagnon}"
         android:textColor="@color/purple_500"
         android:textSize="@dimen/titre"
         android:textStyle="bold"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,11 +40,10 @@
         android:id="@+id/layoutNombreCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="12dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/texteTitreDetails"
+        app:layout_constraintBottom_toBottomOf="@id/texteTitreDetails">
 
         <TextView
             android:id="@+id/texteNombreCoins"
