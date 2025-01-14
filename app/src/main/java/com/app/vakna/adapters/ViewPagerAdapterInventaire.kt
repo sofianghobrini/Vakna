@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.GridView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.R
+import com.app.vakna.controller.NavigationHandler
 import com.app.vakna.databinding.FragmentCompagnonBinding
-import java.util.ArrayList
+import com.app.vakna.modele.dao.TypeObjet
 
-class ViewPagerAdapterInventaire (
+class ViewPagerAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
     private val context: Context,
     private val pages: List<List<GridConsommableData>>,
+    private val type: List<TypeObjet>
 ) : RecyclerView.Adapter<ViewPagerAdapterInventaire.PagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
@@ -23,15 +25,41 @@ class ViewPagerAdapterInventaire (
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
         val items = pages[position]
+        val types = type[position]
         val gridView = holder.gridView
 
-        val adapter = GridConsommableAdapterInventaire(binding, ArrayList(items))
-        gridView.adapter = adapter
+        if (items.isEmpty()) {
+
+            gridView.numColumns = 1
+            val message = when (types) {
+                TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
+                TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
+            }
+
+            val placeholder = listOf(
+                InventaireVideData(
+                    message = message,
+                    buttonText = context.getString(R.string.titre_magasin),
+                    buttonAction = {
+                        NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, types.name)
+                    }
+                )
+            )
+            gridView.adapter = InventaireVideAdapter(binding, placeholder)
+            gridView.adapter
+        } else {
+            gridView.numColumns = 2
+            gridView.adapter = GridConsommableAdapterInventaire(binding, ArrayList(items))
+            gridView.adapter
+        }
     }
 
     override fun getItemCount(): Int = pages.size
+
+    fun getTypeCount(): Int = type.size
 
     inner class PagerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val gridView: GridView = view.findViewById(R.id.grid_view_items_inventaire)
     }
 }
+

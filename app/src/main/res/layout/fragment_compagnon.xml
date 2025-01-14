@@ -271,10 +271,9 @@
         app:tabSelectedTextColor="?attr/colorPrimary"
         app:tabTextColor="@color/gray" />
 
-    <!-- GridView for displaying items -->
 
-    <GridView
-        android:id="@+id/grid_view_items"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerCompagnon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
@@ -283,12 +282,10 @@
         android:horizontalSpacing="10dp"
         android:numColumns="2"
         android:verticalSpacing="10dp"
-        android:contentDescription="@string/grid_view_items"
         app:layout_constraintTop_toBottomOf="@id/tab_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
-
-    </GridView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

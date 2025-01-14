@@ -6,8 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.opengl.Visibility
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -21,12 +19,12 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.children
+import androidx.recyclerview.widget.RecyclerView
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.vue.SettingsActivity
-import com.app.vakna.adapters.GridConsommableAdapterInventaire
-import com.app.vakna.adapters.InventaireVideAdapter
-import com.app.vakna.adapters.InventaireVideData
+import com.app.vakna.adapters.GridConsommableData
+import com.app.vakna.adapters.ViewPagerAdapterInventaire
 import com.app.vakna.databinding.FragmentCompagnonBinding
 import com.app.vakna.modele.dao.compagnon.Compagnon
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
@@ -40,6 +38,7 @@ import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 /**
  * Contrôleur pour gérer les interactions avec le compagnon dans l'application.
@@ -87,7 +86,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         updateAffichageCompagnon()
         updateRefuge(binding)
 
-        creationTabs()
+        setupViewPagerInventaire(listOf(TypeObjet.JOUET, TypeObjet.NOURRITURE))
 
         updateCompagnonsSupplementaires(compagnons)
 
@@ -478,6 +477,43 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         dialog.show()
     }
 
+    fun setupViewPagerInventaire(items: List<TypeObjet>){
+        val viewPager = binding.viewPagerCompagnon
+        val tabLayout = binding.tabLayout
+
+        val pages = SetPageInventaire()
+        val tabTitles = listOf(R.string.tab_jouet, R.string.tab_nourriture)
+
+        viewPager.adapter = ViewPagerAdapterInventaire(binding = binding, context, pages, items)
+
+        viewPager.getChildAt(0).apply {
+            if (this is RecyclerView) {
+                this.setOnTouchListener { _, _ -> false }
+            }
+        }
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = context?.getString(tabTitles[position])
+        }.attach()
+    }
+
+    private fun SetPageInventaire(): List<ArrayList<GridConsommableData>> {
+
+        val nourritureList: List<ObjetObtenu> = inventaire.obtenirObjets(TypeObjet.NOURRITURE)
+        val sortedNourriture = nourritureList.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom()})
+        val InventaireNourritureList: ArrayList<GridConsommableData> =  Inventaire.setToGridDataArray(sortedNourriture)
+
+        val jouetList: List<ObjetObtenu> = inventaire.obtenirObjets(TypeObjet.JOUET)
+        val sortedJouets = jouetList.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom()})
+        val InventaireJouetsList: ArrayList<GridConsommableData> = Inventaire.setToGridDataArray(sortedJouets)
+
+        val pages = listOf(
+            InventaireJouetsList,
+            InventaireNourritureList
+        )
+        return pages
+    }
+
     companion object {
         private fun affichageHumeur(binding: FragmentCompagnonBinding, it: Compagnon) {
             val context = binding.root.context
@@ -587,6 +623,8 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
          * Configure le GridView pour afficher la liste des items (jouets ou nourriture).
          * @param items La liste d'items à afficher dans le GridView.
          */
+
+
         fun setupGridView(items: List<ObjetObtenu>, type: TypeObjet, binding: FragmentCompagnonBinding) {
             val context = binding.root.context
             val gestionnaire = GestionnaireDeCompagnons(context)
@@ -601,41 +639,32 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
                 affichageFaim(binding, it)
             }
 
-            if(items.isEmpty()) {
+//            if(items.isEmpty()) {
+//
+//                val inventaireVideMessage = when (type) {
+//                    TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
+//                    TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
+//                }
+//
+//                val placeholderItem = InventaireVideData(
+//                    message = inventaireVideMessage,
+//                    buttonText = context.getString(R.string.titre_magasin),
+//                    buttonAction = {
+//                        when (type) {
+//                            TypeObjet.JOUET -> { NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin) }
+//                            TypeObjet.NOURRITURE -> {  NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Nourriture") }
+//                        }
+//                    }
+//                )
+//
+//                val gridItems = listOf(placeholderItem)
+//
+//                val adapter = InventaireVideAdapter(binding, gridItems)
+//                binding.viewPagerCompagnon.adapter = adapter
+//            } else {
+//                setupViewPagerInventaire()
+//            }
+      }
 
-                binding.gridViewItems.numColumns = 1
-
-                val inventaireVideMessage = when (type) {
-                    TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
-                    TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
-                }
-
-                val placeholderItem = InventaireVideData(
-                    message = inventaireVideMessage,
-                    buttonText = context.getString(R.string.titre_magasin),
-                    buttonAction = {
-                        when (type) {
-                            TypeObjet.JOUET -> { NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin) }
-                            TypeObjet.NOURRITURE -> {  NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, "Nourriture") }
-                        }
-                    }
-                )
-
-                val gridItems = listOf(placeholderItem)
-
-                val adapter = InventaireVideAdapter(binding, gridItems)
-                binding.gridViewItems.adapter = adapter
-            } else {
-
-                binding.gridViewItems.numColumns = 2
-
-                val sortedItems = items.sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
-
-                val gridItems = Inventaire.setToGridDataArray(sortedItems)
-
-                val adapter = GridConsommableAdapterInventaire(binding, gridItems)
-                binding.gridViewItems.adapter = adapter
-            }
-        }
     }
 }
