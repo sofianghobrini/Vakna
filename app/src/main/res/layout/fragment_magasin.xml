@@ -65,7 +65,7 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/magasin_consommable_icon"
             android:background="@drawable/bouton_rond"
-            android:backgroundTint="@color/tacheTermine"
+            android:backgroundTint="@color/purple_500"
             android:scaleType="fitCenter"/>
 
         <ImageButton
@@ -75,6 +75,7 @@
             android:padding="9dp"
             android:src="@drawable/magasin_compagnon_icon"
             android:background="@drawable/bouton_rond"
+            android:backgroundTint="@color/gray"
             android:scaleType="fitCenter"/>
 
     </LinearLayout>

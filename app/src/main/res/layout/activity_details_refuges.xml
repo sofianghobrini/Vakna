@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="{Nom refuge}"
-        android:textColor="@color/couleurTitre"
+        android:textColor="@color/purple_500"
         android:textSize="@dimen/titre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="{Nombre Coins}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/petitTexte" />
 
         <ImageView
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif Faim: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
         <View
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif Humeur: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
     </LinearLayout>
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif XP: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
         <View
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Modif pièces: {Modificateur}"
-            android:textColor="@color/couleurTexte"
+            android:textColor="@color/purple_500"
             android:textSize="@dimen/text1" />
 
     </LinearLayout>
@@ -150,7 +150,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Prix: {Prix}"
-        android:textColor="@color/couleurTexte"
+        android:textColor="@color/purple_500"
         android:textSize="@dimen/sousTitre"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
