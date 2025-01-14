@@ -27,13 +27,13 @@
         android:layout_marginRight="4dp" />
 
     <LinearLayout
-        android:layout_width="314dp"
+        android:layout_width="334dp"
         android:layout_height="92dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/boutonReactiver"
-            android:layout_width="135dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="30dp"
@@ -44,7 +44,7 @@
 
         <Button
             android:id="@+id/boutonAnnuler"
-            android:layout_width="135dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/gray"
