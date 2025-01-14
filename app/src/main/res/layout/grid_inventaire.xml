@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
+    android:layout_width="160dp"
     android:layout_height="80dp"
     android:orientation="horizontal"
     android:padding="3dp"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="Name"
-            android:textSize="@dimen/text2PopUps"
+            android:textSize="@dimen/textPopUps"
             android:textStyle="bold"
             android:textColor="@color/couleurTexte"
             android:layout_gravity="center_vertical" />
