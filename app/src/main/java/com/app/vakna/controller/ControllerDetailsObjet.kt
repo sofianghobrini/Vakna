@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import com.app.vakna.vue.DetailsObjetActivity
 import com.app.vakna.R
@@ -53,10 +54,10 @@ class ControllerDetailsObjet(
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
                     prixTotal()
+                    quantite.removeTextChangedListener(this)
                     try {
                         val input = s.toString().toInt()
                         val maxValue = inventaireDAO.obtenirPieces() / (objet?.getPrix() ?: 1)
-
                         when {
                             input < 1 -> {
                                 quantite.setText("1")
@@ -71,6 +72,7 @@ class ControllerDetailsObjet(
                         quantite.setText("1")
                         quantite.setSelection(quantite.text.length)
                     }
+                    quantite.addTextChangedListener(this)
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -97,10 +99,13 @@ class ControllerDetailsObjet(
             val objet = magasinObjets.obtenirObjet(nomObjet)
             if (inventaire.obtenirPieces() < objet!!.getPrix()) {
                 Toast.makeText(context, "Vous n'avez pas assez de pièces pour acheter cet objet!", Toast.LENGTH_SHORT).show()
+                NavigationHandler.navigationActiviteVersFragment(context, "CompagnonFragment")
+                fermerLaPage()
+            } else {
+                achat(nomObjet, nbrQuantite)
+                NavigationHandler.navigationActiviteVersFragment(context, "CompagnonFragment")
+                fermerLaPage()
             }
-            achat(nomObjet, nbrQuantite)
-            NavigationHandler.navigationActiviteVersFragment(context, "CompagnonFragment")
-            fermerLaPage()
         }
 
         binding.boutonRetour.setOnClickListener {
