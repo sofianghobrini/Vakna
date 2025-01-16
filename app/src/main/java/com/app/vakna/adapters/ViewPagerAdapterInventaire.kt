@@ -45,7 +45,7 @@ class ViewPagerAdapterInventaire(
                     message = message,
                     buttonText = context.getString(R.string.titre_magasin),
                     buttonAction = {
-                        NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, types.name)
+                        NavigationHandler.navigationFragmentVersFragment(context, R.id.navigation_magasin, message)
                     }
                 )
             )

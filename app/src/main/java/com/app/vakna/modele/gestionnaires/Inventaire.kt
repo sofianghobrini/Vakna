@@ -1,6 +1,7 @@
 package com.app.vakna.modele.gestionnaires
 
 import android.content.Context
+import android.util.Log
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu

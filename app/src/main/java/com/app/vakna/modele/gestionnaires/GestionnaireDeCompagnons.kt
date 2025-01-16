@@ -31,7 +31,7 @@ class GestionnaireDeCompagnons(private val context: Context) {
     }
 
     fun obtenirCompagnon(id: Int): Compagnon? {
-        return obtenirCompagnons().find { it.id == id }
+        return daoCompagnons.obtenirTous().find { it.id == id }
     }
 
     fun ajouterCompagnon(compagnon: Compagnon): Boolean {
@@ -61,7 +61,7 @@ class GestionnaireDeCompagnons(private val context: Context) {
     }
 
     fun obtenirActif(): Compagnon? {
-        return setDeCompagnons.find { it.actif == true }
+        return daoCompagnons.obtenirTous().find { it.actif == true }
     }
 
     fun setActif(id: Int) {
