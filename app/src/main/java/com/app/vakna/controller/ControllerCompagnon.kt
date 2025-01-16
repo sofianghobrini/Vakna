@@ -33,7 +33,7 @@ import com.app.vakna.modele.gestionnaires.Inventaire
 import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
 import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.refuge.Refuge
-import com.app.vakna.modele.gestionnaires.MagasinObjets
+import com.app.vakna.modele.gestionnaires.Shop
 import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -48,7 +48,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     private val context: Context = binding.root.context
     private var gestionnaireCompagnons = GestionnaireDeCompagnons(context)
     private var inventaire = Inventaire(context)
-    private val magasinObjets = MagasinObjets(context)
+    private val magasinObjets = Shop(context)
     private val gestionnaireRefuge = GestionnaireDeRefuges(context)
     private lateinit var compagnon: Compagnon
     private lateinit var compagnonsSupplementaire: Array<Compagnon>
@@ -585,7 +585,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val viewPager = binding.viewPagerCompagnon
             val tabLayout = binding.tabLayout
 
-            val pages = setPageInventaire(inventaire)
+            val pages = setPageInventaire(inventaire, binding.root.context)
             val tabTitles = listOf(R.string.tab_jouet, R.string.tab_nourriture)
 
             viewPager.adapter = ViewPagerAdapterInventaire(binding = binding, viewPager.context, pages, type)
@@ -601,14 +601,14 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             }.attach()
         }
 
-        private fun setPageInventaire(inventaire: Inventaire): List<ArrayList<GridConsommableData>> {
+        private fun setPageInventaire(inventaire: Inventaire, context: Context): List<ArrayList<GridConsommableData>> {
             val nourritureList = inventaire.obtenirObjets(TypeObjet.NOURRITURE)
                 .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom(context) })
-            val InventaireNourritureList = Inventaire.setToGridDataArray(nourritureList)
+            val InventaireNourritureList = Inventaire.setToGridDataArray(nourritureList, context)
 
             val jouetList = inventaire.obtenirObjets(TypeObjet.JOUET)
                 .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom(context) })
-            val InventaireJouetsList = Inventaire.setToGridDataArray(jouetList)
+            val InventaireJouetsList = Inventaire.setToGridDataArray(jouetList, context)
 
             return listOf(InventaireJouetsList, InventaireNourritureList)
         }

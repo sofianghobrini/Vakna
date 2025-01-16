@@ -1,9 +1,9 @@
 package com.app.vakna.modele.dao.objet
 
 import android.content.Context
-import com.app.vakna.LocaleHelper
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.TypeObjet
+import com.app.vakna.vue.LocaleHelper
 
 open class Objet(
     private var id: Int,

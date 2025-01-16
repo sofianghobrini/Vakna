@@ -1,7 +1,6 @@
 package com.app.vakna.modele.gestionnaires
 
 import android.content.Context
-import android.util.Log
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.objetobtenu.ObjetObtenu
@@ -34,7 +33,7 @@ class Inventaire(context: Context) {
     }
 
     fun obtenirObjet(nom: String): ObjetObtenu? {
-        return objets.find { it.getNom(context) == nom }
+        return objets.find { it.getNom(contexte) == nom }
     }
 
     private fun utiliserObjet(objet: ObjetObtenu) {
@@ -68,7 +67,7 @@ class Inventaire(context: Context) {
         assert(objet!!.getQuantite() >= n) { "On ne peut pas consommer plus d'objets que l'on en possède" }
 
         for (i in 0 until n) {
-            utiliserObjet(objet!!)
+            utiliserObjet(objet)
         }
         inventaireDAO.mettreAJourQuantiteObjet(objet.getId(), objet.getQuantite())
     }

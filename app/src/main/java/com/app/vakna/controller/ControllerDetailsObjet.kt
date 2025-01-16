@@ -13,7 +13,7 @@ import com.app.vakna.databinding.ActivityDetailsObjetBinding
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import com.app.vakna.modele.gestionnaires.Inventaire
 import com.app.vakna.modele.dao.Personnalite
-import com.app.vakna.modele.gestionnaires.MagasinObjets
+import com.app.vakna.modele.gestionnaires.Shop
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
 
@@ -23,7 +23,7 @@ class ControllerDetailsObjet(
 ) {
 
     val context = binding.root.context
-    val magasinObjets = MagasinObjets(context)
+    val magasinObjets = Shop(context)
     val inventaireDAO = InventaireDAO(context)
     val inventaire = Inventaire(context)
     val gestionnaireCompagnons = GestionnaireDeCompagnons(context)
@@ -34,7 +34,7 @@ class ControllerDetailsObjet(
         val nomObjet = intent.getStringExtra("NOM_OBJET") ?: context.getString(R.string.objet_inconnu)
         val objet = magasinObjets.obtenirObjet(nomObjet)
 
-        binding.texteTitreDetails.text = objet?.getNom() ?: context.getString(R.string.objet_inconnu)
+        binding.texteTitreDetails.text = objet?.getNom(context) ?: context.getString(R.string.objet_inconnu)
 
         Glide.with(context)
             .load(objet?.getImageUrl())
@@ -44,7 +44,7 @@ class ControllerDetailsObjet(
 
         binding.texteCout.text = context.getString(R.string.cout_format, objet?.getPrix())
 
-        binding.texteDescription.text = objet?.getDetails() ?: context.getString(R.string.description_non_disponible)
+        binding.texteDescription.text = objet?.getDetails(context) ?: context.getString(R.string.description_non_disponible)
 
         val boutonDiminuer = binding.boutonDiminuer
         val boutonAugmenter = binding.boutonAugmenter

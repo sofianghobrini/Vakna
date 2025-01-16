@@ -36,7 +36,7 @@ class Shop(
         return objetMagasin
     }
 
-    suspend fun obtenirObjetsEnLigne(context: Context): List<Objet> {
+    suspend fun obtenirObjetsEnLigne(): List<Objet> {
         try {
 
             val nouveauxObjets = RetrofitInstance.apiService.obtenirObjets()

@@ -6,7 +6,7 @@ import com.app.vakna.adapters.GridRefugesAdapter
 import com.app.vakna.databinding.FragmentMagasinBinding
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.refugestore.RefugeStore
-import com.app.vakna.modele.gestionnaires.MagasinObjets
+import com.app.vakna.modele.gestionnaires.Shop
 import com.app.vakna.modele.gestionnaires.MagasinCompagnons
 import com.app.vakna.modele.gestionnaires.MagasinRefuge
 import com.app.vakna.modele.dao.TypeObjet
@@ -33,7 +33,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
     private val inventaireDAO = InventaireDAO(context)
     private val magasinCompagnons = MagasinCompagnons(context)
     private val magasinRefuge = MagasinRefuge(context)
-    private val magasinObjets = MagasinObjets(context)
+    private val magasinObjets = Shop(context)
     private val listCompagnons = magasinCompagnons.obtenirCompagnons()
     private val listRefugesStore = magasinRefuge.obtenirRefugesStore()
 
@@ -55,11 +55,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
         binding.buttonRefresh.setOnClickListener {
             if (verifierConnection(context)) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    val objetsShop = magasinObjets.obtenirObjetsEnLigne(context)
-
-                    CoroutineScope((Dispatchers.Main)).launch {
-                        //setupGridView(objetsShop)
-                    }
+                    magasinObjets.obtenirObjetsEnLigne()
                 }
             } else {
                 Toast.makeText(context, context.getString(R.string.pas_de_connection), Toast.LENGTH_SHORT).show()
@@ -169,14 +165,14 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
     private fun SetPageConsommable(): List<ArrayList<GridConsommableData>> {
         val nourritureList: List<Objet> = magasinObjets.listerObjet(TypeObjet.NOURRITURE)
         val sortedNourriture =
-            nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
+            nourritureList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom(context) })
         val gridNourritureList: ArrayList<GridConsommableData> =
-           MagasinObjets.setToGridDataArray(sortedNourriture)
+           Shop.setToGridDataArray(sortedNourriture, context)
 
         val jouetList: List<Objet> = magasinObjets.listerObjet(TypeObjet.JOUET)
         val sortedJouets =
-            jouetList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom() })
-        val gridJouetsList: ArrayList<GridConsommableData> = MagasinObjets.setToGridDataArray(sortedJouets)
+            jouetList.sortedWith(compareBy<Objet> { it.getPrix() }.thenBy { it.getNom(context) })
+        val gridJouetsList: ArrayList<GridConsommableData> = Shop.setToGridDataArray(sortedJouets, context)
 
         val pages = listOf(
             gridJouetsList,

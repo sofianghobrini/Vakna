@@ -1,7 +1,5 @@
 package com.app.vakna.modele.dao.objet
 
-import android.content.Context
-import com.app.vakna.modele.Objet
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext

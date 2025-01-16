@@ -11,7 +11,6 @@ import com.app.vakna.modele.dao.refuge.RefugeDAO
 import com.app.vakna.modele.dao.refugestore.RefugeStore
 import com.app.vakna.modele.dao.refugestore.RefugeStoreDAO
 import com.app.vakna.modele.gestionnaires.Inventaire
-import com.app.vakna.modele.gestionnaires.MagasinCompagnons
 
 class InitialisationJSON(context: Context) {
 
@@ -56,49 +55,54 @@ class InitialisationJSON(context: Context) {
     }
 
     private fun initialiserJouets(): List<Objet> {
+        // Jouets
         val jouet1 = Objet(
             0,
-            "Bateau",
+            mapOf("fr" to "Bateau", "en" to "Boat"),
             15,
             5,
             TypeObjet.JOUET,
-            "Attention à ne pas imiter le Titanic ...",
+            mapOf("fr" to "Attention à ne pas imiter le Titanic ...", "en" to "Be careful not to imitate the Titanic ..."),
             "file:///android_asset/jouets/jouet_bateau.png"
         )
+
         val jouet2 = Objet(
             1,
-            "Dinosaure",
+            mapOf("fr" to "Dinosaure", "en" to "Dinosaur"),
             20,
             6,
             TypeObjet.JOUET,
-            "Grrr ! Je suis le roi méchants !",
+            mapOf("fr" to "Grrr ! Je suis le roi méchant !", "en" to "Grrr! I am the evil king!"),
             "file:///android_asset/jouets/jouet_dinosaure.png"
         )
+
         val jouet3 = Objet(
             2,
-            "Ourson",
+            mapOf("fr" to "Ourson", "en" to "Teddy Bear"),
             25,
             7,
             TypeObjet.JOUET,
-            "Câlins gratuits !",
+            mapOf("fr" to "Câlins gratuits !", "en" to "Free hugs!"),
             "file:///android_asset/jouets/jouet_ourson.png"
         )
+
         val jouet4 = Objet(
             3,
-            "Robot",
+            mapOf("fr" to "Robot", "en" to "Robot"),
             30,
             8,
             TypeObjet.JOUET,
-            "Bip bip bop skibidi bop",
+            mapOf("fr" to "Bip bip bop skibidi bop", "en" to "Beep beep bop skibidi bop"),
             "file:///android_asset/jouets/jouet_robot.png"
         )
+
         val jouet5 = Objet(
             4,
-            "Voiture",
+            mapOf("fr" to "Voiture", "en" to "Car"),
             35,
             9,
             TypeObjet.JOUET,
-            "Vrouuuuum, vrouuuuum!",
+            mapOf("fr" to "Vrouuuuum, vrouuuuum!", "en" to "Vroom, vroom!"),
             "file:///android_asset/jouets/jouet_voiture.png"
         )
 
@@ -106,76 +110,84 @@ class InitialisationJSON(context: Context) {
     }
 
     private fun initialiserNourriture(): List<Objet> {
+
         val kebab = Objet(
             10,
-            "Kebab",
+            mapOf("fr" to "Kebab", "en" to "Kebab"),
             8,
             10,
             TypeObjet.NOURRITURE,
-            "Le cholestérole est mon meilleur ami",
+            mapOf("fr" to "Le cholestérol est mon meilleur ami", "en" to "Cholesterol is my best friend"),
             "file:///android_asset/nourritures/nourriture_kebab.png"
         )
+
         val pizza = Objet(
             11,
-            "Pizza",
+            mapOf("fr" to "Pizza", "en" to "Pizza"),
             12,
             15,
             TypeObjet.NOURRITURE,
-            "Un pizza dé la mama, prego.",
+            mapOf("fr" to "Une pizza de la mama, prego.", "en" to "A pizza from mama, prego."),
             "file:///android_asset/nourritures/nourriture_pizza.png"
         )
+
         val burger = Objet(
             12,
-            "Burger",
+            mapOf("fr" to "Burger", "en" to "Burger"),
             10,
             8,
             TypeObjet.NOURRITURE,
-            "Can I get some burger ? With some peanut butter.",
+            mapOf("fr" to "Puis-je avoir un burger ? Avec un peu de beurre de cacahuète.", "en" to "Can I get a burger? With some peanut butter."),
             "file:///android_asset/nourritures/nourriture_plumberger.png"
         )
+
         val sandwich = Objet(
             13,
-            "Sandwich",
+            mapOf("fr" to "Sandwich", "en" to "Sandwich"),
             7,
             5,
             TypeObjet.NOURRITURE,
-            "L'une des nourritures les plus saine de ce jeu.",
+            mapOf("fr" to "L'une des nourritures les plus saines de ce jeu.", "en" to "One of the healthiest foods in this game."),
             "file:///android_asset/nourritures/nourriture_sandwich.png"
         )
+
         val salade = Objet(
             14,
-            "Salade",
+            mapOf("fr" to "Salade", "en" to "Salad"),
             6,
             4,
             TypeObjet.NOURRITURE,
-            "Sérieusement vous voulez manger du vert ?",
+            mapOf("fr" to "Sérieusement, vous voulez manger du vert ?", "en" to "Seriously, you want to eat greens?"),
             "file:///android_asset/nourritures/nourriture_salade.png"
         )
+
         val pasta = Objet(
             15,
-            "Pasta",
+            mapOf("fr" to "Pâtes", "en" to "Pasta"),
             11,
             9,
             TypeObjet.NOURRITURE,
-            "Mamamia c'est la pasta dé la pizza !",
+            mapOf("fr" to "Mamamia, c'est la pasta de la pizza!", "en" to "Mamamia, it's the pasta from the pizza!"),
             "file:///android_asset/nourritures/nourriture_pasta.png"
         )
+
         val sushi = Objet(
             16,
-            "Sushi",
+            mapOf("fr" to "Sushi", "en" to "Sushi"),
             14,
             13,
             TypeObjet.NOURRITURE,
-            "Non on ne va faire de blague raciste ... quoique ...",
+            mapOf("fr" to "Non, on ne va pas faire de blague raciste ... quoique ...", "en" to "No, we won't make a racist joke ... or will we ..."),
             "file:///android_asset/nourritures/nourriture_sushi.png"
         )
+
         val steak = Objet(
             17,
-            "Steak",
+            mapOf("fr" to "Steak", "en" to "Steak"),
             20,
             18,
             TypeObjet.NOURRITURE,
-            "De la viande à l'état pure (c'est quand même mieux que la salade)",
+            mapOf("fr" to "De la viande à l'état pur (c'est quand même mieux que la salade)", "en" to "Pure meat (it's still better than salad)"),
             "file:///android_asset/nourritures/nourriture_steak.png"
         )
         return listOf(kebab, pizza, burger, sandwich, salade, pasta, sushi, steak)
