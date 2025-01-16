@@ -10,7 +10,7 @@ import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.dao.InventaireDAO
 
 class Inventaire(context: Context) {
-
+    private var contexte: Context = context
     private var pieces = 0
     private var inventaireDAO = InventaireDAO(context)
     private var objets = mutableListOf<ObjetObtenu>()
@@ -34,7 +34,7 @@ class Inventaire(context: Context) {
     }
 
     fun obtenirObjet(nom: String): ObjetObtenu? {
-        return objets.find { it.getNom() == nom }
+        return objets.find { it.getNom(context) == nom }
     }
 
     private fun utiliserObjet(objet: ObjetObtenu) {
@@ -68,19 +68,19 @@ class Inventaire(context: Context) {
         assert(objet!!.getQuantite() >= n) { "On ne peut pas consommer plus d'objets que l'on en possède" }
 
         for (i in 0 until n) {
-            utiliserObjet(objet)
+            utiliserObjet(objet!!)
         }
         inventaireDAO.mettreAJourQuantiteObjet(objet.getId(), objet.getQuantite())
     }
 
     fun ajouterObjet(objet: Objet, quantite: Int) {
         assert(quantite > 0) { "La quantité d'objets ne peut pas être négative ou nulle" }
-        val nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 0, objet.getImageUrl())
+        val nouvelObjet = ObjetObtenu(objet.getId(),objet.getNom(),objet.getPrix(), objet.getNiveau(), objet.getType(), objet.getDetails(), 0, objet.getImageUrl(), contexte)
         if (!objets.any { it.getId() == objet.getId() }) {
             objets += nouvelObjet
             inventaireDAO.insererObjetObtenu(nouvelObjet)
         }
-        val objetNouveau = obtenirObjet(objet.getNom())
+        val objetNouveau = obtenirObjet(objet.getNom(contexte))
         objetNouveau?.updateQuantite(quantite)
         inventaireDAO.mettreAJourQuantiteObjet(objetNouveau!!.getId(), objetNouveau.getQuantite())
     }
@@ -92,10 +92,10 @@ class Inventaire(context: Context) {
     }
 
     companion object {
-        fun setToGridDataArray(objets: List<ObjetObtenu>): ArrayList<GridConsommableData> {
+        fun setToGridDataArray(objets: List<ObjetObtenu>, context: Context): ArrayList<GridConsommableData> {
             val list = ArrayList<GridConsommableData>()
             for (objet in objets) {
-                val listData = objet.toGridData()
+                val listData = objet.toGridData(context)
                 list.add(listData)
             }
             return list

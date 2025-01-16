@@ -6,11 +6,12 @@ import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.objet.Objet
 import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.api.RetrofitInstance
-import com.app.vakna.modele.api.XmlObjetsManager
 import com.app.vakna.modele.dao.InventaireDAO
 import com.app.vakna.modele.dao.objet.ObjetDAO
 
-class MagasinObjets(context: Context) {
+class Shop(
+    private var context: Context
+) {
 
     private val objetDAO = ObjetDAO(context)
     private val inventaireDAO = InventaireDAO(context)
@@ -23,7 +24,7 @@ class MagasinObjets(context: Context) {
 
     // Méthode pour obtenir un objet par son nom
     fun obtenirObjet(nom: String): Objet? {
-        return objetMagasin.find { it.getNom() == nom }
+        return objetMagasin.find { it.getNom(context) == nom }
     }
 
     fun obtenirObjets(type: TypeObjet): List<Objet> {
@@ -38,12 +39,10 @@ class MagasinObjets(context: Context) {
     suspend fun obtenirObjetsEnLigne(context: Context): List<Objet> {
         try {
 
-            val objets = RetrofitInstance.apiService.obtenirObjets()
-            val objetsManager = XmlObjetsManager(context)
-            objetsManager.creerFichiers()
-            objetsManager.remplirFichiers(objets)
+            val nouveauxObjets = RetrofitInstance.apiService.obtenirObjets()
+            objetDAO.remplacerObjets(nouveauxObjets)
 
-            return objets
+            return nouveauxObjets
         } catch (e: Exception) {
             Log.d("test", "Erreur : $e")
             return emptyList()
@@ -69,10 +68,10 @@ class MagasinObjets(context: Context) {
     }
 
     companion object {
-        fun setToGridDataArray(objets: List<Objet>): ArrayList<GridConsommableData> {
+        fun setToGridDataArray(objets: List<Objet>, context: Context): ArrayList<GridConsommableData> {
             val list = ArrayList<GridConsommableData>()
             for (objet in objets) {
-                val listData = objet.toGridData()
+                val listData = objet.toGridData(context)
                 list.add(listData)
             }
             return list

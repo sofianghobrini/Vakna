@@ -603,11 +603,11 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         private fun setPageInventaire(inventaire: Inventaire): List<ArrayList<GridConsommableData>> {
             val nourritureList = inventaire.obtenirObjets(TypeObjet.NOURRITURE)
-                .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+                .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom(context) })
             val InventaireNourritureList = Inventaire.setToGridDataArray(nourritureList)
 
             val jouetList = inventaire.obtenirObjets(TypeObjet.JOUET)
-                .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom() })
+                .sortedWith(compareBy<ObjetObtenu> { it.getType() }.thenBy { it.getNom(context) })
             val InventaireJouetsList = Inventaire.setToGridDataArray(jouetList)
 
             return listOf(InventaireJouetsList, InventaireNourritureList)

@@ -1,15 +1,17 @@
 package com.app.vakna.modele.dao.objet
 
+import android.content.Context
+import com.app.vakna.LocaleHelper
 import com.app.vakna.adapters.GridConsommableData
 import com.app.vakna.modele.dao.TypeObjet
 
 open class Objet(
     private var id: Int,
-    private var nom: String,
+    private var nom: Map<String, String>,
     private var prix: Int,
     private var niveau: Int,
     private var type: TypeObjet,
-    private var detail: String,
+    private var detail: Map<String, String>,
     private var imageUrl: String
 ) {
 
@@ -20,15 +22,19 @@ open class Objet(
         require(imageUrl.isNotBlank()){"L'URL de l'image ne doit pas être vide"}
     }
 
-    open fun toGridData(): GridConsommableData {
-        return GridConsommableData(getImageUrl(), getNom(), getNiveau(), getPrix(), getType())
+    open fun toGridData(context: Context): GridConsommableData {
+        return GridConsommableData(getImageUrl(), getNom(context), getNiveau(), getPrix(), getType())
     }
 
     fun getId(): Int {
         return id
     }
 
-    fun getNom(): String {
+    fun getNom(context: Context): String {
+        return nom[LocaleHelper.getLanguage(context)]!!
+    }
+
+    fun getNom(): Map<String, String> {
         return nom
     }
 
@@ -44,15 +50,19 @@ open class Objet(
         return type
     }
 
-    fun getDetails(): String {
+    fun getDetails(context: Context): String {
+        return detail[LocaleHelper.getLanguage((context))]!!
+    }
+
+    fun getDetails(): Map<String, String> {
         return detail
     }
 
-    fun setNom(nom: String) {
-        if (nom.isBlank()) {
+    fun setNom(noms: Map<String, String>) {
+        if (nom.isEmpty()) {
             throw IllegalArgumentException("Le nom ne peut pas être vide ou seulement des espaces.")
         }
-        this.nom = nom
+        this.nom = noms
     }
 
     fun setPrix(prix: Int) {
@@ -70,11 +80,11 @@ open class Objet(
         this.type = type
     }
 
-    fun setDetails(detail: String) {
-        if (detail.isBlank()) {
+    fun setDetails(details: Map<String, String>) {
+        if (detail.isEmpty()) {
             throw IllegalArgumentException("Les détails ne peuvent pas être vides.")
         }
-        this.detail = detail
+        this.detail = details
     }
     fun getImageUrl(): String {
         return imageUrl
