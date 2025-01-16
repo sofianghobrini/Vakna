@@ -16,8 +16,7 @@ class ViewPagerAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
     private val context: Context,
     private val pages: List<List<GridConsommableData>>,
-    private val items: List<ObjetObtenu>,
-    private val type : List<TypeObjet>
+    private val type: List<TypeObjet?>
 ) : RecyclerView.Adapter<ViewPagerAdapterInventaire.PagerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerViewHolder {
@@ -32,12 +31,13 @@ class ViewPagerAdapterInventaire(
         val gridView = holder.gridView
 
 
-        if (items.isEmpty()) {
+        if (page.isEmpty()) {
 
             gridView.numColumns = 1
-            val message = when (types) {
-                TypeObjet.JOUET -> context.getString(R.string.message_inventaire_jouet_vide)
-                TypeObjet.NOURRITURE -> context.getString(R.string.message_inventaire_nourriture_vide)
+            val message = if(types == TypeObjet.JOUET){
+                context.getString(R.string.message_inventaire_jouet_vide)
+            } else {
+                context.getString(R.string.message_inventaire_nourriture_vide)
             }
 
             val placeholder = listOf(
