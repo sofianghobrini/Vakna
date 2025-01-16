@@ -42,6 +42,7 @@ class ControllerMain(private val binding: ActivityMainBinding, intent: Intent) {
         compagnon?.let {
             diminuerHumeurCompagnon(it.id, dernierLancement)
             diminuerFaimCompagnon(it.id, dernierLancement)
+            gestionnaire.notifierSiFaimOuHumeurAtteintZero(it)
         }
     }
 

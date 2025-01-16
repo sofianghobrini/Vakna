@@ -1,15 +1,20 @@
 package com.app.vakna.modele.gestionnaires
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import com.app.vakna.modele.dao.compagnon.CompagnonDAO
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.dao.compagnon.Compagnon
+import com.app.vakna.notifications.NotificationReceiver
 
-class GestionnaireDeCompagnons(context: Context) {
+class GestionnaireDeCompagnons(private val context: Context) {
 
-    private val intervalleFaim = 30 * 60000L
+    private val intervalleFaim = 30 * 30L
     private val intervalleBonheur =  4 * 3600000L
 
     private val daoCompagnons = CompagnonDAO(context)
@@ -154,5 +159,36 @@ class GestionnaireDeCompagnons(context: Context) {
             }
         }
         handler.postDelayed(bonheurRunnable, intervalleBonheur)
+    }
+
+    fun notifierSiFaimOuHumeurAtteintZero(compagnon: Compagnon) {
+        val faimTempsRestant = tempsPourAtteindreZero(compagnon.faim, compagnon.personnalite.facteurFaim.toLong(), intervalleFaim)
+        val humeurTempsRestant = tempsPourAtteindreZero(compagnon.humeur, compagnon.personnalite.facteurHumeur.toLong(), intervalleBonheur)
+
+        if (faimTempsRestant > 0) {
+            planifierNotification(context, faimTempsRestant, "Votre compagnon a faim !")
+        }
+
+        if (humeurTempsRestant > 0) {
+            planifierNotification(context, humeurTempsRestant, "Votre compagnon est malheureux !")
+        }
+    }
+
+    private fun planifierNotification(context: Context, delayInMillis: Long, message: String) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, NotificationReceiver::class.java).apply {
+            putExtra("notificationMessage", message)
+        }
+        val pendingIntent = PendingIntent.getBroadcast(context, message.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+        val triggerAtMillis = SystemClock.elapsedRealtime() + delayInMillis
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtMillis, pendingIntent)
+    }
+
+
+    private fun tempsPourAtteindreZero(currentValue: Int, facteur: Long, intervalle: Long): Long {
+        if (facteur <= 0 || currentValue <= 0) return 0
+        val reductionsNeeded = currentValue / (1 * facteur).toInt()
+        return reductionsNeeded * intervalle
     }
 }

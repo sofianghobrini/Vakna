@@ -1,9 +1,12 @@
 package com.app.vakna.vue
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,6 +21,7 @@ import com.app.vakna.R
 import com.app.vakna.controller.ControllerMain
 import com.app.vakna.databinding.ActivityMainBinding
 import com.app.vakna.modele.InitialisationJSON
+import com.app.vakna.notifications.NotificationReceiver
 
 class MainActivity : AppCompatActivity() {
 

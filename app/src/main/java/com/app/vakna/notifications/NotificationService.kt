@@ -8,103 +8,59 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.app.vakna.vue.AjouterActivity
-import java.util.Timer
-import java.util.TimerTask
+import com.app.vakna.vue.MainActivity
 
 class NotificationService : Service() {
 
-    private val CHANNEL_ID = "default"
-    private var timer: Timer? = null
-    private var timerTask: TimerTask? = null
-    private val TAG = "Timers"
-    private val SECS_NOTIF = 1 // time interval in seconds
-    private val handler = Handler()
+    private val CHANNEL_ID = "vakna_channel"
 
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
-        startTimer()
-        return START_STICKY
+        val message = intent?.getStringExtra("notificationMessage") ?: "Prends soin de ton compagnon !"
+        showNotification(message)
+        stopSelf()
+        return START_NOT_STICKY
     }
 
-    override fun onCreate() {
-        Log.e(TAG, "onCreate")
-    }
-
-    override fun onDestroy() {
-        Log.e(TAG, "onDestroy")
-        stopTimerTask()
-        super.onDestroy()
-    }
-
-    private fun startTimer() {
-        timer = Timer()
-
-        initializeTimerTask()
-
-        // Aprés 1000ms le timer va s'activer toutes les SECS_NOTIF secondes
-        timer?.schedule(timerTask, 1000, (SECS_NOTIF * 1000).toLong())
-    }
-
-    private fun stopTimerTask() {
-        timer?.cancel()
-        timer = null
-    }
-
-    private fun initializeTimerTask() {
-        timerTask = object : TimerTask() {
-            override fun run() {
-                handler.post {
-                    showTestNotification()
-                }
-            }
-        }
-    }
-
-    public fun showTestNotification() {
+    private fun showNotification(message: String) {
         val notificationManager = creerNotificationChannel()
 
-        val notification = creerTestNotification()
+        val notification = creerNotification(message)
 
         notificationManager.notify(1, notification)
     }
 
-    private fun creerTestNotification(): Notification {
-        val intent = Intent(this, AjouterActivity::class.java).apply {
+    private fun creerNotification(message: String): Notification {
+        // Intention pour ouvrir l'application lorsqu'on clique sur la notification
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("navigateTo", "CompagnonFragment")
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-        return NotificationCompat.Builder(this, "default")
-            .setContentTitle("Tu nous manque!")
-            .setContentText("Ça fait longtemps que tu n'as pas accomplis de tâches!")
-            .setSmallIcon(R.drawable.ic_dialog_info)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText("Tu peux réessayer d'utiliser l'application en créeant une nouvelle tâche et en la completant!")
-            )
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("Notification Vakna")
+            .setContentText(message)
+            .setSmallIcon(R.drawable.ic_dialog_info) // Assurez-vous d'avoir une icône dans votre projet
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .addAction(R.drawable.ic_input_add, "Ajouter Tâche",
-                pendingIntent)
             .build()
     }
 
     private fun creerNotificationChannel(): NotificationManager {
-        val name = "Vakna"
-        val descriptionText = "Notification de Vakna"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val name = "Vakna Notifications"
+        val descriptionText = "Notifications pour les rappels de compagnon"
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText
         }
