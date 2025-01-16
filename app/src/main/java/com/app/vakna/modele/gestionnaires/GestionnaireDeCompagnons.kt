@@ -14,7 +14,7 @@ import com.app.vakna.notifications.NotificationReceiver
 
 class GestionnaireDeCompagnons(private val context: Context) {
 
-    private val intervalleFaim = 30 * 30L
+    private val intervalleFaim = 30 * 60000L
     private val intervalleBonheur =  4 * 3600000L
 
     private val daoCompagnons = CompagnonDAO(context)
