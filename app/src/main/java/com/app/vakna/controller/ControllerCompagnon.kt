@@ -131,7 +131,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             //Création du bouton switch
             val bouton = switchBoutons[iteration]
             bouton.visibility = View.VISIBLE
-            val appearancePath = it.apparence()
+            val appearancePath = it.apparence(binding.root.context)
             Glide.with(context)
                 .asGif()
                 .load(appearancePath)
@@ -248,7 +248,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
     }
 
     private fun echangeDeCompagnon(bouton: ImageButton, id: Int) {
-        val appearancePathNew = compagnon.apparence()
+        val appearancePathNew = compagnon.apparence(binding.root.context)
 
         Glide.with(context)
             .asGif()
@@ -502,7 +502,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
-            val fichierApparence = compagnon.apparence()
+            val fichierApparence = compagnon.apparence(binding.root.context)
             Glide.with(context)
                 .asGif()
                 .load(fichierApparence)

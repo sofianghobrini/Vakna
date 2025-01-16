@@ -1,5 +1,6 @@
 package com.app.vakna.modele.dao.compagnon
 
+import android.content.Context
 import com.app.vakna.modele.dao.Personnalite
 
 class Compagnon(
@@ -10,7 +11,8 @@ class Compagnon(
     var xp: Int = 0,            // Expérience (XP) du compagnon (par défaut = 0)
     var espece: String,         // Espèce du compagnon (par exemple, "Dragon")
     var personnalite: Personnalite, //La personnalite du Compagon (sa personnalité est aléatoire)
-    var actif: Boolean          // Indicateur si le compagnon est sélectionné
+    var actif: Boolean,          // Indicateur si le compagnon est sélectionné
+    private var enLigne: Boolean = false
 ) {
 
     // Méthode pour déterminer le niveau actuel du compagnon en fonction de son XP
@@ -27,8 +29,8 @@ class Compagnon(
     }
 
     // Méthode pour obtenir le fichier ou est stocké l'apparence actuelle du compagnon
-    fun apparence(): String {
-        var humeurImage = "file:///android_asset/compagnons/"
+    fun apparence(context: Context): String {
+        var humeurImage = if (enLigne) {context.filesDir.absolutePath + "compagnons/"} else "file:///android_asset/compagnons/"
 
         humeurImage += espece.lowercase() + "/" + espece.lowercase() + "_"
         val humeurComp: Int = if (humeur < faim) {
@@ -67,8 +69,8 @@ class Compagnon(
     }
 
     companion object {
-        fun personnalite_compagnon(): Personnalite {
-            return Personnalite.values().random()
+        fun personnaliteCompagnon(): Personnalite {
+            return Personnalite.entries.toTypedArray().random()
         }
     }
 

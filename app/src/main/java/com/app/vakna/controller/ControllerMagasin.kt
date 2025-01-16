@@ -184,7 +184,7 @@ class ControllerMagasin(private val binding: FragmentMagasinBinding, private val
 
     private fun SetPageCompagnon(): List<ArrayList<GridData>> {
         val sortedCompagnons = listCompagnons.sortedWith(compareBy { it.prix })
-        val gridCompagnons = MagasinCompagnons.setToGridDataArray(sortedCompagnons)
+        val gridCompagnons = MagasinCompagnons.setToGridDataArray(sortedCompagnons, context)
 
         val sortedRefuge = listRefugesStore.sortedWith(compareBy<RefugeStore> { it.getPrix() }.thenBy { it.getNom() })
         val gridRefuge = MagasinRefuge.setToGridDataArray(sortedRefuge)

@@ -3,6 +3,7 @@ package com.app.vakna.modele.dao.compagnonstore
 import android.content.Context
 import com.app.vakna.modele.dao.AccesJson
 import com.app.vakna.modele.dao.DAO
+import com.app.vakna.modele.dao.objet.Objet
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
@@ -119,5 +120,14 @@ class CompagnonStoreDAO(private val contexte: Context) : DAO<CompagnonStore, Int
         objetJson.add("companions_store", gson.toJsonTree(listeCompanions))
         accesJson.ecrireFichierJson(gson.toJson(objetJson))
         return true
+    }
+
+    fun remplacerCompagnons(nouveauxCompagnons: List<CompagnonStore>) {
+        for (comp in obtenirTous()) {
+            supprimer(comp.id)
+        }
+        for (comp in nouveauxCompagnons) {
+            inserer(comp)
+        }
     }
 }

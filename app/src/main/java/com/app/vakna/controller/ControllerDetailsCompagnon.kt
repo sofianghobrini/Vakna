@@ -33,7 +33,7 @@ class ControllerDetailsCompagnon(
         binding.texteTitreDetails.text = compagnon.espece
 
         Glide.with(context)
-            .load(compagnon.apparenceDefaut())
+            .load(compagnon.apparenceDefaut(binding.root.context))
             .into(binding.imageCompagnon)
 
         binding.texteCoutCompagnon.text = context.getString(R.string.cout_format, compagnon.prix)
