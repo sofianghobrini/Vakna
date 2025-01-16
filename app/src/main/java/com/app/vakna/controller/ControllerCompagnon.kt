@@ -256,9 +256,10 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             .into(bouton)
 
         val newCompagnon = compagnonsSupplementaire[id]
-        compagnonsSupplementaire[id] = compagnon
+        compagnon = gestionnaireCompagnons.obtenirCompagnon(newCompagnon.id)!!
         gestionnaireCompagnons.setActif(newCompagnon.id)
-        compagnon = newCompagnon
+        val compagnons = gestionnaireCompagnons.obtenirCompagnons()
+        compagnonsSupplementaire = (compagnons - compagnon).toTypedArray()
 
         updateAffichageCompagnon()
 
@@ -501,15 +502,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
 
         fun updateHumeurCompagnon(binding: FragmentCompagnonBinding, compagnon: Compagnon) {
             val context = binding.root.context
-            val gestionnaire = GestionnaireDeCompagnons(context)
-            var compagnonUpd: Compagnon? = gestionnaire.obtenirActif()
-            if (compagnonUpd == null) {
-                compagnonUpd = gestionnaire.obtenirCompagnons().first()
-                gestionnaire.setActif(compagnonUpd.id)
-            }
-            val fichierApparence = compagnonUpd.apparence()
-            println(fichierApparence)
-
+            val fichierApparence = compagnon.apparence()
             Glide.with(context)
                 .asGif()
                 .load(fichierApparence)
