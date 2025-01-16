@@ -88,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="{Action du produit}: {Niveau du produit}"
             android:textColor="@color/purple_500"
             android:textSize="@dimen/sousTitre" />
 
@@ -102,7 +101,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Cout: {Cout du produit}"
             android:textColor="@color/purple_500"
             android:textSize="@dimen/sousTitre" />
 
@@ -166,7 +164,6 @@
         android:layout_height="180dp"
         android:layout_marginTop="16dp"
         android:inputType="textMultiLine"
-        android:text="{Description objet}"
         android:textColor="@color/couleurTexte"
         android:textSize="@dimen/text1"
         app:layout_constraintEnd_toEndOf="parent"

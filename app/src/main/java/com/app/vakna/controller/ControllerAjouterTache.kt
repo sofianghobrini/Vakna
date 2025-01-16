@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.GridLayout
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.app.vakna.vue.AjouterActivity
 import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
@@ -336,6 +337,12 @@ class ControllerAjouterTache(private val binding: ActivityAjouterBinding) {
                     setBackgroundColor(resources.getColor(R.color.tacheTermine, null))
                 }
             }
+            var typedValue = TypedValue()
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+            setTextColor(typedValue.data)
+            typedValue = TypedValue()
+            context.theme.resolveAttribute(com.google.android.material.R.attr.backgroundColor, typedValue, true)
+            setBackgroundColor(typedValue.data)
         }
     }
 
