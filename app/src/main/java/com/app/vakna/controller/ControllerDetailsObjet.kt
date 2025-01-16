@@ -42,7 +42,7 @@ class ControllerDetailsObjet(
 
         binding.texteNiveau.text = context.getString(R.string.niveau_format, objet?.getNiveau())
 
-        binding.texteCout.text = context.getString(R.string.cout_format, objet?.getPrix())
+        binding.texteCout.text = context.getString(R.string.cout_total_format, objet?.getPrix())
 
         binding.texteDescription.text = objet?.getDetails() ?: context.getString(R.string.description_non_disponible)
 
