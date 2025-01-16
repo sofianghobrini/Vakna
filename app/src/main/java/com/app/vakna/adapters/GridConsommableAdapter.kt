@@ -2,6 +2,7 @@ package com.app.vakna.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.app.vakna.vue.MainActivity
 import com.app.vakna.R
 import com.app.vakna.modele.dao.TypeObjet
 import com.bumptech.glide.Glide
+import java.io.File
 
 open class GridConsommableAdapter (
     private val context: Context,
@@ -42,8 +44,18 @@ open class GridConsommableAdapter (
             TypeObjet.NOURRITURE -> effet.setImageResource(R.drawable.faim_0)
         }
 
+        var image = ""
+        if (File(context.filesDir.path + "objets", item.image.substringAfter("/")).exists()) {
+            image = context.filesDir.path + "objets/" + item.image.substringAfter("/")
+        } else {
+            image = item.image
+        }
+
+
+        Log.d("test", image)
+
         Glide.with(context)
-            .load(item.image)
+            .load(image)
             .into(imageView)
         coutTextView.text = item.cout.toString()
 

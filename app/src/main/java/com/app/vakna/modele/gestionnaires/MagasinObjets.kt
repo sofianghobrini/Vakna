@@ -41,6 +41,14 @@ class Shop(
 
             val nouveauxObjets = RetrofitInstance.apiService.obtenirObjets()
             objetDAO.remplacerObjets(nouveauxObjets)
+            nouveauxObjets.forEach {
+                obj -> RetrofitInstance.downloadImage(
+                    context,
+                    RetrofitInstance.BASE_URL + "images/objets/" + obj.getImageUrl(),
+                    obj.getImageUrl(),
+                    "objets"
+                )
+            }
 
             return nouveauxObjets
         } catch (e: Exception) {

@@ -118,4 +118,6 @@ class ObjetDAO(contexte: Context) : DAO<Objet, Int> {
             inserer(obj)
         }
     }
+
+
 }
