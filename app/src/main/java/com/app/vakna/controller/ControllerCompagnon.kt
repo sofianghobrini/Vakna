@@ -578,7 +578,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
         }
         fun setupViewPagerInventaire(
             binding: FragmentCompagnonBinding,
-            listObjet: List<ObjetObtenu>,
+            items: List<ObjetObtenu>,
             type:List<TypeObjet>,
             inventaire: Inventaire
         ) {
@@ -588,7 +588,7 @@ class ControllerCompagnon(private val binding: FragmentCompagnonBinding) {
             val pages = setPageInventaire(inventaire)
             val tabTitles = listOf(R.string.tab_jouet, R.string.tab_nourriture)
 
-            viewPager.adapter = ViewPagerAdapterInventaire(binding = binding, viewPager.context, pages, listObjet, type)
+            viewPager.adapter = ViewPagerAdapterInventaire(binding = binding, viewPager.context, pages, type)
 
             viewPager.getChildAt(0).apply {
                 if (this is RecyclerView) {
