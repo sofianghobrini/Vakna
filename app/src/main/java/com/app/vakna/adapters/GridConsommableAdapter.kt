@@ -44,15 +44,15 @@ open class GridConsommableAdapter (
             TypeObjet.NOURRITURE -> effet.setImageResource(R.drawable.faim_0)
         }
 
-        var image = ""
-        if (File(context.filesDir.path + "objets", item.image.substringAfter("/")).exists()) {
-            image = context.filesDir.path + "objets/" + item.image.substringAfter("/")
+        Log.d("test2", context.filesDir.path + "/objets/" + item.image.substringAfter("/"))
+        val image = if (File(context.filesDir.path + "/objets", item.image.substringAfter("/")).exists()) {
+            context.filesDir.path + "/objets/" + item.image.substringAfter("/")
         } else {
-            image = item.image
+            item.image
         }
 
 
-        Log.d("test", image)
+        //Log.d("test2", image)
 
         Glide.with(context)
             .load(image)

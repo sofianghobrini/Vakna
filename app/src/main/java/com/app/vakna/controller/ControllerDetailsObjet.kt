@@ -16,6 +16,7 @@ import com.app.vakna.modele.dao.Personnalite
 import com.app.vakna.modele.gestionnaires.Shop
 import com.app.vakna.modele.dao.InventaireDAO
 import com.bumptech.glide.Glide
+import java.io.File
 
 class ControllerDetailsObjet(
     private val binding: ActivityDetailsObjetBinding,
@@ -36,8 +37,14 @@ class ControllerDetailsObjet(
 
         binding.texteTitreDetails.text = objet?.getNom(context) ?: context.getString(R.string.objet_inconnu)
 
+        val image = if (File(context.filesDir.path + "/objets", objet!!.getImageUrl().substringAfter("/")).exists()) {
+            context.filesDir.path + "/objets/" + objet.getImageUrl().substringAfter("/")
+        } else {
+            objet.getImageUrl()
+        }
+
         Glide.with(context)
-            .load(objet?.getImageUrl())
+            .load(image)
             .into(binding.imageObjet)
 
         binding.texteNiveau.text = context.getString(R.string.niveau_format, objet?.getNiveau())

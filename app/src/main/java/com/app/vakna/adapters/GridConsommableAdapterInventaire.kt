@@ -22,6 +22,7 @@ import com.app.vakna.modele.dao.TypeObjet
 import com.app.vakna.modele.gestionnaires.GestionnaireDeCompagnons
 import com.app.vakna.modele.gestionnaires.Inventaire
 import com.bumptech.glide.Glide
+import java.io.File
 
 class GridConsommableAdapterInventaire(
     private val binding: FragmentCompagnonBinding,
@@ -51,8 +52,14 @@ class GridConsommableAdapterInventaire(
             TypeObjet.NOURRITURE -> effet.setImageResource(R.drawable.faim_0)
         }
 
+        val image = if (File(context.filesDir.path + "/objets", item.image.substringAfter("/")).exists()) {
+            context.filesDir.path + "/objets/" + item.image.substringAfter("/")
+        } else {
+            item.image
+        }
+
         Glide.with(context)
-            .load(item.image)
+            .load(image)
             .into(imageView)
         qteTextView.text = "${item.qte}x"
 

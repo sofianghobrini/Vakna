@@ -307,7 +307,7 @@ class GestionnaireDeTaches(context: Context) {
         if (!tache.estTerminee) {
             gestionnaireCompagnons.modifierHumeur(
                 idCompagnon,
-                tache.importance.ordinal + 1 * 20
+                -(tache.importance.ordinal + 1) * 20
             )
         }
     }
